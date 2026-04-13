@@ -1,7 +1,10 @@
 import React from "react";
 import profilePic from "../images/profile_pic.png";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section
       id="hero"
@@ -12,43 +15,44 @@ export default function Hero() {
           {/* Text */}
           <div className="flex-1 max-w-2xl">
             <p className="text-indigo-400 font-semibold mb-3 tracking-widest uppercase text-sm">
-              Welcome to my portfolio
+              {t.hero.welcome}
             </p>
             <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight">
               Hi, I&apos;m{" "}
               <span className="text-indigo-400">Jean Claude ISHIMWE</span>
             </h1>
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-400 mb-6">
-              CS Student &amp; Aspiring Developer
+              {t.hero.title}
             </h2>
             <p className="text-gray-400 text-lg mb-10 leading-relaxed">
-              Computer Science student at the{" "}
-              <span className="font-medium text-gray-200">University of Rwanda</span>,
-              building projects in{" "}
-              <span className="font-medium text-gray-200">Python</span>,{" "}
-              <span className="font-medium text-gray-200">Java</span>, and{" "}
-              <span className="font-medium text-gray-200">JavaScript</span>.
-              Passionate about web development, problem-solving, and delivering efficient digital solutions.
+              {t.hero.bio1}{" "}
+              <span className="font-medium text-gray-200">{t.hero.bio2}</span>
+              {t.hero.bio3}{" "}
+              <span className="font-medium text-gray-200">{t.hero.bio4}</span>,{" "}
+              <span className="font-medium text-gray-200">{t.hero.bio5}</span>{" "}
+              {t.hero.bio6}{" "}
+              <span className="font-medium text-gray-200">{t.hero.bio7}</span>
+              {t.hero.bio8}
             </p>
             <div className="flex flex-wrap gap-4">
               <a
                 href="#projects"
                 className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
               >
-                View Projects
+                {t.hero.viewProjects}
               </a>
               <a
                 href="#contact"
                 className="px-6 py-3 border-2 border-indigo-400 text-indigo-400 font-semibold rounded-lg hover:bg-indigo-950 transition-colors"
               >
-                Contact Me
+                {t.hero.contactMe}
               </a>
               <a
                 href="/CV.pdf"
                 download
                 className="px-6 py-3 border-2 border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-gray-400 hover:text-white transition-colors"
               >
-                Download CV
+                {t.hero.downloadCV}
               </a>
             </div>
 

@@ -1,37 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { getProjects } from '../api'
+import { useLanguage } from '../context/LanguageContext'
 
-const fallbackProjects = [
+const projectMeta = [
   {
-    id: 1,
-    title: 'Personal Portfolio Website',
-    description:
-      'A responsive portfolio website focusing on usability, accessibility, and cross-device performance. Designed interactive UI components to enhance user experience and deployed on GitHub Pages.',
-    tech_stack: ['HTML', 'CSS', 'JavaScript'],
     github_url: 'https://github.com/Tech2024ish/my_portfolio',
     live_url: 'https://tech2024ish.github.io/my_portfolio',
+    tech_stack: ['HTML', 'CSS', 'JavaScript'],
   },
   {
-    id: 2,
-    title: 'Hangman Game',
-    description:
-      'Console-based Hangman game built in Python with a scoring system and input validation. Applied loops, conditionals, and functions to manage game logic and user interaction.',
-    tech_stack: ['Python'],
     github_url: 'https://github.com/Tech2024ish/HangManGame',
     live_url: null,
+    tech_stack: ['Python'],
   },
   {
-    id: 3,
-    title: 'Portfolio v2 (This Site)',
-    description:
-      'Full-stack portfolio built with React and FastAPI, backed by Supabase. Features a live contact form, dynamic projects and skills sections, and a clean dark mode UI.',
-    tech_stack: ['React', 'FastAPI', 'Supabase', 'Python'],
     github_url: 'https://github.com/Tech2024ish/portfolio',
     live_url: null,
+    tech_stack: ['React', 'FastAPI', 'Supabase', 'Python'],
   },
 ]
 
-function ProjectCard({ project }) {
+function ProjectCard({ project, github, liveDemo }) {
   return (
     <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 p-6 flex flex-col">
       <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
@@ -54,7 +43,7 @@ function ProjectCard({ project }) {
             rel="noopener noreferrer"
             className="flex-1 text-center px-4 py-2 border border-gray-600 rounded-lg text-gray-300 text-sm font-medium hover:border-indigo-400 hover:text-indigo-400 transition-colors"
           >
-            GitHub
+            {github}
           </a>
         )}
         {project.live_url && (
@@ -64,7 +53,7 @@ function ProjectCard({ project }) {
             rel="noopener noreferrer"
             className="flex-1 text-center px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
           >
-            Live Demo
+            {liveDemo}
           </a>
         )}
       </div>
@@ -73,36 +62,47 @@ function ProjectCard({ project }) {
 }
 
 export default function Projects() {
-  const [projects, setProjects] = useState(fallbackProjects)
+  const { t } = useLanguage()
+  const [apiProjects, setApiProjects] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
     getProjects()
       .then((res) => {
-        if (res.data && res.data.length > 0) setProjects(res.data)
+        if (res.data && res.data.length > 0) setApiProjects(res.data)
       })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
+
+  const projects = (apiProjects ?? t.projects.items).map((item, i) => ({
+    ...item,
+    ...(projectMeta[i] ?? {}),
+  }))
 
   return (
     <section id="projects" className="py-24 bg-gray-950">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
-            Portfolio
+            {t.projects.sectionLabel}
           </p>
-          <h2 className="text-4xl font-extrabold text-white">My Projects</h2>
+          <h2 className="text-4xl font-extrabold text-white">{t.projects.title}</h2>
           <div className="mt-4 w-16 h-1 bg-indigo-600 mx-auto rounded-full" />
         </div>
 
         {loading ? (
-          <div className="text-center text-gray-400 py-10">Loading projects...</div>
+          <div className="text-center text-gray-400 py-10">{t.projects.loading}</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            {projects.map((project, i) => (
+              <ProjectCard
+                key={i}
+                project={project}
+                github={t.projects.github}
+                liveDemo={t.projects.liveDemo}
+              />
             ))}
           </div>
         )}

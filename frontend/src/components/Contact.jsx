@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { sendContact } from '../api'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function Contact() {
+  const { t } = useLanguage()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState(null) // null | 'loading' | 'success' | 'error'
+  const [status, setStatus] = useState(null)
 
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -25,20 +27,17 @@ export default function Contact() {
       <div className="max-w-2xl mx-auto px-6">
         <div className="text-center mb-16">
           <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
-            Get In Touch
+            {t.contact.sectionLabel}
           </p>
-          <h2 className="text-4xl font-extrabold text-white">Contact Me</h2>
+          <h2 className="text-4xl font-extrabold text-white">{t.contact.title}</h2>
           <div className="mt-4 w-16 h-1 bg-indigo-500 mx-auto rounded-full" />
-          <p className="mt-4 text-gray-400">Have a project in mind? Let&apos;s talk.</p>
+          <p className="mt-4 text-gray-400">{t.contact.subtitle}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-300 mb-1"
-            >
-              Name
+            <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
+              {t.contact.nameLabel}
             </label>
             <input
               id="name"
@@ -47,17 +46,14 @@ export default function Contact() {
               required
               value={form.name}
               onChange={handleChange}
-              placeholder="John Smith"
+              placeholder={t.contact.namePlaceholder}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-300 mb-1"
-            >
-              Email
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+              {t.contact.emailLabel}
             </label>
             <input
               id="email"
@@ -66,17 +62,14 @@ export default function Contact() {
               required
               value={form.email}
               onChange={handleChange}
-              placeholder="john@example.com"
+              placeholder={t.contact.emailPlaceholder}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="message"
-              className="block text-sm font-medium text-gray-300 mb-1"
-            >
-              Message
+            <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">
+              {t.contact.messageLabel}
             </label>
             <textarea
               id="message"
@@ -85,7 +78,7 @@ export default function Contact() {
               rows={5}
               value={form.message}
               onChange={handleChange}
-              placeholder="Tell me about your project..."
+              placeholder={t.contact.messagePlaceholder}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none"
             />
           </div>
@@ -95,18 +88,14 @@ export default function Contact() {
             disabled={status === 'loading'}
             className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
           >
-            {status === 'loading' ? 'Sending...' : 'Send Message'}
+            {status === 'loading' ? t.contact.sending : t.contact.sendButton}
           </button>
 
           {status === 'success' && (
-            <p className="text-center text-emerald-400 font-medium">
-              Message sent! I&apos;ll get back to you soon.
-            </p>
+            <p className="text-center text-emerald-400 font-medium">{t.contact.success}</p>
           )}
           {status === 'error' && (
-            <p className="text-center text-red-500 font-medium">
-              Something went wrong. Please try again.
-            </p>
+            <p className="text-center text-red-500 font-medium">{t.contact.error}</p>
           )}
         </form>
       </div>

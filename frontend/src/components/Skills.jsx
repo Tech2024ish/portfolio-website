@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getSkills } from '../api'
+import { useLanguage } from '../context/LanguageContext'
 
 const fallbackSkills = [
   { id: 1, name: 'Python', category: 'Language', level: 85 },
@@ -21,6 +22,7 @@ const categoryColors = {
 }
 
 export default function Skills() {
+  const { t } = useLanguage()
   const [skills, setSkills] = useState(fallbackSkills)
 
   useEffect(() => {
@@ -36,26 +38,19 @@ export default function Skills() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
-            What I Know
+            {t.skills.sectionLabel}
           </p>
-          <h2 className="text-4xl font-extrabold text-white">Skills &amp; Technologies</h2>
+          <h2 className="text-4xl font-extrabold text-white">{t.skills.title}</h2>
           <div className="mt-4 w-16 h-1 bg-indigo-600 mx-auto rounded-full" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {skills.map((skill) => (
-            <div
-              key={skill.id}
-              className="bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-700"
-            >
+            <div key={skill.id} className="bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-700">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <span className="font-semibold text-gray-100">{skill.name}</span>
-                  <span
-                    className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                      categoryColors[skill.category] ?? 'bg-gray-700 text-gray-300'
-                    }`}
-                  >
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${categoryColors[skill.category] ?? 'bg-gray-700 text-gray-300'}`}>
                     {skill.category}
                   </span>
                 </div>
