@@ -8,9 +8,10 @@ const fallbackSkills = [
   { id: 3, name: 'JavaScript', category: 'Language', level: 70 },
   { id: 4, name: 'HTML & CSS', category: 'Frontend', level: 80 },
   { id: 5, name: 'PostgreSQL', category: 'Database', level: 72 },
-  { id: 6, name: 'Git & GitHub', category: 'Tools', level: 84 },
-  { id: 7, name: 'Problem Solving', category: 'Soft Skills', level: 88 },
-  { id: 8, name: 'VS Code / IntelliJ', category: 'Tools', level: 80 },
+  { id: 6, name: 'Data Structures & Algorithms', category: 'CS Fundamentals', level: 65 },
+  { id: 7, name: 'Machine Learning / AI', category: 'AI/ML', level: 40 },
+  { id: 8, name: 'Git & GitHub', category: 'Tools', level: 84 },
+  { id: 9, name: 'Problem Solving', category: 'Soft Skills', level: 88 },
 ]
 
 const categoryColors = {
@@ -19,6 +20,8 @@ const categoryColors = {
   Database: 'bg-emerald-900 text-emerald-300',
   Tools: 'bg-gray-700 text-gray-300',
   'Soft Skills': 'bg-pink-900 text-pink-300',
+  'CS Fundamentals': 'bg-blue-900 text-blue-300',
+  'AI/ML': 'bg-orange-900 text-orange-300',
 }
 
 export default function Skills() {
