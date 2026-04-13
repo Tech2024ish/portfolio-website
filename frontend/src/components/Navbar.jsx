@@ -39,7 +39,7 @@ export default function Navbar() {
           <img
             src={profilePic}
             alt="Jean Claude ISHIMWE"
-            className="w-10 h-10 rounded-full object-cover border-2 border-indigo-600"
+            className="w-10 h-10 rounded-full object-cover border-2 border-teal-600"
           />
         </a>
 
@@ -49,7 +49,7 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-gray-300 hover:text-indigo-400 font-medium transition-colors"
+                className="text-gray-300 hover:text-teal-400 font-medium transition-colors"
               >
                 {link.label}
               </a>
@@ -61,7 +61,7 @@ export default function Navbar() {
         <div className="hidden md:block relative">
           <button
             onClick={() => setLangOpen(!langOpen)}
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-700 rounded-lg text-gray-300 text-sm font-medium hover:border-indigo-400 hover:text-indigo-400 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-700 rounded-lg text-gray-300 text-sm font-medium hover:border-teal-400 hover:text-teal-400 transition-colors"
           >
             {languages.find((l) => l.code === language)?.label}
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +76,7 @@ export default function Navbar() {
                   onClick={() => { setLanguage(lang.code); setLangOpen(false); }}
                   className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
                     language === lang.code
-                      ? "bg-indigo-600 text-white"
+                      ? "bg-teal-600 text-white"
                       : "text-gray-300 hover:bg-gray-700"
                   }`}
                 >
@@ -107,7 +107,7 @@ export default function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-gray-300 hover:text-indigo-400 font-medium"
+                  className="text-gray-300 hover:text-teal-400 font-medium"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.label}
@@ -123,7 +123,7 @@ export default function Navbar() {
                 onClick={() => { setLanguage(lang.code); setMenuOpen(false); }}
                 className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
                   language === lang.code
-                    ? "bg-indigo-600 text-white"
+                    ? "bg-teal-600 text-white"
                     : "text-gray-400 hover:text-white border border-gray-700"
                 }`}
               >

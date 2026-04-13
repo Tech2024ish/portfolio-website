@@ -47,7 +47,7 @@ export default function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-1.5 border border-gray-700 rounded-full hover:border-indigo-400 hover:text-indigo-400 transition-colors"
+                className="px-4 py-1.5 border border-gray-700 rounded-full hover:border-teal-400 hover:text-teal-400 transition-colors"
               >
                 {link.label}
               </a>

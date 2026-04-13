@@ -37,11 +37,11 @@ export default function Skills() {
     <section id="skills" className="py-24 bg-gray-900">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
+          <p className="text-teal-400 font-semibold uppercase tracking-widest text-sm mb-2">
             {t.skills.sectionLabel}
           </p>
           <h2 className="text-4xl font-extrabold text-white">{t.skills.title}</h2>
-          <div className="mt-4 w-16 h-1 bg-indigo-600 mx-auto rounded-full" />
+          <div className="mt-4 w-16 h-1 bg-teal-600 mx-auto rounded-full" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -54,11 +54,11 @@ export default function Skills() {
                     {skill.category}
                   </span>
                 </div>
-                <span className="text-sm font-semibold text-indigo-400">{skill.level}%</span>
+                <span className="text-sm font-semibold text-teal-400">{skill.level}%</span>
               </div>
               <div className="w-full bg-gray-700 rounded-full h-2">
                 <div
-                  className="bg-indigo-500 h-2 rounded-full transition-all duration-700"
+                  className="bg-teal-500 h-2 rounded-full transition-all duration-700"
                   style={{ width: `${skill.level}%` }}
                 />
               </div>

@@ -29,7 +29,7 @@ function ProjectCard({ project, github, liveDemo }) {
         {project.tech_stack.map((tech) => (
           <span
             key={tech}
-            className="px-2.5 py-1 bg-indigo-900 text-indigo-300 text-xs font-semibold rounded-full"
+            className="px-2.5 py-1 bg-teal-900 text-teal-300 text-xs font-semibold rounded-full"
           >
             {tech}
           </span>
@@ -41,7 +41,7 @@ function ProjectCard({ project, github, liveDemo }) {
             href={project.github_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 text-center px-4 py-2 border border-gray-600 rounded-lg text-gray-300 text-sm font-medium hover:border-indigo-400 hover:text-indigo-400 transition-colors"
+            className="flex-1 text-center px-4 py-2 border border-gray-600 rounded-lg text-gray-300 text-sm font-medium hover:border-teal-400 hover:text-teal-400 transition-colors"
           >
             {github}
           </a>
@@ -51,7 +51,7 @@ function ProjectCard({ project, github, liveDemo }) {
             href={project.live_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 text-center px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+            className="flex-1 text-center px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition-colors"
           >
             {liveDemo}
           </a>
@@ -85,11 +85,11 @@ export default function Projects() {
     <section id="projects" className="py-24 bg-gray-950">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
+          <p className="text-teal-400 font-semibold uppercase tracking-widest text-sm mb-2">
             {t.projects.sectionLabel}
           </p>
           <h2 className="text-4xl font-extrabold text-white">{t.projects.title}</h2>
-          <div className="mt-4 w-16 h-1 bg-indigo-600 mx-auto rounded-full" />
+          <div className="mt-4 w-16 h-1 bg-teal-600 mx-auto rounded-full" />
         </div>
 
         {loading ? (

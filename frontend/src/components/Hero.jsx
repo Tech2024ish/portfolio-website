@@ -8,18 +8,18 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center pt-16 bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-950"
+      className="min-h-screen flex items-center pt-16 bg-gradient-to-br from-gray-950 via-teal-950 to-gray-950"
     >
       <div className="max-w-6xl mx-auto px-6 py-20">
         <div className="flex flex-col md:flex-row items-center gap-12">
           {/* Text */}
           <div className="flex-1 max-w-2xl">
-            <p className="text-indigo-400 font-semibold mb-3 tracking-widest uppercase text-sm">
+            <p className="text-teal-400 font-semibold mb-3 tracking-widest uppercase text-sm">
               {t.hero.welcome}
             </p>
             <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight">
               Hi, I&apos;m{" "}
-              <span className="text-indigo-400">Jean Claude ISHIMWE</span>
+              <span className="text-teal-400">Jean Claude ISHIMWE</span>
             </h1>
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-400 mb-6">
               {t.hero.title}
@@ -37,13 +37,13 @@ export default function Hero() {
             <div className="flex flex-wrap gap-4">
               <a
                 href="#projects"
-                className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors shadow-md"
+                className="px-6 py-3 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-md"
               >
                 {t.hero.viewProjects}
               </a>
               <a
                 href="#contact"
-                className="px-6 py-3 border-2 border-indigo-400 text-indigo-400 font-semibold rounded-lg hover:bg-indigo-950 transition-colors"
+                className="px-6 py-3 border-2 border-teal-400 text-teal-400 font-semibold rounded-lg hover:bg-teal-950 transition-colors"
               >
                 {t.hero.contactMe}
               </a>
@@ -71,7 +71,7 @@ export default function Hero() {
 
           {/* Profile photo */}
           <div className="flex-shrink-0">
-            <div className="w-52 h-52 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-indigo-500 shadow-2xl shadow-indigo-900/40">
+            <div className="w-52 h-52 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-teal-500 shadow-2xl shadow-teal-900/40">
               <img
                 src={profilePic}
                 alt="Jean Claude ISHIMWE"

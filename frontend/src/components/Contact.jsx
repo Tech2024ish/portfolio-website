@@ -26,11 +26,11 @@ export default function Contact() {
     <section id="contact" className="py-24 bg-gray-950">
       <div className="max-w-2xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
+          <p className="text-teal-400 font-semibold uppercase tracking-widest text-sm mb-2">
             {t.contact.sectionLabel}
           </p>
           <h2 className="text-4xl font-extrabold text-white">{t.contact.title}</h2>
-          <div className="mt-4 w-16 h-1 bg-indigo-500 mx-auto rounded-full" />
+          <div className="mt-4 w-16 h-1 bg-teal-500 mx-auto rounded-full" />
           <p className="mt-4 text-gray-400">{t.contact.subtitle}</p>
         </div>
 
@@ -47,7 +47,7 @@ export default function Contact() {
               value={form.name}
               onChange={handleChange}
               placeholder={t.contact.namePlaceholder}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
             />
           </div>
 
@@ -63,7 +63,7 @@ export default function Contact() {
               value={form.email}
               onChange={handleChange}
               placeholder={t.contact.emailPlaceholder}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition"
             />
           </div>
 
@@ -79,14 +79,14 @@ export default function Contact() {
               value={form.message}
               onChange={handleChange}
               placeholder={t.contact.messagePlaceholder}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition resize-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+            className="w-full py-3 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 disabled:opacity-50 transition-colors"
           >
             {status === 'loading' ? t.contact.sending : t.contact.sendButton}
           </button>
