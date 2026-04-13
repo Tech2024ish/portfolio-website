@@ -101,15 +101,15 @@ export const translations = {
         },
         {
           title: "Web Development",
-          tags: ["HTML & CSS", "FastAPI", "REST APIs", "Web Development"],
+          tags: ["HTML & CSS", "FastAPI", "REST APIs"],
         },
         {
           title: "Database & DevOps",
-          tags: ["PostgreSQL", "Supabase", "Database Management", "Docker", "Linux"],
+          tags: ["PostgreSQL", "Supabase", "Database Management"],
         },
         {
           title: "Cybersecurity",
-          tags: ["Intro to Cybersecurity", "Network Security", "Cisco Networking Academy", "Ethical Hacking Basics"],
+          tags: ["Intro to Cybersecurity", "Cisco Networking Academy"],
         },
         {
           title: "Soft Skills",
@@ -118,7 +118,7 @@ export const translations = {
         {
           title: "AI Enthusiast",
           desc: "Passionate about Artificial Intelligence and its real-world applications.",
-          tags: ["Machine Learning", "Artificial Intelligence", "Python for AI", "Neural Networks"],
+          tags: ["Machine Learning", "Artificial Intelligence", "Python for AI"],
         },
       ],
     },
@@ -243,15 +243,15 @@ export const translations = {
         },
         {
           title: "Développement Web",
-          tags: ["HTML & CSS", "FastAPI", "REST APIs", "Web Development"],
+          tags: ["HTML & CSS", "FastAPI", "REST APIs"],
         },
         {
           title: "Base de Données & DevOps",
-          tags: ["PostgreSQL", "Supabase", "Database Management", "Docker", "Linux"],
+          tags: ["PostgreSQL", "Supabase", "Database Management"],
         },
         {
           title: "Cybersécurité",
-          tags: ["Intro à la Cybersécurité", "Sécurité Réseau", "Cisco Networking Academy", "Bases Ethical Hacking"],
+          tags: ["Intro à la Cybersécurité", "Cisco Networking Academy"],
         },
         {
           title: "Compétences Humaines",
@@ -260,7 +260,7 @@ export const translations = {
         {
           title: "Passionné d'IA",
           desc: "Passionné par l'Intelligence Artificielle et ses applications dans le monde réel.",
-          tags: ["Machine Learning", "Intelligence Artificielle", "Python pour IA", "Réseaux de Neurones"],
+          tags: ["Machine Learning", "Intelligence Artificielle", "Python pour IA"],
         },
       ],
     },
@@ -385,15 +385,15 @@ export const translations = {
         },
         {
           title: "Iterambere ry'Urubuga",
-          tags: ["HTML & CSS", "FastAPI", "REST APIs", "Web Development"],
+          tags: ["HTML & CSS", "FastAPI", "REST APIs"],
         },
         {
           title: "Bazidata & DevOps",
-          tags: ["PostgreSQL", "Supabase", "Database Management", "Docker", "Linux"],
+          tags: ["PostgreSQL", "Supabase", "Database Management"],
         },
         {
           title: "Cyber Security",
-          tags: ["Intro to Cybersecurity", "Network Security", "Cisco Networking Academy", "Ethical Hacking Basics"],
+          tags: ["Intro to Cybersecurity", "Cisco Networking Academy"],
         },
         {
           title: "Ubushobozi Bwite",
@@ -402,7 +402,7 @@ export const translations = {
         {
           title: "Ukunzwe na AI",
           desc: "Nyakuri ku Bwenge Bw'Artificial na gukoresha mu bikorwa by'isanzwe.",
-          tags: ["Machine Learning", "Artificial Intelligence", "Python for AI", "Neural Networks"],
+          tags: ["Machine Learning", "Artificial Intelligence", "Python for AI"],
         },
       ],
     },
