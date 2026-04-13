@@ -1,9 +1,11 @@
 import React from "react";
 import profilePic from "../images/profile_pic.png";
 import { useLanguage } from "../context/LanguageContext";
+import { useTypewriter } from "../hooks/useTypewriter";
 
 export default function Hero() {
   const { t } = useLanguage();
+  const typed = useTypewriter(t.hero.typewords);
 
   return (
     <section
@@ -21,9 +23,13 @@ export default function Hero() {
               Hi, I&apos;m{" "}
               <span className="text-teal-400">Jean Claude ISHIMWE</span>
             </h1>
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-400 mb-6">
-              {t.hero.title}
+
+            {/* Typewriter subtitle */}
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-400 mb-6 min-h-[2.5rem]">
+              <span>{typed}</span>
+              <span className="inline-block w-0.5 h-7 bg-teal-400 ml-1 animate-pulse align-middle" />
             </h2>
+
             <p className="text-gray-400 text-lg mb-10 leading-relaxed">
               {t.hero.bio1}{" "}
               <span className="font-medium text-gray-200">{t.hero.bio2}</span>
@@ -34,6 +40,7 @@ export default function Hero() {
               <span className="font-medium text-gray-200">{t.hero.bio7}</span>
               {t.hero.bio8}
             </p>
+
             <div className="flex flex-wrap gap-4">
               <a
                 href="#projects"
@@ -56,8 +63,18 @@ export default function Hero() {
               </a>
             </div>
 
+            {/* Stats row */}
+            <div className="mt-12 grid grid-cols-4 gap-4 border-t border-gray-800 pt-8">
+              {t.stats.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p className="text-2xl font-extrabold text-teal-400">{stat.value}</p>
+                  <p className="text-xs text-gray-500 mt-0.5 leading-tight">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+
             {/* Tech badges */}
-            <div className="mt-14 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3">
               {["Python", "Java", "JavaScript", "HTML & CSS", "PostgreSQL", "Git"].map((tech) => (
                 <span
                   key={tech}

@@ -3,13 +3,15 @@ export const translations = {
     nav: {
       home: "Home",
       about: "About",
+      services: "Services",
       projects: "Projects",
       skills: "Skills",
+      certifications: "Certifications",
       contact: "Contact",
     },
     hero: {
       welcome: "Welcome to my portfolio",
-      title: "CS Student & Aspiring Developer",
+      typewords: ["CS Student & Aspiring Developer", "Python Developer", "Web Developer", "Problem Solver"],
       bio1: "Computer Science student at the",
       bio2: "University of Rwanda",
       bio3: ", building projects in",
@@ -22,6 +24,12 @@ export const translations = {
       contactMe: "Contact Me",
       downloadCV: "Download CV",
     },
+    stats: [
+      { value: "3+", label: "Projects Built" },
+      { value: "6+", label: "Technologies" },
+      { value: "3", label: "Certifications" },
+      { value: "3", label: "Languages" },
+    ],
     about: {
       sectionLabel: "Background",
       title: "About Me",
@@ -49,6 +57,18 @@ export const translations = {
       kinyarwanda: "Kinyarwanda — Native",
       interests: "Web & Mobile Development · AI & Machine Learning · Digital Service Solutions · Tech Communities · Hackathons",
     },
+    services: {
+      sectionLabel: "What I Offer",
+      title: "Services",
+      items: [
+        { title: "Web Development", description: "Building responsive, modern websites using HTML, CSS, and JavaScript with clean UI and good performance." },
+        { title: "Python Development", description: "Writing clean Python scripts for automation, logic building, and solving real-world problems efficiently." },
+        { title: "Database Design", description: "Designing and managing relational databases using PostgreSQL with proper schema and documentation." },
+        { title: "REST API Development", description: "Building and consuming RESTful APIs to connect frontends with backend services." },
+        { title: "Cybersecurity Awareness", description: "Applying security fundamentals to build safer applications and protect digital systems from common threats." },
+        { title: "Version Control & Collaboration", description: "Managing codebases with Git and GitHub, including branching, pull requests, and team collaboration." },
+      ],
+    },
     projects: {
       sectionLabel: "Portfolio",
       title: "My Projects",
@@ -74,6 +94,16 @@ export const translations = {
       sectionLabel: "What I Know",
       title: "Skills & Technologies",
     },
+    certifications: {
+      sectionLabel: "Credentials",
+      title: "Certifications",
+      issued: "Issued",
+      items: [
+        { title: "Python Programming", issuer: "Online Course", year: "2024", desc: "Covered variables, loops, functions, OOP, and file handling in Python." },
+        { title: "JavaScript Fundamentals", issuer: "Online Course", year: "2024", desc: "DOM manipulation, events, ES6+ features, and async programming basics." },
+        { title: "Cybersecurity Fundamentals", issuer: "Online Course", year: "2024", desc: "Network security, common threats, encryption basics, and ethical hacking principles." },
+      ],
+    },
     contact: {
       sectionLabel: "Get In Touch",
       title: "Contact Me",
@@ -95,13 +125,15 @@ export const translations = {
     nav: {
       home: "Accueil",
       about: "À propos",
+      services: "Services",
       projects: "Projets",
       skills: "Compétences",
+      certifications: "Certifications",
       contact: "Contact",
     },
     hero: {
       welcome: "Bienvenue sur mon portfolio",
-      title: "Étudiant en informatique & Développeur en herbe",
+      typewords: ["Étudiant en Informatique", "Développeur Python", "Développeur Web", "Solutionneur de Problèmes"],
       bio1: "Étudiant en informatique à l'",
       bio2: "Université du Rwanda",
       bio3: ", développant des projets en",
@@ -114,6 +146,12 @@ export const translations = {
       contactMe: "Me contacter",
       downloadCV: "Télécharger le CV",
     },
+    stats: [
+      { value: "3+", label: "Projets réalisés" },
+      { value: "6+", label: "Technologies" },
+      { value: "3", label: "Certifications" },
+      { value: "3", label: "Langues" },
+    ],
     about: {
       sectionLabel: "Parcours",
       title: "À propos de moi",
@@ -141,6 +179,18 @@ export const translations = {
       kinyarwanda: "Kinyarwanda — Langue maternelle",
       interests: "Développement Web & Mobile · Intelligence Artificielle · Solutions numériques · Communautés tech · Hackathons",
     },
+    services: {
+      sectionLabel: "Ce que je propose",
+      title: "Services",
+      items: [
+        { title: "Développement Web", description: "Création de sites web modernes et responsives avec HTML, CSS et JavaScript." },
+        { title: "Développement Python", description: "Écriture de scripts Python pour l'automatisation et la résolution de problèmes concrets." },
+        { title: "Conception de bases de données", description: "Conception et gestion de bases de données relationnelles avec PostgreSQL." },
+        { title: "Développement REST API", description: "Construction et consommation d'APIs RESTful pour relier front-end et back-end." },
+        { title: "Sensibilisation à la cybersécurité", description: "Application des principes de sécurité pour protéger les applications numériques." },
+        { title: "Contrôle de version & Collaboration", description: "Gestion de projets avec Git et GitHub, y compris branches et pull requests." },
+      ],
+    },
     projects: {
       sectionLabel: "Portfolio",
       title: "Mes Projets",
@@ -148,23 +198,24 @@ export const translations = {
       github: "GitHub",
       liveDemo: "Démo en direct",
       items: [
-        {
-          title: "Site Portfolio Personnel",
-          description: "Site portfolio responsive axé sur la convivialité, l'accessibilité et les performances multi-appareils. Composants UI interactifs déployés sur GitHub Pages.",
-        },
-        {
-          title: "Jeu du Pendu",
-          description: "Jeu du pendu en console développé en Python avec un système de score et validation des entrées. Utilisation de boucles, conditions et fonctions pour la logique du jeu.",
-        },
-        {
-          title: "Portfolio v2 (Ce Site)",
-          description: "Portfolio full-stack développé avec React et FastAPI, soutenu par Supabase. Formulaire de contact en direct, sections projets et compétences dynamiques, interface sombre.",
-        },
+        { title: "Site Portfolio Personnel", description: "Site portfolio responsive axé sur la convivialité, l'accessibilité et les performances multi-appareils. Composants UI interactifs déployés sur GitHub Pages." },
+        { title: "Jeu du Pendu", description: "Jeu du pendu en console développé en Python avec un système de score et validation des entrées. Utilisation de boucles, conditions et fonctions pour la logique du jeu." },
+        { title: "Portfolio v2 (Ce Site)", description: "Portfolio full-stack développé avec React et FastAPI, soutenu par Supabase. Formulaire de contact en direct, sections projets et compétences dynamiques, interface sombre." },
       ],
     },
     skills: {
       sectionLabel: "Ce que je sais faire",
       title: "Compétences & Technologies",
+    },
+    certifications: {
+      sectionLabel: "Diplômes",
+      title: "Certifications",
+      issued: "Obtenu",
+      items: [
+        { title: "Programmation Python", issuer: "Cours en ligne", year: "2024", desc: "Variables, boucles, fonctions, POO et gestion de fichiers en Python." },
+        { title: "Fondamentaux JavaScript", issuer: "Cours en ligne", year: "2024", desc: "Manipulation du DOM, événements, fonctionnalités ES6+ et programmation asynchrone." },
+        { title: "Fondamentaux en Cybersécurité", issuer: "Cours en ligne", year: "2024", desc: "Sécurité réseau, menaces courantes, bases du chiffrement et principes de hacking éthique." },
+      ],
     },
     contact: {
       sectionLabel: "Me contacter",
@@ -187,13 +238,15 @@ export const translations = {
     nav: {
       home: "Ahabanza",
       about: "Ibyanjye",
+      services: "Serivisi",
       projects: "Imishinga",
       skills: "Ubuhanga",
+      certifications: "Impamyabumenyi",
       contact: "Wasiliana",
     },
     hero: {
       welcome: "Murakaza neza kuri portfolio yanjye",
-      title: "Umunyeshuri wa Informatique & Umuprogrameri",
+      typewords: ["Umunyeshuri wa Informatique", "Umuprogrameri wa Python", "Umuprogrameri w'Urubuga", "Gukemura Ibibazo"],
       bio1: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri",
       bio2: "Kaminuza y'u Rwanda",
       bio3: ", wubaka imishinga mu",
@@ -206,6 +259,12 @@ export const translations = {
       contactMe: "Wasiliana",
       downloadCV: "Kurura CV",
     },
+    stats: [
+      { value: "3+", label: "Imishinga" },
+      { value: "6+", label: "Ikoranabuhanga" },
+      { value: "3", label: "Impamyabumenyi" },
+      { value: "3", label: "Indimi" },
+    ],
     about: {
       sectionLabel: "Imiterere",
       title: "Ibyanjye",
@@ -233,6 +292,18 @@ export const translations = {
       kinyarwanda: "Ikinyarwanda — Ururimi rw'Inziza",
       interests: "Iterambere ry'Urubuga & Telefoni · Ubwenge Bw'Artificial · Ibisubizo bya Cyifuzo · Sosiyete za Tech · Hackathons",
     },
+    services: {
+      sectionLabel: "Ibyo Natanga",
+      title: "Serivisi",
+      items: [
+        { title: "Iterambere ry'Urubuga", description: "Kubaka urubuga rw'ikoranabuhanga rukoreshwa neza na HTML, CSS na JavaScript." },
+        { title: "Iterambere rya Python", description: "Kwandika code ya Python yo gukorana neza no gukemura ibibazo by'ikoranabuhanga." },
+        { title: "Gushyiraho Bazidata", description: "Gushyiraho no gucunga bazidata zifitanye isano zikoresha PostgreSQL." },
+        { title: "Iterambere rya REST API", description: "Kubaka no gukoresha REST APIs yo guhuza frontend na backend." },
+        { title: "Umutekano wa Murandasi", description: "Gukoresha ibanze bya Cyber Security kurinda sisitemu z'ikoranabuhanga." },
+        { title: "Gucunga Code & Gukorana", description: "Gucunga imishinga ya code na Git na GitHub." },
+      ],
+    },
     projects: {
       sectionLabel: "Imishinga",
       title: "Imishinga Yanjye",
@@ -240,23 +311,24 @@ export const translations = {
       github: "GitHub",
       liveDemo: "Reba Hanze",
       items: [
-        {
-          title: "Urubuga rwa Portfolio",
-          description: "Urubuga rwa portfolio rwegeranya, rwibanda ku gukoresha neza, kwegera no gukora neza ku bikoresho byose. Byashyizwe kuri GitHub Pages.",
-        },
-        {
-          title: "Umukino wa Hangman",
-          description: "Umukino wa Hangman mu console wubatswe mu Python hamwe na systemu yo gutuza. Bikoreshwa ibisumba, ibyifuzo na serivisi yo gucunga umukino.",
-        },
-        {
-          title: "Portfolio v2 (Uru Rubuga)",
-          description: "Portfolio yuzuye yubatswe na React na FastAPI, ishingiye kuri Supabase. Ifite ifishi yo gutumanaho, imishinga, ubuhanga n'interface y'umukara.",
-        },
+        { title: "Urubuga rwa Portfolio", description: "Urubuga rwa portfolio rwegeranya, rwibanda ku gukoresha neza, kwegera no gukora neza ku bikoresho byose. Byashyizwe kuri GitHub Pages." },
+        { title: "Umukino wa Hangman", description: "Umukino wa Hangman mu console wubatswe mu Python hamwe na systemu yo gutuza. Bikoreshwa ibisumba, ibyifuzo na serivisi yo gucunga umukino." },
+        { title: "Portfolio v2 (Uru Rubuga)", description: "Portfolio yuzuye yubatswe na React na FastAPI, ishingiye kuri Supabase. Ifite ifishi yo gutumanaho, imishinga, ubuhanga n'interface y'umukara." },
       ],
     },
     skills: {
       sectionLabel: "Ibyo Nzi",
       title: "Ubuhanga & Ikoranabuhanga",
+    },
+    certifications: {
+      sectionLabel: "Impamyabumenyi",
+      title: "Impamyabumenyi",
+      issued: "Yahawe",
+      items: [
+        { title: "Porogaramu ya Python", issuer: "Isomo kuri murandasi", year: "2024", desc: "Variables, ibisumba, serivisi, OOP no gucunga dosiye muri Python." },
+        { title: "Ibanze bya JavaScript", issuer: "Isomo kuri murandasi", year: "2024", desc: "DOM, events, ES6+ no guhanga porogaramu zitegereza." },
+        { title: "Ibanze bya Cyber Security", issuer: "Isomo kuri murandasi", year: "2024", desc: "Umutekano wa network, ibibazo bisanzwe, encryption no ethical hacking." },
+      ],
     },
     contact: {
       sectionLabel: "Wasiliana",
