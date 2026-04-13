@@ -21,22 +21,22 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-24 bg-white">
+    <section id="contact" className="py-24 bg-gray-950">
       <div className="max-w-2xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-indigo-600 font-semibold uppercase tracking-widest text-sm mb-2">
+          <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
             Get In Touch
           </p>
-          <h2 className="text-4xl font-extrabold text-gray-900">Contact Me</h2>
-          <div className="mt-4 w-16 h-1 bg-indigo-600 mx-auto rounded-full" />
-          <p className="mt-4 text-gray-500">Have a project in mind? Let&apos;s talk.</p>
+          <h2 className="text-4xl font-extrabold text-white">Contact Me</h2>
+          <div className="mt-4 w-16 h-1 bg-indigo-500 mx-auto rounded-full" />
+          <p className="mt-4 text-gray-400">Have a project in mind? Let&apos;s talk.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Name
             </label>
@@ -48,14 +48,14 @@ export default function Contact() {
               value={form.name}
               onChange={handleChange}
               placeholder="John Smith"
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
           </div>
 
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Email
             </label>
@@ -67,14 +67,14 @@ export default function Contact() {
               value={form.email}
               onChange={handleChange}
               placeholder="john@example.com"
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
           </div>
 
           <div>
             <label
               htmlFor="message"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-gray-300 mb-1"
             >
               Message
             </label>
@@ -86,7 +86,7 @@ export default function Contact() {
               value={form.message}
               onChange={handleChange}
               placeholder="Tell me about your project..."
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition resize-none"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white placeholder-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition resize-none"
             />
           </div>
 
@@ -99,7 +99,7 @@ export default function Contact() {
           </button>
 
           {status === 'success' && (
-            <p className="text-center text-emerald-600 font-medium">
+            <p className="text-center text-emerald-400 font-medium">
               Message sent! I&apos;ll get back to you soon.
             </p>
           )}

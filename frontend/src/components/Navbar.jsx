@@ -21,7 +21,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-md" : "bg-transparent"
+        scrolled ? "bg-gray-900 shadow-md" : "bg-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -39,7 +39,7 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-gray-600 hover:text-indigo-600 font-medium transition-colors"
+                className="text-gray-300 hover:text-indigo-400 font-medium transition-colors"
               >
                 {link.label}
               </a>
@@ -54,17 +54,17 @@ export default function Navbar() {
           aria-label="Toggle navigation"
         >
           <span
-            className={`block w-6 h-0.5 bg-gray-800 transition-transform duration-300 ${
+            className={`block w-6 h-0.5 bg-gray-200 transition-transform duration-300 ${
               menuOpen ? "rotate-45 translate-y-2" : ""
             }`}
           />
           <span
-            className={`block w-6 h-0.5 bg-gray-800 transition-opacity duration-300 ${
+            className={`block w-6 h-0.5 bg-gray-200 transition-opacity duration-300 ${
               menuOpen ? "opacity-0" : ""
             }`}
           />
           <span
-            className={`block w-6 h-0.5 bg-gray-800 transition-transform duration-300 ${
+            className={`block w-6 h-0.5 bg-gray-200 transition-transform duration-300 ${
               menuOpen ? "-rotate-45 -translate-y-2" : ""
             }`}
           />
@@ -73,13 +73,13 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-4 shadow-md">
+        <div className="md:hidden bg-gray-900 border-t border-gray-800 px-6 py-4 shadow-md">
           <ul className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-gray-600 hover:text-indigo-600 font-medium"
+                  className="text-gray-300 hover:text-indigo-400 font-medium"
                   onClick={() => setMenuOpen(false)}
                 >
                   {link.label}

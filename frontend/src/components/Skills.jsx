@@ -13,12 +13,12 @@ const fallbackSkills = [
 ]
 
 const categoryColors = {
-  Language: 'bg-purple-100 text-purple-700',
-  Framework: 'bg-blue-100 text-blue-700',
-  Database: 'bg-emerald-100 text-emerald-700',
-  DevOps: 'bg-orange-100 text-orange-700',
-  Architecture: 'bg-pink-100 text-pink-700',
-  Tools: 'bg-gray-100 text-gray-600',
+  Language: 'bg-purple-900 text-purple-300',
+  Framework: 'bg-blue-900 text-blue-300',
+  Database: 'bg-emerald-900 text-emerald-300',
+  DevOps: 'bg-orange-900 text-orange-300',
+  Architecture: 'bg-pink-900 text-pink-300',
+  Tools: 'bg-gray-700 text-gray-300',
 }
 
 export default function Skills() {
@@ -33,13 +33,13 @@ export default function Skills() {
   }, [])
 
   return (
-    <section id="skills" className="py-24 bg-gray-50">
+    <section id="skills" className="py-24 bg-gray-900">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-indigo-600 font-semibold uppercase tracking-widest text-sm mb-2">
+          <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
             What I Know
           </p>
-          <h2 className="text-4xl font-extrabold text-gray-900">Skills &amp; Technologies</h2>
+          <h2 className="text-4xl font-extrabold text-white">Skills &amp; Technologies</h2>
           <div className="mt-4 w-16 h-1 bg-indigo-600 mx-auto rounded-full" />
         </div>
 
@@ -47,11 +47,11 @@ export default function Skills() {
           {skills.map((skill) => (
             <div
               key={skill.id}
-              className="bg-white rounded-xl p-5 shadow-sm border border-gray-100"
+              className="bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-700"
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <span className="font-semibold text-gray-800">{skill.name}</span>
+                  <span className="font-semibold text-gray-100">{skill.name}</span>
                   <span
                     className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                       categoryColors[skill.category] ?? 'bg-gray-100 text-gray-600'
@@ -60,9 +60,9 @@ export default function Skills() {
                     {skill.category}
                   </span>
                 </div>
-                <span className="text-sm font-semibold text-indigo-600">{skill.level}%</span>
+                <span className="text-sm font-semibold text-indigo-400">{skill.level}%</span>
               </div>
-              <div className="w-full bg-gray-100 rounded-full h-2">
+              <div className="w-full bg-gray-700 rounded-full h-2">
                 <div
                   className="bg-indigo-500 h-2 rounded-full transition-all duration-700"
                   style={{ width: `${skill.level}%` }}

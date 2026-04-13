@@ -33,14 +33,14 @@ const fallbackProjects = [
 
 function ProjectCard({ project }) {
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 p-6 flex flex-col">
-      <h3 className="text-xl font-bold text-gray-900 mb-3">{project.title}</h3>
-      <p className="text-gray-500 flex-grow mb-5 leading-relaxed">{project.description}</p>
+    <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 p-6 flex flex-col">
+      <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
+      <p className="text-gray-400 flex-grow mb-5 leading-relaxed">{project.description}</p>
       <div className="flex flex-wrap gap-2 mb-5">
         {project.tech_stack.map((tech) => (
           <span
             key={tech}
-            className="px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full"
+            className="px-2.5 py-1 bg-indigo-900 text-indigo-300 text-xs font-semibold rounded-full"
           >
             {tech}
           </span>
@@ -52,7 +52,7 @@ function ProjectCard({ project }) {
             href={project.github_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 text-center px-4 py-2 border border-gray-200 rounded-lg text-gray-600 text-sm font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors"
+            className="flex-1 text-center px-4 py-2 border border-gray-600 rounded-lg text-gray-300 text-sm font-medium hover:border-indigo-400 hover:text-indigo-400 transition-colors"
           >
             GitHub
           </a>
@@ -87,13 +87,13 @@ export default function Projects() {
   }, [])
 
   return (
-    <section id="projects" className="py-24 bg-white">
+    <section id="projects" className="py-24 bg-gray-950">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-indigo-600 font-semibold uppercase tracking-widest text-sm mb-2">
+          <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm mb-2">
             Portfolio
           </p>
-          <h2 className="text-4xl font-extrabold text-gray-900">My Projects</h2>
+          <h2 className="text-4xl font-extrabold text-white">My Projects</h2>
           <div className="mt-4 w-16 h-1 bg-indigo-600 mx-auto rounded-full" />
         </div>
 
