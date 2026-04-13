@@ -11,10 +11,10 @@ export const translations = {
     },
     hero: {
       welcome: "Welcome to my portfolio",
-      typewords: ["CS Student & Aspiring Developer", "Python Developer", "Web Developer", "Problem Solver"],
+      typewords: ["CS Student & Aspiring Developer", "Python Developer", "Web Developer", "DSA with A2SV", "Problem Solver"],
       bio1: "Computer Science student at the",
       bio2: "University of Rwanda",
-      bio3: ", building projects in",
+      bio3: " and A2SV DSA program participant, building projects in",
       bio4: "Python",
       bio5: "Java",
       bio6: "and",
@@ -48,6 +48,7 @@ export const translations = {
       ],
       achievementsTitle: "Achievements",
       achievements: [
+        "Currently enrolled in A2SV (Africa to Silicon Valley) DSA program, strengthening problem-solving and algorithmic thinking",
         "Completed courses in Cybersecurity, JavaScript, and Python Programming",
         "Active GitHub contributor with multiple personal and academic projects",
         "Strong foundation in algorithms, logical problem-solving, and attention to detail",
@@ -133,10 +134,10 @@ export const translations = {
     },
     hero: {
       welcome: "Bienvenue sur mon portfolio",
-      typewords: ["Étudiant en Informatique", "Développeur Python", "Développeur Web", "Solutionneur de Problèmes"],
+      typewords: ["Étudiant en Informatique", "Développeur Python", "Développeur Web", "DSA avec A2SV", "Solutionneur de Problèmes"],
       bio1: "Étudiant en informatique à l'",
       bio2: "Université du Rwanda",
-      bio3: ", développant des projets en",
+      bio3: " et participant au programme A2SV DSA, développant des projets en",
       bio4: "Python",
       bio5: "Java",
       bio6: "et",
@@ -170,6 +171,7 @@ export const translations = {
       ],
       achievementsTitle: "Réalisations",
       achievements: [
+        "Actuellement inscrit au programme A2SV (Africa to Silicon Valley) DSA, renforçant la résolution de problèmes algorithmiques",
         "Formations complétées en cybersécurité, JavaScript et programmation Python",
         "Contributeur actif sur GitHub avec plusieurs projets personnels et académiques",
         "Solide maîtrise des algorithmes, de la logique et du souci du détail",
@@ -246,10 +248,10 @@ export const translations = {
     },
     hero: {
       welcome: "Murakaza neza kuri portfolio yanjye",
-      typewords: ["Umunyeshuri wa Informatique", "Umuprogrameri wa Python", "Umuprogrameri w'Urubuga", "Gukemura Ibibazo"],
+      typewords: ["Umunyeshuri wa Informatique", "Umuprogrameri wa Python", "Umuprogrameri w'Urubuga", "DSA na A2SV", "Gukemura Ibibazo"],
       bio1: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri",
       bio2: "Kaminuza y'u Rwanda",
-      bio3: ", wubaka imishinga mu",
+      bio3: " n'uwitabira porogaramu ya A2SV DSA, wubaka imishinga mu",
       bio4: "Python",
       bio5: "Java",
       bio6: "na",
@@ -283,6 +285,7 @@ export const translations = {
       ],
       achievementsTitle: "Intsinzi",
       achievements: [
+        "Witabira porogaramu ya A2SV (Africa to Silicon Valley) DSA, gukomeza ubuhanga mu gukemura ibibazo bya algorithm",
         "Narangije amahugurwa mu Cyber Security, JavaScript na Python",
         "Umufatanyabikorwa wa GitHub uharanira imishinga y'ubwoko bwinshi",
         "Ishingiro rikomeye mu algorithm, gutekereza no kwitonda",
