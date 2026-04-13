@@ -104,7 +104,7 @@ export const translations = {
           tags: ["HTML & CSS", "FastAPI", "REST APIs"],
         },
         {
-          title: "Database & DevOps",
+          title: "Database",
           tags: ["PostgreSQL", "Supabase", "Database Management"],
         },
         {
