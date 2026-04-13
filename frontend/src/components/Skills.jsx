@@ -3,11 +3,11 @@ import { getSkills } from '../api'
 import { useLanguage } from '../context/LanguageContext'
 
 const fallbackSkills = [
-  { id: 1, name: 'Python', category: 'Language', level: 85 },
-  { id: 2, name: 'Java', category: 'Language', level: 74 },
-  { id: 3, name: 'JavaScript', category: 'Language', level: 70 },
-  { id: 4, name: 'HTML & CSS', category: 'Frontend', level: 80 },
-  { id: 5, name: 'PostgreSQL', category: 'Database', level: 72 },
+  { id: 1, name: 'Python Programming', category: 'Language', level: 85 },
+  { id: 2, name: 'Java Programming', category: 'Language', level: 74 },
+  { id: 3, name: 'Web Development', category: 'Frontend', level: 80 },
+  { id: 4, name: 'Database Management', category: 'Database', level: 72 },
+  { id: 5, name: 'Cybersecurity Fundamentals', category: 'Security', level: 70 },
   { id: 6, name: 'Data Structures & Algorithms', category: 'CS Fundamentals', level: 65 },
   { id: 7, name: 'Machine Learning / AI', category: 'AI/ML', level: 40 },
   { id: 8, name: 'Git & GitHub', category: 'Tools', level: 84 },
@@ -18,10 +18,11 @@ const categoryColors = {
   Language: 'bg-purple-900 text-purple-300',
   Frontend: 'bg-yellow-900 text-yellow-300',
   Database: 'bg-emerald-900 text-emerald-300',
-  Tools: 'bg-gray-700 text-gray-300',
-  'Soft Skills': 'bg-pink-900 text-pink-300',
+  Security: 'bg-red-900 text-red-300',
   'CS Fundamentals': 'bg-blue-900 text-blue-300',
   'AI/ML': 'bg-orange-900 text-orange-300',
+  Tools: 'bg-gray-700 text-gray-300',
+  'Soft Skills': 'bg-pink-900 text-pink-300',
 }
 
 export default function Skills() {
