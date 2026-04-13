@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import profilePic from "../images/profile_pic.png";
 
 const navLinks = [
-  { label: "About", href: "#hero" },
+  { label: "Home", href: "#hero" },
+  { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
