@@ -14,7 +14,7 @@ const socialLinks = [
   },
   {
     label: "LinkedIn",
-    href: "https://linkedin.com/in/jean-claude-ishimwe",
+    href: "https://www.linkedin.com/in/ishimwe-jean-claude-goslish/",
   },
 ];
 
