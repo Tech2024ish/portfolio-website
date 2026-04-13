@@ -4,30 +4,30 @@ import { getProjects } from '../api'
 const fallbackProjects = [
   {
     id: 1,
-    title: 'REST API Service',
+    title: 'Personal Portfolio Website',
     description:
-      'A high-performance REST API built with FastAPI and Supabase for managing user data and authentication.',
-    tech_stack: ['Python', 'FastAPI', 'Supabase', 'Docker'],
-    github_url: '#',
-    live_url: '#',
+      'A responsive portfolio website focusing on usability, accessibility, and cross-device performance. Designed interactive UI components to enhance user experience and deployed on GitHub Pages.',
+    tech_stack: ['HTML', 'CSS', 'JavaScript'],
+    github_url: 'https://github.com/Tech2024ish/my_portfolio',
+    live_url: 'https://tech2024ish.github.io/my_portfolio',
   },
   {
     id: 2,
-    title: 'Task Management API',
+    title: 'Hangman Game',
     description:
-      'Backend service for a task management app with real-time updates, user roles, and full CRUD operations.',
-    tech_stack: ['FastAPI', 'PostgreSQL', 'Redis', 'Pydantic'],
-    github_url: '#',
+      'Console-based Hangman game built in Python with a scoring system and input validation. Applied loops, conditionals, and functions to manage game logic and user interaction.',
+    tech_stack: ['Python'],
+    github_url: 'https://github.com/Tech2024ish/HangManGame',
     live_url: null,
   },
   {
     id: 3,
-    title: 'Auth Microservice',
+    title: 'Portfolio v2 (This Site)',
     description:
-      'Secure authentication microservice with JWT tokens, refresh tokens, and OAuth2 support.',
-    tech_stack: ['Python', 'FastAPI', 'Supabase', 'JWT'],
-    github_url: '#',
-    live_url: '#',
+      'Full-stack portfolio built with React and FastAPI, backed by Supabase. Features a live contact form, dynamic projects and skills sections, and a clean dark mode UI.',
+    tech_stack: ['React', 'FastAPI', 'Supabase', 'Python'],
+    github_url: 'https://github.com/Tech2024ish/portfolio',
+    live_url: null,
   },
 ]
 
