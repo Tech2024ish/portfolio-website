@@ -27,7 +27,7 @@ export const translations = {
     stats: [
       { value: "3+", label: "Projects Built" },
       { value: "6+", label: "Technologies" },
-      { value: "3", label: "Certifications" },
+      { value: "4", label: "Certifications" },
       { value: "3", label: "Languages" },
     ],
     about: {
@@ -49,9 +49,9 @@ export const translations = {
       achievementsTitle: "Achievements",
       achievements: [
         "Currently enrolled in A2SV (Africa to Silicon Valley) — Data Structures & Algorithms program, strengthening problem-solving and algorithmic thinking",
-        "Completed courses in Cybersecurity, JavaScript, and Python Programming",
+        "Served as Teaching Assistant at GS Mutara under the IEE & Mastercard Foundation Leaders in Teaching initiative (Jan–May 2024)",
+        "Earned 3 Cisco Networking Academy certifications: Cybersecurity, Python Essentials 1, and HTML Essentials",
         "Active GitHub contributor with multiple personal and academic projects",
-        "Strong foundation in algorithms, logical problem-solving, and attention to detail",
       ],
       langInterestTitle: "Languages & Interests",
       english: "English — Fluent",
@@ -98,11 +98,12 @@ export const translations = {
     certifications: {
       sectionLabel: "Credentials",
       title: "Certifications",
-      issued: "Issued",
+      issued: "Completed",
       items: [
-        { title: "Python Programming", issuer: "Online Course", year: "2024", desc: "Covered variables, loops, functions, OOP, and file handling in Python." },
-        { title: "JavaScript Fundamentals", issuer: "Online Course", year: "2024", desc: "DOM manipulation, events, ES6+ features, and async programming basics." },
-        { title: "Cybersecurity Fundamentals", issuer: "Online Course", year: "2024", desc: "Network security, common threats, encryption basics, and ethical hacking principles." },
+        { title: "Introduction to Cybersecurity", issuer: "Cisco Networking Academy — University of Rwanda", year: "Sep 2024", desc: "Network security, common threats, encryption basics, and cybersecurity fundamentals offered through Cisco Networking Academy." },
+        { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Jul 2025", desc: "Python programming fundamentals including variables, loops, functions, and object-oriented programming." },
+        { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Sep 2025", desc: "HTML structure, semantic elements, forms, and modern web page development fundamentals." },
+        { title: "Teaching Assistantship", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "May 2024", desc: "Served as Teaching Assistant at GS Mutara under the Mastercard Foundation Leaders in Teaching initiative, Jan–May 2024." },
       ],
     },
     contact: {
@@ -150,7 +151,7 @@ export const translations = {
     stats: [
       { value: "3+", label: "Projets réalisés" },
       { value: "6+", label: "Technologies" },
-      { value: "3", label: "Certifications" },
+      { value: "4", label: "Certifications" },
       { value: "3", label: "Langues" },
     ],
     about: {
@@ -171,10 +172,10 @@ export const translations = {
       ],
       achievementsTitle: "Réalisations",
       achievements: [
-        "Actuellement inscrit au programme A2SV (Africa to Silicon Valley) — Structures de Données & Algorithmes, renforçant la résolution de problèmes algorithmiques",
-        "Formations complétées en cybersécurité, JavaScript et programmation Python",
+        "Actuellement inscrit au programme A2SV (Africa to Silicon Valley) — Structures de Données & Algorithmes",
+        "Assistant d'enseignement à GS Mutara dans le cadre de l'initiative IEE & Mastercard Foundation Leaders in Teaching (Jan–Mai 2024)",
+        "3 certifications Cisco Networking Academy obtenues : Cybersécurité, Python Essentials 1 et HTML Essentials",
         "Contributeur actif sur GitHub avec plusieurs projets personnels et académiques",
-        "Solide maîtrise des algorithmes, de la logique et du souci du détail",
       ],
       langInterestTitle: "Langues & Centres d'intérêt",
       english: "Anglais — Courant",
@@ -212,11 +213,12 @@ export const translations = {
     certifications: {
       sectionLabel: "Diplômes",
       title: "Certifications",
-      issued: "Obtenu",
+      issued: "Complété",
       items: [
-        { title: "Programmation Python", issuer: "Cours en ligne", year: "2024", desc: "Variables, boucles, fonctions, POO et gestion de fichiers en Python." },
-        { title: "Fondamentaux JavaScript", issuer: "Cours en ligne", year: "2024", desc: "Manipulation du DOM, événements, fonctionnalités ES6+ et programmation asynchrone." },
-        { title: "Fondamentaux en Cybersécurité", issuer: "Cours en ligne", year: "2024", desc: "Sécurité réseau, menaces courantes, bases du chiffrement et principes de hacking éthique." },
+        { title: "Introduction à la Cybersécurité", issuer: "Cisco Networking Academy — Université du Rwanda", year: "Sep 2024", desc: "Sécurité réseau, menaces courantes, bases du chiffrement et fondamentaux de la cybersécurité via Cisco Networking Academy." },
+        { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Juil 2025", desc: "Fondamentaux Python : variables, boucles, fonctions et programmation orientée objet." },
+        { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Sep 2025", desc: "Structure HTML, éléments sémantiques, formulaires et développement de pages web modernes." },
+        { title: "Assistant d'Enseignement", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "Mai 2024", desc: "Assistant d'enseignement à GS Mutara dans le cadre du programme Mastercard Foundation Leaders in Teaching, Jan–Mai 2024." },
       ],
     },
     contact: {
@@ -264,7 +266,7 @@ export const translations = {
     stats: [
       { value: "3+", label: "Imishinga" },
       { value: "6+", label: "Ikoranabuhanga" },
-      { value: "3", label: "Impamyabumenyi" },
+      { value: "4", label: "Impamyabumenyi" },
       { value: "3", label: "Indimi" },
     ],
     about: {
@@ -285,10 +287,10 @@ export const translations = {
       ],
       achievementsTitle: "Intsinzi",
       achievements: [
-        "Witabira porogaramu ya A2SV (Africa to Silicon Valley) — Data Structures & Algorithms, gukomeza ubuhanga mu gukemura ibibazo bya algorithm",
-        "Narangije amahugurwa mu Cyber Security, JavaScript na Python",
+        "Witabira porogaramu ya A2SV (Africa to Silicon Valley) — Data Structures & Algorithms",
+        "Yakoze nk'Umufasha w'Umwarimu muri GS Mutara mu rwego rwa IEE & Mastercard Foundation Leaders in Teaching (Mutarama–Gicurasi 2024)",
+        "Yabonye impamyabumenyi 3 za Cisco Networking Academy: Cyber Security, Python Essentials 1 na HTML Essentials",
         "Umufatanyabikorwa wa GitHub uharanira imishinga y'ubwoko bwinshi",
-        "Ishingiro rikomeye mu algorithm, gutekereza no kwitonda",
       ],
       langInterestTitle: "Indimi & Ibiyakurura",
       english: "Icyongereza — Neza",
@@ -326,11 +328,12 @@ export const translations = {
     certifications: {
       sectionLabel: "Impamyabumenyi",
       title: "Impamyabumenyi",
-      issued: "Yahawe",
+      issued: "Yarangiye",
       items: [
-        { title: "Porogaramu ya Python", issuer: "Isomo kuri murandasi", year: "2024", desc: "Variables, ibisumba, serivisi, OOP no gucunga dosiye muri Python." },
-        { title: "Ibanze bya JavaScript", issuer: "Isomo kuri murandasi", year: "2024", desc: "DOM, events, ES6+ no guhanga porogaramu zitegereza." },
-        { title: "Ibanze bya Cyber Security", issuer: "Isomo kuri murandasi", year: "2024", desc: "Umutekano wa network, ibibazo bisanzwe, encryption no ethical hacking." },
+        { title: "Intangiriro ya Cyber Security", issuer: "Cisco Networking Academy — Kaminuza y'u Rwanda", year: "Nze 2024", desc: "Umutekano wa network, ibibazo bisanzwe, encryption n'ibanze bya Cyber Security binyuze muri Cisco Networking Academy." },
+        { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Nyakanga 2025", desc: "Ibanze bya Python: variables, ibisumba, serivisi na OOP." },
+        { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Nze 2025", desc: "Imiterere ya HTML, elements, formulaires no gukora urubuga rw'ikoranabuhanga." },
+        { title: "Umufasha w'Umwarimu", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "Gicurasi 2024", desc: "Umufasha w'umwarimu muri GS Mutara mu rwego rwa Mastercard Foundation Leaders in Teaching, Mutarama–Gicurasi 2024." },
       ],
     },
     contact: {
