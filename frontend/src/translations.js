@@ -48,7 +48,7 @@ export const translations = {
       ],
       achievementsTitle: "Achievements",
       achievements: [
-        "Currently enrolled in A2SV (Africa to Silicon Valley) — Data Structures & Algorithms program, strengthening problem-solving and algorithmic thinking",
+        "Currently being trained in A2SV (Africa to Silicon Valley) — Data Structures & Algorithms program (ongoing — not yet completed)",
         "Served as Teaching Assistant at GS Mutara under the IEE & Mastercard Foundation Leaders in Teaching initiative (Jan–May 2024)",
         "Earned 3 Cisco Networking Academy certifications: Cybersecurity, Python Essentials 1, and HTML Essentials",
         "Active GitHub contributor with multiple personal and academic projects",
@@ -172,7 +172,7 @@ export const translations = {
       ],
       achievementsTitle: "Réalisations",
       achievements: [
-        "Actuellement inscrit au programme A2SV (Africa to Silicon Valley) — Structures de Données & Algorithmes",
+        "En cours de formation au programme A2SV (Africa to Silicon Valley) — Structures de Données & Algorithmes (en cours — non encore terminé)",
         "Assistant d'enseignement à GS Mutara dans le cadre de l'initiative IEE & Mastercard Foundation Leaders in Teaching (Jan–Mai 2024)",
         "3 certifications Cisco Networking Academy obtenues : Cybersécurité, Python Essentials 1 et HTML Essentials",
         "Contributeur actif sur GitHub avec plusieurs projets personnels et académiques",
@@ -287,7 +287,7 @@ export const translations = {
       ],
       achievementsTitle: "Intsinzi",
       achievements: [
-        "Witabira porogaramu ya A2SV (Africa to Silicon Valley) — Data Structures & Algorithms",
+        "Aracyahugurwa muri porogaramu ya A2SV (Africa to Silicon Valley) — Data Structures & Algorithms (irakomeje — ntirararangira)",
         "Yakoze nk'Umufasha w'Umwarimu muri GS Mutara mu rwego rwa IEE & Mastercard Foundation Leaders in Teaching (Mutarama–Gicurasi 2024)",
         "Yabonye impamyabumenyi 3 za Cisco Networking Academy: Cyber Security, Python Essentials 1 na HTML Essentials",
         "Umufatanyabikorwa wa GitHub uharanira imishinga y'ubwoko bwinshi",
