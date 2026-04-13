@@ -93,7 +93,34 @@ export const translations = {
     },
     skills: {
       sectionLabel: "What I Know",
-      title: "Skills & Technologies",
+      title: "Technical Skills",
+      categories: [
+        {
+          title: "Programming",
+          tags: ["Python", "Java", "JavaScript", "Data Structures", "Algorithms"],
+        },
+        {
+          title: "Web Development",
+          tags: ["HTML & CSS", "FastAPI", "REST APIs", "Web Development"],
+        },
+        {
+          title: "Database & DevOps",
+          tags: ["PostgreSQL", "Supabase", "Database Management", "Docker", "Linux"],
+        },
+        {
+          title: "Cybersecurity",
+          tags: ["Intro to Cybersecurity", "Network Security", "Cisco Networking Academy", "Ethical Hacking Basics"],
+        },
+        {
+          title: "Soft Skills",
+          tags: ["Problem Solving", "Communication", "Teaching", "Teamwork", "Attention to Detail"],
+        },
+        {
+          title: "AI Enthusiast",
+          desc: "Passionate about Artificial Intelligence and its real-world applications.",
+          tags: ["Machine Learning", "Artificial Intelligence", "Python for AI", "Neural Networks"],
+        },
+      ],
     },
     certifications: {
       sectionLabel: "Credentials",
@@ -208,7 +235,34 @@ export const translations = {
     },
     skills: {
       sectionLabel: "Ce que je sais faire",
-      title: "Compétences & Technologies",
+      title: "Compétences Techniques",
+      categories: [
+        {
+          title: "Programmation",
+          tags: ["Python", "Java", "JavaScript", "Data Structures", "Algorithms"],
+        },
+        {
+          title: "Développement Web",
+          tags: ["HTML & CSS", "FastAPI", "REST APIs", "Web Development"],
+        },
+        {
+          title: "Base de Données & DevOps",
+          tags: ["PostgreSQL", "Supabase", "Database Management", "Docker", "Linux"],
+        },
+        {
+          title: "Cybersécurité",
+          tags: ["Intro à la Cybersécurité", "Sécurité Réseau", "Cisco Networking Academy", "Bases Ethical Hacking"],
+        },
+        {
+          title: "Compétences Humaines",
+          tags: ["Résolution de problèmes", "Communication", "Enseignement", "Travail d'équipe", "Rigueur"],
+        },
+        {
+          title: "Passionné d'IA",
+          desc: "Passionné par l'Intelligence Artificielle et ses applications dans le monde réel.",
+          tags: ["Machine Learning", "Intelligence Artificielle", "Python pour IA", "Réseaux de Neurones"],
+        },
+      ],
     },
     certifications: {
       sectionLabel: "Diplômes",
@@ -323,7 +377,34 @@ export const translations = {
     },
     skills: {
       sectionLabel: "Ibyo Nzi",
-      title: "Ubuhanga & Ikoranabuhanga",
+      title: "Ubuhanga bw'Ikoranabuhanga",
+      categories: [
+        {
+          title: "Porogaramu",
+          tags: ["Python", "Java", "JavaScript", "Data Structures", "Algorithms"],
+        },
+        {
+          title: "Iterambere ry'Urubuga",
+          tags: ["HTML & CSS", "FastAPI", "REST APIs", "Web Development"],
+        },
+        {
+          title: "Bazidata & DevOps",
+          tags: ["PostgreSQL", "Supabase", "Database Management", "Docker", "Linux"],
+        },
+        {
+          title: "Cyber Security",
+          tags: ["Intro to Cybersecurity", "Network Security", "Cisco Networking Academy", "Ethical Hacking Basics"],
+        },
+        {
+          title: "Ubushobozi Bwite",
+          tags: ["Gukemura Ibibazo", "Gutumanahana", "Kwigisha", "Gukorana", "Kwitonda"],
+        },
+        {
+          title: "Ukunzwe na AI",
+          desc: "Nyakuri ku Bwenge Bw'Artificial na gukoresha mu bikorwa by'isanzwe.",
+          tags: ["Machine Learning", "Artificial Intelligence", "Python for AI", "Neural Networks"],
+        },
+      ],
     },
     certifications: {
       sectionLabel: "Impamyabumenyi",
