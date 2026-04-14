@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jean Claude ISHIMWE — CV</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      color: #1a1a1a;
+      background: #fff;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 48px;
+      line-height: 1.5;
+    }
+
+    /* Header */
+    header {
+      border-bottom: 2px solid #0d9488;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0d9488;
+      letter-spacing: 0.5px;
+    }
+
+    header p.title {
+      font-size: 14px;
+      color: #555;
+      margin-top: 3px;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #444;
+    }
+
+    .contact-row a { color: #0d9488; text-decoration: none; }
+
+    /* Sections */
+    section {
+      margin-bottom: 18px;
+    }
+
+    section h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0d9488;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+    }
+
+    /* Education */
+    .entry-title { font-weight: 600; font-size: 13px; color: #111; }
+    .entry-sub { color: #0d9488; font-size: 12px; }
+    .entry-date { font-size: 12px; color: #888; }
+
+    /* Skills grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 24px;
+    }
+
+    .skill-row { display: flex; gap: 6px; align-items: baseline; }
+    .skill-category { font-weight: 600; color: #111; min-width: 120px; font-size: 12px; }
+    .skill-tags { color: #444; font-size: 12px; }
+
+    /* Projects */
+    .project { margin-bottom: 10px; }
+    .project-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .project-title { font-weight: 600; color: #111; }
+    .project-tech { font-size: 11px; color: #0d9488; }
+    .project-desc { color: #555; font-size: 12px; margin-top: 2px; }
+
+    /* Certifications */
+    .cert { margin-bottom: 8px; }
+    .cert-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .cert-title { font-weight: 600; color: #111; }
+    .cert-date { font-size: 11px; color: #888; }
+    .cert-issuer { font-size: 12px; color: #0d9488; }
+
+    /* Achievements */
+    ul.achievements { padding-left: 16px; }
+    ul.achievements li { margin-bottom: 4px; color: #444; font-size: 12px; }
+
+    /* Tags inline */
+    .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+    .tag {
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      color: #0f766e;
+      padding: 1px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+    }
+
+    /* Print */
+    @media print {
+      body { padding: 24px 32px; }
+      @page { margin: 0; }
+    }
+
+    /* Print button */
+    .print-btn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: #0d9488;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .print-btn:hover { background: #0f766e; }
+    @media print { .print-btn { display: none; } }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn" onclick="window.print()">Save as PDF</button>
+
+  <!-- Header -->
+  <header>
+    <h1>Jean Claude ISHIMWE</h1>
+    <p class="title">Computer Science Student · Software Developer</p>
+    <div class="contact-row">
+      <span>Kigali, Rwanda</span>
+      <a href="mailto:claudeish88@gmail.com">claudeish88@gmail.com</a>
+      <span>+250 783 326 529</span>
+      <a href="https://goslish.vercel.app" target="_blank">goslish.vercel.app</a>
+      <a href="https://github.com/Tech2024ish" target="_blank">github.com/Tech2024ish</a>
+      <a href="https://www.linkedin.com/in/ishimwe-jean-claude-goslish/" target="_blank">LinkedIn</a>
+    </div>
+  </header>
+
+  <!-- Summary -->
+  <section>
+    <h2>Summary</h2>
+    <p style="color:#444; font-size:12px;">
+      Computer Science student at the University of Rwanda and A2SV (Africa to Silicon Valley) Data Structures &amp; Algorithms program trainee. Building projects in Python, Java, and JavaScript. Passionate about software development, problem-solving, Machine Learning, and Artificial Intelligence.
+    </p>
+  </section>
+
+  <!-- Education -->
+  <section>
+    <h2>Education</h2>
+    <p class="entry-title">Bachelor of Computer Science</p>
+    <p class="entry-sub">University of Rwanda</p>
+    <p class="entry-date">Expected Graduation: 2028</p>
+    <div class="tags" style="margin-top:6px;">
+      <span class="tag">Python Programming</span>
+      <span class="tag">Java Programming</span>
+      <span class="tag">Database Management</span>
+      <span class="tag">Software Development</span>
+      <span class="tag">Data Structures &amp; Algorithms</span>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section>
+    <h2>Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <span class="skill-category">Programming</span>
+        <span class="skill-tags">Python, Java, JavaScript, C, Data Structures, Algorithms</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-category">Web Development</span>
+        <span class="skill-tags">HTML &amp; CSS, React, FastAPI, REST APIs</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-category">Database</span>
+        <span class="skill-tags">PostgreSQL, Supabase, SQL, Database Management</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-category">Cybersecurity</span>
+        <span class="skill-tags">Intro to Cybersecurity, Cisco Networking Academy</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-category">AI / ML</span>
+        <span class="skill-tags">Machine Learning, Artificial Intelligence, Python for AI</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-category">Soft Skills</span>
+        <span class="skill-tags">Problem Solving, Communication, Teaching, Teamwork</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section>
+    <h2>Projects</h2>
+
+    <div class="project">
+      <div class="project-header">
+        <span class="project-title">Portfolio v2</span>
+        <span class="project-tech">React · FastAPI · Supabase · Python</span>
+      </div>
+      <p class="project-desc">Full-stack portfolio built with React and FastAPI, backed by Supabase. Features a live contact form, dynamic projects and skills sections, dark/light mode toggle, and multi-language support.</p>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <span class="project-title">Personal Portfolio Website (v1)</span>
+        <span class="project-tech">HTML · CSS · JavaScript</span>
+      </div>
+      <p class="project-desc">Responsive portfolio website focusing on usability, accessibility, and cross-device performance. Deployed on GitHub Pages.</p>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <span class="project-title">Hangman Game</span>
+        <span class="project-tech">Python</span>
+      </div>
+      <p class="project-desc">Console-based Hangman game with a scoring system and input validation. Applied loops, conditionals, and functions to manage game logic and user interaction.</p>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  <section>
+    <h2>Certifications</h2>
+
+    <div class="cert">
+      <div class="cert-header">
+        <span class="cert-title">Python Essentials 1</span>
+        <span class="cert-date">Jul 2025</span>
+      </div>
+      <p class="cert-issuer">Cisco Networking Academy</p>
+    </div>
+
+    <div class="cert">
+      <div class="cert-header">
+        <span class="cert-title">HTML Essentials</span>
+        <span class="cert-date">Sep 2025</span>
+      </div>
+      <p class="cert-issuer">Cisco Networking Academy</p>
+    </div>
+
+    <div class="cert">
+      <div class="cert-header">
+        <span class="cert-title">Introduction to Cybersecurity</span>
+        <span class="cert-date">Sep 2024</span>
+      </div>
+      <p class="cert-issuer">Cisco Networking Academy — University of Rwanda</p>
+    </div>
+
+    <div class="cert">
+      <div class="cert-header">
+        <span class="cert-title">Teaching Assistantship</span>
+        <span class="cert-date">May 2024</span>
+      </div>
+      <p class="cert-issuer">IEE (Inspire Educate &amp; Empower Rwanda) — Mastercard Foundation</p>
+    </div>
+  </section>
+
+  <!-- Achievements -->
+  <section>
+    <h2>Achievements</h2>
+    <ul class="achievements">
+      <li>Currently being trained in A2SV (Africa to Silicon Valley) — Data Structures &amp; Algorithms program (ongoing)</li>
+      <li>Served as Teaching Assistant at GS Mutara under the IEE &amp; Mastercard Foundation Leaders in Teaching initiative (Jan–May 2024)</li>
+      <li>Earned 3 Cisco Networking Academy certifications: Cybersecurity, Python Essentials 1, and HTML Essentials</li>
+      <li>Active GitHub contributor with multiple personal and academic projects</li>
+    </ul>
+  </section>
+
+  <!-- Languages -->
+  <section>
+    <h2>Languages</h2>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <span class="skill-category">English</span>
+        <span class="skill-tags">Fluent</span>
+      </div>
+      <div class="skill-row">
+        <span class="skill-category">Kinyarwanda</span>
+        <span class="skill-tags">Native</span>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
