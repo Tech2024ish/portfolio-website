@@ -97,7 +97,7 @@ export const translations = {
       categories: [
         {
           title: "Programming",
-          tags: ["Python", "Java", "JavaScript", "C", "SQL", "Data Structures", "Algorithms"],
+          tags: ["Python", "Java", "JavaScript", "C", "Data Structures", "Algorithms"],
         },
         {
           title: "Web Development",
@@ -105,7 +105,7 @@ export const translations = {
         },
         {
           title: "Database",
-          tags: ["PostgreSQL", "Supabase", "Database Management"],
+          tags: ["PostgreSQL", "Supabase", "SQL", "Database Management"],
         },
         {
           title: "Cybersecurity",
@@ -247,7 +247,7 @@ export const translations = {
       categories: [
         {
           title: "Programmation",
-          tags: ["Python", "Java", "JavaScript", "C", "SQL", "Data Structures", "Algorithms"],
+          tags: ["Python", "Java", "JavaScript", "C", "Data Structures", "Algorithms"],
         },
         {
           title: "Développement Web",
@@ -255,7 +255,7 @@ export const translations = {
         },
         {
           title: "Base de Données & DevOps",
-          tags: ["PostgreSQL", "Supabase", "Database Management"],
+          tags: ["PostgreSQL", "Supabase", "SQL", "Database Management"],
         },
         {
           title: "Cybersécurité",
@@ -397,7 +397,7 @@ export const translations = {
       categories: [
         {
           title: "Porogaramu",
-          tags: ["Python", "Java", "JavaScript", "C", "SQL", "Data Structures", "Algorithms"],
+          tags: ["Python", "Java", "JavaScript", "C", "Data Structures", "Algorithms"],
         },
         {
           title: "Iterambere ry'Urubuga",
@@ -405,7 +405,7 @@ export const translations = {
         },
         {
           title: "Bazidata & DevOps",
-          tags: ["PostgreSQL", "Supabase", "Database Management"],
+          tags: ["PostgreSQL", "Supabase", "SQL", "Database Management"],
         },
         {
           title: "Cyber Security",
