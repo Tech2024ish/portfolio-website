@@ -55,8 +55,8 @@ export default function Hero() {
                 {t.hero.contactMe}
               </a>
               <a
-                href="/CV.html"
-                download="Jean_Claude_ISHIMWE_CV.html"
+                href="/CV.pdf"
+                download="Jean_Claude_ISHIMWE_CV.pdf"
                 className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 font-semibold rounded-lg hover:border-gray-500 dark:hover:border-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
               >
                 {t.hero.downloadCV}
