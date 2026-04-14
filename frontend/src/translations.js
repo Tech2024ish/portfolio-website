@@ -97,7 +97,7 @@ export const translations = {
       categories: [
         {
           title: "Programming",
-          tags: ["Python", "Java", "JavaScript", "C", "C++", "SQL", "Data Structures", "Algorithms"],
+          tags: ["Python", "Java", "JavaScript", "C", "SQL", "Data Structures", "Algorithms"],
         },
         {
           title: "Web Development",
@@ -247,7 +247,7 @@ export const translations = {
       categories: [
         {
           title: "Programmation",
-          tags: ["Python", "Java", "JavaScript", "C", "C++", "SQL", "Data Structures", "Algorithms"],
+          tags: ["Python", "Java", "JavaScript", "C", "SQL", "Data Structures", "Algorithms"],
         },
         {
           title: "Développement Web",
@@ -397,7 +397,7 @@ export const translations = {
       categories: [
         {
           title: "Porogaramu",
-          tags: ["Python", "Java", "JavaScript", "C", "C++", "SQL", "Data Structures", "Algorithms"],
+          tags: ["Python", "Java", "JavaScript", "C", "SQL", "Data Structures", "Algorithms"],
         },
         {
           title: "Iterambere ry'Urubuga",
