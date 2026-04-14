@@ -101,7 +101,7 @@ export const translations = {
         },
         {
           title: "Web Development",
-          tags: ["HTML & CSS", "FastAPI", "REST APIs"],
+          tags: ["HTML & CSS", "React", "FastAPI", "REST APIs"],
         },
         {
           title: "Database",
@@ -251,7 +251,7 @@ export const translations = {
         },
         {
           title: "Développement Web",
-          tags: ["HTML & CSS", "FastAPI", "REST APIs"],
+          tags: ["HTML & CSS", "React", "FastAPI", "REST APIs"],
         },
         {
           title: "Base de Données & DevOps",
@@ -401,7 +401,7 @@ export const translations = {
         },
         {
           title: "Iterambere ry'Urubuga",
-          tags: ["HTML & CSS", "FastAPI", "REST APIs"],
+          tags: ["HTML & CSS", "React", "FastAPI", "REST APIs"],
         },
         {
           title: "Bazidata & DevOps",
