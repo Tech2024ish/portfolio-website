@@ -36,14 +36,7 @@ export default function Hero() {
             </h2>
 
             <p className="text-gray-500 dark:text-gray-400 text-lg mb-10 leading-relaxed">
-              {t.hero.bio1}{" "}
-              <span className="font-medium text-gray-700 dark:text-gray-200">{t.hero.bio2}</span>
-              {t.hero.bio3}{" "}
-              <span className="font-medium text-gray-700 dark:text-gray-200">{t.hero.bio4}</span>,{" "}
-              <span className="font-medium text-gray-700 dark:text-gray-200">{t.hero.bio5}</span>{" "}
-              {t.hero.bio6}{" "}
-              <span className="font-medium text-gray-700 dark:text-gray-200">{t.hero.bio7}</span>
-              {t.hero.bio8}
+              {t.hero.bio}
             </p>
 
             <div className="flex flex-wrap gap-4">
