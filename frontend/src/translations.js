@@ -48,7 +48,7 @@ export const translations = {
       ],
       achievementsTitle: "Achievements",
       achievements: [
-        "Currently being trained in A2SV (Africa to Silicon Valley) — Data Structures & Algorithms program (ongoing — not yet completed)",
+        "Currently being trained in A2SV (Africa to Silicon Valley) Data Structures & Algorithms program (ongoing, not yet completed)",
         "Served as Teaching Assistant at GS Mutara under the IEE & Mastercard Foundation Leaders in Teaching initiative (Jan–May 2024)",
         "Earned 3 Cisco Networking Academy certifications: Cybersecurity, Python Essentials 1, and HTML Essentials",
         "Active GitHub contributor with multiple personal and academic projects",
@@ -127,10 +127,10 @@ export const translations = {
       title: "Certifications",
       issued: "Completed",
       items: [
-        { title: "Introduction to Cybersecurity", issuer: "Cisco Networking Academy — University of Rwanda", year: "Sep 2024", desc: "Network security, common threats, encryption basics, and cybersecurity fundamentals offered through Cisco Networking Academy." },
+        { title: "Introduction to Cybersecurity", issuer: "Cisco Networking Academy, University of Rwanda", year: "Sep 2024", desc: "Network security, common threats, encryption basics, and cybersecurity fundamentals offered through Cisco Networking Academy." },
         { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Jul 2025", desc: "Python programming fundamentals including variables, loops, functions, and object-oriented programming." },
         { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Sep 2025", desc: "HTML structure, semantic elements, forms, and modern web page development fundamentals." },
-        { title: "Teaching Assistantship", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "May 2024", desc: "Served as Teaching Assistant at GS Mutara under the Mastercard Foundation Leaders in Teaching initiative, Jan–May 2024." },
+        { title: "Teaching Assistantship", issuer: "IEE (Inspire Educate & Empower Rwanda) / Mastercard Foundation", year: "May 2024", desc: "Served as Teaching Assistant at GS Mutara under the Mastercard Foundation Leaders in Teaching initiative, Jan–May 2024." },
       ],
     },
     gallery: {
@@ -190,7 +190,7 @@ export const translations = {
       typewords: ["Étudiant en Informatique", "Développeur Python", "Développeur Web", "Structures de Données & Algorithmes", "Passionné de ML/IA", "Solutionneur de Problèmes"],
       bio1: "Étudiant en informatique à l'",
       bio2: "Université du Rwanda",
-      bio3: " et stagiaire au programme A2SV (Africa to Silicon Valley) — Structures de Données & Algorithmes, développant des projets en",
+      bio3: " et stagiaire au programme A2SV (Africa to Silicon Valley) en Structures de Données & Algorithmes, développant des projets en",
       bio4: "Python",
       bio5: "Java",
       bio6: "et",
@@ -223,7 +223,7 @@ export const translations = {
       ],
       achievementsTitle: "Réalisations",
       achievements: [
-        "En cours de formation au programme A2SV (Africa to Silicon Valley) — Structures de Données & Algorithmes (en cours — non encore terminé)",
+        "En cours de formation au programme A2SV (Africa to Silicon Valley) Structures de Données & Algorithmes (en cours, non encore terminé)",
         "Assistant d'enseignement à GS Mutara dans le cadre de l'initiative IEE & Mastercard Foundation Leaders in Teaching (Jan–Mai 2024)",
         "3 certifications Cisco Networking Academy obtenues : Cybersécurité, Python Essentials 1 et HTML Essentials",
         "Contributeur actif sur GitHub avec plusieurs projets personnels et académiques",
@@ -293,10 +293,10 @@ export const translations = {
       title: "Certifications",
       issued: "Complété",
       items: [
-        { title: "Introduction à la Cybersécurité", issuer: "Cisco Networking Academy — Université du Rwanda", year: "Sep 2024", desc: "Sécurité réseau, menaces courantes, bases du chiffrement et fondamentaux de la cybersécurité via Cisco Networking Academy." },
+        { title: "Introduction à la Cybersécurité", issuer: "Cisco Networking Academy, Université du Rwanda", year: "Sep 2024", desc: "Sécurité réseau, menaces courantes, bases du chiffrement et fondamentaux de la cybersécurité via Cisco Networking Academy." },
         { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Juil 2025", desc: "Fondamentaux Python : variables, boucles, fonctions et programmation orientée objet." },
         { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Sep 2025", desc: "Structure HTML, éléments sémantiques, formulaires et développement de pages web modernes." },
-        { title: "Assistant d'Enseignement", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "Mai 2024", desc: "Assistant d'enseignement à GS Mutara dans le cadre du programme Mastercard Foundation Leaders in Teaching, Jan–Mai 2024." },
+        { title: "Assistant d'Enseignement", issuer: "IEE (Inspire Educate & Empower Rwanda) / Mastercard Foundation", year: "Mai 2024", desc: "Assistant d'enseignement à GS Mutara dans le cadre du programme Mastercard Foundation Leaders in Teaching, Jan–Mai 2024." },
       ],
     },
     gallery: {
@@ -356,7 +356,7 @@ export const translations = {
       typewords: ["Umunyeshuri wa Informatique", "Umuprogrameri wa Python", "Umuprogrameri w'Urubuga", "Structures z'Amakuru & Algorithms", "Ukunzwe ML/AI", "Gukemura Ibibazo"],
       bio1: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri",
       bio2: "Kaminuza y'u Rwanda",
-      bio3: " n'umunyeshuri wa porogaramu ya A2SV (Africa to Silicon Valley) — Data Structures & Algorithms, wubaka imishinga mu",
+      bio3: " n'umunyeshuri wa porogaramu ya A2SV (Africa to Silicon Valley) mu Data Structures & Algorithms, wubaka imishinga mu",
       bio4: "Python",
       bio5: "Java",
       bio6: "na",
@@ -389,7 +389,7 @@ export const translations = {
       ],
       achievementsTitle: "Intsinzi",
       achievements: [
-        "Aracyahugurwa muri porogaramu ya A2SV (Africa to Silicon Valley) — Data Structures & Algorithms (irakomeje — ntirararangira)",
+        "Aracyahugurwa muri porogaramu ya A2SV (Africa to Silicon Valley) Data Structures & Algorithms (irakomeje, ntirararangira)",
         "Yakoze nk'Umufasha w'Umwarimu muri GS Mutara mu rwego rwa IEE & Mastercard Foundation Leaders in Teaching (Mutarama–Gicurasi 2024)",
         "Yabonye impamyabumenyi 3 za Cisco Networking Academy: Cyber Security, Python Essentials 1 na HTML Essentials",
         "Umufatanyabikorwa wa GitHub uharanira imishinga y'ubwoko bwinshi",
@@ -459,10 +459,10 @@ export const translations = {
       title: "Impamyabumenyi",
       issued: "Yarangiye",
       items: [
-        { title: "Intangiriro ya Cyber Security", issuer: "Cisco Networking Academy — Kaminuza y'u Rwanda", year: "Nze 2024", desc: "Umutekano wa network, ibibazo bisanzwe, encryption n'ibanze bya Cyber Security binyuze muri Cisco Networking Academy." },
+        { title: "Intangiriro ya Cyber Security", issuer: "Cisco Networking Academy, Kaminuza y'u Rwanda", year: "Nze 2024", desc: "Umutekano wa network, ibibazo bisanzwe, encryption n'ibanze bya Cyber Security binyuze muri Cisco Networking Academy." },
         { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Nyakanga 2025", desc: "Ibanze bya Python: variables, ibisumba, serivisi na OOP." },
         { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Nze 2025", desc: "Imiterere ya HTML, elements, formulaires no gukora urubuga rw'ikoranabuhanga." },
-        { title: "Umufasha w'Umwarimu", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "Gicurasi 2024", desc: "Umufasha w'umwarimu muri GS Mutara mu rwego rwa Mastercard Foundation Leaders in Teaching, Mutarama–Gicurasi 2024." },
+        { title: "Umufasha w'Umwarimu", issuer: "IEE (Inspire Educate & Empower Rwanda) / Mastercard Foundation", year: "Gicurasi 2024", desc: "Umufasha w'umwarimu muri GS Mutara mu rwego rwa Mastercard Foundation Leaders in Teaching, Mutarama–Gicurasi 2024." },
       ],
     },
     gallery: {

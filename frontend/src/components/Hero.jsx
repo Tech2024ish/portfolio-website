@@ -80,7 +80,7 @@ export default function Hero() {
 
             {/* Tech badges */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {["Python", "Java", "JavaScript", "C", "SQL", "HTML & CSS", "PostgreSQL", "Git", "A2SV — DSA"].map((tech) => (
+              {["Python", "Java", "JavaScript", "C", "SQL", "HTML & CSS", "PostgreSQL", "Git", "A2SV (DSA)"].map((tech) => (
                 <span
                   key={tech}
                   className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-full"
