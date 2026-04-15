@@ -54,8 +54,8 @@ export const translations = {
         "Active GitHub contributor with multiple personal and academic projects",
       ],
       langInterestTitle: "Languages & Interests",
-      english: "English — Fluent",
-      kinyarwanda: "Kinyarwanda — Native",
+      english: "English (Fluent)",
+      kinyarwanda: "Kinyarwanda (Native)",
       interests: "Web & Mobile Development · AI & Machine Learning · Digital Service Solutions · Tech Communities · Hackathons",
     },
     services: {
@@ -229,8 +229,8 @@ export const translations = {
         "Contributeur actif sur GitHub avec plusieurs projets personnels et académiques",
       ],
       langInterestTitle: "Langues & Centres d'intérêt",
-      english: "Anglais — Courant",
-      kinyarwanda: "Kinyarwanda — Langue maternelle",
+      english: "Anglais (Courant)",
+      kinyarwanda: "Kinyarwanda (Langue maternelle)",
       interests: "Développement Web & Mobile · Intelligence Artificielle · Solutions numériques · Communautés tech · Hackathons",
     },
     services: {
@@ -395,8 +395,8 @@ export const translations = {
         "Umufatanyabikorwa wa GitHub uharanira imishinga y'ubwoko bwinshi",
       ],
       langInterestTitle: "Indimi & Ibiyakurura",
-      english: "Icyongereza — Neza",
-      kinyarwanda: "Ikinyarwanda — Ururimi rw'Inziza",
+      english: "Icyongereza (Neza)",
+      kinyarwanda: "Ikinyarwanda (Ururimi rw'Inziza)",
       interests: "Iterambere ry'Urubuga & Telefoni · Ubwenge Bw'Artificial · Ibisubizo bya Cyifuzo · Sosiyete za Tech · Hackathons",
     },
     services: {
