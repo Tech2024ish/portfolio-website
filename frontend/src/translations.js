@@ -7,6 +7,7 @@ export const translations = {
       projects: "Projects",
       skills: "Skills",
       certifications: "Certifications",
+      gallery: "Gallery",
       contact: "Contact",
     },
     hero: {
@@ -132,6 +133,22 @@ export const translations = {
         { title: "Teaching Assistantship", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "May 2024", desc: "Served as Teaching Assistant at GS Mutara under the Mastercard Foundation Leaders in Teaching initiative, Jan–May 2024." },
       ],
     },
+    gallery: {
+      sectionLabel: "Moments",
+      title: "Photo Gallery",
+      subtitle: "A glimpse into my academic journey, projects, and community involvement.",
+      items: [
+        { title: "University Life", description: "Studying Computer Science at the University of Rwanda.", category: "Academic" },
+        { title: "A2SV Training", description: "Data Structures & Algorithms training with Africa to Silicon Valley.", category: "Learning" },
+        { title: "Teaching Assistantship", description: "Serving as Teaching Assistant at GS Mutara under the Mastercard Foundation initiative.", category: "Community" },
+        { title: "Project Development", description: "Building full-stack web applications with React and FastAPI.", category: "Projects" },
+        { title: "Certifications", description: "Earning Cisco Networking Academy certifications in Python, HTML, and Cybersecurity.", category: "Achievements" },
+        { title: "GitHub Contributions", description: "Contributing to open-source and personal projects on GitHub.", category: "Open Source" },
+      ],
+    },
+    visitCounter: {
+      label: "visitors",
+    },
     contact: {
       sectionLabel: "Get In Touch",
       title: "Contact Me",
@@ -165,6 +182,7 @@ export const translations = {
       projects: "Projets",
       skills: "Compétences",
       certifications: "Certifications",
+      gallery: "Galerie",
       contact: "Contact",
     },
     hero: {
@@ -281,6 +299,22 @@ export const translations = {
         { title: "Assistant d'Enseignement", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "Mai 2024", desc: "Assistant d'enseignement à GS Mutara dans le cadre du programme Mastercard Foundation Leaders in Teaching, Jan–Mai 2024." },
       ],
     },
+    gallery: {
+      sectionLabel: "Moments",
+      title: "Galerie Photo",
+      subtitle: "Un aperçu de mon parcours académique, de mes projets et de mon implication communautaire.",
+      items: [
+        { title: "Vie Universitaire", description: "Études en Informatique à l'Université du Rwanda.", category: "Académique" },
+        { title: "Formation A2SV", description: "Formation en Structures de Données & Algorithmes avec Africa to Silicon Valley.", category: "Apprentissage" },
+        { title: "Assistant d'Enseignement", description: "Assistant à GS Mutara dans le cadre de l'initiative Mastercard Foundation.", category: "Communauté" },
+        { title: "Développement de Projets", description: "Construction d'applications web full-stack avec React et FastAPI.", category: "Projets" },
+        { title: "Certifications", description: "Certifications Cisco Networking Academy en Python, HTML et Cybersécurité.", category: "Réalisations" },
+        { title: "Contributions GitHub", description: "Contributions à des projets open-source et personnels sur GitHub.", category: "Open Source" },
+      ],
+    },
+    visitCounter: {
+      label: "visiteurs",
+    },
     contact: {
       sectionLabel: "Me contacter",
       title: "Contact",
@@ -314,6 +348,7 @@ export const translations = {
       projects: "Imishinga",
       skills: "Ubuhanga",
       certifications: "Impamyabumenyi",
+      gallery: "Amafoto",
       contact: "Wasiliana",
     },
     hero: {
@@ -429,6 +464,22 @@ export const translations = {
         { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Nze 2025", desc: "Imiterere ya HTML, elements, formulaires no gukora urubuga rw'ikoranabuhanga." },
         { title: "Umufasha w'Umwarimu", issuer: "IEE (Inspire Educate & Empower Rwanda) — Mastercard Foundation", year: "Gicurasi 2024", desc: "Umufasha w'umwarimu muri GS Mutara mu rwego rwa Mastercard Foundation Leaders in Teaching, Mutarama–Gicurasi 2024." },
       ],
+    },
+    gallery: {
+      sectionLabel: "Ibihe",
+      title: "Amafoto",
+      subtitle: "Incamake y'urugendo rwanjye rw'amashuri, imishinga n'ubukorikori mu baturage.",
+      items: [
+        { title: "Ubuzima bw'Kaminuza", description: "Kwiga Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda.", category: "Amashuri" },
+        { title: "Amahugurwa ya A2SV", description: "Amahugurwa ya Data Structures & Algorithms na Africa to Silicon Valley.", category: "Kwiga" },
+        { title: "Umufasha w'Umwarimu", description: "Umufasha w'umwarimu muri GS Mutara mu rwego rwa Mastercard Foundation.", category: "Ubukorikori" },
+        { title: "Iterambere ry'Imishinga", description: "Kubaka porogaramu zuzuye na React na FastAPI.", category: "Imishinga" },
+        { title: "Impamyabumenyi", description: "Impamyabumenyi za Cisco Networking Academy muri Python, HTML na Cyber Security.", category: "Intsinzi" },
+        { title: "Ubugiraneza kuri GitHub", description: "Gutumanahana ku mishinga ya open-source no ku bwite kuri GitHub.", category: "Open Source" },
+      ],
+    },
+    visitCounter: {
+      label: "abashyitsi",
     },
     contact: {
       sectionLabel: "Wasiliana",

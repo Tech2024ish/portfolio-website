@@ -1,4 +1,6 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
+import { getVisits, recordVisit } from "../api";
 
 const navLinks = [
   { label: "About", href: "#hero" },
@@ -19,6 +21,19 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
+  const [visitCount, setVisitCount] = useState(null);
+
+  useEffect(() => {
+    recordVisit()
+      .then((res) => setVisitCount(res.data.count))
+      .catch(() => {
+        getVisits()
+          .then((res) => setVisitCount(res.data.count))
+          .catch(() => {});
+      });
+  }, []);
+
   return (
     <footer className="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 py-12">
       <div className="max-w-6xl mx-auto px-6">
@@ -55,9 +70,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-gray-400 dark:text-gray-600 mt-8">
-          &copy; {new Date().getFullYear()} Jean Claude ISHIMWE. All rights reserved.
-        </p>
+        <div className="mt-8 flex flex-col items-center gap-2">
+          <p className="text-center text-xs text-gray-400 dark:text-gray-600">
+            &copy; {new Date().getFullYear()} Jean Claude ISHIMWE. All rights reserved.
+          </p>
+          {visitCount !== null && (
+            <p className="text-center text-xs text-gray-400 dark:text-gray-600">
+              {visitCount.toLocaleString()} {t.visitCounter.label}
+            </p>
+          )}
+        </div>
       </div>
     </footer>
   );
