@@ -27,7 +27,7 @@ export const translations = {
     about: {
       sectionLabel: "Background",
       title: "About Me",
-      bio: "I am a Computer Science student at the University of Rwanda and an A2SV (Africa to Silicon Valley) Data Structures & Algorithms program trainee. I build projects in Python, Java and JavaScript, and I am passionate about software development, problem-solving, Machine Learning, and Artificial Intelligence.",
+      bio: "I am a Computer Science student at the University of Rwanda with a strong interest in problem solving, backend systems, and machine learning. I enjoy building efficient systems and exploring how intelligent algorithms can solve real-world challenges. I am motivated by using technology to create impactful and scalable solutions.",
       educationTitle: "Education",
       degree: "Bachelor of Computer Science",
       university: "University of Rwanda",
@@ -196,7 +196,7 @@ export const translations = {
     about: {
       sectionLabel: "Parcours",
       title: "À propos de moi",
-      bio: "Je suis étudiant en Informatique à l'Université du Rwanda et stagiaire au programme A2SV (Africa to Silicon Valley) en Structures de Données & Algorithmes. Je développe des projets en Python, Java et JavaScript, et je suis passionné par le développement logiciel, la résolution de problèmes, le Machine Learning et l'Intelligence Artificielle.",
+      bio: "Je suis étudiant en Informatique à l'Université du Rwanda avec un fort intérêt pour la résolution de problèmes, les systèmes backend et le machine learning. J'aime construire des systèmes efficaces et explorer comment les algorithmes intelligents peuvent résoudre des défis du monde réel. Je suis motivé par l'utilisation de la technologie pour créer des solutions percutantes et évolutives.",
       educationTitle: "Formation",
       degree: "Licence en Informatique",
       university: "Université du Rwanda",
@@ -356,7 +356,7 @@ export const translations = {
     about: {
       sectionLabel: "Imiterere",
       title: "Ibyanjye",
-      bio: "Ndi umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda kandi ndi umunyeshuri wa porogaramu ya A2SV (Africa to Silicon Valley) mu Data Structures & Algorithms. Nubaka imishinga mu Python, Java na JavaScript, kandi ndukunda iterambere rya software, gukemura ibibazo, Machine Learning no Artificial Intelligence.",
+      bio: "Ndi umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, nzwi cyane no gukemura ibibazo, sisitemu za backend no machine learning. Nkunze kubaka sisitemu zikorana neza no gutafuta uburyo algorithm z'ubwenge zishobora gukemura ibibazo by'isanzure. Ndashishikajwe no gukoresha ikoranabuhanga mu gushyiraho ibisubizo bifite ingaruka kandi bikura.",
       educationTitle: "Amashuri",
       degree: "Bachelorale mu Siyansi y'Ikoranabuhanga",
       university: "Kaminuza y'u Rwanda",
