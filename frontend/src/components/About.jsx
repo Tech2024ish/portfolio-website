@@ -71,7 +71,6 @@ export default function About() {
                   {t.about.kinyarwanda}
                 </span>
               </div>
-              <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{t.about.interests}</p>
             </div>
           </div>
         </div>
