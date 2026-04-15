@@ -1,4 +1,3 @@
-import React from 'react'
 import { useLanguage } from '../context/LanguageContext'
 import { useInView } from '../hooks/useInView'
 
@@ -40,14 +39,15 @@ export default function Certifications() {
           ref={ref}
           className={`text-center mb-16 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
-          <p className="text-teal-600 dark:text-teal-400 font-semibold uppercase tracking-widest text-sm mb-2">
+          <span className="inline-block text-xs font-semibold tracking-widest text-teal-600 dark:text-teal-400 uppercase mb-3 px-4 py-1.5 bg-teal-50 dark:bg-teal-900/40 border border-teal-200 dark:border-teal-800 rounded-full">
             {t.certifications.sectionLabel}
-          </p>
-          <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white">{t.certifications.title}</h2>
-          <div className="mt-4 w-16 h-1 bg-teal-600 mx-auto rounded-full" />
+          </span>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mt-3">
+            {t.certifications.title}
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {t.certifications.items.map((item, i) => (
             <CertCard key={i} item={item} issued={t.certifications.issued} index={i} />
           ))}
