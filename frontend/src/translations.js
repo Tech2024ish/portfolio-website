@@ -86,7 +86,7 @@ export const translations = {
           description: "Console-based Hangman game built in Python with a scoring system and input validation. Applied loops, conditionals, and functions to manage game logic and user interaction.",
         },
         {
-          title: "Portfolio v2 (This Site)",
+          title: "This Portfolio",
           description: "Full-stack portfolio built with React and FastAPI, backed by Supabase. Features a live contact form, dynamic projects and skills sections, and a clean dark mode UI.",
         },
       ],
@@ -254,7 +254,7 @@ export const translations = {
       items: [
         { title: "Site Portfolio Personnel", description: "Site portfolio responsive axé sur la convivialité, l'accessibilité et les performances multi-appareils. Composants UI interactifs déployés sur GitHub Pages." },
         { title: "Jeu du Pendu", description: "Jeu du pendu en console développé en Python avec un système de score et validation des entrées. Utilisation de boucles, conditions et fonctions pour la logique du jeu." },
-        { title: "Portfolio v2 (Ce Site)", description: "Portfolio full-stack développé avec React et FastAPI, soutenu par Supabase. Formulaire de contact en direct, sections projets et compétences dynamiques, interface sombre." },
+        { title: "Ce Portfolio", description: "Portfolio full-stack développé avec React et FastAPI, soutenu par Supabase. Formulaire de contact en direct, sections projets et compétences dynamiques, interface sombre." },
       ],
     },
     skills: {
@@ -420,7 +420,7 @@ export const translations = {
       items: [
         { title: "Urubuga rwa Portfolio", description: "Urubuga rwa portfolio rwegeranya, rwibanda ku gukoresha neza, kwegera no gukora neza ku bikoresho byose. Byashyizwe kuri GitHub Pages." },
         { title: "Umukino wa Hangman", description: "Umukino wa Hangman mu console wubatswe mu Python hamwe na systemu yo gutuza. Bikoreshwa ibisumba, ibyifuzo na serivisi yo gucunga umukino." },
-        { title: "Portfolio v2 (Uru Rubuga)", description: "Portfolio yuzuye yubatswe na React na FastAPI, ishingiye kuri Supabase. Ifite ifishi yo gutumanaho, imishinga, ubuhanga n'interface y'umukara." },
+        { title: "Uru Portfolio", description: "Portfolio yuzuye yubatswe na React na FastAPI, ishingiye kuri Supabase. Ifite ifishi yo gutumanaho, imishinga, ubuhanga n'interface y'umukara." },
       ],
     },
     skills: {
