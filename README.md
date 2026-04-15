@@ -1,8 +1,15 @@
-# Jean Claude ISHIMWE — Portfolio
+# Jean Claude ISHIMWE Portfolio
 
 Personal portfolio website showcasing my projects, skills, and certifications.
 
 **Live site:** https://goslish.vercel.app
+
+## Cloning the Project
+
+```bash
+git clone https://github.com/Tech2024ish/portfolio.git
+cd portfolio
+```
 
 ## Tech Stack
 
