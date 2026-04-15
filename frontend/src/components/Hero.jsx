@@ -1,4 +1,3 @@
-import React from "react";
 import profilePic from "../images/profile_pic.png";
 import { useLanguage } from "../context/LanguageContext";
 import { useTypewriter } from "../hooks/useTypewriter";
@@ -13,15 +12,21 @@ export default function Hero() {
       className="min-h-screen flex items-center pt-16 bg-gradient-to-br from-white via-teal-50 to-white dark:from-gray-950 dark:via-teal-950 dark:to-gray-950"
     >
       <div className="max-w-6xl mx-auto px-6 py-20">
-        <div className="flex flex-col md:flex-row items-center gap-12">
+        <div className="flex flex-col md:flex-row items-center gap-16">
+
           {/* Text */}
           <div className="flex-1 max-w-2xl">
+            {/* Location badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-50 dark:bg-teal-900/40 border border-teal-200 dark:border-teal-800 rounded-full text-teal-700 dark:text-teal-300 text-xs font-semibold tracking-wide mb-6">
+              <span>📍</span> Kigali, Rwanda
+            </div>
+
             <p className="text-teal-600 dark:text-teal-400 font-semibold mb-3 tracking-widest uppercase text-sm">
               {t.hero.welcome}
             </p>
             <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
               Hi, I&apos;m{" "}
-              <span className="text-teal-600 dark:text-teal-400">Jean Claude ISHIMWE</span>
+              <span className="text-teal-600 dark:text-teal-400">Jean Claude</span>
             </h1>
 
             {/* Typewriter subtitle */}
@@ -63,19 +68,19 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* Stats row */}
+            {/* Stats row — bigger & bolder */}
             <div className="mt-12 grid grid-cols-4 gap-4 border-t border-gray-200 dark:border-gray-800 pt-8">
               {t.stats.map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <p className="text-2xl font-extrabold text-teal-600 dark:text-teal-400">{stat.value}</p>
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 leading-tight">{stat.label}</p>
+                  <p className="text-4xl font-extrabold text-teal-600 dark:text-teal-400 leading-none">{stat.value}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 leading-tight">{stat.label}</p>
                 </div>
               ))}
             </div>
 
             {/* Tech badges */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {["Python", "Java", "JavaScript", "C", "SQL", "HTML & CSS", "PostgreSQL", "Git", "A2SV — Data Structures & Algorithms"].map((tech) => (
+              {["Python", "Java", "JavaScript", "C", "SQL", "HTML & CSS", "PostgreSQL", "Git", "A2SV — DSA"].map((tech) => (
                 <span
                   key={tech}
                   className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-full"
@@ -86,9 +91,9 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Profile photo */}
+          {/* Profile photo — large portrait */}
           <div className="flex-shrink-0">
-            <div className="w-52 h-52 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-teal-500 shadow-2xl shadow-teal-200/40 dark:shadow-teal-900/40">
+            <div className="w-64 h-80 md:w-72 md:h-96 rounded-3xl overflow-hidden border-4 border-teal-500 shadow-2xl shadow-teal-200/50 dark:shadow-teal-900/50">
               <img
                 src={profilePic}
                 alt="Jean Claude ISHIMWE"
@@ -96,6 +101,7 @@ export default function Hero() {
               />
             </div>
           </div>
+
         </div>
       </div>
     </section>

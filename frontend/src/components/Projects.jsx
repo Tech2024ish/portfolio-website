@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getProjects } from '../api'
 import { useLanguage } from '../context/LanguageContext'
 
@@ -85,11 +85,12 @@ export default function Projects() {
     <section id="projects" className="py-24 bg-gray-50 dark:bg-gray-950">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
-          <p className="text-teal-600 dark:text-teal-400 font-semibold uppercase tracking-widest text-sm mb-2">
+          <span className="inline-block text-xs font-semibold tracking-widest text-teal-600 dark:text-teal-400 uppercase mb-3 px-4 py-1.5 bg-teal-50 dark:bg-teal-900/40 border border-teal-200 dark:border-teal-800 rounded-full">
             {t.projects.sectionLabel}
-          </p>
-          <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white">{t.projects.title}</h2>
-          <div className="mt-4 w-16 h-1 bg-teal-600 mx-auto rounded-full" />
+          </span>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mt-3">
+            {t.projects.title}
+          </h2>
         </div>
 
         {loading ? (
