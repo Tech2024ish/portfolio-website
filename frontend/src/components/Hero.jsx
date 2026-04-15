@@ -35,9 +35,6 @@ export default function Hero() {
               <span className="inline-block w-0.5 h-7 bg-teal-500 ml-1 animate-pulse align-middle" />
             </h2>
 
-            <p className="text-gray-500 dark:text-gray-400 text-lg mb-10 leading-relaxed">
-              {t.hero.bio}
-            </p>
 
             <div className="flex flex-wrap gap-4">
               <a
