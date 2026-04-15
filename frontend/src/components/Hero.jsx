@@ -1,10 +1,30 @@
+import { useEffect, useState } from "react";
 import profilePic from "../images/profile_pic.png";
 import { useLanguage } from "../context/LanguageContext";
 import { useTypewriter } from "../hooks/useTypewriter";
 
+const SUPABASE_URL = "https://fitbjtryrzrjlygbsrhx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_60qIprPzMyB0_jniDFCLig_EKx_lbxF";
+
 export default function Hero() {
   const { t } = useLanguage();
   const typed = useTypewriter(t.hero.typewords);
+  const [visitCount, setVisitCount] = useState(null);
+
+  useEffect(() => {
+    const headers = {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: "count=exact",
+    };
+    fetch(`${SUPABASE_URL}/rest/v1/visits?select=id`, { headers })
+      .then((res) => {
+        const count = parseInt(res.headers.get("content-range")?.split("/")[1] ?? "0");
+        setVisitCount(count);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section
@@ -59,13 +79,19 @@ export default function Hero() {
             </div>
 
             {/* Stats row — bigger & bolder */}
-            <div className="mt-12 grid grid-cols-4 gap-4 border-t border-gray-200 dark:border-gray-800 pt-8">
+            <div className="mt-12 grid grid-cols-5 gap-4 border-t border-gray-200 dark:border-gray-800 pt-8">
               {t.stats.map((stat) => (
                 <div key={stat.label} className="text-center">
                   <p className="text-4xl font-extrabold text-teal-600 dark:text-teal-400 leading-none">{stat.value}</p>
                   <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 leading-tight">{stat.label}</p>
                 </div>
               ))}
+              {visitCount !== null && (
+                <div className="text-center">
+                  <p className="text-4xl font-extrabold text-teal-600 dark:text-teal-400 leading-none">{visitCount.toLocaleString()}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 leading-tight">{t.visitCounter.label}</p>
+                </div>
+              )}
             </div>
 
             {/* Tech badges */}
