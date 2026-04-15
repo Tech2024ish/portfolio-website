@@ -93,7 +93,7 @@ export default function Hero() {
 
           {/* Profile photo — large portrait */}
           <div className="flex-shrink-0">
-            <div className="w-64 h-80 md:w-72 md:h-96 rounded-3xl overflow-hidden border-4 border-teal-500 shadow-2xl shadow-teal-200/50 dark:shadow-teal-900/50">
+            <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-teal-500 shadow-2xl shadow-teal-200/50 dark:shadow-teal-900/50">
               <img
                 src={profilePic}
                 alt="Jean Claude ISHIMWE"
