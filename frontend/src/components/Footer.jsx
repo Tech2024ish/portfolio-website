@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
-import { getVisits, recordVisit } from "../api";
+
+const SUPABASE_URL = "https://fitbjtryrzrjlygbsrhx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_60qIprPzMyB0_jniDFCLig_EKx_lbxF";
 
 const navLinks = [
   { label: "About", href: "#hero" },
@@ -25,12 +27,22 @@ export default function Footer() {
   const [visitCount, setVisitCount] = useState(null);
 
   useEffect(() => {
-    recordVisit()
-      .then((res) => setVisitCount(res.data.count))
-      .catch(() => {
-        getVisits()
-          .then((res) => setVisitCount(res.data.count))
-          .catch(() => {});
+    const headers = {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    };
+
+    // Insert a visit row, then count total rows
+    fetch(`${SUPABASE_URL}/rest/v1/visits`, { method: "POST", headers, body: "{}" })
+      .finally(() => {
+        fetch(`${SUPABASE_URL}/rest/v1/visits?select=id`, {
+          headers: { ...headers, Prefer: "count=exact" },
+        }).then((res) => {
+          const count = parseInt(res.headers.get("content-range")?.split("/")[1] ?? "0");
+          setVisitCount(count);
+        }).catch(() => {});
       });
   }, []);
 
