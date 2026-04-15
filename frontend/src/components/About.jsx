@@ -15,6 +15,10 @@ export default function About() {
           </h2>
         </div>
 
+        <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto text-center mb-12">
+          {t.about.bio}
+        </p>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Education */}
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8">
