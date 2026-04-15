@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useInView } from "../hooks/useInView";
 
-import imgCybersecurity from "../images/gallery/Cisco_cybersecurity.jpg";
-import imgPython from "../images/gallery/Cisco_python_essential.jpg";
-import imgHTML from "../images/gallery/Cisco_HTML_essential.jpg";
-import imgIEE from "../images/gallery/IEEcertificate.jpg";
-import imgAward from "../images/gallery/ciscoAward.jpg";
+const STORAGE = "https://fitbjtryrzrjlygbsrhx.supabase.co/storage/v1/object/public/gallery";
+
+const imgCybersecurity = `${STORAGE}/Cisco_cybersecurity.jpg`;
+const imgPython        = `${STORAGE}/Cisco_python_essential.jpg`;
+const imgHTML          = `${STORAGE}/Cisco_HTML_essential.jpg`;
+const imgIEE           = `${STORAGE}/IEEcertificate.jpg`;
+const imgAward         = `${STORAGE}/ciscoAward.jpg`;
 
 const categoryColors = {
   Academic: "from-blue-500 to-indigo-600",
