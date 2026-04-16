@@ -35,7 +35,7 @@ export default function Hero() {
         <div className="flex flex-col md:flex-row items-center gap-16">
 
           {/* Text */}
-          <div className="flex-1 max-w-2xl">
+          <div className="flex-1 max-w-2xl order-2 md:order-1">
             {/* Location badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-50 dark:bg-teal-900/40 border border-teal-200 dark:border-teal-800 rounded-full text-teal-700 dark:text-teal-300 text-xs font-semibold tracking-wide mb-6">
               <span>📍</span> Kigali, Rwanda
@@ -108,7 +108,7 @@ export default function Hero() {
           </div>
 
           {/* Profile photo — large portrait */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 order-1 md:order-2">
             <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-teal-500 shadow-2xl shadow-teal-200/50 dark:shadow-teal-900/50">
               <img
                 src={profilePic}
