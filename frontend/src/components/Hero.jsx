@@ -16,14 +16,18 @@ export default function Hero() {
       apikey: SUPABASE_KEY,
       Authorization: `Bearer ${SUPABASE_KEY}`,
       "Content-Type": "application/json",
-      Prefer: "count=exact",
+      Prefer: "return=minimal",
     };
-    fetch(`${SUPABASE_URL}/rest/v1/visits?select=id`, { headers })
-      .then((res) => {
-        const count = parseInt(res.headers.get("content-range")?.split("/")[1] ?? "0");
-        setVisitCount(count);
-      })
-      .catch(() => {});
+
+    fetch(`${SUPABASE_URL}/rest/v1/visits`, { method: "POST", headers, body: "{}" })
+      .finally(() => {
+        fetch(`${SUPABASE_URL}/rest/v1/visits?select=id`, {
+          headers: { ...headers, Prefer: "count=exact" },
+        }).then((res) => {
+          const count = parseInt(res.headers.get("content-range")?.split("/")[1] ?? "0");
+          setVisitCount(count);
+        }).catch(() => {});
+      });
   }, []);
 
   return (

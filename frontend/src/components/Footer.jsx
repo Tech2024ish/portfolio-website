@@ -1,9 +1,3 @@
-import { useEffect, useState } from "react";
-import { useLanguage } from "../context/LanguageContext";
-
-const SUPABASE_URL = "https://fitbjtryrzrjlygbsrhx.supabase.co";
-const SUPABASE_KEY = "sb_publishable_60qIprPzMyB0_jniDFCLig_EKx_lbxF";
-
 const navLinks = [
   { label: "About", href: "#hero" },
   { label: "Projects", href: "#projects" },
@@ -23,29 +17,6 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const { t } = useLanguage();
-  const [visitCount, setVisitCount] = useState(null);
-
-  useEffect(() => {
-    const headers = {
-      apikey: SUPABASE_KEY,
-      Authorization: `Bearer ${SUPABASE_KEY}`,
-      "Content-Type": "application/json",
-      Prefer: "return=minimal",
-    };
-
-    // Insert a visit row, then count total rows
-    fetch(`${SUPABASE_URL}/rest/v1/visits`, { method: "POST", headers, body: "{}" })
-      .finally(() => {
-        fetch(`${SUPABASE_URL}/rest/v1/visits?select=id`, {
-          headers: { ...headers, Prefer: "count=exact" },
-        }).then((res) => {
-          const count = parseInt(res.headers.get("content-range")?.split("/")[1] ?? "0");
-          setVisitCount(count);
-        }).catch(() => {});
-      });
-  }, []);
-
   return (
     <footer className="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400 py-12">
       <div className="max-w-6xl mx-auto px-6">
@@ -86,11 +57,6 @@ export default function Footer() {
           <p className="text-center text-xs text-gray-400 dark:text-gray-600">
             &copy; {new Date().getFullYear()} Jean Claude ISHIMWE. All rights reserved.
           </p>
-          {visitCount !== null && (
-            <p className="text-center text-xs text-gray-400 dark:text-gray-600">
-              {visitCount.toLocaleString()} {t.visitCounter.label}
-            </p>
-          )}
         </div>
       </div>
     </footer>
