@@ -9,6 +9,7 @@ export const translations = {
       certifications: "Certifications",
       gallery: "Gallery",
       writing: "Writing",
+      hobbies: "Hobbies",
       contact: "Contact",
     },
     hero: {
@@ -62,6 +63,37 @@ export const translations = {
       interests: "Web & Mobile Development · AI & Machine Learning · Digital Service Solutions · Tech Communities · Hackathons",
       hobbiesTitle: "Hobbies",
       hobbies: "Reading · Swimming · Football · Movies · Technical Writing (Techinika)",
+    },
+    hobbies: {
+      sectionLabel: "Beyond the Code",
+      title: "My Hobbies",
+      items: [
+        {
+          title: "Football",
+          description: "Football is my greatest passion off the screen. Whether playing with friends or watching my favourite clubs, the beautiful game keeps me energized, focused, and always ready for teamwork.",
+          tags: ["Team Play", "Strategy", "Fitness"],
+        },
+        {
+          title: "Reading",
+          description: "Books are how I think beyond code. I read about systems, psychology, history, and technology — anything that helps me understand the world and how to build better things in it.",
+          tags: ["Knowledge", "Growth", "Focus"],
+        },
+        {
+          title: "Swimming",
+          description: "Swimming is where I reset. The rhythm of the water clears my mind and builds discipline — the same discipline I bring to solving hard problems.",
+          tags: ["Fitness", "Endurance", "Relaxation"],
+        },
+        {
+          title: "Watching Movies",
+          description: "Movies are my window to different worlds and perspectives. I love stories that challenge the mind — from sci-fi and thrillers to inspiring stories about people who dared to build something new.",
+          tags: ["Sci-Fi", "Thriller", "Drama"],
+        },
+        {
+          title: "Technical Writing",
+          description: "At Techinika, I write about software development, systems, and technology. Writing helps me think clearly, share what I learn, and contribute to the developer community.",
+          tags: ["Techinika", "Writing", "Teaching"],
+        },
+      ],
     },
     services: {
       sectionLabel: "What I Offer",
@@ -208,6 +240,7 @@ export const translations = {
       certifications: "Certifications",
       gallery: "Galerie",
       writing: "Articles",
+      hobbies: "Loisirs",
       contact: "Contact",
     },
     hero: {
@@ -261,6 +294,37 @@ export const translations = {
       interests: "Développement Web & Mobile · Intelligence Artificielle · Solutions numériques · Communautés tech · Hackathons",
       hobbiesTitle: "Loisirs",
       hobbies: "Lecture · Natation · Football · Cinéma · Rédaction technique (Techinika)",
+    },
+    hobbies: {
+      sectionLabel: "Au-delà du code",
+      title: "Mes Loisirs",
+      items: [
+        {
+          title: "Football",
+          description: "Le football est ma plus grande passion en dehors de l'écran. Que ce soit jouer avec des amis ou suivre mes clubs préférés, ce sport me garde énergisé, concentré et toujours prêt pour le travail d'équipe.",
+          tags: ["Jeu d'équipe", "Stratégie", "Fitness"],
+        },
+        {
+          title: "Lecture",
+          description: "Les livres me permettent de penser au-delà du code. Je lis sur les systèmes, la psychologie, l'histoire et la technologie — tout ce qui m'aide à comprendre le monde et à mieux construire.",
+          tags: ["Connaissance", "Croissance", "Focus"],
+        },
+        {
+          title: "Natation",
+          description: "La natation est mon espace de ressourcement. Le rythme de l'eau libère mon esprit et forge la discipline — la même discipline que j'apporte à la résolution de problèmes complexes.",
+          tags: ["Fitness", "Endurance", "Relaxation"],
+        },
+        {
+          title: "Cinéma",
+          description: "Les films sont ma fenêtre vers d'autres mondes et perspectives. J'aime les histoires qui font réfléchir — de la science-fiction aux thrillers en passant par des récits inspirants.",
+          tags: ["Sci-Fi", "Thriller", "Drame"],
+        },
+        {
+          title: "Rédaction technique",
+          description: "Chez Techinika, j'écris sur le développement logiciel, les systèmes et la technologie. Écrire m'aide à penser clairement, partager ce que j'apprends et contribuer à la communauté.",
+          tags: ["Techinika", "Rédaction", "Enseignement"],
+        },
+      ],
     },
     services: {
       sectionLabel: "Ce que je propose",
@@ -398,6 +462,7 @@ export const translations = {
       certifications: "Impamyabumenyi",
       gallery: "Amafoto",
       writing: "Inyandiko",
+      hobbies: "Imyidagaduro",
       contact: "Wasiliana",
     },
     hero: {
@@ -451,6 +516,37 @@ export const translations = {
       interests: "Iterambere ry'Urubuga & Telefoni · Ubwenge Bw'Artificial · Ibisubizo bya Cyifuzo · Sosiyete za Tech · Hackathons",
       hobbiesTitle: "Imyidagaduro",
       hobbies: "Gusoma · Gutera mu mazi · Gukina Umupira · Filime · Kwandika ikoranabuhanga (Techinika)",
+    },
+    hobbies: {
+      sectionLabel: "Hejuru ya Code",
+      title: "Imyidagaduro Yanjye",
+      items: [
+        {
+          title: "Gukina Umupira",
+          description: "Umupira ni urukundo rwanjye rukomeye hanze y'ikoranabuhanga. Naba nkina n'inshuti cyangwa nkurikira amakipe anjye akunda, umupira unkomeza, untera ingufu kandi unhugura gukorana n'abandi.",
+          tags: ["Gukorana", "Ingamba", "Imyitozo"],
+        },
+        {
+          title: "Gusoma",
+          description: "Ibitabo ni uburyo ntekereza hejuru ya code. Nsoma ku sisitemu, psychologie, amateka n'ikoranabuhanga — byose bishobora kunfasha gusobanukirwa isi no kubaka ibintu byiza.",
+          tags: ["Ubumenyi", "Iterambere", "Gutekereza"],
+        },
+        {
+          title: "Gutera mu Mazi",
+          description: "Gutera mu mazi ni aho nsubira. Intera y'amazi isunika imitima yanjye kandi igahuza imyitozo - imyitozo nzana mu gukemura ibibazo bikomeye.",
+          tags: ["Imyitozo", "Kunanira", "Kuruhuka"],
+        },
+        {
+          title: "Kureba Filime",
+          description: "Filime ni idirishya ryanjye ku isi n'ibitekerezo bitandukanye. Nkunda inkuru zitera gutekereza - kuva sci-fi na thriller kugeza ku biganiro bishimishije.",
+          tags: ["Sci-Fi", "Thriller", "Drama"],
+        },
+        {
+          title: "Kwandika Ikoranabuhanga",
+          description: "Muri Techinika, nandika ku iterambere rya software, sisitemu n'ikoranabuhanga. Kwandika birantabaza gutekereza neza, congera ibyo nize kandi ngabana n'abandi.",
+          tags: ["Techinika", "Kwandika", "Kwigisha"],
+        },
+      ],
     },
     services: {
       sectionLabel: "Ibyo Natanga",

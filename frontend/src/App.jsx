@@ -10,6 +10,7 @@ import Skills from './components/Skills'
 import Certifications from './components/Certifications'
 import PhotoGallery from './components/PhotoGallery'
 import Writing from './components/Writing'
+import Hobbies from './components/Hobbies'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import BackToTop from './components/BackToTop'
@@ -29,6 +30,7 @@ function App() {
             <Certifications />
             <PhotoGallery />
             <Writing />
+            <Hobbies />
             <Contact />
           </main>
           <Footer />

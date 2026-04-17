@@ -73,12 +73,6 @@ export default function About() {
               </div>
             </div>
 
-            {/* Hobbies */}
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{t.about.hobbiesTitle}</h3>
-              <div className="w-10 h-0.5 bg-teal-500 mb-6" />
-              <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{t.about.hobbies}</p>
-            </div>
           </div>
         </div>
       </div>
