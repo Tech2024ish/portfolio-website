@@ -15,7 +15,7 @@ export const translations = {
     hero: {
       greeting: "Hi, I'm",
       welcome: "Full-stack developer building scalable, real-world products.",
-      subwelcome: "I design systems that solve actual problems - focusing on performance, clean architecture, and intuitive user experience. Not just shipping features, but building software people can rely on.",
+      subwelcome: "CS student at the University of Rwanda, College of Science and Technology. I design systems that solve actual problems - focusing on performance, clean architecture, and intuitive user experience.",
       typewords: ["Full-Stack Developer", "Backend Developer", "Python Developer", "Software Developer", "ML/AI Enthusiast", "Problem Solver"],
       bio: "CS student at the University of Rwanda, training with A2SV, and obsessed with writing software that actually works.",
       viewProjects: "View Projects",
@@ -253,7 +253,7 @@ export const translations = {
     hero: {
       greeting: "Bonjour, je suis",
       welcome: "Développeur full-stack construisant des produits évolutifs et concrets.",
-      subwelcome: "Je conçois des systèmes qui résolvent de vrais problèmes - en me concentrant sur la performance, une architecture propre et une expérience utilisateur intuitive.",
+      subwelcome: "Étudiant en informatique à l'Université du Rwanda, Collège des Sciences et Technologies. Je conçois des systèmes qui résolvent de vrais problèmes - en me concentrant sur la performance, une architecture propre et une expérience utilisateur intuitive.",
       typewords: ["Développeur Full-Stack", "Développeur Backend", "Développeur Python", "Développeur Logiciel", "Passionné de ML/IA", "Solutionneur de Problèmes"],
       bio: "Étudiant en informatique à l'Université du Rwanda, en formation avec A2SV, et passionné par l'écriture de logiciels qui fonctionnent vraiment.",
       viewProjects: "Voir mes projets",
@@ -482,7 +482,7 @@ export const translations = {
     hero: {
       greeting: "Muraho, nitwa",
       welcome: "Umuprogrameri wuzuye ubaka ibicuruzwa bikura kandi bikorana neza.",
-      subwelcome: "Nshyiraho sisitemu zikemura ibibazo by'ukuri - nifuza imikorere myiza, imiterere isukuye, n'uburyo bw'gukoresha bworoshye.",
+      subwelcome: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, Koleji y'Siyansi n'Ikoranabuhanga. Nshyiraho sisitemu zikemura ibibazo by'ukuri - nifuza imikorere myiza, imiterere isukuye, n'uburyo bw'gukoresha bworoshye.",
       typewords: ["Umuprogrameri Wuzuye", "Umuprogrameri wa Backend", "Umuprogrameri wa Python", "Umuprogrameri wa Software", "Ukunzwe ML/AI", "Gukemura Ibibazo"],
       bio: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, uhugurwa na A2SV, kandi nkunda kwandika porogaramu zikorana neza.",
       viewProjects: "Reba Imishinga",
