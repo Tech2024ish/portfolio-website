@@ -75,17 +75,17 @@ export const translations = {
         },
         {
           title: "Reading",
-          description: "Books are how I think beyond code. I read about systems, psychology, history, and technology — anything that helps me understand the world and how to build better things in it.",
+          description: "Books are how I think beyond code. I read about systems, psychology, history, and technology - anything that helps me understand the world and how to build better things in it.",
           tags: ["Knowledge", "Growth", "Focus"],
         },
         {
           title: "Swimming",
-          description: "Swimming is where I reset. The rhythm of the water clears my mind and builds discipline — the same discipline I bring to solving hard problems.",
+          description: "Swimming is where I reset. The rhythm of the water clears my mind and builds discipline - the same discipline I bring to solving hard problems.",
           tags: ["Fitness", "Endurance", "Relaxation"],
         },
         {
           title: "Watching Movies",
-          description: "Movies are my window to different worlds and perspectives. I love stories that challenge the mind — from sci-fi and thrillers to inspiring stories about people who dared to build something new.",
+          description: "Movies are my window to different worlds and perspectives. I love stories that challenge the mind - from sci-fi and thrillers to inspiring stories about people who dared to build something new.",
           tags: ["Sci-Fi", "Thriller", "Drama"],
         },
         {
@@ -94,6 +94,11 @@ export const translations = {
           tags: ["Techinika", "Digital Innovation", "Africa Tech"],
           link: "https://techinika.com/author/ishimwe",
           linkLabel: "Read my articles",
+        },
+        {
+          title: "Listening to Music",
+          description: "Music is my constant companion - whether coding late at night, taking a walk, or unwinding after a long day. Good rhythms fuel creativity and keep the mind in flow state.",
+          tags: ["Afrobeats", "Hip-Hop", "Gospel"],
         },
       ],
     },
@@ -156,7 +161,7 @@ export const translations = {
         },
         {
           title: "ML/AI Enthusiast",
-          desc: "Actively exploring machine learning concepts, building small models, and learning how AI can solve real-world problems — especially in the African context.",
+          desc: "Actively exploring machine learning concepts, building small models, and learning how AI can solve real-world problems - especially in the African context.",
           tags: ["Machine Learning", "Artificial Intelligence", "Python for AI", "NumPy", "Pandas", "Scikit-learn"],
         },
       ],
@@ -308,17 +313,17 @@ export const translations = {
         },
         {
           title: "Lecture",
-          description: "Les livres me permettent de penser au-delà du code. Je lis sur les systèmes, la psychologie, l'histoire et la technologie — tout ce qui m'aide à comprendre le monde et à mieux construire.",
+          description: "Les livres me permettent de penser au-delà du code. Je lis sur les systèmes, la psychologie, l'histoire et la technologie - tout ce qui m'aide à comprendre le monde et à mieux construire.",
           tags: ["Connaissance", "Croissance", "Focus"],
         },
         {
           title: "Natation",
-          description: "La natation est mon espace de ressourcement. Le rythme de l'eau libère mon esprit et forge la discipline — la même discipline que j'apporte à la résolution de problèmes complexes.",
+          description: "La natation est mon espace de ressourcement. Le rythme de l'eau libère mon esprit et forge la discipline - la même discipline que j'apporte à la résolution de problèmes complexes.",
           tags: ["Fitness", "Endurance", "Relaxation"],
         },
         {
           title: "Cinéma",
-          description: "Les films sont ma fenêtre vers d'autres mondes et perspectives. J'aime les histoires qui font réfléchir — de la science-fiction aux thrillers en passant par des récits inspirants.",
+          description: "Les films sont ma fenêtre vers d'autres mondes et perspectives. J'aime les histoires qui font réfléchir - de la science-fiction aux thrillers en passant par des récits inspirants.",
           tags: ["Sci-Fi", "Thriller", "Drame"],
         },
         {
@@ -327,6 +332,11 @@ export const translations = {
           tags: ["Techinika", "Innovation numérique", "Tech Afrique"],
           link: "https://techinika.com/author/ishimwe",
           linkLabel: "Lire mes articles",
+        },
+        {
+          title: "Écouter de la musique",
+          description: "La musique est ma compagne constante - que ce soit en codant tard le soir, en marchant ou en me détendant après une longue journée. Les bons rythmes stimulent la créativité.",
+          tags: ["Afrobeats", "Hip-Hop", "Gospel"],
         },
       ],
     },
@@ -532,7 +542,7 @@ export const translations = {
         },
         {
           title: "Gusoma",
-          description: "Ibitabo ni uburyo ntekereza hejuru ya code. Nsoma ku sisitemu, psychologie, amateka n'ikoranabuhanga — byose bishobora kunfasha gusobanukirwa isi no kubaka ibintu byiza.",
+          description: "Ibitabo ni uburyo ntekereza hejuru ya code. Nsoma ku sisitemu, psychologie, amateka n'ikoranabuhanga - byose bishobora kunfasha gusobanukirwa isi no kubaka ibintu byiza.",
           tags: ["Ubumenyi", "Iterambere", "Gutekereza"],
         },
         {
@@ -551,6 +561,11 @@ export const translations = {
           tags: ["Techinika", "Iterambere ry'Ikoranabuhanga", "Tech Afrika"],
           link: "https://techinika.com/author/ishimwe",
           linkLabel: "Soma inyandiko zanjye",
+        },
+        {
+          title: "Kumva Indirimbo",
+          description: "Indirimbo ni inshuti yanjye buri gihe - naba nkora code nijoro, ngendera, cyangwa nsubiza umuriro w'umunsi. Indirimbo nziza zitera ubwenge kandi zibuka umutima mu buryo bwiza.",
+          tags: ["Afrobeats", "Hip-Hop", "Gospel"],
         },
       ],
     },
