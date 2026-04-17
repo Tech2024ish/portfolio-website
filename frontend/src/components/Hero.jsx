@@ -50,7 +50,7 @@ export default function Hero() {
             </p>
             <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
               {t.hero.greeting}{" "}
-              <span className="text-teal-600 dark:text-teal-400">Jean Claude</span>
+              <span className="text-teal-600 dark:text-teal-400">Jean Claude ISHIMWE</span>
             </h1>
 
             {/* Typewriter subtitle */}
