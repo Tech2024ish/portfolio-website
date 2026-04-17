@@ -113,7 +113,7 @@ export default function Hero() {
           </div>
 
           {/* Profile photo — large portrait */}
-          <div className="flex-shrink-0 order-1 md:order-2">
+          <div className="flex-shrink-0 order-1 md:order-2 md:self-start md:pt-8">
             <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-teal-500 shadow-2xl shadow-teal-200/50 dark:shadow-teal-900/50">
               <img
                 src={profilePic}
