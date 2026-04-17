@@ -49,7 +49,7 @@ export default function Hero() {
               {t.hero.welcome}
             </p>
             <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
-              Hi, I&apos;m{" "}
+              {t.hero.greeting}{" "}
               <span className="text-teal-600 dark:text-teal-400">Jean Claude</span>
             </h1>
 

@@ -11,6 +11,7 @@ export const translations = {
       contact: "Contact",
     },
     hero: {
+      greeting: "Hi, I'm",
       welcome: "Welcome to my portfolio",
       typewords: ["CS Student & Aspiring Developer", "Python Developer", "Software Developer", "Data Structures & Algorithms", "ML/AI Enthusiast", "Problem Solver"],
       bio: "CS student at the University of Rwanda, building projects in Python, Java and JavaScript.",
@@ -180,6 +181,7 @@ export const translations = {
       contact: "Contact",
     },
     hero: {
+      greeting: "Bonjour, je suis",
       welcome: "Bienvenue sur mon portfolio",
       typewords: ["Étudiant en Informatique", "Développeur Python", "Développeur Web", "Structures de Données & Algorithmes", "Passionné de ML/IA", "Solutionneur de Problèmes"],
       bio: "Étudiant en informatique à l'Université du Rwanda, développant des projets en Python, Java et JavaScript.",
@@ -340,6 +342,7 @@ export const translations = {
       contact: "Wasiliana",
     },
     hero: {
+      greeting: "Muraho, nitwa",
       welcome: "Murakaza neza kuri portfolio yanjye",
       typewords: ["Umunyeshuri wa Informatique", "Umuprogrameri wa Python", "Umuprogrameri w'Urubuga", "Structures z'Amakuru & Algorithms", "Ukunzwe ML/AI", "Gukemura Ibibazo"],
       bio: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, wubaka imishinga mu Python, Java na JavaScript.",
