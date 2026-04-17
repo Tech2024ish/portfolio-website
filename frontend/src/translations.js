@@ -34,7 +34,7 @@ export const translations = {
       educationTitle: "Education",
       degree: "Bachelor of Computer Science",
       university: "University of Rwanda",
-      expectedGrad: "Expected Graduation: 2028",
+      expectedGrad: "Ongoing",
       courseworkLabel: "Relevant Coursework",
       coursework: [
         "Python Programming",
@@ -231,7 +231,7 @@ export const translations = {
       educationTitle: "Formation",
       degree: "Licence en Informatique",
       university: "Université du Rwanda",
-      expectedGrad: "Diplôme prévu : 2028",
+      expectedGrad: "En cours",
       courseworkLabel: "Cours suivis",
       coursework: [
         "Programmation Python",
@@ -419,7 +419,7 @@ export const translations = {
       educationTitle: "Amashuri",
       degree: "Bachelorale mu Siyansi y'Ikoranabuhanga",
       university: "Kaminuza y'u Rwanda",
-      expectedGrad: "Itariki y'inzobere: 2028",
+      expectedGrad: "Irakomeje",
       courseworkLabel: "Amasomo yigishijwe",
       coursework: [
         "Porogaramu ya Python",
