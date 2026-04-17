@@ -133,6 +133,10 @@ export const translations = {
           title: "Book Notes App",
           description: "Problem: Readers often lose track of key ideas and insights from books. Solution: Built an app to store, organize, and retrieve notes efficiently. Impact: Improves knowledge retention and makes insights easier to revisit and apply.",
         },
+        {
+          title: "School Management System",
+          description: "Problem: Managing students, grades, and school operations manually is inefficient and error-prone. Solution: Built a full web application to handle student records, course management, and administrative workflows. Impact: Demonstrates real-world enterprise Java development with a relational database backend.",
+        },
       ],
     },
     skills: {
@@ -362,6 +366,7 @@ export const translations = {
         { title: "Commentto – Assistant de Rédaction IA", description: "Problème : interagir avec du contenu en ligne implique une écriture répétitive qui ralentit les utilisateurs. Solution : extension Chrome utilisant l'IA pour générer des commentaires et résumés contextuels directement dans le navigateur. Impact : réduit l'effort d'écriture et améliore l'interaction avec le contenu." },
         { title: "Myotrek – App de Suivi Fitness", description: "Problème : suivre ses entraînements régulièrement est difficile sans un système simple. Solution : application mobile pour suivre les entraînements, routines et progression. Impact : encourage la régularité grâce à une interface claire et facile à utiliser." },
         { title: "Book Notes App", description: "Problème : les lecteurs perdent souvent de vue les idées clés des livres. Solution : application pour stocker, organiser et retrouver des notes efficacement. Impact : améliore la rétention des connaissances et facilite la révision des idées." },
+        { title: "Système de Gestion Scolaire", description: "Problème : gérer les élèves, les notes et les opérations scolaires manuellement est inefficace. Solution : application web complète pour gérer les dossiers des élèves, les cours et les flux administratifs. Impact : démontre un développement Java entreprise réel avec une base de données relationnelle." },
       ],
     },
     skills: {
@@ -591,6 +596,7 @@ export const translations = {
         { title: "Commentto – Umufasha w'Inyandiko wa AI", description: "Ikibazo: gutumanahana na murandasi bisaba kwandika bindi na bindi bigatinda. Igisubizo: nubatse extension ya Chrome ikoresha AI gushyiraho ibitekerezo n'incamake mu buryo bwikora. Ingaruka: igabanya umuhangayiko wo kwandika kandi ikomeza uburyo abakoresha bakorana n'ibikubiyemo." },
         { title: "Myotrek – App yo Gukurikirana Imyitozo", description: "Ikibazo: gukurikirana imyitozo buri gihe bigorana nta sisitemu yoroshye. Igisubizo: nubatse porogaramu ya telefoni yo gukurikirana imyitozo, inzira, n'iterambere. Ingaruka: ishishikariza imyitozo buri gihe binyuze mu interface yoroha." },
         { title: "Book Notes App", description: "Ikibazo: abasomyi bakunze gutesha agaciro ibitekerezo by'ibanze mu bitabo. Igisubizo: nubatse porogaramu yo kubika, gutondekanya no gushakisha amanotisi mu buryo bworoshye. Ingaruka: itera imbere uko ubumenyi bukomezwa kandi uboneka vuba." },
+        { title: "Sisitemu yo Gucunga Amashuri", description: "Ikibazo: gucunga abanyeshuri, amanota n'ibikorwa by'ishuri mu buryo bw'intoki bigorana kandi bigira amakosa. Igisubizo: nubatse porogaramu yuzuye yo gucunga inyandiko z'abanyeshuri, amasomo n'imirimo y'ubutegetsi. Ingaruka: yerekana iterambere rya Java y'inganda y'ukuri hamwe na bazidata ifitanye isano." },
       ],
     },
     skills: {

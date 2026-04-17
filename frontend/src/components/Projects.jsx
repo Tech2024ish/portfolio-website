@@ -18,6 +18,11 @@ const projectMeta = [
     live_url: null,
     tech_stack: ['FastAPI', 'Databases', 'REST APIs'],
   },
+  {
+    github_url: 'https://github.com/Tech2024ish/SchoolManagementSystem',
+    live_url: null,
+    tech_stack: ['JSP', 'JSF', 'MySQL', 'ORM'],
+  },
 ]
 
 function ProjectCard({ project, github, liveDemo }) {
