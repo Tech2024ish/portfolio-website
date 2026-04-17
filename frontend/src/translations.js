@@ -14,7 +14,7 @@ export const translations = {
     hero: {
       greeting: "Hi, I'm",
       welcome: "Full-stack developer building scalable, real-world products.",
-      subwelcome: "I design systems that solve actual problems — focusing on performance, clean architecture, and intuitive user experience. Not just shipping features, but building software people can rely on.",
+      subwelcome: "I design systems that solve actual problems - focusing on performance, clean architecture, and intuitive user experience. Not just shipping features, but building software people can rely on.",
       typewords: ["Full-Stack Developer", "Backend Developer", "Python Developer", "Software Developer", "ML/AI Enthusiast", "Problem Solver"],
       bio: "CS student at the University of Rwanda, training with A2SV, and obsessed with writing software that actually works.",
       viewProjects: "View Projects",
@@ -30,7 +30,7 @@ export const translations = {
     about: {
       sectionLabel: "Background",
       title: "About Me",
-      bio: "I'm a full-stack developer focused on building systems that work beyond demos — software that is reliable, scalable, and practical in real-world use. I care about how applications are structured, how they perform under load, and how users actually experience them. My approach combines backend logic, system design, and clean, intuitive interfaces. I enjoy turning ideas into production-ready products, constantly improving how I design, build, and ship software.",
+      bio: "I'm a full-stack developer focused on building systems that work beyond demos - software that is reliable, scalable, and practical in real-world use. I care about how applications are structured, how they perform under load, and how users actually experience them. My approach combines backend logic, system design, and clean, intuitive interfaces. I enjoy turning ideas into production-ready products, constantly improving how I design, build, and ship software.",
       educationTitle: "Education",
       degree: "Bachelor of Computer Science",
       university: "University of Rwanda",
@@ -152,19 +152,19 @@ export const translations = {
     writing: {
       sectionLabel: "Thoughts",
       title: "Writing",
-      subtitle: "I write about what I learn while building — from technical challenges to ideas about systems and development.",
+      subtitle: "I write about what I learn while building - from technical challenges to ideas about systems and development.",
       articles: [
         {
           title: "What Building This Portfolio Taught Me About Full-Stack Development",
-          body: "Starting this project, I thought the hard part would be the frontend. I was wrong. The real challenge was wiring everything together — React talking to FastAPI, FastAPI talking to Supabase, environment variables, CORS, deployment. Every layer had its own failure mode. What I learned: full-stack isn't about knowing everything, it's about understanding how the pieces connect and debugging confidently when they don't.",
+          body: "Starting this project, I thought the hard part would be the frontend. I was wrong. The real challenge was wiring everything together - React talking to FastAPI, FastAPI talking to Supabase, environment variables, CORS, deployment. Every layer had its own failure mode. What I learned: full-stack isn't about knowing everything, it's about understanding how the pieces connect and debugging confidently when they don't.",
         },
         {
           title: "What A2SV Is Teaching Me About Problem Solving",
-          body: "Before A2SV, I thought I was decent at coding. Then I sat in front of problems that required me to think in ways I never had. Data structures aren't just theory — they're tools. The difference between O(n²) and O(n log n) is the difference between software that scales and software that doesn't. A2SV didn't just teach me algorithms, it taught me how to think before I write a single line of code.",
+          body: "Before A2SV, I thought I was decent at coding. Then I sat in front of problems that required me to think in ways I never had. Data structures aren't just theory - they're tools. The difference between O(n²) and O(n log n) is the difference between software that scales and software that doesn't. A2SV didn't just teach me algorithms, it taught me how to think before I write a single line of code.",
         },
         {
           title: "Why I Build Things",
-          body: "I didn't get into software because of a career plan. I got into it because I was curious — curious about how things work, and whether I could make them work better. That curiosity is what drives every project. Not the tech stack, not the resume line. The question: can I build something that actually works for someone?",
+          body: "I didn't get into software because of a career plan. I got into it because I was curious - curious about how things work, and whether I could make them work better. That curiosity is what drives every project. Not the tech stack, not the resume line. The question: can I build something that actually works for someone?",
         },
       ],
     },
@@ -174,7 +174,7 @@ export const translations = {
     contact: {
       sectionLabel: "Get In Touch",
       title: "Contact Me",
-      subtitle: "Interested in working together or have something in mind? Feel free to reach out — I'm always open to discussing ideas, projects, or opportunities. Let's build something meaningful.",
+      subtitle: "Interested in working together or have something in mind? Feel free to reach out - I'm always open to discussing ideas, projects, or opportunities. Let's build something meaningful.",
       infoTitle: "Contact Information",
       infoSubtitle: "Feel free to reach out to me for any inquiries or collaboration opportunities.",
       locationLabel: "Location",
@@ -211,7 +211,7 @@ export const translations = {
     hero: {
       greeting: "Bonjour, je suis",
       welcome: "Développeur full-stack construisant des produits évolutifs et concrets.",
-      subwelcome: "Je conçois des systèmes qui résolvent de vrais problèmes — en me concentrant sur la performance, une architecture propre et une expérience utilisateur intuitive.",
+      subwelcome: "Je conçois des systèmes qui résolvent de vrais problèmes - en me concentrant sur la performance, une architecture propre et une expérience utilisateur intuitive.",
       typewords: ["Développeur Full-Stack", "Développeur Backend", "Développeur Python", "Développeur Logiciel", "Passionné de ML/IA", "Solutionneur de Problèmes"],
       bio: "Étudiant en informatique à l'Université du Rwanda, en formation avec A2SV, et passionné par l'écriture de logiciels qui fonctionnent vraiment.",
       viewProjects: "Voir mes projets",
@@ -227,7 +227,7 @@ export const translations = {
     about: {
       sectionLabel: "Parcours",
       title: "À propos de moi",
-      bio: "Je suis un développeur full-stack focalisé sur la création de systèmes qui fonctionnent au-delà des démos — des logiciels fiables, évolutifs et pratiques. Je m'intéresse à la structure des applications, à leur performance sous charge, et à l'expérience réelle des utilisateurs. Mon approche combine la logique backend, la conception de systèmes et des interfaces propres et intuitives. J'aime transformer des idées en produits prêts pour la production.",
+      bio: "Je suis un développeur full-stack focalisé sur la création de systèmes qui fonctionnent au-delà des démos - des logiciels fiables, évolutifs et pratiques. Je m'intéresse à la structure des applications, à leur performance sous charge, et à l'expérience réelle des utilisateurs. Mon approche combine la logique backend, la conception de systèmes et des interfaces propres et intuitives. J'aime transformer des idées en produits prêts pour la production.",
       educationTitle: "Formation",
       degree: "Licence en Informatique",
       university: "Université du Rwanda",
@@ -340,19 +340,19 @@ export const translations = {
     writing: {
       sectionLabel: "Réflexions",
       title: "Articles",
-      subtitle: "J'écris sur ce que j'apprends en construisant — des défis techniques aux idées sur les systèmes et le développement.",
+      subtitle: "J'écris sur ce que j'apprends en construisant - des défis techniques aux idées sur les systèmes et le développement.",
       articles: [
         {
           title: "Ce que construire ce portfolio m'a appris sur le développement full-stack",
-          body: "En démarrant ce projet, je pensais que la partie difficile serait le frontend. Je me trompais. Le vrai défi était de tout connecter — React parlant à FastAPI, FastAPI parlant à Supabase, les variables d'environnement, CORS, le déploiement. Chaque couche avait ses propres points de défaillance. Ce que j'ai appris : le full-stack ne consiste pas à tout savoir, mais à comprendre comment les pièces s'assemblent et à déboguer avec confiance quand elles ne le font pas.",
+          body: "En démarrant ce projet, je pensais que la partie difficile serait le frontend. Je me trompais. Le vrai défi était de tout connecter - React parlant à FastAPI, FastAPI parlant à Supabase, les variables d'environnement, CORS, le déploiement. Chaque couche avait ses propres points de défaillance. Ce que j'ai appris : le full-stack ne consiste pas à tout savoir, mais à comprendre comment les pièces s'assemblent et à déboguer avec confiance quand elles ne le font pas.",
         },
         {
           title: "Ce que A2SV m'apprend sur la résolution de problèmes",
-          body: "Avant A2SV, je pensais être correct en programmation. Puis je me suis retrouvé face à des problèmes qui m'obligeaient à penser d'une façon que je n'avais jamais eue. Les structures de données ne sont pas que de la théorie — ce sont des outils. La différence entre O(n²) et O(n log n) est la différence entre un logiciel qui passe à l'échelle et un qui ne le fait pas. A2SV ne m'a pas seulement appris les algorithmes, il m'a appris à réfléchir avant d'écrire une seule ligne de code.",
+          body: "Avant A2SV, je pensais être correct en programmation. Puis je me suis retrouvé face à des problèmes qui m'obligeaient à penser d'une façon que je n'avais jamais eue. Les structures de données ne sont pas que de la théorie - ce sont des outils. La différence entre O(n²) et O(n log n) est la différence entre un logiciel qui passe à l'échelle et un qui ne le fait pas. A2SV ne m'a pas seulement appris les algorithmes, il m'a appris à réfléchir avant d'écrire une seule ligne de code.",
         },
         {
           title: "Pourquoi je construis des choses",
-          body: "Je ne me suis pas lancé dans le logiciel à cause d'un plan de carrière. Je l'ai fait parce que j'étais curieux — curieux de savoir comment les choses fonctionnent, et si je pouvais les faire fonctionner mieux. Cette curiosité est ce qui motive chaque projet. Pas la stack technique, pas la ligne sur le CV. La question : est-ce que je peux construire quelque chose qui fonctionne vraiment pour quelqu'un ?",
+          body: "Je ne me suis pas lancé dans le logiciel à cause d'un plan de carrière. Je l'ai fait parce que j'étais curieux - curieux de savoir comment les choses fonctionnent, et si je pouvais les faire fonctionner mieux. Cette curiosité est ce qui motive chaque projet. Pas la stack technique, pas la ligne sur le CV. La question : est-ce que je peux construire quelque chose qui fonctionne vraiment pour quelqu'un ?",
         },
       ],
     },
@@ -362,7 +362,7 @@ export const translations = {
     contact: {
       sectionLabel: "Me contacter",
       title: "Contact",
-      subtitle: "Intéressé par une collaboration ou une idée en tête ? N'hésitez pas à me contacter — je suis toujours ouvert à discuter d'idées, de projets ou d'opportunités. Construisons quelque chose de significatif.",
+      subtitle: "Intéressé par une collaboration ou une idée en tête ? N'hésitez pas à me contacter - je suis toujours ouvert à discuter d'idées, de projets ou d'opportunités. Construisons quelque chose de significatif.",
       infoTitle: "Informations de Contact",
       infoSubtitle: "N'hésitez pas à me contacter pour toute question ou opportunité de collaboration.",
       locationLabel: "Localisation",
@@ -399,7 +399,7 @@ export const translations = {
     hero: {
       greeting: "Muraho, nitwa",
       welcome: "Umuprogrameri wuzuye ubaka ibicuruzwa bikura kandi bikorana neza.",
-      subwelcome: "Nshyiraho sisitemu zikemura ibibazo by'ukuri — nifuza imikorere myiza, imiterere isukuye, n'uburyo bw'gukoresha bworoshye.",
+      subwelcome: "Nshyiraho sisitemu zikemura ibibazo by'ukuri - nifuza imikorere myiza, imiterere isukuye, n'uburyo bw'gukoresha bworoshye.",
       typewords: ["Umuprogrameri Wuzuye", "Umuprogrameri wa Backend", "Umuprogrameri wa Python", "Umuprogrameri wa Software", "Ukunzwe ML/AI", "Gukemura Ibibazo"],
       bio: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, uhugurwa na A2SV, kandi nkunda kwandika porogaramu zikorana neza.",
       viewProjects: "Reba Imishinga",
@@ -415,7 +415,7 @@ export const translations = {
     about: {
       sectionLabel: "Imiterere",
       title: "Ibyanjye",
-      bio: "Ndi umuprogrameri wuzuye wishimira kubaka sisitemu zikorana neza no gukuraho ibibazo by'ukuri — porogaramu zizerika, zikura kandi zikoreshwa neza. Nifuza uburyo porogaramu zubatswe, uko zikorera igihe ziremerewe, n'uburyo abakoresha bazisanga zifite akamaro. Ingamba yanjye ishyira hamwe logic ya backend, imiterere ya sisitemu, n'interface isukuye yorohera. Nkunda guhindura ibitekerezo mu bicuruzwa biteganijwe gukoreshwa mu buryo bw'ukuri.",
+      bio: "Ndi umuprogrameri wuzuye wishimira kubaka sisitemu zikorana neza no gukuraho ibibazo by'ukuri - porogaramu zizerika, zikura kandi zikoreshwa neza. Nifuza uburyo porogaramu zubatswe, uko zikorera igihe ziremerewe, n'uburyo abakoresha bazisanga zifite akamaro. Ingamba yanjye ishyira hamwe logic ya backend, imiterere ya sisitemu, n'interface isukuye yorohera. Nkunda guhindura ibitekerezo mu bicuruzwa biteganijwe gukoreshwa mu buryo bw'ukuri.",
       educationTitle: "Amashuri",
       degree: "Bachelorale mu Siyansi y'Ikoranabuhanga",
       university: "Kaminuza y'u Rwanda",
@@ -528,19 +528,19 @@ export const translations = {
     writing: {
       sectionLabel: "Ibitekerezo",
       title: "Inyandiko",
-      subtitle: "Nandika ibyo niga mu gihe nubaka — kuva ibibazo by'ikoranabuhanga kugeza ku bitekerezo ku sisitemu.",
+      subtitle: "Nandika ibyo niga mu gihe nubaka - kuva ibibazo by'ikoranabuhanga kugeza ku bitekerezo ku sisitemu.",
       articles: [
         {
           title: "Ibyo kubaka uru portfolio bimonzeho ku iterambere ryuzuye",
-          body: "Natangiye uyu mushinga ntekereza ko igice gikomeye ari frontend. Nari nfite ikosa. Ikibazo nyakuri cyari guhuza ibintu byose hamwe — React iganira na FastAPI, FastAPI iganira na Supabase, amabwiriza y'ibidukikije, CORS, no gutangaza. Buri rugero rwari rufite ibibazo byarwo. Ibyo nize: kuba umuprogrameri wuzuye ntabwo ari ukumenya byose — ni ukumva uburyo ibice bihuza kandi wigire ubutwari mu gushakisha impamvu igihe bitagenda neza.",
+          body: "Natangiye uyu mushinga ntekereza ko igice gikomeye ari frontend. Nari nfite ikosa. Ikibazo nyakuri cyari guhuza ibintu byose hamwe - React iganira na FastAPI, FastAPI iganira na Supabase, amabwiriza y'ibidukikije, CORS, no gutangaza. Buri rugero rwari rufite ibibazo byarwo. Ibyo nize: kuba umuprogrameri wuzuye ntabwo ari ukumenya byose - ni ukumva uburyo ibice bihuza kandi wigire ubutwari mu gushakisha impamvu igihe bitagenda neza.",
         },
         {
           title: "Ibyo A2SV inkigisha ku gukemura ibibazo",
-          body: "Mbere ya A2SV, natekereza ko nari meza mu porogaramu. Hanyuma nasanze ibibazo bisabaga gutekereza mu buryo ntigeze ntekereza. Imiterere y'amakuru si teoriya gusa — ni ibikoresho. Itandukaniro riri hagati ya O(n²) na O(n log n) ni itandukaniro riri hagati ya porogaramu ikura no itagikorana. A2SV ntayo nize gusa algorithms — yanigishije gutekereza mbere yo kwandika code umurongo umwe.",
+          body: "Mbere ya A2SV, natekereza ko nari meza mu porogaramu. Hanyuma nasanze ibibazo bisabaga gutekereza mu buryo ntigeze ntekereza. Imiterere y'amakuru si teoriya gusa - ni ibikoresho. Itandukaniro riri hagati ya O(n²) na O(n log n) ni itandukaniro riri hagati ya porogaramu ikura no itagikorana. A2SV ntayo nize gusa algorithms - yanigishije gutekereza mbere yo kwandika code umurongo umwe.",
         },
         {
           title: "Impamvu nubaka ibintu",
-          body: "Sininjiye mu porogaramu kubera gahunda y'akazi. Ninjiyemo kubera ubushake — ubushake bwo kumenya uburyo ibintu bikorana, no kumenya niba nashobora kubigira neza. Ubushake ni bwo bugenda butuma mbaka buri mushinga. Si stack y'ikoranabuhanga, si umurongo mu CV. Ikibazo: mbaka ikintu gikorana neza kuri umuntu?",
+          body: "Sininjiye mu porogaramu kubera gahunda y'akazi. Ninjiyemo kubera ubushake - ubushake bwo kumenya uburyo ibintu bikorana, no kumenya niba nashobora kubigira neza. Ubushake ni bwo bugenda butuma mbaka buri mushinga. Si stack y'ikoranabuhanga, si umurongo mu CV. Ikibazo: mbaka ikintu gikorana neza kuri umuntu?",
         },
       ],
     },
@@ -550,7 +550,7 @@ export const translations = {
     contact: {
       sectionLabel: "Wasiliana",
       title: "Wasiliana Nanjye",
-      subtitle: "Ushaka gukorana cyangwa ufite ibitekerezo? Wasiliana nanjye — ndahagurukira ibiganiro ku bitekerezo, imishinga, cyangwa amahirwe. Nubake ikintu gifite akamaro.",
+      subtitle: "Ushaka gukorana cyangwa ufite ibitekerezo? Wasiliana nanjye - ndahagurukira ibiganiro ku bitekerezo, imishinga, cyangwa amahirwe. Nubake ikintu gifite akamaro.",
       infoTitle: "Amakuru yo Gutumanahana",
       infoSubtitle: "Wasiliana nanjye kuri ikibazo cyose cyangwa amahirwe yo gukorana.",
       locationLabel: "Aho Ndi",
