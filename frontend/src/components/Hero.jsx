@@ -84,7 +84,7 @@ export default function Hero() {
             </div>
 
             {/* Stats row — bigger & bolder */}
-            <div className="mt-12 grid grid-cols-5 gap-4 border-t border-gray-200 dark:border-gray-800 pt-8">
+            <div className="mt-6 grid grid-cols-5 gap-4 border-t border-gray-200 dark:border-gray-800 pt-6">
               {t.stats.map((stat) => (
                 <div key={stat.label} className="text-center">
                   <p className="text-4xl font-extrabold text-teal-600 dark:text-teal-400 leading-none">{stat.value}</p>
@@ -100,7 +100,7 @@ export default function Hero() {
             </div>
 
             {/* Tech badges */}
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap gap-3">
               {["Python", "Java", "JavaScript", "C", "SQL", "HTML & CSS", "PostgreSQL", "Git", "DSA"].map((tech) => (
                 <span
                   key={tech}
