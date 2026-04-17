@@ -6,7 +6,7 @@ const projectMeta = [
   {
     github_url: null,
     live_url: null,
-    tech_stack: ['React', 'Node.js', 'AI APIs', 'Browser Extension APIs'],
+    tech_stack: ['React', 'FastAPI', 'AI APIs', 'Browser Extension APIs'],
   },
   {
     github_url: null,
@@ -16,7 +16,7 @@ const projectMeta = [
   {
     github_url: null,
     live_url: null,
-    tech_stack: ['Node.js', 'Databases', 'REST APIs'],
+    tech_stack: ['FastAPI', 'Databases', 'REST APIs'],
   },
 ]
 
