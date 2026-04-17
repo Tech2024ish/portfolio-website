@@ -12,7 +12,7 @@ export const translations = {
     },
     hero: {
       welcome: "Welcome to my portfolio",
-      typewords: ["CS Student & Aspiring Developer", "Python Developer", "Web Developer", "Data Structures & Algorithms", "ML/AI Enthusiast", "Problem Solver"],
+      typewords: ["CS Student & Aspiring Developer", "Python Developer", "Software Developer", "Data Structures & Algorithms", "ML/AI Enthusiast", "Problem Solver"],
       bio: "CS student at the University of Rwanda, building projects in Python, Java and JavaScript.",
       viewProjects: "View Projects",
       contactMe: "Contact Me",
