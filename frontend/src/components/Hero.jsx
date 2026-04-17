@@ -48,7 +48,7 @@ export default function Hero() {
             <p className="text-teal-600 dark:text-teal-400 font-semibold mb-3 tracking-widest uppercase text-sm">
               {t.hero.welcome}
             </p>
-            <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight md:whitespace-nowrap">
               {t.hero.greeting}{" "}
               <span className="text-teal-600 dark:text-teal-400">Jean Claude ISHIMWE</span>
             </h1>
