@@ -31,7 +31,7 @@ export const translations = {
     about: {
       sectionLabel: "Background",
       title: "About Me",
-      bio: "I'm a full-stack developer focused on building systems that work beyond demos - software that is reliable, scalable, and practical in real-world use. I care about how applications are structured, how they perform under load, and how users actually experience them. My approach combines backend logic, system design, and clean, intuitive interfaces. Beyond web development, I'm deeply interested in ML/AI - exploring how intelligent systems can solve real problems, particularly in the African context. I enjoy turning ideas into production-ready products, constantly improving how I design, build, and ship software.",
+      bio: "CS student at the University of Rwanda, College of Science and Technology. I build full-stack systems that go beyond demos - reliable, scalable, and practical. My approach combines backend logic, system design, and clean interfaces. Deeply interested in ML/AI and how intelligent systems can solve real problems across Africa.",
       educationTitle: "Education",
       degree: "Bachelor of Computer Science",
       university: "University of Rwanda",
@@ -269,7 +269,7 @@ export const translations = {
     about: {
       sectionLabel: "Parcours",
       title: "À propos de moi",
-      bio: "Je suis un développeur full-stack focalisé sur la création de systèmes qui fonctionnent au-delà des démos - des logiciels fiables, évolutifs et pratiques. Je m'intéresse à la structure des applications, à leur performance sous charge, et à l'expérience réelle des utilisateurs. Mon approche combine la logique backend, la conception de systèmes et des interfaces propres et intuitives. Au-delà du développement web, je suis profondément intéressé par le ML/IA - j'explore comment les systèmes intelligents peuvent résoudre de vrais problèmes, notamment dans le contexte africain. J'aime transformer des idées en produits prêts pour la production.",
+      bio: "Étudiant en informatique à l'Université du Rwanda, Collège des Sciences et Technologies. Je construis des systèmes full-stack fiables, évolutifs et pratiques. Mon approche combine logique backend, conception de systèmes et interfaces intuitives. Profondément intéressé par le ML/IA et comment les systèmes intelligents peuvent résoudre de vrais problèmes en Afrique.",
       educationTitle: "Formation",
       degree: "Licence en Informatique",
       university: "Université du Rwanda",
@@ -498,7 +498,7 @@ export const translations = {
     about: {
       sectionLabel: "Imiterere",
       title: "Ibyanjye",
-      bio: "Ndi umuprogrameri wuzuye wishimira kubaka sisitemu zikorana neza no gukuraho ibibazo by'ukuri - porogaramu zizerika, zikura kandi zikoreshwa neza. Nifuza uburyo porogaramu zubatswe, uko zikorera igihe ziremerewe, n'uburyo abakoresha bazisanga zifite akamaro. Ingamba yanjye ishyira hamwe logic ya backend, imiterere ya sisitemu, n'interface isukuye yorohera. Hejuru y'iterambere ry'urubuga, nifuza cyane ML/AI - nsesengura uburyo sisitemu z'ubwenge zishobora gukemura ibibazo by'ukuri, cyane cyane mu Rwanda no mu Afurika. Nkunda guhindura ibitekerezo mu bicuruzwa biteganijwe gukoreshwa mu buryo bw'ukuri.",
+      bio: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, Koleji y'Siyansi n'Ikoranabuhanga. Nubaka sisitemu zuzuye zizerika, zikura kandi zikoreshwa neza. Ingamba yanjye ishyira hamwe logic ya backend, imiterere ya sisitemu, n'interface isukuye. Nifuza cyane ML/AI no gusobanukirwa uburyo sisitemu z'ubwenge zishobora gukemura ibibazo by'ukuri mu Afurika.",
       educationTitle: "Amashuri",
       degree: "Bachelorale mu Siyansi y'Ikoranabuhanga",
       university: "Kaminuza y'u Rwanda",
