@@ -12,9 +12,9 @@ export const translations = {
     },
     hero: {
       greeting: "Hi, I'm",
-      welcome: "Welcome to my portfolio",
-      typewords: ["CS Student & Aspiring Developer", "Python Developer", "Software Developer", "Data Structures & Algorithms", "ML/AI Enthusiast", "Problem Solver"],
-      bio: "CS student at the University of Rwanda, building projects in Python, Java and JavaScript.",
+      welcome: "I build backend systems that solve real problems",
+      typewords: ["Backend Developer", "Python Developer", "Software Developer", "Data Structures & Algorithms", "ML/AI Enthusiast", "Problem Solver"],
+      bio: "CS student at the University of Rwanda, training with A2SV, and obsessed with writing software that actually works.",
       viewProjects: "View Projects",
       contactMe: "Contact Me",
       downloadCV: "Download CV",
@@ -28,7 +28,7 @@ export const translations = {
     about: {
       sectionLabel: "Background",
       title: "About Me",
-      bio: "I am a Computer Science student at the University of Rwanda with a strong interest in problem solving, backend systems, and machine learning. I enjoy building efficient systems and exploring how intelligent algorithms can solve real-world challenges. I am motivated by using technology to create impactful and scalable solutions.",
+      bio: "I got hooked on programming the moment I realized a few lines of code could automate hours of manual work. Since then I've been obsessed with backend systems — the logic, the performance, the architecture. I'm a CS student at the University of Rwanda, currently training with A2SV to sharpen my problem-solving skills, and I believe the next generation of African developers will shape global tech. I don't just want to write code — I want to write code that matters.",
       educationTitle: "Education",
       degree: "Bachelor of Computer Science",
       university: "University of Rwanda",
@@ -80,15 +80,15 @@ export const translations = {
       items: [
         {
           title: "Personal Portfolio Website",
-          description: "A responsive portfolio website focusing on usability, accessibility, and cross-device performance. Designed interactive UI components and deployed on GitHub Pages.",
+          description: "Problem: I needed a professional online presence before landing my first opportunity. Solution: Built a fully responsive portfolio from scratch using HTML, CSS, and JavaScript. Outcome: Deployed on GitHub Pages — my first live project accessible to anyone on the web.",
         },
         {
           title: "Hangman Game",
-          description: "Console-based Hangman game built in Python with a scoring system and input validation. Applied loops, conditionals, and functions to manage game logic and user interaction.",
+          description: "Problem: I wanted to move beyond tutorial code and build something fully mine. Solution: Designed and built a console Hangman game in Python with a scoring system, input validation, and clean game-loop logic. Outcome: A complete, playable game that deepened my understanding of OOP and program flow.",
         },
         {
           title: "This Portfolio",
-          description: "Full-stack portfolio built with React and FastAPI, backed by Supabase. Features a live contact form, dynamic projects and skills sections, and a clean dark mode UI.",
+          description: "Problem: Static portfolios can't show real backend skills. Solution: Built a full-stack portfolio with React, FastAPI, and Supabase — featuring a live contact form, multilingual support (English, French, Kinyarwanda), visit counter, and dynamic content. Outcome: A production-grade app that itself demonstrates what I can build.",
         },
       ],
     },
@@ -188,9 +188,9 @@ export const translations = {
     },
     hero: {
       greeting: "Bonjour, je suis",
-      welcome: "Bienvenue sur mon portfolio",
-      typewords: ["Étudiant en Informatique", "Développeur Python", "Développeur Web", "Structures de Données & Algorithmes", "Passionné de ML/IA", "Solutionneur de Problèmes"],
-      bio: "Étudiant en informatique à l'Université du Rwanda, développant des projets en Python, Java et JavaScript.",
+      welcome: "Je construis des systèmes backend qui résolvent de vrais problèmes",
+      typewords: ["Développeur Backend", "Développeur Python", "Développeur Logiciel", "Structures de Données & Algorithmes", "Passionné de ML/IA", "Solutionneur de Problèmes"],
+      bio: "Étudiant en informatique à l'Université du Rwanda, en formation avec A2SV, et passionné par l'écriture de logiciels qui fonctionnent vraiment.",
       viewProjects: "Voir mes projets",
       contactMe: "Me contacter",
       downloadCV: "Télécharger le CV",
@@ -204,7 +204,7 @@ export const translations = {
     about: {
       sectionLabel: "Parcours",
       title: "À propos de moi",
-      bio: "Je suis étudiant en Informatique à l'Université du Rwanda avec un fort intérêt pour la résolution de problèmes, les systèmes backend et le machine learning. J'aime construire des systèmes efficaces et explorer comment les algorithmes intelligents peuvent résoudre des défis du monde réel. Je suis motivé par l'utilisation de la technologie pour créer des solutions percutantes et évolutives.",
+      bio: "J'ai été accroché à la programmation le jour où j'ai réalisé que quelques lignes de code pouvaient automatiser des heures de travail manuel. Depuis, je suis obsédé par les systèmes backend — la logique, la performance, l'architecture. Étudiant en informatique à l'Université du Rwanda, je me forme actuellement avec A2SV pour affûter mes compétences en résolution de problèmes. Je crois que la prochaine génération de développeurs africains façonnera la tech mondiale. Je ne veux pas juste écrire du code — je veux écrire du code qui compte.",
       educationTitle: "Formation",
       degree: "Licence en Informatique",
       university: "Université du Rwanda",
@@ -254,9 +254,9 @@ export const translations = {
       github: "GitHub",
       liveDemo: "Démo en direct",
       items: [
-        { title: "Site Portfolio Personnel", description: "Site portfolio responsive axé sur la convivialité, l'accessibilité et les performances multi-appareils. Composants UI interactifs déployés sur GitHub Pages." },
-        { title: "Jeu du Pendu", description: "Jeu du pendu en console développé en Python avec un système de score et validation des entrées. Utilisation de boucles, conditions et fonctions pour la logique du jeu." },
-        { title: "Ce Portfolio", description: "Portfolio full-stack développé avec React et FastAPI, soutenu par Supabase. Formulaire de contact en direct, sections projets et compétences dynamiques, interface sombre." },
+        { title: "Site Portfolio Personnel", description: "Problème : j'avais besoin d'une présence professionnelle en ligne. Solution : portfolio responsive construit de zéro avec HTML, CSS et JavaScript. Résultat : déployé sur GitHub Pages — mon premier projet en ligne accessible à tous." },
+        { title: "Jeu du Pendu", description: "Problème : aller au-delà des tutoriels et créer quelque chose qui m'appartient. Solution : jeu du pendu en console avec système de score et validation des entrées. Résultat : un jeu complet et jouable qui a renforcé ma compréhension de la POO." },
+        { title: "Ce Portfolio", description: "Problème : un portfolio statique ne montre pas les compétences backend. Solution : application full-stack avec React, FastAPI et Supabase — formulaire live, multilingue (EN/FR/RW), compteur de visites. Résultat : une app en production qui démontre elle-même ce que je sais construire." },
       ],
     },
     skills: {
@@ -355,9 +355,9 @@ export const translations = {
     },
     hero: {
       greeting: "Muraho, nitwa",
-      welcome: "Murakaza neza kuri portfolio yanjye",
-      typewords: ["Umunyeshuri wa Informatique", "Umuprogrameri wa Python", "Umuprogrameri w'Urubuga", "Structures z'Amakuru & Algorithms", "Ukunzwe ML/AI", "Gukemura Ibibazo"],
-      bio: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, wubaka imishinga mu Python, Java na JavaScript.",
+      welcome: "Mbaka sisitemu za backend zikemura ibibazo by'ukuri",
+      typewords: ["Umuprogrameri wa Backend", "Umuprogrameri wa Python", "Umuprogrameri wa Software", "Structures z'Amakuru & Algorithms", "Ukunzwe ML/AI", "Gukemura Ibibazo"],
+      bio: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, uhugurwa na A2SV, kandi nkunda kwandika porogaramu zikorana neza.",
       viewProjects: "Reba Imishinga",
       contactMe: "Wasiliana",
       downloadCV: "Kurura CV",
@@ -371,7 +371,7 @@ export const translations = {
     about: {
       sectionLabel: "Imiterere",
       title: "Ibyanjye",
-      bio: "Ndi umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, nzwi cyane no gukemura ibibazo, sisitemu za backend no machine learning. Nkunze kubaka sisitemu zikorana neza no gutafuta uburyo algorithm z'ubwenge zishobora gukemura ibibazo by'isanzure. Ndashishikajwe no gukoresha ikoranabuhanga mu gushyiraho ibisubizo bifite ingaruka kandi bikura.",
+      bio: "Nahimbazwa porogaramu igihe nabonye ko imirongo mike ya code ishobora gukora akazi k'amasaha menshi. Kuva icyo gihe, nagize urukundo rw'imyanzuro ya backend — ingero, imikorere, imiterere. Ndi umunyeshuri muri Kaminuza y'u Rwanda, aracyahugurwa na A2SV kugira ngo nipime ubuhanga bwo gukemura ibibazo. Nizeye ko itsinda rishya ry'abaprogrameri b'Abanyafrika rizagira uruhare mu iterambere ry'ikoranabuhanga ku isi. Sinshaka gusa kwandika code — nshaka kwandika code ifite akamaro.",
       educationTitle: "Amashuri",
       degree: "Bachelorale mu Siyansi y'Ikoranabuhanga",
       university: "Kaminuza y'u Rwanda",
@@ -421,9 +421,9 @@ export const translations = {
       github: "GitHub",
       liveDemo: "Reba Hanze",
       items: [
-        { title: "Urubuga rwa Portfolio", description: "Urubuga rwa portfolio rwegeranya, rwibanda ku gukoresha neza, kwegera no gukora neza ku bikoresho byose. Byashyizwe kuri GitHub Pages." },
-        { title: "Umukino wa Hangman", description: "Umukino wa Hangman mu console wubatswe mu Python hamwe na systemu yo gutuza. Bikoreshwa ibisumba, ibyifuzo na serivisi yo gucunga umukino." },
-        { title: "Uru Portfolio", description: "Portfolio yuzuye yubatswe na React na FastAPI, ishingiye kuri Supabase. Ifite ifishi yo gutumanaho, imishinga, ubuhanga n'interface y'umukara." },
+        { title: "Urubuga rwa Portfolio", description: "Ikibazo: nakeneye kugaragara mu buryo bw'umwuga kuri murandasi. Igisubizo: nubatse portfolio mu HTML, CSS na JavaScript. Iherezo: byashyizwe kuri GitHub Pages — umushinga wanjye wa mbere uboneka na buri wese." },
+        { title: "Umukino wa Hangman", description: "Ikibazo: nshakaga gukora ikintu cyanjye nyakuri, tutari gukurikira tutorial. Igisubizo: nubatse umukino wa Hangman mu Python hamwe na systemu yo gutuza. Iherezo: umukino uzima wuzuye wakomeje gukomeza ubumenyi bwanjye bwa OOP." },
+        { title: "Uru Portfolio", description: "Ikibazo: portfolio isanzwe ntiyerekana ubuhanga bwa backend. Igisubizo: porogaramu yuzuye na React, FastAPI na Supabase — ifishi yo gutumanahana, indimi eshatu (EN/FR/RW), umubare w'inshuti. Iherezo: porogaramu ikora mu by'ukuri yerekana ubuhanga bwanjye." },
       ],
     },
     skills: {
