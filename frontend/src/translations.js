@@ -8,7 +8,7 @@ export const translations = {
       skills: "Skills",
       certifications: "Certifications",
       gallery: "Gallery",
-      writing: "Writing",
+      blog: "Blog",
       hobbies: "Hobbies",
       contact: "Contact",
     },
@@ -190,9 +190,9 @@ export const translations = {
         { title: "GitHub Contributions", description: "Contributing to open-source and personal projects on GitHub.", category: "Open Source" },
       ],
     },
-    writing: {
-      sectionLabel: "Thoughts",
-      title: "Writing",
+    blog: {
+      sectionLabel: "Blog",
+      title: "Blog",
       subtitle: "I write about what I learn while building - from technical challenges to ideas about systems and development.",
       articles: [
         {
@@ -246,7 +246,7 @@ export const translations = {
       skills: "Compétences",
       certifications: "Certifications",
       gallery: "Galerie",
-      writing: "Articles",
+      blog: "Blog",
       hobbies: "Loisirs",
       contact: "Contact",
     },
@@ -419,9 +419,9 @@ export const translations = {
         { title: "Contributions GitHub", description: "Contributions à des projets open-source et personnels sur GitHub.", category: "Open Source" },
       ],
     },
-    writing: {
-      sectionLabel: "Réflexions",
-      title: "Articles",
+    blog: {
+      sectionLabel: "Blog",
+      title: "Blog",
       subtitle: "J'écris sur ce que j'apprends en construisant - des défis techniques aux idées sur les systèmes et le développement.",
       articles: [
         {
@@ -475,7 +475,7 @@ export const translations = {
       skills: "Ubuhanga",
       certifications: "Impamyabumenyi",
       gallery: "Amafoto",
-      writing: "Inyandiko",
+      blog: "Blog",
       hobbies: "Imyidagaduro",
       contact: "Wasiliana",
     },
@@ -648,9 +648,9 @@ export const translations = {
         { title: "Ubugiraneza kuri GitHub", description: "Gutumanahana ku mishinga ya open-source no ku bwite kuri GitHub.", category: "Open Source" },
       ],
     },
-    writing: {
-      sectionLabel: "Ibitekerezo",
-      title: "Inyandiko",
+    blog: {
+      sectionLabel: "Blog",
+      title: "Blog",
       subtitle: "Nandika ibyo niga mu gihe nubaka - kuva ibibazo by'ikoranabuhanga kugeza ku bitekerezo ku sisitemu.",
       articles: [
         {

@@ -24,7 +24,7 @@ export default function Navbar() {
     { label: t.nav.skills, href: "#skills" },
     { label: t.nav.certifications, href: "#certifications" },
     { label: t.nav.gallery, href: "#gallery" },
-    { label: t.nav.writing, href: "#writing" },
+    { label: t.nav.blog, href: "#blog" },
     { label: t.nav.hobbies, href: "#hobbies" },
     { label: t.nav.contact, href: "#contact" },
   ];
