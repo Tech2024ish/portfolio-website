@@ -15,7 +15,7 @@ export const translations = {
     hero: {
       greeting: "Hi, I'm",
       welcome: "Full-stack developer building scalable, real-world products.",
-      subwelcome: "CS student at the University of Rwanda, College of Science and Technology. I design systems that solve actual problems - focusing on performance, clean architecture, and intuitive user experience.",
+      subwelcome: "Software engineer building reliable backend systems and exploring AI solutions for Africa. Currently training with A2SV at the University of Rwanda, College of Science and Technology.",
       typewords: ["Software Developer", "Python Developer", "Data Structures & Algorithms", "ML/AI Enthusiast", "Problem Solver"],
       bio: "CS student at the University of Rwanda, training with A2SV, and obsessed with writing software that actually works.",
       viewProjects: "View Projects",
@@ -31,7 +31,7 @@ export const translations = {
     about: {
       sectionLabel: "Background",
       title: "About Me",
-      bio: "CS student at the University of Rwanda, College of Science and Technology. I build full-stack systems that go beyond demos - reliable, scalable, and practical. My approach combines backend logic, system design, and clean interfaces. Deeply interested in ML/AI and how intelligent systems can solve real problems across Africa.",
+      bio: "Software engineer building reliable backend systems and exploring AI solutions for Africa. I combine backend logic, system design, and clean interfaces to ship software that works beyond demos. Currently training with A2SV at the University of Rwanda, College of Science and Technology.",
       educationTitle: "Education",
       degree: "Bachelor of Computer Science",
       university: "University of Rwanda",
@@ -253,7 +253,7 @@ export const translations = {
     hero: {
       greeting: "Bonjour, je suis",
       welcome: "Développeur full-stack construisant des produits évolutifs et concrets.",
-      subwelcome: "Étudiant en informatique à l'Université du Rwanda, Collège des Sciences et Technologies. Je conçois des systèmes qui résolvent de vrais problèmes - en me concentrant sur la performance, une architecture propre et une expérience utilisateur intuitive.",
+      subwelcome: "Ingénieur logiciel construisant des systèmes backend fiables et explorant des solutions IA pour l'Afrique. Actuellement en formation avec A2SV à l'Université du Rwanda, Collège des Sciences et Technologies.",
       typewords: ["Développeur Logiciel", "Développeur Python", "Structures de Données & Algorithmes", "Passionné de ML/IA", "Solutionneur de Problèmes"],
       bio: "Étudiant en informatique à l'Université du Rwanda, en formation avec A2SV, et passionné par l'écriture de logiciels qui fonctionnent vraiment.",
       viewProjects: "Voir mes projets",
@@ -269,7 +269,7 @@ export const translations = {
     about: {
       sectionLabel: "Parcours",
       title: "À propos de moi",
-      bio: "Étudiant en informatique à l'Université du Rwanda, Collège des Sciences et Technologies. Je construis des systèmes full-stack fiables, évolutifs et pratiques. Mon approche combine logique backend, conception de systèmes et interfaces intuitives. Profondément intéressé par le ML/IA et comment les systèmes intelligents peuvent résoudre de vrais problèmes en Afrique.",
+      bio: "Ingénieur logiciel construisant des systèmes backend fiables et explorant des solutions IA pour l'Afrique. Je combine logique backend, conception de systèmes et interfaces propres pour livrer des logiciels qui fonctionnent au-delà des démos. Actuellement en formation avec A2SV à l'Université du Rwanda, Collège des Sciences et Technologies.",
       educationTitle: "Formation",
       degree: "Licence en Informatique",
       university: "Université du Rwanda",
@@ -482,7 +482,7 @@ export const translations = {
     hero: {
       greeting: "Muraho, nitwa",
       welcome: "Umuprogrameri wuzuye ubaka ibicuruzwa bikura kandi bikorana neza.",
-      subwelcome: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, Koleji y'Siyansi n'Ikoranabuhanga. Nshyiraho sisitemu zikemura ibibazo by'ukuri - nifuza imikorere myiza, imiterere isukuye, n'uburyo bw'gukoresha bworoshye.",
+      subwelcome: "Injeniyeri ya software ubaka sisitemu za backend zizerika kandi asesengura ibisubizo bya AI mu Afurika. Aracyahugurwa na A2SV muri Kaminuza y'u Rwanda, Koleji y'Siyansi n'Ikoranabuhanga.",
       typewords: ["Umuprogrameri wa Software", "Umuprogrameri wa Python", "Structures z'Amakuru & Algorithms", "Ukunzwe ML/AI", "Gukemura Ibibazo"],
       bio: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, uhugurwa na A2SV, kandi nkunda kwandika porogaramu zikorana neza.",
       viewProjects: "Reba Imishinga",
@@ -498,7 +498,7 @@ export const translations = {
     about: {
       sectionLabel: "Imiterere",
       title: "Ibyanjye",
-      bio: "Umunyeshuri wa Siyansi y'Ikoranabuhanga muri Kaminuza y'u Rwanda, Koleji y'Siyansi n'Ikoranabuhanga. Nubaka sisitemu zuzuye zizerika, zikura kandi zikoreshwa neza. Ingamba yanjye ishyira hamwe logic ya backend, imiterere ya sisitemu, n'interface isukuye. Nifuza cyane ML/AI no gusobanukirwa uburyo sisitemu z'ubwenge zishobora gukemura ibibazo by'ukuri mu Afurika.",
+      bio: "Injeniyeri ya software ubaka sisitemu za backend zizerika kandi asesengura ibisubizo bya AI mu Afurika. Nishyira hamwe logic ya backend, imiterere ya sisitemu, n'interface isukuye mu gushyiraho porogaramu zikorana neza. Aracyahugurwa na A2SV muri Kaminuza y'u Rwanda, Koleji y'Siyansi n'Ikoranabuhanga.",
       educationTitle: "Amashuri",
       degree: "Bachelorale mu Siyansi y'Ikoranabuhanga",
       university: "Kaminuza y'u Rwanda",
