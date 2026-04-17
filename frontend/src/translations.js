@@ -37,9 +37,15 @@ export const translations = {
       coursework: [
         "Python Programming",
         "Java Programming",
+        "C Programming",
         "Database Management",
         "Software Development",
         "Data Structures & Algorithms",
+        "Operating Systems",
+        "Numerical Analysis",
+        "System Analysis & Design",
+        "Digital Electronics",
+        "Computer Networking",
       ],
       achievementsTitle: "Achievements",
       achievements: [
@@ -207,9 +213,15 @@ export const translations = {
       coursework: [
         "Programmation Python",
         "Programmation Java",
+        "Programmation C",
         "Gestion de bases de données",
         "Développement logiciel",
         "Structures de données & Algorithmes",
+        "Systèmes d'exploitation",
+        "Analyse numérique",
+        "Analyse & Conception de systèmes",
+        "Électronique numérique",
+        "Réseaux informatiques",
       ],
       achievementsTitle: "Réalisations",
       achievements: [
@@ -368,9 +380,15 @@ export const translations = {
       coursework: [
         "Porogaramu ya Python",
         "Porogaramu ya Java",
+        "Porogaramu ya C",
         "Gucunga Amakuru",
         "Iterambere rya Software",
         "Structures z'Amakuru & Algorithms",
+        "Sisitemu z'Ikoranabuhanga",
+        "Isesengura ry'Imibare",
+        "Isesengura & Igenamigambi rya Sisitemu",
+        "Elegitoronike Dijitali",
+        "Itumanaho ry'Mudasobwa",
       ],
       achievementsTitle: "Intsinzi",
       achievements: [
