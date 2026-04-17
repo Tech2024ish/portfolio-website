@@ -4,19 +4,19 @@ import { useLanguage } from '../context/LanguageContext'
 
 const projectMeta = [
   {
-    github_url: 'https://github.com/Tech2024ish/my_portfolio',
-    live_url: 'https://tech2024ish.github.io/my_portfolio',
-    tech_stack: ['HTML', 'CSS', 'JavaScript'],
+    github_url: null,
+    live_url: null,
+    tech_stack: ['React', 'Node.js', 'AI APIs', 'Browser Extension APIs'],
   },
   {
-    github_url: 'https://github.com/Tech2024ish/HangManGame',
+    github_url: null,
     live_url: null,
-    tech_stack: ['Python'],
+    tech_stack: ['React Native', 'Backend APIs', 'Database Management'],
   },
   {
-    github_url: 'https://github.com/Tech2024ish/portfolio',
+    github_url: null,
     live_url: null,
-    tech_stack: ['React', 'FastAPI', 'Supabase', 'Python'],
+    tech_stack: ['Node.js', 'Databases', 'REST APIs'],
   },
 ]
 

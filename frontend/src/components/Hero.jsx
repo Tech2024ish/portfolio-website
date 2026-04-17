@@ -45,9 +45,6 @@ export default function Hero() {
               <span>📍</span> Kigali, Rwanda
             </div>
 
-            <p className="text-teal-600 dark:text-teal-400 font-semibold mb-3 tracking-widest uppercase text-sm">
-              {t.hero.welcome}
-            </p>
             <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
               {t.hero.greeting}
               <br />
@@ -55,10 +52,17 @@ export default function Hero() {
             </h1>
 
             {/* Typewriter subtitle */}
-            <h2 className="text-2xl md:text-3xl font-semibold text-gray-500 dark:text-gray-400 mb-6 min-h-[2.5rem]">
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-500 dark:text-gray-400 mb-4 min-h-[2.5rem]">
               <span>{typed}</span>
               <span className="inline-block w-0.5 h-7 bg-teal-500 ml-1 animate-pulse align-middle" />
             </h2>
+
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed max-w-xl">
+              {t.hero.welcome}
+            </p>
+            <p className="text-base text-gray-500 dark:text-gray-500 mb-6 leading-relaxed max-w-xl">
+              {t.hero.subwelcome}
+            </p>
 
 
             <div className="flex flex-wrap gap-4">
