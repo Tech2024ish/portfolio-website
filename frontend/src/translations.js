@@ -152,8 +152,21 @@ export const translations = {
     writing: {
       sectionLabel: "Thoughts",
       title: "Writing",
-      subtitle: "I write about what I learn while building — from technical challenges to ideas about systems and development. Writing helps me think more clearly, document progress, and share insights along the way.",
-      comingSoon: "Posts coming soon.",
+      subtitle: "I write about what I learn while building — from technical challenges to ideas about systems and development.",
+      articles: [
+        {
+          title: "What Building This Portfolio Taught Me About Full-Stack Development",
+          body: "Starting this project, I thought the hard part would be the frontend. I was wrong. The real challenge was wiring everything together — React talking to FastAPI, FastAPI talking to Supabase, environment variables, CORS, deployment. Every layer had its own failure mode. What I learned: full-stack isn't about knowing everything, it's about understanding how the pieces connect and debugging confidently when they don't.",
+        },
+        {
+          title: "What A2SV Is Teaching Me About Problem Solving",
+          body: "Before A2SV, I thought I was decent at coding. Then I sat in front of problems that required me to think in ways I never had. Data structures aren't just theory — they're tools. The difference between O(n²) and O(n log n) is the difference between software that scales and software that doesn't. A2SV didn't just teach me algorithms, it taught me how to think before I write a single line of code.",
+        },
+        {
+          title: "Why I Build Things",
+          body: "I didn't get into software because of a career plan. I got into it because I was curious — curious about how things work, and whether I could make them work better. That curiosity is what drives every project. Not the tech stack, not the resume line. The question: can I build something that actually works for someone?",
+        },
+      ],
     },
     visitCounter: {
       label: "visitors",
@@ -327,8 +340,21 @@ export const translations = {
     writing: {
       sectionLabel: "Réflexions",
       title: "Articles",
-      subtitle: "J'écris sur ce que j'apprends en construisant — des défis techniques aux idées sur les systèmes et le développement. Écrire m'aide à penser plus clairement, documenter ma progression et partager mes insights.",
-      comingSoon: "Articles à venir.",
+      subtitle: "J'écris sur ce que j'apprends en construisant — des défis techniques aux idées sur les systèmes et le développement.",
+      articles: [
+        {
+          title: "Ce que construire ce portfolio m'a appris sur le développement full-stack",
+          body: "En démarrant ce projet, je pensais que la partie difficile serait le frontend. Je me trompais. Le vrai défi était de tout connecter — React parlant à FastAPI, FastAPI parlant à Supabase, les variables d'environnement, CORS, le déploiement. Chaque couche avait ses propres points de défaillance. Ce que j'ai appris : le full-stack ne consiste pas à tout savoir, mais à comprendre comment les pièces s'assemblent et à déboguer avec confiance quand elles ne le font pas.",
+        },
+        {
+          title: "Ce que A2SV m'apprend sur la résolution de problèmes",
+          body: "Avant A2SV, je pensais être correct en programmation. Puis je me suis retrouvé face à des problèmes qui m'obligeaient à penser d'une façon que je n'avais jamais eue. Les structures de données ne sont pas que de la théorie — ce sont des outils. La différence entre O(n²) et O(n log n) est la différence entre un logiciel qui passe à l'échelle et un qui ne le fait pas. A2SV ne m'a pas seulement appris les algorithmes, il m'a appris à réfléchir avant d'écrire une seule ligne de code.",
+        },
+        {
+          title: "Pourquoi je construis des choses",
+          body: "Je ne me suis pas lancé dans le logiciel à cause d'un plan de carrière. Je l'ai fait parce que j'étais curieux — curieux de savoir comment les choses fonctionnent, et si je pouvais les faire fonctionner mieux. Cette curiosité est ce qui motive chaque projet. Pas la stack technique, pas la ligne sur le CV. La question : est-ce que je peux construire quelque chose qui fonctionne vraiment pour quelqu'un ?",
+        },
+      ],
     },
     visitCounter: {
       label: "visiteurs",
@@ -502,8 +528,21 @@ export const translations = {
     writing: {
       sectionLabel: "Ibitekerezo",
       title: "Inyandiko",
-      subtitle: "Nandika ibyo niga mu gihe nubaka — kuva ibibazo by'ikoranabuhanga kugeza ku bitekerezo ku sisitemu. Kwandika birantabaza gutekereza neza, andika iterambere, kandi ngabana n'abandi ibyo nize.",
-      comingSoon: "Inyandiko zizaza vuba.",
+      subtitle: "Nandika ibyo niga mu gihe nubaka — kuva ibibazo by'ikoranabuhanga kugeza ku bitekerezo ku sisitemu.",
+      articles: [
+        {
+          title: "Ibyo kubaka uru portfolio bimonzeho ku iterambere ryuzuye",
+          body: "Natangiye uyu mushinga ntekereza ko igice gikomeye ari frontend. Nari nfite ikosa. Ikibazo nyakuri cyari guhuza ibintu byose hamwe — React iganira na FastAPI, FastAPI iganira na Supabase, amabwiriza y'ibidukikije, CORS, no gutangaza. Buri rugero rwari rufite ibibazo byarwo. Ibyo nize: kuba umuprogrameri wuzuye ntabwo ari ukumenya byose — ni ukumva uburyo ibice bihuza kandi wigire ubutwari mu gushakisha impamvu igihe bitagenda neza.",
+        },
+        {
+          title: "Ibyo A2SV inkigisha ku gukemura ibibazo",
+          body: "Mbere ya A2SV, natekereza ko nari meza mu porogaramu. Hanyuma nasanze ibibazo bisabaga gutekereza mu buryo ntigeze ntekereza. Imiterere y'amakuru si teoriya gusa — ni ibikoresho. Itandukaniro riri hagati ya O(n²) na O(n log n) ni itandukaniro riri hagati ya porogaramu ikura no itagikorana. A2SV ntayo nize gusa algorithms — yanigishije gutekereza mbere yo kwandika code umurongo umwe.",
+        },
+        {
+          title: "Impamvu nubaka ibintu",
+          body: "Sininjiye mu porogaramu kubera gahunda y'akazi. Ninjiyemo kubera ubushake — ubushake bwo kumenya uburyo ibintu bikorana, no kumenya niba nashobora kubigira neza. Ubushake ni bwo bugenda butuma mbaka buri mushinga. Si stack y'ikoranabuhanga, si umurongo mu CV. Ikibazo: mbaka ikintu gikorana neza kuri umuntu?",
+        },
+      ],
     },
     visitCounter: {
       label: "abashyitsi",
