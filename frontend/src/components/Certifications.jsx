@@ -12,12 +12,14 @@ function CertCard({ item, issued, index }) {
       }`}
     >
       <div className="flex items-start justify-between mb-4">
-        <div className="w-10 h-10 bg-teal-50 dark:bg-teal-900/50 rounded-lg flex items-center justify-center flex-shrink-0">
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-          </svg>
-        </div>
-        <span className="text-xs text-teal-700 dark:text-teal-400 font-semibold bg-teal-50 dark:bg-teal-900/40 px-2.5 py-1 rounded-full">
+        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+          item.type === 'Leadership'
+            ? 'bg-purple-50 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300'
+            : 'bg-teal-50 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300'
+        }`}>
+          {item.type}
+        </span>
+        <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">
           {issued} {item.year}
         </span>
       </div>

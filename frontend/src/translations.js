@@ -162,14 +162,14 @@ export const translations = {
       ],
     },
     certifications: {
-      sectionLabel: "Credentials",
-      title: "Certifications",
+      sectionLabel: "Credibility",
+      title: "Honors & Awards",
       issued: "Completed",
       items: [
-        { title: "Introduction to Cybersecurity", issuer: "Cisco Networking Academy, University of Rwanda", year: "Sep 2024", desc: "Network security, common threats, encryption basics, and cybersecurity fundamentals offered through Cisco Networking Academy." },
-        { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Jul 2025", desc: "Python programming fundamentals including variables, loops, functions, and object-oriented programming." },
-        { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Sep 2025", desc: "HTML structure, semantic elements, forms, and modern web page development fundamentals." },
-        { title: "Teaching Assistantship", issuer: "IEE (Inspire Educate & Empower Rwanda) / Mastercard Foundation", year: "May 2024", desc: "Served as Teaching Assistant at GS Mutara under the Mastercard Foundation Leaders in Teaching initiative, Jan–May 2024." },
+        { type: "Leadership", title: "Teaching Assistantship", issuer: "Mastercard Foundation / IEE Rwanda", year: "May 2024", desc: "Selected as Teaching Assistant at GS Mutara under the Mastercard Foundation Leaders in Teaching initiative, Jan–May 2024." },
+        { type: "Certification", title: "Introduction to Cybersecurity", issuer: "Cisco Networking Academy, University of Rwanda", year: "Sep 2024", desc: "Network security, common threats, encryption basics, and cybersecurity fundamentals offered through Cisco Networking Academy." },
+        { type: "Certification", title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Jul 2025", desc: "Python programming fundamentals including variables, loops, functions, and object-oriented programming." },
+        { type: "Certification", title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Sep 2025", desc: "HTML structure, semantic elements, forms, and modern web page development fundamentals." },
       ],
     },
     gallery: {
@@ -386,14 +386,14 @@ export const translations = {
       ],
     },
     certifications: {
-      sectionLabel: "Diplômes",
-      title: "Certifications",
+      sectionLabel: "Crédibilité",
+      title: "Distinctions & Récompenses",
       issued: "Complété",
       items: [
-        { title: "Introduction à la Cybersécurité", issuer: "Cisco Networking Academy, Université du Rwanda", year: "Sep 2024", desc: "Sécurité réseau, menaces courantes, bases du chiffrement et fondamentaux de la cybersécurité via Cisco Networking Academy." },
-        { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Juil 2025", desc: "Fondamentaux Python : variables, boucles, fonctions et programmation orientée objet." },
-        { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Sep 2025", desc: "Structure HTML, éléments sémantiques, formulaires et développement de pages web modernes." },
-        { title: "Assistant d'Enseignement", issuer: "IEE (Inspire Educate & Empower Rwanda) / Mastercard Foundation", year: "Mai 2024", desc: "Assistant d'enseignement à GS Mutara dans le cadre du programme Mastercard Foundation Leaders in Teaching, Jan–Mai 2024." },
+        { type: "Leadership", title: "Assistant d'Enseignement", issuer: "Mastercard Foundation / IEE Rwanda", year: "Mai 2024", desc: "Sélectionné comme assistant d'enseignement à GS Mutara dans le cadre du programme Mastercard Foundation Leaders in Teaching, Jan–Mai 2024." },
+        { type: "Certification", title: "Introduction à la Cybersécurité", issuer: "Cisco Networking Academy, Université du Rwanda", year: "Sep 2024", desc: "Sécurité réseau, menaces courantes, bases du chiffrement et fondamentaux de la cybersécurité via Cisco Networking Academy." },
+        { type: "Certification", title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Juil 2025", desc: "Fondamentaux Python : variables, boucles, fonctions et programmation orientée objet." },
+        { type: "Certification", title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Sep 2025", desc: "Structure HTML, éléments sémantiques, formulaires et développement de pages web modernes." },
       ],
     },
     gallery: {
@@ -610,14 +610,14 @@ export const translations = {
       ],
     },
     certifications: {
-      sectionLabel: "Impamyabumenyi",
-      title: "Impamyabumenyi",
+      sectionLabel: "Inyandiko z'Ikirenga",
+      title: "Ibihembo & Impamyabumenyi",
       issued: "Yarangiye",
       items: [
-        { title: "Intangiriro ya Cyber Security", issuer: "Cisco Networking Academy, Kaminuza y'u Rwanda", year: "Nze 2024", desc: "Umutekano wa network, ibibazo bisanzwe, encryption n'ibanze bya Cyber Security binyuze muri Cisco Networking Academy." },
-        { title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Nyakanga 2025", desc: "Ibanze bya Python: variables, ibisumba, serivisi na OOP." },
-        { title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Nze 2025", desc: "Imiterere ya HTML, elements, formulaires no gukora urubuga rw'ikoranabuhanga." },
-        { title: "Umufasha w'Umwarimu", issuer: "IEE (Inspire Educate & Empower Rwanda) / Mastercard Foundation", year: "Gicurasi 2024", desc: "Umufasha w'umwarimu muri GS Mutara mu rwego rwa Mastercard Foundation Leaders in Teaching, Mutarama–Gicurasi 2024." },
+        { type: "Leadership", title: "Umufasha w'Umwarimu", issuer: "Mastercard Foundation / IEE Rwanda", year: "Gicurasi 2024", desc: "Yatoranijwe nk'umufasha w'umwarimu muri GS Mutara mu rwego rwa Mastercard Foundation Leaders in Teaching, Mutarama–Gicurasi 2024." },
+        { type: "Certification", title: "Intangiriro ya Cyber Security", issuer: "Cisco Networking Academy, Kaminuza y'u Rwanda", year: "Nze 2024", desc: "Umutekano wa network, ibibazo bisanzwe, encryption n'ibanze bya Cyber Security binyuze muri Cisco Networking Academy." },
+        { type: "Certification", title: "Python Essentials 1", issuer: "Cisco Networking Academy", year: "Nyakanga 2025", desc: "Ibanze bya Python: variables, ibisumba, serivisi na OOP." },
+        { type: "Certification", title: "HTML Essentials", issuer: "Cisco Networking Academy", year: "Nze 2025", desc: "Imiterere ya HTML, elements, formulaires no gukora urubuga rw'ikoranabuhanga." },
       ],
     },
     gallery: {
