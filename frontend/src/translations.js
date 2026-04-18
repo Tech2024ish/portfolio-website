@@ -122,20 +122,16 @@ export const translations = {
       liveDemo: "Live Demo",
       items: [
         {
-          title: "Commentto – AI Writing Assistant",
-          description: "Problem: Engaging with online content involves repetitive writing that slows users down. Solution: Built a Chrome extension that uses AI to generate contextual comments and summaries directly within the browser. Impact: Reduces writing effort and improves how users interact with content, with a focus on speed and real-time usability.",
-        },
-        {
-          title: "Myotrek – Fitness Tracking App",
-          description: "Problem: Tracking workouts consistently is difficult without a simple and accessible system. Solution: Developed a mobile-friendly app for tracking workouts, routines, and progress. Impact: Encourages consistency through a clean and easy-to-use interface.",
+          title: "Task Management API",
+          description: "For developers and teams who need a reliable backend to build on. I built this REST API solo using FastAPI — covering user authentication, role-based access, and full CRUD operations for tasks, with real-time update support and clean endpoint design.",
         },
         {
           title: "Book Notes App",
-          description: "Problem: Readers often lose track of key ideas and insights from books. Solution: Built an app to store, organize, and retrieve notes efficiently. Impact: Improves knowledge retention and makes insights easier to revisit and apply.",
+          description: "For readers who lose track of key insights from books. I built the backend API solo with FastAPI, letting users store, tag, and retrieve notes by book or topic. Focused on clean data modeling and fast lookups.",
         },
         {
           title: "School Management System",
-          description: "Problem: Managing students, grades, and school operations manually is inefficient and error-prone. Solution: Built a full web application to handle student records, course management, and administrative workflows. Impact: Demonstrates real-world enterprise Java development with a relational database backend.",
+          description: "For schools managing students, grades, and operations without the chaos of manual records. I built the full web application solo using JSP, JSF, and MySQL — covering student records, course management, and administrative workflows.",
         },
       ],
     },
@@ -363,10 +359,9 @@ export const translations = {
       github: "GitHub",
       liveDemo: "Démo en direct",
       items: [
-        { title: "Commentto – Assistant de Rédaction IA", description: "Problème : interagir avec du contenu en ligne implique une écriture répétitive qui ralentit les utilisateurs. Solution : extension Chrome utilisant l'IA pour générer des commentaires et résumés contextuels directement dans le navigateur. Impact : réduit l'effort d'écriture et améliore l'interaction avec le contenu." },
-        { title: "Myotrek – App de Suivi Fitness", description: "Problème : suivre ses entraînements régulièrement est difficile sans un système simple. Solution : application mobile pour suivre les entraînements, routines et progression. Impact : encourage la régularité grâce à une interface claire et facile à utiliser." },
-        { title: "Book Notes App", description: "Problème : les lecteurs perdent souvent de vue les idées clés des livres. Solution : application pour stocker, organiser et retrouver des notes efficacement. Impact : améliore la rétention des connaissances et facilite la révision des idées." },
-        { title: "Système de Gestion Scolaire", description: "Problème : gérer les élèves, les notes et les opérations scolaires manuellement est inefficace. Solution : application web complète pour gérer les dossiers des élèves, les cours et les flux administratifs. Impact : démontre un développement Java entreprise réel avec une base de données relationnelle." },
+        { title: "Task Management API", description: "Pour les développeurs et équipes qui ont besoin d'un backend fiable. J'ai construit cette API REST en solo avec FastAPI — authentification, accès basé sur les rôles, et opérations CRUD complètes pour les tâches, avec support des mises à jour en temps réel." },
+        { title: "Book Notes App", description: "Pour les lecteurs qui perdent de vue les idées clés de leurs livres. J'ai développé l'API backend en solo avec FastAPI, permettant de stocker, organiser et retrouver des notes par livre ou sujet." },
+        { title: "Système de Gestion Scolaire", description: "Pour les écoles gérant élèves, notes et opérations sans la complexité des dossiers manuels. J'ai construit l'application complète en solo avec JSP, JSF et MySQL — dossiers élèves, gestion des cours et flux administratifs." },
       ],
     },
     skills: {
@@ -593,10 +588,9 @@ export const translations = {
       github: "GitHub",
       liveDemo: "Reba Hanze",
       items: [
-        { title: "Commentto – Umufasha w'Inyandiko wa AI", description: "Ikibazo: gutumanahana na murandasi bisaba kwandika bindi na bindi bigatinda. Igisubizo: nubatse extension ya Chrome ikoresha AI gushyiraho ibitekerezo n'incamake mu buryo bwikora. Ingaruka: igabanya umuhangayiko wo kwandika kandi ikomeza uburyo abakoresha bakorana n'ibikubiyemo." },
-        { title: "Myotrek – App yo Gukurikirana Imyitozo", description: "Ikibazo: gukurikirana imyitozo buri gihe bigorana nta sisitemu yoroshye. Igisubizo: nubatse porogaramu ya telefoni yo gukurikirana imyitozo, inzira, n'iterambere. Ingaruka: ishishikariza imyitozo buri gihe binyuze mu interface yoroha." },
-        { title: "Book Notes App", description: "Ikibazo: abasomyi bakunze gutesha agaciro ibitekerezo by'ibanze mu bitabo. Igisubizo: nubatse porogaramu yo kubika, gutondekanya no gushakisha amanotisi mu buryo bworoshye. Ingaruka: itera imbere uko ubumenyi bukomezwa kandi uboneka vuba." },
-        { title: "Sisitemu yo Gucunga Amashuri", description: "Ikibazo: gucunga abanyeshuri, amanota n'ibikorwa by'ishuri mu buryo bw'intoki bigorana kandi bigira amakosa. Igisubizo: nubatse porogaramu yuzuye yo gucunga inyandiko z'abanyeshuri, amasomo n'imirimo y'ubutegetsi. Ingaruka: yerekana iterambere rya Java y'inganda y'ukuri hamwe na bazidata ifitanye isano." },
+        { title: "Task Management API", description: "Kubaturage n'amatsinda akeneye backend ikwiye gusenga. Nubatse API REST iyi wenyine nkoresheje FastAPI — kwinjira, uburenganzira bushingiye ku nshingano, n'imirimo yose ya CRUD y'inshingano, hamwe no gushyigikira ivugurura ry'igihe nyacyo." },
+        { title: "Book Notes App", description: "Kubasomyi babuza ibitekerezo by'ibanze mu bitabo byabo. Nubatse API ya backend wenyine nkoresheje FastAPI, ituma abakoresha babika, bateganya no gushakisha amanotisi hakurikijwe igitabo cyangwa inshingano." },
+        { title: "Sisitemu yo Gucunga Amashuri", description: "Ku mashuri acunga abanyeshuri, amanota n'ibikorwa nta kuyobana kw'inyandiko z'intoki. Nubatse porogaramu yose wenyine nkoresheje JSP, JSF na MySQL — inyandiko z'abanyeshuri, gucunga amasomo n'imirimo y'ubutegetsi." },
       ],
     },
     skills: {
