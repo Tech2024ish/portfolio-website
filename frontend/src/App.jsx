@@ -8,7 +8,6 @@ import Services from './components/Services'
 import Projects from './components/Projects'
 import Skills from './components/Skills'
 import Certifications from './components/Certifications'
-import PhotoGallery from './components/PhotoGallery'
 import Blog from './components/Blog'
 import Hobbies from './components/Hobbies'
 import Contact from './components/Contact'
@@ -28,7 +27,6 @@ function App() {
             <Projects />
             <Skills />
             <Certifications />
-            <PhotoGallery />
             <Blog />
             <Hobbies />
             <Contact />
