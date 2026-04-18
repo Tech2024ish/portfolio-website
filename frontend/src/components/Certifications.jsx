@@ -35,7 +35,7 @@ export default function Certifications() {
   const [ref, inView] = useInView()
 
   return (
-    <section id="certifications" className="py-24 bg-white dark:bg-gray-900">
+    <section id="certifications" className="pt-24 pb-12 bg-white dark:bg-gray-900">
       <div className="max-w-6xl mx-auto px-6">
         <div
           ref={ref}
