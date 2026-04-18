@@ -4,11 +4,10 @@ import { useInView } from "../hooks/useInView";
 
 const STORAGE = "https://fitbjtryrzrjlygbsrhx.supabase.co/storage/v1/object/public/gallery";
 
-const imgCybersecurity = `${STORAGE}/Cisco_cybersecurity.jpg`;
-const imgPython        = `${STORAGE}/Cisco_python_essential.jpg`;
-const imgHTML          = `${STORAGE}/Cisco_HTML_essential.jpg`;
-const imgIEE           = `${STORAGE}/IEEcertificate.jpg`;
-const imgAward         = `${STORAGE}/ciscoAward.jpg`;
+const imgTeaching = `${STORAGE}/teaching.jpeg`;
+const imgIEE      = `${STORAGE}/IEEcertificate.jpg`;
+const imgAward    = `${STORAGE}/ciscoAward.jpg`;
+const imgCoding   = `${STORAGE}/coding.jpeg`;
 
 const categoryColors = {
   Academic: "from-blue-500 to-indigo-600",
@@ -29,21 +28,11 @@ const categoryColors = {
   "Open Source": "from-rose-500 to-pink-600",
 };
 
-// Map gallery item index to a real photo (by position in translations array)
 const galleryImages = [
-  null,         // 0: University Life — no photo yet
-  null,         // 1: A2SV Training — no photo yet
-  imgIEE,       // 2: Teaching Assistantship
-  null,         // 3: Project Development — no photo yet
-  imgAward,     // 4: Certifications (award)
-  null,         // 5: GitHub Contributions — no photo yet
-];
-
-// Extra certificate images shown as bonus cards
-const certCards = [
-  { image: imgCybersecurity, title: "Cisco Cybersecurity", category: "Achievements" },
-  { image: imgPython,        title: "Cisco Python Essentials 1", category: "Achievements" },
-  { image: imgHTML,          title: "Cisco HTML Essentials", category: "Achievements" },
+  imgTeaching,  // 0: Teaching Assistantship
+  imgIEE,       // 1: IEE Leadership Certificate
+  imgAward,     // 2: Cisco Award
+  imgCoding,    // 3: Coding Session
 ];
 
 const categoryIcons = {
@@ -107,11 +96,7 @@ export default function PhotoGallery() {
 
   const items = t.gallery.items;
 
-  // Merge translation items with cert cards
-  const allItems = [
-    ...items.map((item, i) => ({ ...item, image: galleryImages[i] ?? null })),
-    ...certCards.map((c) => ({ ...c, description: "" })),
-  ];
+  const allItems = items.map((item, i) => ({ ...item, image: galleryImages[i] ?? null }));
 
   return (
     <section id="gallery" ref={ref} className="pt-8 pb-16 bg-gray-50 dark:bg-gray-900">
