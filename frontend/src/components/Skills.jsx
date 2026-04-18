@@ -46,7 +46,7 @@ export default function Skills() {
   const [ref, inView] = useInView()
 
   return (
-    <section id="skills" className="py-24 bg-gray-50 dark:bg-gray-900">
+    <section id="skills" className="py-16 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-6xl mx-auto px-6">
         <div
           ref={ref}

@@ -35,7 +35,7 @@ export default function Services() {
   const [ref, inView] = useInView()
 
   return (
-    <section id="services" className="py-24 bg-white dark:bg-gray-950">
+    <section id="services" className="py-16 bg-white dark:bg-gray-950">
       <div className="max-w-6xl mx-auto px-6">
         <div
           ref={ref}

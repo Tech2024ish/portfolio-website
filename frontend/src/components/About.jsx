@@ -4,7 +4,7 @@ export default function About() {
   const { t } = useLanguage();
 
   return (
-    <section id="about" className="py-24 bg-gray-50 dark:bg-gray-900">
+    <section id="about" className="py-16 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <span className="inline-block text-xs font-semibold tracking-widest text-teal-600 dark:text-teal-400 uppercase mb-3 px-4 py-1.5 bg-teal-50 dark:bg-teal-900/40 border border-teal-200 dark:border-teal-800 rounded-full">
