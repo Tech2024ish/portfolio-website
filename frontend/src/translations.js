@@ -131,7 +131,7 @@ export const translations = {
         },
         {
           title: "School Management System",
-          description: "For schools managing students, grades, and operations without the chaos of manual records. I built the full web application solo using JSP, JSF, and MySQL — covering student records, course management, and administrative workflows.",
+          description: "For schools managing students, grades, and operations without manual paperwork. Built in a team project where I led the admin module, managing the full system including student records, course management, and administrative workflows, using JSP, JSF, and MySQL.",
         },
       ],
     },
@@ -361,7 +361,7 @@ export const translations = {
       items: [
         { title: "Task Management API", description: "Pour les développeurs et équipes qui ont besoin d'un backend fiable. J'ai construit cette API REST en solo avec FastAPI — authentification, accès basé sur les rôles, et opérations CRUD complètes pour les tâches, avec support des mises à jour en temps réel." },
         { title: "Book Notes App", description: "Pour les lecteurs qui perdent de vue les idées clés de leurs livres. J'ai développé l'API backend en solo avec FastAPI, permettant de stocker, organiser et retrouver des notes par livre ou sujet." },
-        { title: "Système de Gestion Scolaire", description: "Pour les écoles gérant élèves, notes et opérations sans la complexité des dossiers manuels. J'ai construit l'application complète en solo avec JSP, JSF et MySQL — dossiers élèves, gestion des cours et flux administratifs." },
+        { title: "Système de Gestion Scolaire", description: "Pour les écoles gérant élèves, notes et opérations sans paperasse manuelle. Projet d'équipe où j'ai dirigé le module admin, gérant l'ensemble du système : dossiers élèves, cours et flux administratifs, avec JSP, JSF et MySQL." },
       ],
     },
     skills: {
@@ -590,7 +590,7 @@ export const translations = {
       items: [
         { title: "Task Management API", description: "Kubaturage n'amatsinda akeneye backend ikwiye gusenga. Nubatse API REST iyi wenyine nkoresheje FastAPI — kwinjira, uburenganzira bushingiye ku nshingano, n'imirimo yose ya CRUD y'inshingano, hamwe no gushyigikira ivugurura ry'igihe nyacyo." },
         { title: "Book Notes App", description: "Kubasomyi babuza ibitekerezo by'ibanze mu bitabo byabo. Nubatse API ya backend wenyine nkoresheje FastAPI, ituma abakoresha babika, bateganya no gushakisha amanotisi hakurikijwe igitabo cyangwa inshingano." },
-        { title: "Sisitemu yo Gucunga Amashuri", description: "Ku mashuri acunga abanyeshuri, amanota n'ibikorwa nta kuyobana kw'inyandiko z'intoki. Nubatse porogaramu yose wenyine nkoresheje JSP, JSF na MySQL — inyandiko z'abanyeshuri, gucunga amasomo n'imirimo y'ubutegetsi." },
+        { title: "Sisitemu yo Gucunga Amashuri", description: "Ku mashuri acunga abanyeshuri, amanota n'ibikorwa nta inyandiko z'intoki. Twubatse mu itsinda, njye natwaye module y'ubutegetsi, ncunga sisitemu yose harimo inyandiko z'abanyeshuri, amasomo n'imirimo y'ubutegetsi, nkoresheje JSP, JSF na MySQL." },
       ],
     },
     skills: {
