@@ -140,29 +140,24 @@ export const translations = {
       title: "Technical Skills",
       categories: [
         {
-          title: "Programming",
-          tags: ["Python", "Java", "JavaScript", "C", "Data Structures", "Algorithms"],
+          title: "Languages",
+          tags: ["Python", "Java", "JavaScript", "C"],
         },
         {
-          title: "Web Development",
-          tags: ["HTML & CSS", "React", "FastAPI", "REST APIs"],
+          title: "Frameworks & Libraries",
+          tags: ["FastAPI", "React", "NumPy", "Pandas", "Scikit-learn"],
         },
         {
-          title: "Database",
-          tags: ["PostgreSQL", "Supabase", "SQL", "Database Management"],
+          title: "Databases",
+          tags: ["PostgreSQL", "MySQL", "Supabase", "SQL"],
         },
         {
-          title: "Cybersecurity",
-          tags: ["Intro to Cybersecurity", "Cisco Networking Academy"],
+          title: "Tools & DevOps",
+          tags: ["Git", "GitHub", "REST APIs", "HTML & CSS"],
         },
         {
-          title: "Soft Skills",
-          tags: ["Problem Solving", "Communication", "Teaching", "Teamwork", "Attention to Detail"],
-        },
-        {
-          title: "ML/AI Enthusiast",
-          desc: "Actively exploring machine learning concepts, building small models, and learning how AI can solve real-world problems - especially in the African context.",
-          tags: ["Machine Learning", "Artificial Intelligence", "Python for AI", "NumPy", "Pandas", "Scikit-learn"],
+          title: "CS Fundamentals",
+          tags: ["Data Structures", "Algorithms", "OOP"],
         },
       ],
     },
@@ -369,29 +364,24 @@ export const translations = {
       title: "Compétences Techniques",
       categories: [
         {
-          title: "Programmation",
-          tags: ["Python", "Java", "JavaScript", "C", "Data Structures", "Algorithms"],
+          title: "Langages",
+          tags: ["Python", "Java", "JavaScript", "C"],
         },
         {
-          title: "Développement Web",
-          tags: ["HTML & CSS", "React", "FastAPI", "REST APIs"],
+          title: "Frameworks & Bibliothèques",
+          tags: ["FastAPI", "React", "NumPy", "Pandas", "Scikit-learn"],
         },
         {
-          title: "Base de Données & DevOps",
-          tags: ["PostgreSQL", "Supabase", "SQL", "Database Management"],
+          title: "Bases de Données",
+          tags: ["PostgreSQL", "MySQL", "Supabase", "SQL"],
         },
         {
-          title: "Cybersécurité",
-          tags: ["Intro à la Cybersécurité", "Cisco Networking Academy"],
+          title: "Outils & DevOps",
+          tags: ["Git", "GitHub", "REST APIs", "HTML & CSS"],
         },
         {
-          title: "Compétences Humaines",
-          tags: ["Résolution de problèmes", "Communication", "Enseignement", "Travail d'équipe", "Rigueur"],
-        },
-        {
-          title: "Passionné ML/IA",
-          desc: "J'explore activement les concepts de machine learning, construis de petits modèles et apprends comment l'IA peut résoudre des problèmes réels, notamment dans le contexte africain.",
-          tags: ["Machine Learning", "Intelligence Artificielle", "Python pour IA", "NumPy", "Pandas", "Scikit-learn"],
+          title: "Fondamentaux Informatique",
+          tags: ["Structures de Données", "Algorithmes", "POO"],
         },
       ],
     },
@@ -598,29 +588,24 @@ export const translations = {
       title: "Ubuhanga bw'Ikoranabuhanga",
       categories: [
         {
-          title: "Porogaramu",
-          tags: ["Python", "Java", "JavaScript", "C", "Data Structures", "Algorithms"],
+          title: "Indimi",
+          tags: ["Python", "Java", "JavaScript", "C"],
         },
         {
-          title: "Iterambere ry'Urubuga",
-          tags: ["HTML & CSS", "React", "FastAPI", "REST APIs"],
+          title: "Frameworks & Libraries",
+          tags: ["FastAPI", "React", "NumPy", "Pandas", "Scikit-learn"],
         },
         {
-          title: "Bazidata & DevOps",
-          tags: ["PostgreSQL", "Supabase", "SQL", "Database Management"],
+          title: "Bazidata",
+          tags: ["PostgreSQL", "MySQL", "Supabase", "SQL"],
         },
         {
-          title: "Cyber Security",
-          tags: ["Intro to Cybersecurity", "Cisco Networking Academy"],
+          title: "Ibikoresho & DevOps",
+          tags: ["Git", "GitHub", "REST APIs", "HTML & CSS"],
         },
         {
-          title: "Ubushobozi Bwite",
-          tags: ["Gukemura Ibibazo", "Gutumanahana", "Kwigisha", "Gukorana", "Kwitonda"],
-        },
-        {
-          title: "Ukunzwe na ML/AI",
-          desc: "Nsesengura ibijyanye na machine learning, nubaka models nto kandi niga uburyo AI ishobora gukemura ibibazo by'ukuri, cyane cyane mu Rwanda no mu Afurika.",
-          tags: ["Machine Learning", "Artificial Intelligence", "Python for AI", "NumPy", "Pandas", "Scikit-learn"],
+          title: "Ibanze bya Informatique",
+          tags: ["Data Structures", "Algorithms", "OOP"],
         },
       ],
     },
