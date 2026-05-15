@@ -8,6 +8,7 @@ export const translations = {
       skills: "Skills",
       certifications: "Honors & Awards",
       blog: "Blog",
+      gallery: "Gallery",
       hobbies: "Hobbies",
       contact: "Contact",
     },
@@ -174,7 +175,7 @@ export const translations = {
     gallery: {
       sectionLabel: "Moments",
       title: "Photo Gallery",
-      subtitle: "A glimpse into my academic journey, projects, and community involvement.",
+      subtitle: "Snapshots of real moments — teaching, learning, building, and growing.",
       items: [
         { title: "Teaching Assistantship", description: "Teaching at GS Mutara under the Mastercard Foundation Leaders in Teaching initiative.", category: "Community" },
         { title: "IEE Leadership Certificate", description: "Certificate awarded for leadership and teaching contribution under the IEE & Mastercard Foundation program.", category: "Achievements" },
@@ -238,6 +239,7 @@ export const translations = {
       skills: "Compétences",
       certifications: "Distinctions",
       blog: "Blog",
+      gallery: "Galerie",
       hobbies: "Loisirs",
       contact: "Contact",
     },
@@ -395,7 +397,7 @@ export const translations = {
     gallery: {
       sectionLabel: "Moments",
       title: "Galerie Photo",
-      subtitle: "Un aperçu de mon parcours académique, de mes projets et de mon implication communautaire.",
+      subtitle: "Des instants réels — enseigner, apprendre, construire et grandir.",
       items: [
         { title: "Assistant d'Enseignement", description: "Enseignement à GS Mutara dans le cadre du programme Mastercard Foundation Leaders in Teaching.", category: "Communauté" },
         { title: "Certificat de Leadership IEE", description: "Certificat décerné pour la contribution en leadership et enseignement dans le programme IEE & Mastercard Foundation.", category: "Réalisations" },
@@ -459,6 +461,7 @@ export const translations = {
       skills: "Ubuhanga",
       certifications: "Ibihembo",
       blog: "Blog",
+      gallery: "Amafoto",
       hobbies: "Imyidagaduro",
       contact: "Wasiliana",
     },
@@ -616,7 +619,7 @@ export const translations = {
     gallery: {
       sectionLabel: "Ibihe",
       title: "Amafoto",
-      subtitle: "Incamake y'urugendo rwanjye rw'amashuri, imishinga n'ubukorikori mu baturage.",
+      subtitle: "Ibihe by'ukuri — kwigisha, kwiga, kubaka no gukura.",
       items: [
         { title: "Umufasha w'Umwarimu", description: "Kwigisha muri GS Mutara mu rwego rwa Mastercard Foundation Leaders in Teaching.", category: "Ubukorikori" },
         { title: "Icyangombwa cy'Ubutegetsi bwa IEE", description: "Icyangombwa cyahawe kubera ubutegetsi no kwigisha mu rwego rwa IEE & Mastercard Foundation.", category: "Intsinzi" },
