@@ -9,14 +9,17 @@ router = APIRouter()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+# Service role key bypasses RLS so storage listing works without extra policies.
+# Falls back to anon key if not set.
+SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY", SUPABASE_KEY)
 BUCKET = "gallery"
 
 
 def _list_files():
     storage_url = f"{SUPABASE_URL}/storage/v1/object/list/{BUCKET}"
     headers = {
-        "apikey": SUPABASE_KEY,
-        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "apikey": SUPABASE_SERVICE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_KEY}",
         "Content-Type": "application/json",
     }
     with httpx.Client(timeout=15.0) as client:
