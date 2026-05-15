@@ -53,7 +53,11 @@ export default function PhotoGallery() {
           res.data.map((f) => ({ ...f, label: prettyName(f.name) }))
         );
       })
-      .catch(() => setError("Could not load gallery."))
+      .catch((err) => {
+        const msg = err?.response?.data?.detail || err?.message || "Unknown error";
+        console.error("Gallery fetch failed:", msg, err);
+        setError(`Could not load gallery: ${msg}`);
+      })
       .finally(() => setLoading(false));
   }, []);
 
