@@ -1,53 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useInView } from "../hooks/useInView";
+import { getGallery } from "../api";
 
-const STORAGE = "https://fitbjtryrzrjlygbsrhx.supabase.co/storage/v1/object/public/gallery";
+function prettyName(filename) {
+  return filename
+    .replace(/\.[^.]+$/, "")        // strip extension
+    .replace(/[-_]/g, " ")          // dashes/underscores → spaces
+    .replace(/\b\w/g, (c) => c.toUpperCase()); // title case
+}
 
-const imgTeaching = `${STORAGE}/teaching.jpeg`;
-const imgIEE      = `${STORAGE}/IEEcertificate.jpg`;
-const imgAward    = `${STORAGE}/ciscoAward.jpg`;
-const imgCoding   = `${STORAGE}/coding.jpeg`;
-
-const categoryColors = {
-  Academic: "from-blue-500 to-indigo-600",
-  Académique: "from-blue-500 to-indigo-600",
-  Amashuri: "from-blue-500 to-indigo-600",
-  Learning: "from-teal-500 to-cyan-600",
-  Apprentissage: "from-teal-500 to-cyan-600",
-  Kwiga: "from-teal-500 to-cyan-600",
-  Community: "from-green-500 to-emerald-600",
-  Communauté: "from-green-500 to-emerald-600",
-  Ubukorikori: "from-green-500 to-emerald-600",
-  Projects: "from-violet-500 to-purple-600",
-  Projets: "from-violet-500 to-purple-600",
-  Imishinga: "from-violet-500 to-purple-600",
-  Achievements: "from-amber-500 to-orange-600",
-  Réalisations: "from-amber-500 to-orange-600",
-  Intsinzi: "from-amber-500 to-orange-600",
-  "Open Source": "from-rose-500 to-pink-600",
-};
-
-const galleryImages = [
-  imgTeaching,  // 0: Teaching Assistantship
-  imgIEE,       // 1: IEE Leadership Certificate
-  imgAward,     // 2: Cisco Award
-  imgCoding,    // 3: Coding Session
-];
-
-const categoryIcons = {
-  Academic: "🎓", Académique: "🎓", Amashuri: "🎓",
-  Learning: "📚", Apprentissage: "📚", Kwiga: "📚",
-  Community: "🤝", Communauté: "🤝", Ubukorikori: "🤝",
-  Projects: "💻", Projets: "💻", Imishinga: "💻",
-  Achievements: "🏆", Réalisations: "🏆", Intsinzi: "🏆",
-  "Open Source": "🌐",
-};
-
-function GalleryCard({ item, image, index, inView, onClick }) {
-  const gradient = categoryColors[item.category] || "from-gray-500 to-gray-600";
-  const icon = categoryIcons[item.category] || "📷";
-
+function GalleryCard({ item, index, inView, onClick }) {
   return (
     <div
       className={`group relative rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 ${
@@ -56,32 +19,18 @@ function GalleryCard({ item, image, index, inView, onClick }) {
       style={{ transitionDelay: `${index * 80}ms` }}
       onClick={onClick}
     >
-      {image ? (
-        <div className="h-52 overflow-hidden">
-          <img
-            src={image}
-            alt={item.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-      ) : (
-        <div className={`bg-gradient-to-br ${gradient} h-52 flex items-center justify-center`}>
-          <span className="text-6xl opacity-80 group-hover:scale-110 transition-transform duration-300">
-            {icon}
-          </span>
-        </div>
-      )}
+      <div className="h-52 overflow-hidden bg-gray-100 dark:bg-gray-800">
+        <img
+          src={item.url}
+          alt={item.label}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
 
-      <div className="bg-white dark:bg-gray-800 p-5">
-        <span className="inline-block text-xs font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-wide mb-1">
-          {item.category}
-        </span>
-        <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">
-          {item.title}
+      <div className="bg-white dark:bg-gray-800 p-4">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+          {item.label}
         </h3>
-        <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
-          {item.description}
-        </p>
       </div>
 
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 pointer-events-none" />
@@ -92,11 +41,21 @@ function GalleryCard({ item, image, index, inView, onClick }) {
 export default function PhotoGallery() {
   const { t } = useLanguage();
   const [ref, inView] = useInView(0.1);
+  const [photos, setPhotos] = useState([]);
   const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const items = t.gallery.items;
-
-  const allItems = items.map((item, i) => ({ ...item, image: galleryImages[i] ?? null }));
+  useEffect(() => {
+    getGallery()
+      .then((res) => {
+        setPhotos(
+          res.data.map((f) => ({ ...f, label: prettyName(f.name) }))
+        );
+      })
+      .catch(() => setError("Could not load gallery."))
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <section id="gallery" ref={ref} className="pt-8 pb-16 bg-gray-50 dark:bg-gray-900">
@@ -118,22 +77,31 @@ export default function PhotoGallery() {
           </p>
         </div>
 
+        {/* States */}
+        {loading && (
+          <p className="text-center text-gray-400 dark:text-gray-500 text-sm">Loading gallery…</p>
+        )}
+        {error && (
+          <p className="text-center text-red-400 text-sm">{error}</p>
+        )}
+
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allItems.map((item, i) => (
-            <GalleryCard
-              key={i}
-              item={item}
-              image={item.image}
-              index={i}
-              inView={inView}
-              onClick={() => setSelected(item)}
-            />
-          ))}
-        </div>
+        {!loading && !error && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {photos.map((item, i) => (
+              <GalleryCard
+                key={item.name}
+                item={item}
+                index={i}
+                inView={inView}
+                onClick={() => setSelected(item)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Lightbox modal */}
+      {/* Lightbox */}
       {selected && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
@@ -143,34 +111,18 @@ export default function PhotoGallery() {
             className="bg-white dark:bg-gray-800 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {selected.image ? (
-              <img
-                src={selected.image}
-                alt={selected.title}
-                className="w-full max-h-72 object-cover"
-              />
-            ) : (
-              <div
-                className={`bg-gradient-to-br ${categoryColors[selected.category] || "from-gray-500 to-gray-600"} h-40 flex items-center justify-center`}
-              >
-                <span className="text-7xl">{categoryIcons[selected.category] || "📷"}</span>
-              </div>
-            )}
+            <img
+              src={selected.url}
+              alt={selected.label}
+              className="w-full max-h-72 object-cover"
+            />
             <div className="p-6">
-              <span className="inline-block text-xs font-semibold text-teal-600 dark:text-teal-400 uppercase tracking-wide mb-2">
-                {selected.category}
-              </span>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                {selected.title}
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                {selected.label}
               </h3>
-              {selected.description && (
-                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                  {selected.description}
-                </p>
-              )}
               <button
                 onClick={() => setSelected(null)}
-                className="mt-5 w-full py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-sm text-gray-600 dark:text-gray-300 hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+                className="w-full py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-sm text-gray-600 dark:text-gray-300 hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
               >
                 Close
               </button>
