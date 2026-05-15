@@ -9,6 +9,7 @@ import Projects from './components/Projects'
 import Skills from './components/Skills'
 import Certifications from './components/Certifications'
 import Blog from './components/Blog'
+import PhotoGallery from './components/PhotoGallery'
 import Hobbies from './components/Hobbies'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
@@ -28,6 +29,7 @@ function App() {
             <Skills />
             <Certifications />
             <Blog />
+            <PhotoGallery />
             <Hobbies />
             <Contact />
           </main>
