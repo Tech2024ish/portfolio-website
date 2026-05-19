@@ -4,7 +4,8 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-COUNTER_FILE = os.path.join(os.path.dirname(__file__), "..", "visit_count.json")
+COUNTER_FILE = os.path.join(os.path.dirname(
+    __file__), "..", "visit_count.json")
 
 
 def _read_count() -> int:

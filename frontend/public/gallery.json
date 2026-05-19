@@ -10,5 +10,9 @@
   {
     "name": "Techinika.jpg",
     "url": "https://fitbjtryrzrjlygbsrhx.supabase.co/storage/v1/object/public/gallery/Techinika.jpg"
+  },
+  {
+    "name": "teaching.jpeg",
+    "url": "https://fitbjtryrzrjlygbsrhx.supabase.co/storage/v1/object/public/gallery/teaching.jpeg"
   }
 ]
