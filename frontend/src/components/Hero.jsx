@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import profilePic from "../images/profile_pic.png";
+import profilePic from "../images/profile_picture.png";
 import { useLanguage } from "../context/LanguageContext";
 import { useTypewriter } from "../hooks/useTypewriter";
 
