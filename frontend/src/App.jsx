@@ -6,13 +6,13 @@ import { useTheme } from './context/ThemeContext'
 const socials = [{ label: 'GitHub', href: 'https://github.com/Tech2024ish' }, { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ishimwe-jean-claude-goslish/' }, { label: 'Email', href: 'mailto:claudeish88@gmail.com' }]
 const projects = [
   { title: 'School Management System', type: 'Backend & web app', description: 'A school operations application covering student and teacher management, attendance, reports, and authentication.', stack: ['Java', 'Hibernate', 'MySQL', 'JSF'], github: 'https://github.com/Tech2024ish/SchoolManagementSystem' },
-  { title: 'Portfolio Website', type: 'Full-stack project', description: 'A responsive personal portfolio combining a React interface with a FastAPI backend and a maintainable content structure.', stack: ['React', 'FastAPI'], github: null },
+  { title: 'Portfolio Website', type: 'Full-stack project', description: 'A responsive personal portfolio combining a React interface with a FastAPI backend, Supabase/PostgreSQL persistence, and a maintainable content structure.', stack: ['React', 'FastAPI', 'Supabase', 'PostgreSQL'], github: 'https://github.com/Tech2024ish/portfolio' },
   { title: 'BuzHub Platform', type: 'Backend contribution', description: 'Backend development contribution focused on API design, business logic, and persistence for a platform built around real product needs.', stack: ['FastAPI', 'PostgreSQL', 'REST APIs'], github: null },
 ]
 const skillGroups = [
   { label: 'Backend', number: '01', skills: ['Python', 'FastAPI', 'Java', 'REST APIs', 'PostgreSQL', 'SQL'] },
   { label: 'Frontend', number: '02', skills: ['JavaScript', 'React', 'HTML', 'CSS'] },
-  { label: 'Tools', number: '03', skills: ['Git', 'GitHub', 'Postman'] },
+  { label: 'Tools', number: '03', skills: ['Git', 'GitHub', 'Postman', 'Docker', 'Kubernetes'] },
   { label: 'Core concepts', number: '04', skills: ['OOP', 'Database Design', 'API Design', 'Authentication', 'Data Structures', 'Algorithms', 'Software Engineering'] },
 ]
 const certifications = ['Harvard CS50 Python', 'Cisco Networking Academy Python', 'Cisco Networking Academy HTML']
