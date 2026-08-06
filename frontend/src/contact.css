@@ -1,10 +1,67 @@
 .contact-section {
-  background: #173b33;
-  color: #fff;
+  background: #e9f4ef;
+  color: #173b33;
 }
 
 .dark .contact-section {
   background: #091f18;
+  color: #fff;
+}
+
+.contact-section .section-heading h2 {
+  color: #173b33;
+}
+
+.contact-section .section-heading p,
+.contact-section .contact-links a {
+  color: #48655c;
+}
+
+.contact-form {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.contact-form label {
+  color: #48655c;
+}
+
+.contact-form input,
+.contact-form textarea {
+  border-color: #b9d2c7;
+  color: #173b33;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #789189;
+}
+
+.dark .contact-section .section-heading h2 {
+  color: #fff;
+}
+
+.dark .contact-section .section-heading p,
+.dark .contact-section .contact-links a {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.dark .contact-form {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.dark .contact-form label {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.dark .contact-form input,
+.dark .contact-form textarea {
+  border-color: rgba(255, 255, 255, 0.24);
+  color: #fff;
+}
+
+.dark .contact-form input::placeholder,
+.dark .contact-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .contact-form .button {
