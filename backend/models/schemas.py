@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional
 
 
@@ -14,7 +14,7 @@ class Project(BaseModel):
 
 class Skill(BaseModel):
     id: Optional[int] = None
-    name: str
+    name: str = Field(min_length=2, max_length=100)
     category: str
     level: int  # 1-100
 
@@ -22,7 +22,8 @@ class Skill(BaseModel):
 class ContactMessage(BaseModel):
     name: str
     email: EmailStr
-    message: str
+    message: str = Field(min_length=10, max_length=5000)
+    website: str = Field(default="", max_length=200)
 
 
 class ContactResponse(BaseModel):

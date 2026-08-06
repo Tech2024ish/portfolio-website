@@ -29,6 +29,29 @@ CREATE TABLE contacts (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+-- Persistent visit counter. Keep exactly one row with id = 1.
+CREATE TABLE visit_stats (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  count BIGINT NOT NULL DEFAULT 0
+);
+
+ALTER TABLE visit_stats ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can read visit count" ON visit_stats FOR SELECT USING (true);
+GRANT SELECT ON visit_stats TO anon, authenticated;
+
+INSERT INTO visit_stats (id, count) VALUES (1, 0) ON CONFLICT (id) DO NOTHING;
+
+CREATE OR REPLACE FUNCTION increment_visit_count()
+RETURNS BIGINT
+LANGUAGE SQL
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  UPDATE visit_stats SET count = count + 1 WHERE id = 1
+  RETURNING count;
+$$;
+GRANT EXECUTE ON FUNCTION increment_visit_count() TO anon, authenticated;
+
 -- Sample projects data
 INSERT INTO projects (title, description, tech_stack, github_url, live_url) VALUES
   ('REST API Service', 'A high-performance REST API built with FastAPI and Supabase for managing user data and authentication.', ARRAY['Python', 'FastAPI', 'Supabase', 'Docker'], 'https://github.com', 'https://example.com'),

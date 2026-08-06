@@ -13,6 +13,7 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 # Falls back to anon key if not set.
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY", SUPABASE_KEY)
 BUCKET = "gallery"
+ENABLE_DEBUG_ENDPOINTS = os.getenv("ENABLE_DEBUG_ENDPOINTS", "false").lower() == "true"
 
 
 def _list_files():
@@ -49,5 +50,7 @@ def get_gallery():
 @router.get("/gallery/debug")
 def debug_gallery():
     """Returns raw Supabase storage response for debugging."""
+    if not ENABLE_DEBUG_ENDPOINTS:
+        raise HTTPException(status_code=404, detail="Not found")
     response = _list_files()
     return {"status": response.status_code, "body": response.text[:2000]}
