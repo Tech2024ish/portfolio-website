@@ -1,26 +1,31 @@
-.language-switcher {
+.language-select {
   display: flex;
   align-items: center;
-  gap: 7px;
   margin-left: 4px;
   padding-left: 12px;
   border-left: 1px solid var(--line);
 }
 
-.language-switcher button {
-  min-width: 25px;
-  color: var(--muted);
+.language-select select {
+  appearance: none;
+  min-width: 58px;
+  padding: 7px 22px 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--ink);
+  background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='m1 1 4 4 4-4' fill='none' stroke='%2366716d' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 8px center;
+  cursor: pointer;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: .05em;
 }
 
-.language-switcher button.active {
-  color: var(--accent);
+.language-select select:hover {
+  border-color: var(--accent);
 }
 
 @media (max-width: 850px) {
-  .language-switcher {
+  .language-select {
     justify-content: center;
     margin: 8px 0;
     padding: 10px 0;
