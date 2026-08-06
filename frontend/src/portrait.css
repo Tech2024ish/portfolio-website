@@ -3,3 +3,17 @@
 .hero-note {
   display: none;
 }
+
+.hero-visual.reveal {
+  transform: translateY(-6px);
+}
+
+.hero-visual.reveal.is-visible {
+  transform: translateY(-24px);
+}
+
+@media (max-width: 850px) {
+  .hero-visual.reveal.is-visible {
+    transform: translateY(-12px);
+  }
+}
