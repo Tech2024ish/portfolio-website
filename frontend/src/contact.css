@@ -1,0 +1,24 @@
+.contact-section {
+  background: #173b33;
+  color: #fff;
+}
+
+.dark .contact-section {
+  background: #091f18;
+}
+
+.contact-form .button {
+  background: #a5e8ca;
+  color: #12352c;
+  border-color: #a5e8ca;
+}
+
+.contact-form .button:hover {
+  background: #d0f7e4;
+  border-color: #d0f7e4;
+}
+
+.contact-form .button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
