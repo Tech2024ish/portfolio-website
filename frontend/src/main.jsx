@@ -6,6 +6,7 @@ import './contact.css'
 import './portrait.css'
 import './language.css'
 import './theme.css'
+import './responsive.css'
 import { ThemeProvider } from './context/ThemeContext'
 import { LanguageProvider } from './context/LanguageContext'
 
