@@ -1,0 +1,11 @@
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+}
