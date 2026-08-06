@@ -5,6 +5,7 @@ import './index.css'
 import './contact.css'
 import './portrait.css'
 import './language.css'
+import './theme.css'
 import { ThemeProvider } from './context/ThemeContext'
 import { LanguageProvider } from './context/LanguageContext'
 
