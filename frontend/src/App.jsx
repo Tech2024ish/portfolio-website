@@ -1,44 +1,44 @@
-import React from 'react'
-import { LanguageProvider } from './context/LanguageContext'
-import { ThemeProvider } from './context/ThemeContext'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import About from './components/About'
-import Services from './components/Services'
-import Projects from './components/Projects'
-import Skills from './components/Skills'
-import Certifications from './components/Certifications'
-import Blog from './components/Blog'
-import PhotoGallery from './components/PhotoGallery'
-import Hobbies from './components/Hobbies'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
-import BackToTop from './components/BackToTop'
+import { useEffect, useMemo, useState } from 'react'
+import profilePic from './images/profile_picture.png'
+import { sendContact } from './api'
+import { useTheme } from './context/ThemeContext'
 
-function App() {
-  return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans">
-          <Navbar />
-          <main>
-            <Hero />
-            <About />
-            <Services />
-            <Projects />
-            <Skills />
-            <Certifications />
-            <Blog />
-            <PhotoGallery />
-            <Hobbies />
-            <Contact />
-          </main>
-          <Footer />
-          <BackToTop />
-        </div>
-      </LanguageProvider>
-    </ThemeProvider>
-  )
+const socials = [{ label: 'GitHub', href: 'https://github.com/Tech2024ish' }, { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ishimwe-jean-claude-goslish/' }, { label: 'Email', href: 'mailto:claudeish88@gmail.com' }]
+const projects = [
+  { title: 'School Management System', type: 'Backend & web app', description: 'A school operations application covering student and teacher management, attendance, reports, and authentication.', stack: ['Java', 'Hibernate', 'MySQL', 'JSF'], github: 'https://github.com/Tech2024ish/SchoolManagementSystem' },
+  { title: 'Portfolio Website', type: 'Full-stack project', description: 'A responsive personal portfolio combining a React interface with a FastAPI backend and a maintainable content structure.', stack: ['React', 'FastAPI'], github: null },
+  { title: 'BuzHub Platform', type: 'Backend contribution', description: 'Backend development contribution focused on API design, business logic, and persistence for a platform built around real product needs.', stack: ['FastAPI', 'PostgreSQL', 'REST APIs'], github: null },
+]
+const skillGroups = [
+  { label: 'Backend', number: '01', skills: ['Python', 'FastAPI', 'Java', 'REST APIs', 'PostgreSQL', 'SQL'] },
+  { label: 'Frontend', number: '02', skills: ['JavaScript', 'React', 'HTML', 'CSS'] },
+  { label: 'Tools', number: '03', skills: ['Git', 'GitHub', 'Postman'] },
+  { label: 'Core concepts', number: '04', skills: ['OOP', 'Database Design', 'API Design', 'Authentication', 'Data Structures', 'Algorithms', 'Software Engineering'] },
+]
+const certifications = ['Harvard CS50 Python', 'Cisco Networking Academy Python', 'Cisco Networking Academy HTML']
+
+function SectionHeading({ eyebrow, title, intro }) { return <div className="section-heading reveal"><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{intro && <p>{intro}</p>}</div> }
+
+export default function App() {
+  const { dark, setDark } = useTheme()
+  const [menuOpen, setMenuOpen] = useState(false); const [active, setActive] = useState('home'); const [filter, setFilter] = useState('All')
+  const [form, setForm] = useState({ name: '', email: '', message: '' }); const [status, setStatus] = useState('')
+  const visibleProjects = useMemo(() => filter === 'All' ? projects : projects.filter((p) => p.type === filter), [filter])
+  useEffect(() => {
+    const sections = document.querySelectorAll('main section[id]'); const observer = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)), { rootMargin: '-30% 0px -60% 0px' }); sections.forEach((s) => observer.observe(s))
+    const reveals = document.querySelectorAll('.reveal'); const revealObserver = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('is-visible')), { threshold: .12 }); reveals.forEach((r) => revealObserver.observe(r)); return () => { observer.disconnect(); revealObserver.disconnect() }
+  }, [])
+  const navigate = (id) => { setMenuOpen(false); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }) }
+  const submitContact = async (event) => { event.preventDefault(); setStatus('loading'); try { await sendContact(form); setForm({ name: '', email: '', message: '' }); setStatus('success') } catch { setStatus('error') } }
+  return <div className="site-shell">
+    <header className="site-header"><div className="nav-wrap"><button className="brand" onClick={() => navigate('home')} aria-label="Go to home"><span>JC</span><strong>Jean Claude<span>.</span></strong></button><button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}><span /><span /><span /></button><nav className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Primary navigation">{['home', 'about', 'experience', 'projects', 'skills', 'contact'].map((id) => <button key={id} className={active === id ? 'active' : ''} onClick={() => navigate(id)}>{id[0].toUpperCase() + id.slice(1)}</button>)}<button className="theme-toggle" onClick={() => setDark(!dark)} aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}>{dark ? '☼' : '☾'}</button></nav></div></header>
+    <main>
+      <section id="home" className="hero section-pad"><div className="hero-grid"><div className="hero-copy reveal"><p className="kicker"><span className="status-dot" /> Available for backend opportunities</p><h1>Building the systems behind <em>useful software.</em></h1><p className="hero-summary">Hi, I'm Jean Claude Ishimwe — a Backend Developer passionate about building reliable, scalable backend systems and solving real-world problems through software.</p><div className="hero-actions"><button className="button primary" onClick={() => navigate('projects')}>View projects <span>↗</span></button><a className="button secondary" href="/CV.pdf" download="Jean_Claude_Ishimwe_Resume.pdf">Download resume <span>↓</span></a><button className="text-link" onClick={() => navigate('contact')}>Contact me <span>→</span></button></div><div className="social-row">{socials.map((s) => <a key={s.label} href={s.href} target={s.href.startsWith('mailto') ? undefined : '_blank'} rel="noreferrer">{s.label}</a>)}</div></div><div className="hero-visual reveal"><div className="portrait-frame"><img src={profilePic} alt="Jean Claude Ishimwe" /><span className="portrait-mark">RWA / 01</span></div><div className="hero-note"><span className="line" /><p>Currently<br /><strong>Backend Developer</strong><br />at SilverLandTech</p></div></div></div><div className="scroll-cue">Scroll to explore <span>↓</span></div></section>
+      <section id="about" className="section-pad section-muted"><div className="content-grid"><SectionHeading eyebrow="01 / About" title="A backend-minded builder." /><div className="about-copy reveal"><p className="lead">Backend Developer at SilverLandTech and Computer Science student at the University of Rwanda passionate about building reliable, scalable backend systems and creating technology that solves real-world problems.</p><p>I develop backend applications using Python, FastAPI, Java, PostgreSQL, SQL, and REST APIs, with experience designing APIs, implementing backend logic, and building maintainable software solutions. I also have experience with JavaScript and React, enabling effective collaboration across the software development lifecycle.</p><p>Through professional experience, academic coursework, and personal projects, I have strengthened my skills in software engineering, database design, object-oriented programming, data structures and algorithms, and collaborative development.</p><p>I'm particularly interested in backend engineering, system design, cloud technologies, and AI-driven applications.</p></div></div></section>
+      <section id="experience" className="section-pad"><SectionHeading eyebrow="02 / Experience" title="Where I’ve been building." intro="Professional experience grounded in practical engineering, collaboration, and clear technical communication." /><div className="timeline reveal"><article className="timeline-item"><div className="timeline-date">MAY — PRESENT</div><div><p className="role-company">SilverLandTech</p><h3>Backend Developer</h3><ul><li>Develop backend services using Python and FastAPI.</li><li>Design RESTful APIs, PostgreSQL schemas, and CRUD operations.</li><li>Build business logic and maintain clean, scalable backend architecture.</li><li>Collaborate with frontend developers on debugging and feature development.</li></ul></div></article><article className="timeline-item"><div className="timeline-date">JANUARY — PRESENT</div><div><p className="role-company">Techinika</p><h3>Technical Writer</h3><ul><li>Write technical articles and explain software engineering concepts.</li><li>Produce educational technical content in collaboration with editorial members.</li></ul></div></article></div></section>
+      <section id="projects" className="section-pad section-muted"><SectionHeading eyebrow="03 / Selected work" title="Projects with a purpose." intro="A selection of academic, professional, and personal work. Each one is an opportunity to make the underlying system clearer and more useful." /><div className="filter-row" role="group" aria-label="Filter projects">{['All', 'Backend contribution', 'Backend & web app', 'Full-stack project'].map((item) => <button key={item} className={filter === item ? 'filter active' : 'filter'} onClick={() => setFilter(item)}>{item}</button>)}</div><div className="project-grid">{visibleProjects.map((p, i) => <article className="project-card reveal" key={p.title}><div className="card-top"><span className="project-index">0{i + 1}</span><span className="project-type">{p.type}</span></div><h3>{p.title}</h3><p>{p.description}</p><div className="tag-list">{p.stack.map((tech) => <span key={tech}>{tech}</span>)}</div>{p.github && <a className="card-link" href={p.github} target="_blank" rel="noreferrer">View on GitHub <span>↗</span></a>}</article>)}</div></section>
+      <section id="skills" className="section-pad"><SectionHeading eyebrow="04 / Toolkit" title="The tools I think with." /><div className="skills-grid">{skillGroups.map((g) => <article className="skill-card reveal" key={g.label}><div className="skill-number">{g.number}</div><h3>{g.label}</h3><div className="tag-list">{g.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></article>)}</div><div className="cert-row reveal"><div><span className="eyebrow">Continuous learning</span><h3>Certifications</h3></div><div className="cert-list">{certifications.map((cert) => <span key={cert}>✓ {cert}</span>)}</div></div></section>
+      <section id="contact" className="section-pad contact-section"><div className="contact-grid"><div className="reveal"><SectionHeading eyebrow="05 / Contact" title="Let’s build something dependable." intro="Open to backend engineering internships, graduate programs, junior backend engineer roles, and software engineering opportunities." /><div className="contact-links"><a href="mailto:claudeish88@gmail.com">claudeish88@gmail.com <span>↗</span></a><a href="https://www.linkedin.com/in/ishimwe-jean-claude-goslish/" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a></div></div><form className="contact-form reveal" onSubmit={submitContact}><label>Name<input name="name" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Your name" /></label><label>Email<input name="email" type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" /></label><label>Message<textarea name="message" required rows="5" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Tell me what you’re working on..." /></label><button className="button primary" disabled={status === 'loading'}>{status === 'loading' ? 'Sending…' : 'Send message ↗'}</button>{status === 'success' && <p className="form-status success">Message sent — I’ll get back to you soon.</p>}{status === 'error' && <p className="form-status error">Something went wrong. Please try again.</p>}</form></div></section>
+    </main><footer className="site-footer"><div><strong>Jean Claude Ishimwe<span>.</span></strong><p>Backend Developer · Kigali, Rwanda</p></div><div className="footer-socials">{socials.map((s) => <a key={s.label} href={s.href}>{s.label}</a>)}</div><p>© {new Date().getFullYear()} Jean Claude Ishimwe</p></footer>
+  </div>
 }
-
-export default App
