@@ -25,6 +25,35 @@ pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
+## Frontend structure
+
+```text
+frontend/src/
+├── components/       # Page sections and shared UI pieces
+├── context/          # Theme and language state
+├── api/              # Backend API client
+├── images/           # Source image assets
+├── App.jsx           # Page composition and shared page state
+├── main.jsx          # Application entry point
+└── translations.js   # English, French, and Kinyarwanda content
+```
+
+Keep components focused on presentation and interaction. Keep shared page state in `App.jsx`, reusable state in `context/`, and translated copy in `translations.js`.
+
+## Quality checks
+
+Run these before opening a pull request:
+
+```bash
+cd frontend
+npm run format:check
+npm run lint
+npm run build
+npm audit --omit=dev --audit-level=high
+```
+
+Use `npm run format` to format the frontend with the repository's Prettier configuration.
+
 Create `backend/.env`:
 
 ```env
