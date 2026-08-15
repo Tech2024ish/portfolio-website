@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { sendContact } from '../api'
 import SectionHeading from './common/SectionHeading'
 
-export default function Contact({ content, linkedin }) {
+export default function Contact({ content, linkedin, phone }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState('')
   const updateField = (event) => setForm({ ...form, [event.target.name]: event.target.value })
@@ -30,6 +30,12 @@ export default function Contact({ content, linkedin }) {
             </a>
             <a href={linkedin} target="_blank" rel="noreferrer">
               {content.linkedin} <span>&rarr;</span>
+            </a>
+            <a href={`tel:${phone.replace(/\s/g, '')}`}>
+              {phone} <span>&rarr;</span>
+            </a>
+            <a href={`https://wa.me/${phone.replace(/\D/g, '')}`} target="_blank" rel="noreferrer">
+              WhatsApp <span>&rarr;</span>
             </a>
           </div>
         </div>

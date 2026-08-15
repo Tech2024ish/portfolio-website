@@ -11,6 +11,7 @@ import Projects from './components/Projects'
 import Skills from './components/Skills'
 
 const LINKEDIN_URL = 'https://www.linkedin.com/in/ishimwe-jean-claude-goslish/'
+const PHONE_NUMBER = '+250 783 326 529'
 
 export default function App() {
   const { dark, setDark } = useTheme()
@@ -84,7 +85,7 @@ export default function App() {
           setFilter={setFilter}
         />
         <Skills content={t.skills} />
-        <Contact content={t.contact} linkedin={LINKEDIN_URL} />
+        <Contact content={t.contact} linkedin={LINKEDIN_URL} phone={PHONE_NUMBER} />
       </main>
 
       <Footer description={t.footer} />
