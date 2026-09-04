@@ -121,7 +121,6 @@ export const translations = {
         },
       ],
       certificates: [
-        'Harvard CS50 Python',
         'Cisco Networking Academy Python',
         'Cisco Networking Academy HTML',
       ],
@@ -268,7 +267,6 @@ export const translations = {
         },
       ],
       certificates: [
-        'Harvard CS50 Python',
         'Cisco Networking Academy Python',
         'Cisco Networking Academy HTML',
       ],
@@ -414,7 +412,6 @@ export const translations = {
         },
       ],
       certificates: [
-        'Harvard CS50 Python',
         'Cisco Networking Academy Python',
         'Cisco Networking Academy HTML',
       ],
