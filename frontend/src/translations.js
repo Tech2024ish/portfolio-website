@@ -44,7 +44,7 @@ export const translations = {
       silverDate: 'MAY — PRESENT',
       techinika: 'Techinika',
       techRole: 'Technical Writer',
-      techDate: 'JANUARY — PRESENT',
+      techDate: 'JANUARY — SEPTEMBER 2026',
       silverBullets: [
         'Develop backend services using Python and FastAPI.',
         'Design RESTful APIs, PostgreSQL schemas, and CRUD operations.',
@@ -190,7 +190,7 @@ export const translations = {
       silverDate: 'MAI — PRÉSENT',
       techinika: 'Techinika',
       techRole: 'Rédacteur technique',
-      techDate: 'JANVIER — PRÉSENT',
+      techDate: 'JANVIER — SEPTEMBRE 2026',
       silverBullets: [
         'Développer des services backend avec Python et FastAPI.',
         'Concevoir des API REST, des schémas PostgreSQL et des opérations CRUD.',
@@ -336,7 +336,7 @@ export const translations = {
       silverDate: 'GICURASI — UBU',
       techinika: 'Techinika',
       techRole: 'Technical Writer',
-      techDate: 'MUTARAMA — UBU',
+      techDate: 'MUTARAMA — NZERI 2026',
       silverBullets: [
         'Kubaka backend services ukoresheje Python na FastAPI.',
         'Gukora REST APIs, PostgreSQL schemas na CRUD operations.',
