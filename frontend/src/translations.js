@@ -120,10 +120,7 @@ export const translations = {
           ],
         },
       ],
-      certificates: [
-        'Cisco Networking Academy Python',
-        'Cisco Networking Academy HTML',
-      ],
+      certificates: ['Cisco Networking Academy Python', 'Cisco Networking Academy HTML'],
     },
     contact: {
       eyebrow: '05 / Contact',
@@ -266,10 +263,7 @@ export const translations = {
           ],
         },
       ],
-      certificates: [
-        'Cisco Networking Academy Python',
-        'Cisco Networking Academy HTML',
-      ],
+      certificates: ['Cisco Networking Academy Python', 'Cisco Networking Academy HTML'],
     },
     contact: {
       eyebrow: '05 / Contact',
@@ -411,10 +405,7 @@ export const translations = {
           ],
         },
       ],
-      certificates: [
-        'Cisco Networking Academy Python',
-        'Cisco Networking Academy HTML',
-      ],
+      certificates: ['Cisco Networking Academy Python', 'Cisco Networking Academy HTML'],
     },
     contact: {
       eyebrow: '05 / Twandikire',
