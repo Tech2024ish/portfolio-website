@@ -23,9 +23,9 @@ export default function Navbar({
     <header className="site-header">
       <div className="nav-wrap">
         <button className="brand" onClick={() => navigate('home')} aria-label="Go to home">
-          <span>JC</span>
+          <span>CI</span>
           <strong>
-            Jean Claude<span>.</span>
+            Claude Ishimwe<span>.</span>
           </strong>
         </button>
 
