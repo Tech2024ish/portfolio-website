@@ -1,5 +1,3 @@
-import profilePic from '../images/profile_picture.png'
-
 const socials = [
   { label: 'GitHub', href: 'https://github.com/Tech2024ish' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ishimwe-jean-claude-goslish/' },
@@ -49,7 +47,7 @@ export default function Hero({ content, navigate }) {
 
         <div className="hero-visual reveal">
           <div className="portrait-frame">
-            <img src={profilePic} alt="Jean Claude Ishimwe" />
+            <img src="/ishimwe-jean-claude.png" alt="Ishimwe Jean Claude portrait" />
           </div>
         </div>
       </div>
