@@ -101,7 +101,7 @@ textarea {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 16px;
 }
 .nav-links button {
   border: 0;
