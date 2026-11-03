@@ -1,82 +1,155 @@
 import { useState } from 'react'
 import { sendContact } from '../api'
+import { useLanguage } from '../context/LanguageContext'
 import SectionHeading from './common/SectionHeading'
 
-export default function Contact({ content, linkedin, phone }) {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+const empty = { name: '', email: '', subject: '', message: '', website: '' }
+
+export default function Contact({ profile }) {
+  const { t, ui } = useLanguage()
+  const [form, setForm] = useState(empty)
   const [status, setStatus] = useState('')
+  const [errorText, setErrorText] = useState('')
+  const [fieldErrors, setFieldErrors] = useState({})
   const updateField = (event) => setForm({ ...form, [event.target.name]: event.target.value })
+  const linkedin = profile.social_links.find((link) => link.label.toLowerCase() === 'linkedin')
 
   const submitContact = async (event) => {
     event.preventDefault()
     setStatus('loading')
+    setFieldErrors({})
     try {
       await sendContact(form)
-      setForm({ name: '', email: '', message: '' })
+      setForm(empty)
       setStatus('success')
-    } catch {
+    } catch (error) {
+      setFieldErrors(Object.fromEntries((error.fields || []).map((f) => [f.field, f.message])))
+      setErrorText(error.status === 429 ? error.message : t.contact.error)
       setStatus('error')
     }
   }
+
+  const describedBy = (name) => (fieldErrors[name] ? `contact-${name}-error` : undefined)
+  const fieldError = (name) =>
+    fieldErrors[name] && (
+      <span className="field-error" id={`contact-${name}-error`}>
+        {fieldErrors[name]}
+      </span>
+    )
 
   return (
     <section id="contact" className="section-pad contact-section">
       <div className="contact-grid">
         <div className="reveal">
-          <SectionHeading eyebrow={content.eyebrow} title={content.title} intro={content.intro} />
+          <SectionHeading
+            eyebrow={t.contact.eyebrow}
+            title={t.contact.title}
+            intro={profile.contact_intro}
+          />
           <div className="contact-links">
-            <a href={`mailto:${content.email}`}>
-              {content.email} <span>&rarr;</span>
-            </a>
-            <a href={linkedin} target="_blank" rel="noreferrer">
-              {content.linkedin} <span>&rarr;</span>
-            </a>
-            <a href={`tel:${phone.replace(/\s/g, '')}`}>
-              {phone} <span>&rarr;</span>
-            </a>
-            <a href={`https://wa.me/${phone.replace(/\D/g, '')}`} target="_blank" rel="noreferrer">
-              WhatsApp <span>&rarr;</span>
-            </a>
+            {profile.email && (
+              <a href={`mailto:${profile.email}`}>
+                {profile.email} <span aria-hidden="true">&rarr;</span>
+              </a>
+            )}
+            {linkedin && (
+              <a href={linkedin.url} target="_blank" rel="noreferrer">
+                {t.contact.linkedin} <span aria-hidden="true">&rarr;</span>
+              </a>
+            )}
+            {profile.phone && (
+              <a href={`tel:${profile.phone.replace(/\s/g, '')}`}>
+                {profile.phone} <span aria-hidden="true">&rarr;</span>
+              </a>
+            )}
+            {profile.whatsapp && (
+              <a
+                href={`https://wa.me/${profile.whatsapp.replace(/\D/g, '')}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                WhatsApp <span aria-hidden="true">&rarr;</span>
+              </a>
+            )}
           </div>
         </div>
-        <form className="contact-form reveal" onSubmit={submitContact}>
+        <form className="contact-form reveal" onSubmit={submitContact} noValidate={false}>
           <label>
-            {content.name}
+            {t.contact.name}
             <input
               name="name"
               required
+              minLength={2}
+              maxLength={120}
+              autoComplete="name"
               value={form.name}
               onChange={updateField}
-              placeholder={content.namePlaceholder}
+              placeholder={t.contact.namePlaceholder}
+              aria-invalid={Boolean(fieldErrors.name)}
+              aria-describedby={describedBy('name')}
             />
+            {fieldError('name')}
           </label>
           <label>
-            {content.emailLabel}
+            {t.contact.emailLabel}
             <input
               name="email"
               type="email"
               required
+              autoComplete="email"
               value={form.email}
               onChange={updateField}
-              placeholder={content.emailPlaceholder}
+              placeholder={t.contact.emailPlaceholder}
+              aria-invalid={Boolean(fieldErrors.email)}
+              aria-describedby={describedBy('email')}
+            />
+            {fieldError('email')}
+          </label>
+          <label>
+            {ui.contact.subject}
+            <input
+              name="subject"
+              maxLength={200}
+              value={form.subject}
+              onChange={updateField}
+              placeholder={ui.contact.subjectPlaceholder}
             />
           </label>
           <label>
-            {content.message}
+            {t.contact.message}
             <textarea
               name="message"
               required
+              minLength={10}
+              maxLength={5000}
               rows="5"
               value={form.message}
               onChange={updateField}
-              placeholder={content.messagePlaceholder}
+              placeholder={t.contact.messagePlaceholder}
+              aria-invalid={Boolean(fieldErrors.message)}
+              aria-describedby={describedBy('message')}
+            />
+            {fieldError('message')}
+          </label>
+          <label className="honeypot" aria-hidden="true">
+            Website
+            <input
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={form.website}
+              onChange={updateField}
             />
           </label>
           <button className="button primary" disabled={status === 'loading'}>
-            {status === 'loading' ? content.sending : content.send}
+            {status === 'loading' ? t.contact.sending : t.contact.send}
           </button>
-          {status === 'success' && <p className="form-status success">{content.success}</p>}
-          {status === 'error' && <p className="form-status error">{content.error}</p>}
+          <p className="form-status-region" role="status" aria-live="polite">
+            {status === 'success' && (
+              <span className="form-status success">{t.contact.success}</span>
+            )}
+            {status === 'error' && <span className="form-status error">{errorText}</span>}
+          </p>
         </form>
       </div>
     </section>
