@@ -1,26 +1,42 @@
-const socials = [
-  { label: 'GitHub', href: 'https://github.com/Tech2024ish' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ishimwe-jean-claude-goslish/' },
-  { label: 'Email', href: 'mailto:claudeish88@gmail.com' },
-]
+import { Link } from 'react-router'
+import { useLanguage } from '../context/LanguageContext'
+import { useSiteContent } from '../content/SiteContent'
 
-export default function Footer({ description }) {
+export default function Footer() {
+  const { t, ui } = useLanguage()
+  const { profile, articles } = useSiteContent()
+  const socials = [
+    ...profile.social_links,
+    ...(profile.email ? [{ label: 'Email', url: `mailto:${profile.email}` }] : []),
+  ]
   return (
     <footer className="site-footer">
       <div>
         <strong>
-          Jean Claude Ishimwe<span>.</span>
+          {profile.full_name}
+          <span>.</span>
         </strong>
-        <p>{description}</p>
+        <p>
+          {profile.professional_title} · {profile.location}
+        </p>
       </div>
-      <div className="footer-socials">
+      <nav className="footer-socials" aria-label="Footer">
+        <Link to="/projects">{t.nav.projects}</Link>
+        {articles.length > 0 && <Link to="/writing">{ui.nav.writing}</Link>}
         {socials.map((social) => (
-          <a key={social.label} href={social.href}>
+          <a
+            key={social.label}
+            href={social.url}
+            target={social.url.startsWith('mailto') ? undefined : '_blank'}
+            rel="noreferrer"
+          >
             {social.label}
           </a>
         ))}
-      </div>
-      <p>&copy; {new Date().getFullYear()} Jean Claude Ishimwe</p>
+      </nav>
+      <p>
+        &copy; {new Date().getFullYear()} {profile.full_name}
+      </p>
     </footer>
   )
 }
