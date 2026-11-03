@@ -22,7 +22,15 @@ export default [
     },
   },
   {
-    files: ['src/context/*.jsx'],
+    // Modules that intentionally export hooks/helpers next to components.
+    files: [
+      'src/context/*.jsx',
+      'src/content/*.jsx',
+      'src/admin/ui.jsx',
+      'src/admin/AdminApp.jsx',
+      'src/components/Experience.jsx',
+      'src/main.jsx',
+    ],
     rules: { 'react-refresh/only-export-components': 'off' },
   },
 ]

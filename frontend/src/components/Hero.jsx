@@ -1,42 +1,47 @@
-const socials = [
-  { label: 'GitHub', href: 'https://github.com/Tech2024ish' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ishimwe-jean-claude-goslish/' },
-  { label: 'Email', href: 'mailto:claudeish88@gmail.com' },
-]
+import { Link } from 'react-router'
+import { useLanguage } from '../context/LanguageContext'
 
-export default function Hero({ content, navigate }) {
+export default function Hero({ profile, resumeHref }) {
+  const { t } = useLanguage()
+  const socials = [
+    ...profile.social_links,
+    ...(profile.email ? [{ label: 'Email', url: `mailto:${profile.email}` }] : []),
+  ]
+  const photo = profile.photo?.url || '/ishimwe-jean-claude.png'
+
   return (
     <section id="home" className="hero section-pad">
       <div className="hero-grid">
         <div className="hero-copy reveal">
           <p className="kicker">
-            <span className="status-dot" /> {content.availability}
+            {profile.is_available && <span className="status-dot" aria-hidden="true" />}
+            {profile.is_available ? profile.availability_text : profile.professional_title}
           </p>
           <h1>
-            {content.title} <em>{content.titleAccent}</em>
+            {profile.hero_title} <em>{profile.hero_title_accent}</em>
           </h1>
-          <p className="hero-summary">{content.summary}</p>
+          <p className="hero-summary">{profile.hero_summary}</p>
           <div className="hero-actions">
-            <button className="button primary" onClick={() => navigate('projects')}>
-              {content.projects} <span>&rarr;</span>
-            </button>
+            <Link className="button primary" to="/projects">
+              {t.hero.projects} <span aria-hidden="true">&rarr;</span>
+            </Link>
             <a
               className="button secondary"
-              href="/Resume.pdf"
+              href={resumeHref}
               download="Jean_Claude_Ishimwe_Resume.pdf"
             >
-              {content.resume} <span>&darr;</span>
+              {t.hero.resume} <span aria-hidden="true">&darr;</span>
             </a>
-            <button className="text-link" onClick={() => navigate('contact')}>
-              {content.contact} <span>&rarr;</span>
-            </button>
+            <a className="text-link" href="#contact">
+              {t.hero.contact} <span aria-hidden="true">&rarr;</span>
+            </a>
           </div>
           <div className="social-row">
             {socials.map((social) => (
               <a
                 key={social.label}
-                href={social.href}
-                target={social.href.startsWith('mailto') ? undefined : '_blank'}
+                href={social.url}
+                target={social.url.startsWith('mailto') ? undefined : '_blank'}
                 rel="noreferrer"
               >
                 {social.label}
@@ -47,12 +52,24 @@ export default function Hero({ content, navigate }) {
 
         <div className="hero-visual reveal">
           <div className="portrait-frame">
-            <img src="/ishimwe-jean-claude.png" alt="Ishimwe Jean Claude portrait" />
+            <img
+              src={photo}
+              alt={profile.photo?.alt_text || `${profile.full_name} portrait`}
+              width="390"
+              height="500"
+              fetchpriority="high"
+            />
+          </div>
+          <div className="hero-id">
+            <strong>{profile.full_name}</strong>
+            <span>
+              {profile.professional_title} · {profile.location}
+            </span>
           </div>
         </div>
       </div>
       <div className="scroll-cue">
-        {content.scroll} <span>&darr;</span>
+        {t.hero.scroll} <span aria-hidden="true">&darr;</span>
       </div>
     </section>
   )

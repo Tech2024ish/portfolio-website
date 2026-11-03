@@ -14,9 +14,7 @@
   pointer-events: none;
 }
 :root {
-  font-family: 'DM Sans', system-ui, sans-serif;
-  color: #17221f;
-  background: #f5f7f5;
+  font-family: var(--font-body);
   font-synthesis: none;
 }
 * {
@@ -35,25 +33,9 @@ textarea {
   font: inherit;
 }
 .site-shell {
-  --ink: #17221f;
-  --muted: #66716d;
-  --line: #dce4df;
-  --paper: #f5f7f5;
-  --card: #fff;
-  --accent: #1f8067;
-  --accent-dark: #155d4b;
   min-height: 100vh;
   color: var(--ink);
   background: var(--paper);
-}
-.dark .site-shell {
-  --ink: #e6eeea;
-  --muted: #9baaa3;
-  --line: #2b3d36;
-  --paper: #0d1714;
-  --card: #14221d;
-  --accent: #61c9a8;
-  --accent-dark: #8ce0c1;
 }
 .site-header {
   position: fixed;
@@ -177,7 +159,7 @@ textarea {
 .hero h1 {
   max-width: 700px;
   margin: 22px 0;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(3.1rem, 7vw, 6.6rem);
   line-height: 0.96;
   letter-spacing: -0.075em;
@@ -216,7 +198,7 @@ textarea {
 }
 .button.primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--text-on-accent);
 }
 .button.primary:hover {
   background: var(--accent-dark);
@@ -332,7 +314,7 @@ textarea {
 }
 .section-heading h2 {
   margin: 17px 0 16px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: clamp(2.35rem, 4vw, 4rem);
   line-height: 1;
   letter-spacing: -0.06em;
@@ -383,7 +365,7 @@ textarea {
 .skill-card h3,
 .cert-row h3 {
   margin: 0 0 17px;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-display);
   font-size: 25px;
   letter-spacing: -0.04em;
 }
@@ -510,8 +492,8 @@ textarea {
   gap: 8px;
 }
 .contact-section {
-  background: var(--accent-dark);
-  color: #fff;
+  background: var(--surface-brand);
+  color: var(--text-on-brand);
 }
 .contact-section .eyebrow,
 .contact-section .section-heading p,
@@ -568,7 +550,7 @@ textarea {
 .contact-form .button {
   justify-self: start;
   background: #fff;
-  color: var(--accent-dark);
+  color: #155d4b;
 }
 .form-status {
   margin: 0;
