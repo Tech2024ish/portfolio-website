@@ -13,6 +13,32 @@ if config.config_file_name is not None:
 
 target_metadata = Base.metadata
 
+# Tables that already exist in the production Supabase database and are owned by
+# the legacy /api routes (see supabase_schema.sql). Alembic does not manage them.
+LEGACY_TABLES = frozenset({"projects", "skills", "contacts", "visit_stats"})
+
+
+def include_name(name, type_, parent_names):
+    """Only compare tables this migration history owns.
+
+    Without this, autogenerate/`alembic check` reflect every table in the database
+    and propose dropping anything not in the models — including the legacy tables
+    above. Tables are matched against the models (an allow-list), so any other
+    unmanaged table is preserved too.
+    """
+    if type_ == "table":
+        return name in target_metadata.tables
+    return True
+
+
+def _configure(**kwargs) -> None:
+    context.configure(
+        target_metadata=target_metadata,
+        render_as_batch=True,
+        include_name=include_name,
+        **kwargs,
+    )
+
 
 def _url() -> str:
     url = config.attributes.get("url") or get_settings().database_url
@@ -22,7 +48,7 @@ def _url() -> str:
 
 
 def run_migrations_offline() -> None:
-    context.configure(url=_url(), target_metadata=target_metadata, literal_binds=True, render_as_batch=True)
+    _configure(url=_url(), literal_binds=True)
     with context.begin_transaction():
         context.run_migrations()
 
@@ -30,13 +56,13 @@ def run_migrations_offline() -> None:
 def run_migrations_online() -> None:
     connectable = config.attributes.get("connection")
     if connectable is not None:
-        context.configure(connection=connectable, target_metadata=target_metadata, render_as_batch=True)
+        _configure(connection=connectable)
         with context.begin_transaction():
             context.run_migrations()
         return
     engine = create_engine(_url(), poolclass=pool.NullPool)
     with engine.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata, render_as_batch=True)
+        _configure(connection=connection)
         with context.begin_transaction():
             context.run_migrations()
 
