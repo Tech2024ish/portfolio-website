@@ -13,3 +13,7 @@ backend/visit_count.json
 frontend/node_modules/
 frontend/dist/
 frontend/.env
+
+# Local uploads and test artifacts
+backend/media_uploads/
+.pytest_cache/
