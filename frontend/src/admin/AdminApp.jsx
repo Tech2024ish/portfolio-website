@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router'
 import { adminApi, UNAUTHORIZED_EVENT } from './api'
-import { ToastProvider } from './ui'
+import { ToastProvider, useToast } from './ui'
 import LoginPage from './pages/LoginPage'
 import OverviewPage from './pages/OverviewPage'
 import ProfilePage from './pages/ProfilePage'
@@ -100,27 +100,56 @@ export function Icon({ name }) {
   )
 }
 
+/** Only an explicit 401/403 from the API proves there is no valid session. */
+export const isAuthFailure = (error) => error?.status === 401 || error?.status === 403
+
 function AuthProvider({ children }) {
   const [user, setUser] = useState(undefined) // undefined = checking
+  const [checkError, setCheckError] = useState(null) // network/server failure
+  const [attempt, setAttempt] = useState(0)
   const navigate = useNavigate()
+  const toast = useToast()
 
   useEffect(() => {
     const controller = new AbortController()
     adminApi
       .me(controller.signal)
-      .then((data) => setUser(data.user))
-      .catch((error) => error.name !== 'AbortError' && setUser(null))
+      .then((data) => {
+        setCheckError(null)
+        setUser(data.user)
+      })
+      .catch((error) => {
+        if (error.name === 'AbortError') return
+        if (isAuthFailure(error)) {
+          setCheckError(null)
+          setUser(null)
+        } else {
+          // The server could not answer; the session may still be valid.
+          setCheckError(error)
+        }
+      })
     return () => controller.abort()
+  }, [attempt])
+
+  const retryCheck = useCallback(() => {
+    setCheckError(null)
+    setUser(undefined)
+    setAttempt((n) => n + 1)
   }, [])
 
   const signOut = useCallback(async () => {
     try {
       await adminApi.logout()
-    } finally {
-      setUser(null)
-      navigate('/admin/login')
+    } catch (error) {
+      if (!isAuthFailure(error)) {
+        // The server did not confirm; the session cookie may still be valid.
+        toast(`Could not sign out: ${error.message}`, 'danger')
+        return
+      }
     }
-  }, [navigate])
+    setUser(null)
+    navigate('/admin/login')
+  }, [navigate, toast])
 
   // Any 401 from a protected call means the session ended: send the owner to sign in.
   useEffect(() => {
@@ -129,12 +158,40 @@ function AuthProvider({ children }) {
     return () => window.removeEventListener(UNAUTHORIZED_EVENT, handler)
   }, [])
 
-  return <AuthContext.Provider value={{ user, setUser, signOut }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, setUser, signOut, checkError, retryCheck }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+function SessionCheckError({ error, onRetry }) {
+  return (
+    <div className="studio-loading">
+      <div className="studio-unavailable" role="alert">
+        <span className="studio-monogram" aria-hidden="true">
+          JC/
+        </span>
+        <h1>The studio can't reach the server</h1>
+        <p>
+          {error.message} Your session has not been ended; nothing was changed. If the server is
+          waking up, this usually takes under a minute.
+        </p>
+        <button className="studio-btn primary" onClick={onRetry}>
+          Try again
+        </button>
+        <a className="studio-hint" href="/">
+          ← Back to the portfolio
+        </a>
+      </div>
+    </div>
+  )
 }
 
 function RequireOwner({ children }) {
-  const { user } = useAuth()
+  const { user, checkError, retryCheck } = useAuth()
   const location = useLocation()
+  if (checkError) return <SessionCheckError error={checkError} onRetry={retryCheck} />
   if (user === undefined) return <div className="studio-loading">Checking your session…</div>
   if (!user) return <Navigate to="/admin/login" replace state={{ from: location.pathname }} />
   return children

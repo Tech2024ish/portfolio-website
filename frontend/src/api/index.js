@@ -119,12 +119,20 @@ export const getProject = (slug, signal) =>
 export const getArticles = (signal) => request('/public/articles', { signal })
 export const getArticle = (slug, signal) =>
   request(`/public/articles/${encodeURIComponent(slug)}`, { signal })
+/**
+ * The v1 contact endpoint is unavailable when the backend predates V2 (route
+ * missing: 404/405) or has no database configured yet (503). In those cases the
+ * original endpoint still stores the message in the legacy `contacts` table,
+ * which migration 0002 imports into the inbox. Validation errors (422), rate
+ * limits (429) and other failures are reported, never retried elsewhere.
+ */
+export const V1_CONTACT_UNAVAILABLE = [404, 405, 503]
+
 export async function sendContact(data) {
   try {
     return await request('/contact', { method: 'POST', body: data })
   } catch (error) {
-    // Before the v1 database is configured, keep using the original endpoint.
-    if (error.status !== 503) throw error
+    if (!V1_CONTACT_UNAVAILABLE.includes(error.status)) throw error
     const { subject: _subject, ...legacy } = data
     const response = await fetch(`${API_ROOT}/contact`, {
       method: 'POST',
