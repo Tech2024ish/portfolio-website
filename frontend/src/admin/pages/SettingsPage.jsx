@@ -229,28 +229,36 @@ function ActivityPanel() {
         state={state}
         empty={{ when: state.data?.length === 0, message: 'No activity yet.' }}
       >
-        <table className="studio-table">
-          <thead>
-            <tr>
-              <th scope="col">When</th>
-              <th scope="col">Action</th>
-              <th scope="col">Details</th>
-              <th scope="col">IP</th>
-            </tr>
-          </thead>
-          <tbody>
-            {state.data?.map((entry) => (
-              <tr key={entry.id}>
-                <td className="studio-muted nowrap">{formatDate(entry.created_at, true)}</td>
-                <td>
-                  <span className="studio-pill">{entry.action.replace('_', ' ')}</span>
-                </td>
-                <td>{entry.summary}</td>
-                <td className="studio-muted">{entry.ip_address}</td>
+        {/* Keyboard-focusable scroll region so the table stays usable on phones. */}
+        <div
+          className="studio-table-scroll"
+          role="region"
+          aria-label="Activity history (scrolls horizontally)"
+          tabIndex={0}
+        >
+          <table className="studio-table">
+            <thead>
+              <tr>
+                <th scope="col">When</th>
+                <th scope="col">Action</th>
+                <th scope="col">Details</th>
+                <th scope="col">IP</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {state.data?.map((entry) => (
+                <tr key={entry.id}>
+                  <td className="studio-muted nowrap">{formatDate(entry.created_at, true)}</td>
+                  <td>
+                    <span className="studio-pill">{entry.action.replace('_', ' ')}</span>
+                  </td>
+                  <td>{entry.summary}</td>
+                  <td className="studio-muted">{entry.ip_address}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         {state.data?.length === limit && limit < 200 && (
           <Button size="small" onClick={() => setLimit(Math.min(200, limit + 50))}>
             Show more

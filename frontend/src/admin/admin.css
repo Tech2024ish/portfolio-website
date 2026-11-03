@@ -1423,3 +1423,61 @@ a.studio-stat:hover {
 .studio-toolbar.column .studio-search {
   flex: none;
 }
+
+/* ---------- regression fixes (pre-push audit) */
+
+/* Sidebar: scroll inside the viewport so Sign out stays reachable on short screens. */
+.studio-sidebar {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.studio-sidebar > * {
+  flex-shrink: 0;
+}
+@media (max-width: 860px) {
+  .studio-sidebar.open {
+    max-height: 100vh;
+    max-height: 100dvh;
+  }
+}
+
+/* Settings at phone width: tables scroll inside their panel, columns never force width. */
+.studio-table-scroll {
+  overflow-x: auto;
+  margin: 0 -24px;
+  padding: 0 24px;
+}
+.studio-meta .studio-pill {
+  white-space: normal;
+}
+@media (max-width: 860px) {
+  .studio-grid.two,
+  .studio-grid.three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .studio-collection-row > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Session check failed for infrastructure reasons (not signed out). */
+.studio-unavailable {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  max-width: 460px;
+  padding: 24px;
+  color: var(--text-primary);
+}
+.studio-unavailable h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+}
+.studio-unavailable p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}

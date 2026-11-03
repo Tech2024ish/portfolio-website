@@ -17,3 +17,7 @@ frontend/.env
 # Local uploads and test artifacts
 backend/media_uploads/
 .pytest_cache/
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/
