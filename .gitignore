@@ -8,6 +8,8 @@ __pycache__/
 backend/venv/
 backend/.venv/
 backend/visit_count.json
+backend/legacy/.venv/
+backend/legacy/visit_count.json
 
 # Node
 frontend/node_modules/
@@ -16,6 +18,7 @@ frontend/.env
 
 # Local uploads and test artifacts
 backend/media_uploads/
+backend/legacy/media_uploads/
 .pytest_cache/
 
 # Playwright
