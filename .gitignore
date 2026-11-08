@@ -20,6 +20,8 @@ frontend/.env
 backend/media_uploads/
 backend/legacy/media_uploads/
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Playwright
 frontend/test-results/
