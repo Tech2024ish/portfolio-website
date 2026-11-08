@@ -1,34 +1,43 @@
-# Environment variables
-backend/.env
+# ---- secrets and local configuration (never commit)
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
 
-# Python
+# ---- design reference
+# Watermarked third-party/AI-generated board with unclear sharing rights: kept local only.
+design-reference/*
+!design-reference/README.md
+
+# ---- Python
 __pycache__/
-*.pyc
-*.pyo
-backend/venv/
-backend/.venv/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 backend/visit_count.json
-backend/legacy/.venv/
+backend/media_uploads/
+backend/legacy/media_uploads/
 backend/legacy/visit_count.json
 
-# Node
-frontend/node_modules/
+# ---- Node / Next.js
+node_modules/
 frontend/.next/
 frontend/out/
 frontend/build/
 frontend/coverage/
 frontend/next-env.d.ts
 frontend/*.tsbuildinfo
-frontend/.env
-
-# Local uploads and test artifacts
-backend/media_uploads/
-backend/legacy/media_uploads/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Playwright
 frontend/test-results/
 frontend/playwright-report/
 frontend/blob-report/
+
+# ---- OS / editor
+.DS_Store
+Thumbs.db
