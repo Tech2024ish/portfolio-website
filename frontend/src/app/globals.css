@@ -61,6 +61,7 @@
   }
 
   html {
+    scroll-behavior: smooth;
     background-color: var(--color-canvas);
     color: var(--color-fg);
     font-family: var(--font-sans);

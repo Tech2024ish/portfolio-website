@@ -1,27 +1,53 @@
-import { buttonClasses } from "@/components/ui/button";
+import { AboutSection } from "@/components/site/about-section";
+import { ContactSection } from "@/components/site/contact-section";
+import { ExperienceSection } from "@/components/site/experience-section";
+import { Hero } from "@/components/site/hero";
+import { ProjectsSection } from "@/components/site/projects-section";
+import { SiteFooter } from "@/components/site/site-footer";
+import { SiteHeader } from "@/components/site/site-header";
+import { SkillsSection } from "@/components/site/skills-section";
+import { profile } from "@/content/profile";
+import { serializeJsonLd } from "@/lib/json-ld";
+import { siteDescription, siteUrl } from "@/lib/site";
 
-/**
- * Phase 1 placeholder. Proves the toolchain, fonts and design tokens end to end.
- * Replaced by the real public portfolio in Phase 6.
- */
+/** schema.org Person data for search engines, built only from the verified profile. */
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.title,
+  description: siteDescription,
+  url: siteUrl.toString(),
+  image: new URL("/ishimwe-jean-claude.png", siteUrl).toString(),
+  email: `mailto:${profile.email}`,
+  address: { "@type": "PostalAddress", addressLocality: "Kigali", addressCountry: "RW" },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "University of Rwanda" },
+  sameAs: profile.social.map((link) => link.href),
+};
+
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-dvh max-w-5xl flex-col justify-center gap-8 px-4 py-16 sm:px-8">
-      <p className="w-fit rounded-pill bg-success-soft px-3 py-1 text-sm text-success">Rebuild in progress</p>
-      <h1 className="font-display text-4xl font-bold tracking-tight text-fg sm:text-display">
-        Jean Claude Ishimwe
-      </h1>
-      <p className="max-w-2xl text-body text-muted">
-        Backend Software Engineer in Kigali, Rwanda. Python · FastAPI · PostgreSQL · REST APIs.
-      </p>
-      <div className="flex flex-wrap gap-3">
-        <a className={buttonClasses("primary")} href="https://github.com/Tech2024ish">
-          GitHub
-        </a>
-        <a className={buttonClasses("secondary")} href="/Resume.pdf">
-          Download CV
-        </a>
-      </div>
-    </main>
+    <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-control focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
+      >
+        Skip to content
+      </a>
+      <SiteHeader />
+      <main id="main" tabIndex={-1} className="focus:outline-none">
+        <Hero />
+        <AboutSection />
+        <SkillsSection />
+        <ProjectsSection />
+        <ExperienceSection />
+        <ContactSection />
+      </main>
+      <SiteFooter />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(personJsonLd) }}
+      />
+    </>
   );
 }
