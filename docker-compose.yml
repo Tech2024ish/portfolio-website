@@ -1,0 +1,46 @@
+# Local development stack. Not a production configuration.
+#
+#   docker compose up -d db        PostgreSQL only (run the API/frontend on the host)
+#   docker compose up --build      PostgreSQL + API container
+#
+# POSTGRES_MAJOR must match the Supabase project's major version
+# (see docs/runbooks/supabase-state-check.sql).
+
+name: portfolio
+
+services:
+  db:
+    image: postgres:${POSTGRES_MAJOR:-17}-alpine
+    environment:
+      POSTGRES_USER: portfolio
+      POSTGRES_PASSWORD: portfolio # local-only credential
+      POSTGRES_DB: portfolio
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-54329}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portfolio -d portfolio"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: ./backend
+    environment:
+      ENVIRONMENT: development
+      DATABASE_URL: postgresql://portfolio:portfolio@db:5432/portfolio
+      CORS_ORIGINS: http://localhost:3000
+      PUBLIC_SITE_URL: http://localhost:3000
+      COOKIE_SECURE: "false"
+      STORAGE_BACKEND: local
+    ports:
+      - "127.0.0.1:${API_PORT:-18000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db-data:
