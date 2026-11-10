@@ -7,9 +7,16 @@
  *          which were taken from the live V1 site and the owner's public GitHub repositories.
  * Entries the V2 seed marked as hidden or draft (no verified details) are deliberately absent.
  *
+ * Records the owner has not approved for publication are kept here with `visibility: "draft"`
+ * so the data is not lost. Components must render only the `public*` lists exported at the end
+ * of this file, never the raw arrays; tests enforce that no draft reaches the page.
+ *
  * This file is the static source until the public content API exists; the shapes mirror
  * that API so the components will not change when data moves to FastAPI.
  */
+
+/** "draft" records are kept for later review and are never rendered publicly. */
+export type Visibility = "published" | "draft";
 
 export type SocialLink = { label: "GitHub" | "LinkedIn"; href: string };
 
@@ -46,6 +53,7 @@ export type Project = {
   featured: boolean;
   repoUrl?: string;
   liveUrl?: string;
+  visibility: Visibility;
 };
 
 export type Experience = {
@@ -54,6 +62,7 @@ export type Experience = {
   period: string;
   current: boolean;
   highlights: string[];
+  visibility: Visibility;
 };
 
 export type Education = {
@@ -62,9 +71,10 @@ export type Education = {
   location: string;
   status: string;
   coursework: string[];
+  visibility: Visibility;
 };
 
-export type Certification = { name: string; issuer: string };
+export type Certification = { name: string; issuer: string; visibility: Visibility };
 
 /** [CV] name, location, email, title; [V2] availability, about copy, contact intro. */
 export const profile: Profile = {
@@ -129,7 +139,11 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
-/** [V2] published projects only; tech and summaries as published. Portfolio stack reflects this repository. */
+/**
+ * [V2] projects with their V2 summaries and tech. Published: MOSAIC and BuzHub.
+ * Drafts (owner decision, 2026-11-10): School Management System is not an approved portfolio
+ * project; Portfolio Website stays unpublished until the V3 rebuild is complete.
+ */
 export const projects: Project[] = [
   {
     slug: "mosaic",
@@ -140,6 +154,7 @@ export const projects: Project[] = [
     tech: ["Python", "FastAPI", "PostgreSQL", "Alembic", "React", "Docker"],
     featured: true,
     repoUrl: "https://github.com/Tech2024ish/mosaic",
+    visibility: "published",
   },
   {
     slug: "school-management-system",
@@ -148,8 +163,9 @@ export const projects: Project[] = [
     summary:
       "A full-stack Java application for managing students, teachers, courses, attendance and reports, with secure authentication built on an MVC architecture.",
     tech: ["Java", "JSF", "Hibernate", "MySQL"],
-    featured: true,
+    featured: false,
     repoUrl: "https://github.com/Tech2024ish/school-management-system",
+    visibility: "draft",
   },
   {
     slug: "buzhub-platform",
@@ -159,6 +175,7 @@ export const projects: Project[] = [
       "Backend development contribution focused on API design, business logic and persistence for a platform built around real product needs.",
     tech: ["FastAPI", "PostgreSQL", "REST APIs"],
     featured: false,
+    visibility: "published",
   },
   {
     slug: "portfolio-website",
@@ -170,10 +187,14 @@ export const projects: Project[] = [
     featured: false,
     repoUrl: "https://github.com/Tech2024ish/portfolio-website",
     liveUrl: "https://goslish.vercel.app",
+    visibility: "draft",
   },
 ];
 
-/** SilverLandTech: [CV] role, dates and highlights. Techinika: [V2]. */
+/**
+ * SilverLandTech: [CV] role and highlights; January 2026 – Present confirmed by the owner.
+ * Techinika: [V2], kept as an unpublished draft (owner decision, 2026-11-08).
+ */
 export const experience: Experience[] = [
   {
     organization: "SilverLandTech",
@@ -186,6 +207,7 @@ export const experience: Experience[] = [
       "Collaborate with frontend developers to integrate APIs and improve performance.",
       "Participate in debugging, code reviews and backend architecture discussions.",
     ],
+    visibility: "published",
   },
   {
     organization: "Techinika",
@@ -196,30 +218,43 @@ export const experience: Experience[] = [
       "Wrote technical articles explaining software engineering concepts.",
       "Produced educational technical content in collaboration with editorial members.",
     ],
+    visibility: "draft",
   },
 ];
 
-/** [CV] institution, degree, coursework; [V2] status and expected completion. */
+/**
+ * [CV] institution, degree and coursework. The CV gives no completion date; the V2 seed's
+ * "Expected July 2028" is unverified and is therefore not shown.
+ */
 export const education: Education[] = [
   {
     institution: "University of Rwanda",
     degree: "Bachelor of Science in Computer Science",
     location: "Kigali, Rwanda",
-    status: "In progress · expected July 2028",
+    status: "In progress",
     coursework: [
       "Data Structures & Algorithms",
       "Database Systems",
       "Software Engineering",
       "Web Development",
     ],
+    visibility: "published",
   },
 ];
 
-/** [V2] Cisco certifications; [CV] A2SV training. */
+/**
+ * Published entries use the CV's own wording. The V2 seed's "Python Essentials" and
+ * "HTML Essentials" names do not appear in the CV, so they are drafts until verified.
+ */
 export const certifications: Certification[] = [
-  { name: "Python Essentials", issuer: "Cisco Networking Academy" },
-  { name: "HTML Essentials", issuer: "Cisco Networking Academy" },
-  { name: "Data Structures & Algorithms training", issuer: "A2SV (Africa to Silicon Valley)" },
+  { name: "Python programming", issuer: "Cisco Networking Academy", visibility: "published" },
+  {
+    name: "Data Structures and Algorithms",
+    issuer: "A2SV (Africa to Silicon Valley)",
+    visibility: "published",
+  },
+  { name: "Python Essentials", issuer: "Cisco Networking Academy", visibility: "draft" },
+  { name: "HTML Essentials", issuer: "Cisco Networking Academy", visibility: "draft" },
 ];
 
 /** In-page navigation, in page order. Every href must match a section id on the home page. */
@@ -230,3 +265,13 @@ export const navigation = [
   { label: "Experience", href: "#experience" },
   { label: "Contact", href: "#contact" },
 ] as const;
+
+/* Public views: the only lists components may render. */
+export function isPublished(record: { visibility: Visibility }): boolean {
+  return record.visibility === "published";
+}
+
+export const publicProjects = projects.filter(isPublished);
+export const publicExperience = experience.filter(isPublished);
+export const publicEducation = education.filter(isPublished);
+export const publicCertifications = certifications.filter(isPublished);

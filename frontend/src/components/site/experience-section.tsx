@@ -1,6 +1,6 @@
 import { BadgeIcon, GraduationIcon } from "@/components/ui/icons";
 import { cardClasses, Section } from "@/components/ui/section";
-import { certifications, education, experience } from "@/content/profile";
+import { publicCertifications, publicEducation, publicExperience } from "@/content/profile";
 
 export function ExperienceSection() {
   return (
@@ -10,7 +10,7 @@ export function ExperienceSection() {
           className="relative flex flex-col gap-8 border-l border-border-strong pl-6"
           aria-label="Work history"
         >
-          {experience.map((job) => (
+          {publicExperience.map((job) => (
             <li key={`${job.organization}-${job.role}`} className="relative">
               <span
                 aria-hidden="true"
@@ -37,7 +37,7 @@ export function ExperienceSection() {
         </ol>
 
         <div className="flex flex-col gap-4">
-          {education.map((entry) => (
+          {publicEducation.map((entry) => (
             <article key={entry.institution} className={`${cardClasses} flex flex-col gap-3 p-5`}>
               <div className="flex items-center gap-3">
                 <span className="inline-flex size-10 items-center justify-center rounded-control bg-accent-soft text-accent">
@@ -64,7 +64,7 @@ export function ExperienceSection() {
               <h3 className="font-display text-base font-semibold text-fg">Certifications and training</h3>
             </div>
             <ul className="flex flex-col gap-3">
-              {certifications.map((cert) => (
+              {publicCertifications.map((cert) => (
                 <li key={cert.name} className="text-sm">
                   <p className="text-fg">{cert.name}</p>
                   <p className="text-muted">{cert.issuer}</p>

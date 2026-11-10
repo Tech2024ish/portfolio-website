@@ -59,6 +59,19 @@ test.describe("home page", () => {
     }
   });
 
+  test("the production HTML contains no unpublished records", async ({ request }) => {
+    const html = await (await request.get("/")).text();
+    for (const withheld of [
+      "Techinika",
+      "School Management System",
+      "school-management-system",
+      "Portfolio Website",
+      "HTML Essentials",
+    ]) {
+      expect(html).not.toContain(withheld);
+    }
+  });
+
   test("the CV download serves the PDF", async ({ page, request }) => {
     await page.goto("/");
     const href = await page.getByRole("link", { name: "Download CV" }).first().getAttribute("href");

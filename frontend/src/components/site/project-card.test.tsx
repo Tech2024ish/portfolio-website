@@ -12,6 +12,7 @@ const base: Project = {
   summary: "A summary that is long enough to describe the project properly.",
   tech: ["Python", "FastAPI"],
   featured: true,
+  visibility: "published",
 };
 
 describe("ProjectCard", () => {
