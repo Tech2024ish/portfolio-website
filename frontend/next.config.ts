@@ -6,7 +6,7 @@ import type { NextConfig } from "next";
  *
  * API_ORIGIN is read at build/start time on the server only and is never sent to the browser.
  */
-const apiOrigin = (process.env.API_ORIGIN ?? "http://localhost:8000").replace(/\/+$/, "");
+const apiOrigin = (process.env.API_ORIGIN ?? "http://127.0.0.1:8000").replace(/\/+$/, "");
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },

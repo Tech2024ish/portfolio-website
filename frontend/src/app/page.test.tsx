@@ -1,7 +1,15 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { navigation, profile, projects } from "@/content/profile";
+import {
+  certifications,
+  experience,
+  isPublished,
+  navigation,
+  profile,
+  projects,
+  publicProjects,
+} from "@/content/profile";
 
 import HomePage from "./page";
 
@@ -31,10 +39,29 @@ describe("home page", () => {
     }
   });
 
-  it("renders every verified project", () => {
+  it("renders every published project", () => {
     render(<HomePage />);
-    for (const project of projects) {
+    for (const project of publicProjects) {
       expect(screen.getByRole("article", { name: project.title })).toBeInTheDocument();
+    }
+  });
+
+  it("never renders draft records, their text or their links", () => {
+    const { container } = render(<HomePage />);
+    const html = container.innerHTML;
+    const drafts = [
+      ...projects.filter((p) => !isPublished(p)).flatMap((p) => [p.title, p.summary, p.repoUrl, p.liveUrl]),
+      ...experience.filter((j) => !isPublished(j)).flatMap((j) => [j.organization, ...j.highlights]),
+      ...certifications.filter((c) => !isPublished(c)).map((c) => c.name),
+    ].filter((value): value is string => Boolean(value));
+    expect(drafts.length).toBeGreaterThan(0);
+    for (const value of drafts) expect(html).not.toContain(value);
+  });
+
+  it("does not show the records the owner has withheld", () => {
+    render(<HomePage />);
+    for (const name of ["Techinika", "School Management System", "Portfolio Website", "HTML Essentials"]) {
+      expect(screen.queryByText(name, { exact: false })).not.toBeInTheDocument();
     }
   });
 
@@ -62,9 +89,19 @@ describe("home page", () => {
     expect(portrait.getAttribute("src")).toContain("ishimwe-jean-claude.png");
   });
 
-  it("does not render a contact form without a backend to receive it", () => {
+  it("offers the contact form inside the contact section, with direct channels kept", () => {
     const { container } = render(<HomePage />);
-    expect(container.querySelector("form")).toBeNull();
+    const forms = container.querySelectorAll("form");
+    expect(forms).toHaveLength(1);
+    expect(forms[0]?.closest("section#contact")).not.toBeNull();
+    expect(screen.getByRole("form", { name: "Send a message" })).toBeInTheDocument();
+    const channels = screen.getByRole("list", { name: "Other ways to reach me" });
+    expect(within(channels).getByRole("link", { name: /email/i })).toHaveAttribute(
+      "href",
+      `mailto:${profile.email}`,
+    );
+    expect(within(channels).getByRole("link", { name: /github/i })).toBeInTheDocument();
+    expect(within(channels).getByRole("link", { name: /linkedin/i })).toBeInTheDocument();
   });
 
   it("embeds Person structured data built from the profile", () => {
@@ -74,6 +111,8 @@ describe("home page", () => {
     expect(data["@type"]).toBe("Person");
     expect(data.name).toBe(profile.name);
     expect(data.sameAs).toEqual(profile.social.map((link) => link.href));
+    // The owner is a current student: "alumniOf" would claim a completed degree.
+    expect(data).not.toHaveProperty("alumniOf");
   });
 
   it("escapes '<' in structured data so it can never close the script tag", async () => {

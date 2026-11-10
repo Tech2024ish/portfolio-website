@@ -1,1 +1,1 @@
-"""Engine, session factory and transaction boundaries (Phase 2)."""
+"""Engine, session factory and transaction boundaries."""
