@@ -21,16 +21,16 @@ See [docs/architecture.md](docs/architecture.md).
 Requirements: Docker, [uv](https://docs.astral.sh/uv/), Node 24.15+.
 
 ```bash
-docker compose up -d db                      # PostgreSQL 17 on localhost:54329 (+ portfolio_test DB)
+docker compose up -d db                      # PostgreSQL 17 on 127.0.0.1:54329 (+ portfolio_test DB)
 
 cd backend && cp .env.example .env && uv sync
-uv run uvicorn app.main:app --reload         # http://localhost:8000/health
+uv run uvicorn app.main:app --reload         # http://127.0.0.1:8000/health
 
 cd ../frontend && cp .env.example .env.local && npm ci
 npm run dev                                  # http://localhost:3000
 ```
 
-The whole backend stack in containers: `docker compose up --build` (API on http://localhost:18000).
+The whole backend stack in containers: `docker compose up --build` (API on http://127.0.0.1:18000).
 Ports are configurable via `POSTGRES_PORT` and `API_PORT`.
 
 ## Quality gates
@@ -38,7 +38,7 @@ Ports are configurable via `POSTGRES_PORT` and `API_PORT`.
 ```bash
 # backend/
 uv run ruff check . && uv run ruff format --check . && uv run mypy
-TEST_DATABASE_URL=postgresql://portfolio:portfolio@localhost:54329/portfolio_test uv run pytest
+TEST_DATABASE_URL=postgresql://portfolio:portfolio@127.0.0.1:54329/portfolio_test uv run pytest
 uv run pip-audit --skip-editable
 
 # frontend/
