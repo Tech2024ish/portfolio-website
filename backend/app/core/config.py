@@ -60,6 +60,16 @@ class Settings(BaseSettings):
     cors_origins: Annotated[list[str], NoDecode] = Field(default_factory=list)
     public_site_url: str = "http://localhost:3000"
 
+    # Number of reverse proxies in front of the API that append to X-Forwarded-For
+    # (for example Vercel's rewrite + Render's router). 0 trusts no forwarded header and uses
+    # the TCP peer address. Never set it higher than the real proxy count: the header is
+    # otherwise client-controlled and rate limits could be bypassed by spoofing it.
+    trusted_proxy_count: int = Field(default=0, ge=0, le=5)
+
+    # ---- public contact form
+    contact_rate_limit: int = Field(default=5, ge=1, le=100)
+    contact_rate_window_minutes: int = Field(default=60, ge=1, le=24 * 60)
+
     # ---- owner sessions
     session_ttl_hours: int = Field(default=12, ge=1, le=72)
     session_idle_minutes: int = Field(default=120, ge=5, le=24 * 60)
