@@ -21,7 +21,6 @@ const personJsonLd = {
   image: new URL("/ishimwe-jean-claude.png", siteUrl).toString(),
   email: `mailto:${profile.email}`,
   address: { "@type": "PostalAddress", addressLocality: "Kigali", addressCountry: "RW" },
-  alumniOf: { "@type": "CollegeOrUniversity", name: "University of Rwanda" },
   sameAs: profile.social.map((link) => link.href),
 };
 
