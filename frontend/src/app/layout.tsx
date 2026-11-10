@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     description: siteDescription,
     url: "/",
     locale: "en_US",
+    images: [{ url: "/ishimwe-jean-claude.png", width: 987, height: 1070, alt: siteName }],
   },
   twitter: { card: "summary_large_image", title: siteTitle, description: siteDescription },
 };
@@ -46,7 +47,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${plusJakarta.variable} ${inter.variable} ${jetbrains.variable} antialiased`}>
-      <body>{children}</body>
+      <body id="top">{children}</body>
     </html>
   );
 }

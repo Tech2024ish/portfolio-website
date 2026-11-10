@@ -33,9 +33,9 @@ Requires [uv](https://docs.astral.sh/uv/) and Docker.
 cd backend
 cp .env.example .env
 uv sync                          # creates .venv with Python 3.13 and exact locked versions
-docker compose up -d db          # from repo root: PostgreSQL 17 on localhost:54329
+docker compose up -d db          # from repo root: PostgreSQL 17 on 127.0.0.1:54329
 uv run uvicorn app.main:app --reload
-# → http://localhost:8000/health and http://localhost:8000/api/v1/docs
+# → http://127.0.0.1:8000/health and http://127.0.0.1:8000/api/v1/docs
 ```
 
 ## Quality checks

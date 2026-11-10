@@ -50,6 +50,10 @@ describe("design token contrast (WCAG AA)", () => {
     expect(contrast(token("accent-ink"), token("accent-hover"))).toBeGreaterThanOrEqual(AA);
   });
 
+  it.each(surfaces)("error text is legible on %s", (surface) => {
+    expect(contrast(token("danger-fg"), token(surface))).toBeGreaterThanOrEqual(AA);
+  });
+
   it("status text is legible on its soft background", () => {
     expect(contrast(token("success"), token("success-soft"))).toBeGreaterThanOrEqual(3);
   });

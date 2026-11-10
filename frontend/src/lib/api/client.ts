@@ -49,7 +49,7 @@ type Fetcher = typeof fetch;
 
 export function resolveBaseUrl(): string {
   if (typeof window !== "undefined") return "";
-  return (process.env.API_ORIGIN ?? "http://localhost:8000").replace(/\/+$/, "");
+  return (process.env.API_ORIGIN ?? "http://127.0.0.1:8000").replace(/\/+$/, "");
 }
 
 export function buildUrl(path: string, query?: RequestOptions["query"], base = resolveBaseUrl()) {
@@ -98,7 +98,8 @@ async function toApiError(response: Response): Promise<ApiError> {
   });
 }
 
-export function createApiClient(fetcher: Fetcher = fetch, baseUrl?: string) {
+/** Without an explicit fetcher, the global `fetch` is looked up per request, not at import. */
+export function createApiClient(fetcher?: Fetcher, baseUrl?: string) {
   async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
     const { json, query, headers, ...init } = options;
     const finalHeaders = new Headers(headers);
@@ -107,7 +108,7 @@ export function createApiClient(fetcher: Fetcher = fetch, baseUrl?: string) {
 
     let response: Response;
     try {
-      response = await fetcher(buildUrl(path, query, baseUrl ?? resolveBaseUrl()), {
+      response = await (fetcher ?? fetch)(buildUrl(path, query, baseUrl ?? resolveBaseUrl()), {
         ...init,
         headers: finalHeaders,
         body: json === undefined ? undefined : JSON.stringify(json),
