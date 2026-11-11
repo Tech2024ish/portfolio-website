@@ -33,6 +33,8 @@ frontend/out/
 frontend/build/
 frontend/coverage/
 frontend/next-env.d.ts
+# Written and re-created by `next dev` (Next.js 16 agent rules); not project documentation.
+frontend/AGENTS.md
 frontend/*.tsbuildinfo
 frontend/test-results/
 frontend/playwright-report/

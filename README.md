@@ -24,7 +24,7 @@ Requirements: Docker, [uv](https://docs.astral.sh/uv/), Node 24.15+.
 docker compose up -d db                      # PostgreSQL 17 on 127.0.0.1:54329 (+ portfolio_test DB)
 
 cd backend && cp .env.example .env && uv sync
-uv run uvicorn app.main:app --reload         # http://127.0.0.1:8000/health
+uv run uvicorn app.main:app --reload --host 127.0.0.1 --port 8100   # http://127.0.0.1:8100/health
 
 cd ../frontend && cp .env.example .env.local && npm ci
 npm run dev                                  # http://localhost:3000
