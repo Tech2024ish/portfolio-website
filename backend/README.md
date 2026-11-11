@@ -34,8 +34,10 @@ cd backend
 cp .env.example .env
 uv sync                          # creates .venv with Python 3.13 and exact locked versions
 docker compose up -d db          # from repo root: PostgreSQL 17 on 127.0.0.1:54329
-uv run uvicorn app.main:app --reload
-# → http://127.0.0.1:8000/health and http://127.0.0.1:8000/api/v1/docs
+uv run uvicorn app.main:app --reload --host 127.0.0.1 --port 8100
+# → http://127.0.0.1:8100/health and http://127.0.0.1:8100/api/v1/docs
+# Port 8100, not uvicorn's default 8000: other local projects commonly use 8000.
+# The frontend proxies /api/* to API_ORIGIN (default http://127.0.0.1:8100).
 ```
 
 ## Quality checks
