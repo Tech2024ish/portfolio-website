@@ -49,7 +49,7 @@ type Fetcher = typeof fetch;
 
 export function resolveBaseUrl(): string {
   if (typeof window !== "undefined") return "";
-  return (process.env.API_ORIGIN ?? "http://127.0.0.1:8000").replace(/\/+$/, "");
+  return (process.env.API_ORIGIN ?? "http://127.0.0.1:8100").replace(/\/+$/, "");
 }
 
 export function buildUrl(path: string, query?: RequestOptions["query"], base = resolveBaseUrl()) {
