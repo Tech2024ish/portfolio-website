@@ -26,7 +26,10 @@ class Environment(StrEnum):
 
 
 class StorageBackend(StrEnum):
-    LOCAL = "local"
+    # No file storage. The default: nothing in the API stores files yet, so production must
+    # not be forced to hold storage credentials it does not use.
+    DISABLED = "disabled"
+    LOCAL = "local"  # development only; not durable on Render
     SUPABASE = "supabase"
 
 
@@ -76,7 +79,7 @@ class Settings(BaseSettings):
     cookie_secure: bool = True
 
     # ---- file storage
-    storage_backend: StorageBackend = StorageBackend.LOCAL
+    storage_backend: StorageBackend = StorageBackend.DISABLED
     supabase_url: str | None = None
     supabase_service_key: SecretStr | None = None
     media_bucket: str = "media"
@@ -138,6 +141,8 @@ class Settings(BaseSettings):
                 problems.append(f"CORS origin {origin!r} must be an explicit https:// origin")
         if not self.public_site_url.startswith("https://"):
             problems.append("PUBLIC_SITE_URL must use https://")
+        # Storage is validated only when it is enabled. DISABLED needs no credentials; the
+        # feature that first stores files must require an enabled backend where it is used.
         if self.storage_backend is StorageBackend.LOCAL:
             problems.append("STORAGE_BACKEND=local is not durable on Render; use supabase")
         if self.storage_backend is StorageBackend.SUPABASE and not (
