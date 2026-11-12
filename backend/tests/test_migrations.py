@@ -3,6 +3,7 @@ under Supabase's default grants."""
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterator
 from pathlib import Path
 
@@ -29,6 +30,53 @@ def test_migrations_round_trip_and_match_the_models(migrated_database: str) -> N
     command.downgrade(config, "base")
     command.upgrade(config, "head")
     command.check(config)  # raises if the models and the migrated schema differ
+
+
+EXPECTED_NAMES = {
+    "contact_messages": {
+        "pk_contact_messages",
+        "ck_contact_messages_status_allowed",
+        "ck_contact_messages_message_length",
+        "ix_contact_messages_status_created_at",
+    },
+    "rate_limit_events": {
+        "pk_rate_limit_events",
+        "ix_rate_limit_events_bucket_client_key_created_at",
+        "ix_rate_limit_events_bucket_created_at",
+    },
+}
+
+
+def _model_names(table_name: str) -> set[str]:
+    """Constraint and index names exactly as the SQLAlchemy models would create them."""
+    from sqlalchemy.dialects import postgresql
+    from sqlalchemy.schema import CreateIndex, CreateTable
+
+    from app.models import Base
+
+    table = Base.metadata.tables[table_name]
+    dialect = postgresql.dialect()  # type: ignore[no-untyped-call]
+    ddl = str(CreateTable(table).compile(dialect=dialect))
+    ddl += "".join(str(CreateIndex(index).compile(dialect=dialect)) for index in table.indexes)
+    return set(re.findall(r"(?:CONSTRAINT|INDEX) (\w+)", ddl))
+
+
+def test_migrated_names_match_the_models_exactly(migrated_database: str) -> None:
+    """Guards against naming-convention double prefixes (e.g. ck_<table>_ck_<table>_...)."""
+    config = _config(migrated_database)
+    command.downgrade(config, "base")
+    command.upgrade(config, "head")
+    with psycopg.connect(libpq_url(migrated_database)) as conn:
+        for table, expected in EXPECTED_NAMES.items():
+            constraints = conn.execute(
+                "select conname from pg_constraint where conrelid = %s::regclass", (table,)
+            ).fetchall()
+            indexes = conn.execute(
+                "select indexname from pg_indexes where tablename = %s", (table,)
+            ).fetchall()
+            in_database = {name for (name,) in constraints} | {name for (name,) in indexes}
+            assert in_database == expected, table
+            assert _model_names(table) == expected, table
 
 
 CLIENT_ROLES = ("anon", "authenticated")

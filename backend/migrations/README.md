@@ -19,3 +19,19 @@ uv run alembic revision -m "..."   # new revision (hand-review every autogenerat
 - Every new `public` table must enable row-level security and revoke the Supabase `anon` and
   `authenticated` default grants (see `v3_0001`), because the API is its only client.
 - Integration tests run every revision against real PostgreSQL (`tests/test_migrations.py`).
+- Wrap every explicit constraint and index name in `op.f()`. Otherwise the naming convention in
+  `app/models/base.py` is applied a second time (`ck_<table>_ck_<table>_...`).
+- The API's database role must own these tables or have `BYPASSRLS` (see `../README.md`,
+  "Database role").
+
+## History notes
+
+- **2026-11-12, `v3_0001` edited in place (before its first production apply).** Its CHECK
+  constraints had been created as `ck_contact_messages_ck_contact_messages_status_allowed` and
+  `..._message_length`; the revision now uses `op.f()` and creates
+  `ck_contact_messages_status_allowed` and `ck_contact_messages_message_length`, matching the
+  models. The revision ID (`v3_0001`) and `down_revision` (`None`) are unchanged, so Alembic
+  history is preserved. A database that applied the earlier file still reports `v3_0001` as
+  head but keeps the old names; recreate it (`alembic downgrade base` then `upgrade head` on an
+  empty database). Production had not been migrated (no `alembic_version` in Supabase), CI
+  databases are created fresh, and the local development and test databases were recreated.
