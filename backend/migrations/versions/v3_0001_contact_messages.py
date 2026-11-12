@@ -27,6 +27,10 @@ from collections.abc import Sequence
 import sqlalchemy as sa
 from alembic import op
 
+# Every explicit name below is wrapped in op.f(): it marks the name as final, so the metadata
+# naming convention (app/models/base.py) is not applied a second time. Without it the CHECK
+# constraints were created as "ck_contact_messages_ck_contact_messages_...".
+
 revision: str = "v3_0001"
 down_revision: str | Sequence[str] | None = None
 branch_labels: str | Sequence[str] | None = None
@@ -49,15 +53,15 @@ def upgrade() -> None:
         sa.Column("message", sa.Text(), nullable=False),
         sa.Column("status", sa.String(20), server_default="new", nullable=False),
         sa.CheckConstraint(
-            "status in ('new', 'read', 'archived')", name="ck_contact_messages_status_allowed"
+            "status in ('new', 'read', 'archived')", name=op.f("ck_contact_messages_status_allowed")
         ),
         sa.CheckConstraint(
-            "char_length(message) <= 5000", name="ck_contact_messages_message_length"
+            "char_length(message) <= 5000", name=op.f("ck_contact_messages_message_length")
         ),
-        sa.PrimaryKeyConstraint("id", name="pk_contact_messages"),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_contact_messages")),
     )
     op.create_index(
-        "ix_contact_messages_status_created_at", "contact_messages", ["status", "created_at"]
+        op.f("ix_contact_messages_status_created_at"), "contact_messages", ["status", "created_at"]
     )
 
     op.create_table(
@@ -68,15 +72,17 @@ def upgrade() -> None:
         sa.Column(
             "created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False
         ),
-        sa.PrimaryKeyConstraint("id", name="pk_rate_limit_events"),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_rate_limit_events")),
     )
     op.create_index(
-        "ix_rate_limit_events_bucket_client_key_created_at",
+        op.f("ix_rate_limit_events_bucket_client_key_created_at"),
         "rate_limit_events",
         ["bucket", "client_key", "created_at"],
     )
     op.create_index(
-        "ix_rate_limit_events_bucket_created_at", "rate_limit_events", ["bucket", "created_at"]
+        op.f("ix_rate_limit_events_bucket_created_at"),
+        "rate_limit_events",
+        ["bucket", "created_at"],
     )
 
     for table in (*_TABLES, _VERSION_TABLE):
@@ -105,10 +111,10 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     # Destroys stored messages. Never run against production without a verified backup.
-    op.drop_index("ix_rate_limit_events_bucket_created_at", table_name="rate_limit_events")
+    op.drop_index(op.f("ix_rate_limit_events_bucket_created_at"), table_name="rate_limit_events")
     op.drop_index(
-        "ix_rate_limit_events_bucket_client_key_created_at", table_name="rate_limit_events"
+        op.f("ix_rate_limit_events_bucket_client_key_created_at"), table_name="rate_limit_events"
     )
     op.drop_table("rate_limit_events")
-    op.drop_index("ix_contact_messages_status_created_at", table_name="contact_messages")
+    op.drop_index(op.f("ix_contact_messages_status_created_at"), table_name="contact_messages")
     op.drop_table("contact_messages")

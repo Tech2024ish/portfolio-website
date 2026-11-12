@@ -58,13 +58,23 @@ PostgreSQL tests **fail**, rather than skip, when `TEST_DATABASE_URL` is missing
 See `.env.example`. With `ENVIRONMENT=production` the app refuses to start on unsafe settings:
 missing or non-PostgreSQL `DATABASE_URL`, `COOKIE_SECURE=false`, a wildcard or non-HTTPS CORS
 origin, a non-HTTPS `PUBLIC_SITE_URL`, local file storage, or Supabase storage without its
-credentials. Secrets are `SecretStr` and never appear in logs or error messages.
+credentials. Storage is `disabled` by default and needs no credentials until a feature uses it.
+Secrets are `SecretStr` and never appear in logs or error messages.
+
+### Database role (production)
+
+The API must connect as the role that **owns** the tables (the role that ran the migrations;
+on Supabase this is `postgres`, through the session pooler user `postgres.<project-ref>`), or as
+a role with `BYPASSRLS`. Every V3 table, including `alembic_version`, has row-level security
+enabled with no policies, so that Supabase's `anon` and `authenticated` roles can never read
+or write them. Any other role is blocked in the same way: requests fail, and `GET /ready`
+reports `migrations: pending` even after a successful migration.
 
 ## Endpoints
 
 | Path | Purpose |
 |---|---|
-| `GET /health` | Liveness. 200 while the process serves HTTP; never touches the database. |
-| `GET /ready` | Readiness including the database (Phase 2). |
+| `GET /health` | Liveness. 200 while the process serves HTTP; never touches the database. Use it for Render's health check. |
+| `GET /ready` | Readiness. 200 only when a read-only query succeeds and `alembic_version` is exactly the expected revision; otherwise 503. Results are cached for 5 s per process, one check at a time. |
 | `/api/v1/*` | Versioned API (Phases 2–10). |
 | `/api/v1/docs` | OpenAPI UI, disabled in production by default. |

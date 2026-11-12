@@ -19,6 +19,7 @@ from app.api.v1.router import api_router
 from app.core.body_limit import BodySizeLimitMiddleware
 from app.core.config import Settings, get_settings
 from app.core.errors import install_error_handlers
+from app.database.readiness import ReadinessCache
 from app.database.session import Database
 
 
@@ -42,6 +43,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     )
     application.state.settings = settings
     application.state.database = Database(settings)
+    application.state.readiness_cache = ReadinessCache()
     install_error_handlers(application)
 
     # Added before CORS so CORS stays outermost and 413 responses still carry CORS headers.
