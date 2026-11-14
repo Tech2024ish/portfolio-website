@@ -11,6 +11,8 @@ import {
 } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Alert } from "@/components/ui/feedback";
+import { Field, Input, Textarea } from "@/components/ui/form";
 import { cardClasses } from "@/components/ui/section";
 import {
   CONTACT_FIELDS,
@@ -24,11 +26,6 @@ import {
 } from "@/lib/contact";
 
 const EMPTY: ContactValues = { name: "", email: "", subject: "", message: "" };
-
-const inputClasses =
-  "w-full rounded-control border border-border-strong bg-surface px-3.5 py-2.5 text-base text-fg " +
-  "placeholder:text-muted transition-colors hover:border-accent/50 " +
-  "focus-visible:border-accent aria-invalid:border-danger-fg disabled:opacity-60";
 
 type Status = "idle" | "submitting" | "success";
 
@@ -63,7 +60,6 @@ export function ContactForm({ email }: { email: string }) {
   const pendingFocus = useRef<"success" | "alert" | "first-field" | FieldErrors | null>(null);
 
   const fieldId = (field: ContactField) => `${id}-${field}`;
-  const errorId = (field: ContactField) => `${id}-${field}-error`;
 
   function focusFirstInvalid(fieldErrors: FieldErrors) {
     const first = CONTACT_FIELDS.find((field) => fieldErrors[field]);
@@ -171,15 +167,10 @@ export function ContactForm({ email }: { email: string }) {
       </div>
 
       {failure ? (
-        <div
-          ref={alertRef}
-          tabIndex={-1}
-          role="alert"
-          className="rounded-control border border-danger-fg/40 bg-danger/10 px-4 py-3 text-sm text-fg"
-        >
+        <Alert ref={alertRef} tabIndex={-1} tone="danger">
           <p>{failure.message}</p>
           {failure.kind !== "validation" ? (
-            <p className="mt-1 text-muted">
+            <p className="text-muted">
               Your text is still here. You can try again later, or email me directly at{" "}
               <a href={`mailto:${email}`} className="text-accent underline underline-offset-2">
                 {email}
@@ -187,58 +178,70 @@ export function ContactForm({ email }: { email: string }) {
               .
             </p>
           ) : null}
-        </div>
+        </Alert>
       ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <TextField
-          field="name"
-          label="Full name"
-          autoComplete="name"
-          maxLength={CONTACT_LIMITS.name.max}
-          {...{ values, errors, onChange, fieldId, errorId, disabled: submitting }}
-        />
-        <TextField
-          field="email"
-          label="Email address"
-          type="email"
-          autoComplete="email"
-          inputMode="email"
-          maxLength={CONTACT_LIMITS.email.max}
-          {...{ values, errors, onChange, fieldId, errorId, disabled: submitting }}
-        />
+        <Field label="Full name" id={fieldId("name")} error={errors.name} required>
+          {(control) => (
+            <Input
+              {...control}
+              name="name"
+              autoComplete="name"
+              maxLength={CONTACT_LIMITS.name.max}
+              value={values.name}
+              onChange={onChange}
+              disabled={submitting}
+            />
+          )}
+        </Field>
+        <Field label="Email address" id={fieldId("email")} error={errors.email} required>
+          {(control) => (
+            <Input
+              {...control}
+              name="email"
+              type="email"
+              autoComplete="email"
+              inputMode="email"
+              maxLength={CONTACT_LIMITS.email.max}
+              value={values.email}
+              onChange={onChange}
+              disabled={submitting}
+            />
+          )}
+        </Field>
       </div>
-      <TextField
-        field="subject"
-        label="Subject"
-        maxLength={CONTACT_LIMITS.subject.max}
-        {...{ values, errors, onChange, fieldId, errorId, disabled: submitting }}
-      />
-
-      <div className="flex flex-col gap-2">
-        <label htmlFor={fieldId("message")} className="text-sm font-medium text-fg">
-          Message
-        </label>
-        <textarea
-          id={fieldId("message")}
-          name="message"
-          rows={6}
-          required
-          maxLength={CONTACT_LIMITS.message.max}
-          value={values.message}
-          onChange={onChange}
-          disabled={submitting}
-          aria-invalid={errors.message ? true : undefined}
-          aria-describedby={`${errors.message ? `${errorId("message")} ` : ""}${id}-message-count`}
-          className={`${inputClasses} min-h-36 resize-y`}
-        />
-        <div className="flex items-start justify-between gap-4">
-          <FieldError id={errorId("message")} message={errors.message} />
-          <p id={`${id}-message-count`} className="ml-auto shrink-0 font-mono text-xs text-muted">
-            {messageLength} / {CONTACT_LIMITS.message.max}
-          </p>
-        </div>
-      </div>
+      <Field label="Subject" id={fieldId("subject")} error={errors.subject} required>
+        {(control) => (
+          <Input
+            {...control}
+            name="subject"
+            maxLength={CONTACT_LIMITS.subject.max}
+            value={values.subject}
+            onChange={onChange}
+            disabled={submitting}
+          />
+        )}
+      </Field>
+      <Field
+        label="Message"
+        id={fieldId("message")}
+        error={errors.message}
+        aside={`${messageLength} / ${CONTACT_LIMITS.message.max}`}
+        required
+      >
+        {(control) => (
+          <Textarea
+            {...control}
+            name="message"
+            rows={6}
+            maxLength={CONTACT_LIMITS.message.max}
+            value={values.message}
+            onChange={onChange}
+            disabled={submitting}
+          />
+        )}
+      </Field>
 
       {/* Honeypot: invisible to people and skipped by keyboard and screen readers. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -261,70 +264,5 @@ export function ContactForm({ email }: { email: string }) {
         {submitting ? "Sending your message." : ""}
       </p>
     </form>
-  );
-}
-
-type SharedFieldProps = {
-  values: ContactValues;
-  errors: FieldErrors;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  fieldId: (field: ContactField) => string;
-  errorId: (field: ContactField) => string;
-  disabled: boolean;
-};
-
-function TextField({
-  field,
-  label,
-  type = "text",
-  autoComplete,
-  inputMode,
-  maxLength,
-  values,
-  errors,
-  onChange,
-  fieldId,
-  errorId,
-  disabled,
-}: SharedFieldProps & {
-  field: Exclude<ContactField, "message">;
-  label: string;
-  type?: "text" | "email";
-  autoComplete?: string;
-  inputMode?: "email";
-  maxLength: number;
-}) {
-  const error = errors[field];
-  return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor={fieldId(field)} className="text-sm font-medium text-fg">
-        {label}
-      </label>
-      <input
-        id={fieldId(field)}
-        name={field}
-        type={type}
-        required
-        autoComplete={autoComplete}
-        inputMode={inputMode}
-        maxLength={maxLength}
-        value={values[field]}
-        onChange={onChange}
-        disabled={disabled}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? errorId(field) : undefined}
-        className={inputClasses}
-      />
-      <FieldError id={errorId(field)} message={error} />
-    </div>
-  );
-}
-
-function FieldError({ id, message }: { id: string; message: string | undefined }) {
-  if (!message) return null;
-  return (
-    <p id={id} className="text-sm text-danger-fg">
-      {message}
-    </p>
   );
 }
