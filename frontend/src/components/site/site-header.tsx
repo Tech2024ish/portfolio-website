@@ -7,20 +7,19 @@ import { MobileNav } from "./mobile-nav";
 
 export function Logo() {
   return (
-    <a
-      href="#top"
-      className="rounded-control font-display text-xl font-extrabold tracking-tight text-fg"
-      aria-label={`${profile.name}, back to top`}
-    >
+    // The accessible name must contain the visible text ("JC."), so speech-input users can say
+    // what they see (WCAG 2.5.3). The rest of the name is announced but not shown.
+    <a href="#top" className="rounded-control font-display text-xl font-extrabold tracking-tight text-fg">
       {profile.initials}
       <span className="text-accent">.</span>
+      <span className="sr-only"> — {profile.name}, back to top</span>
     </a>
   );
 }
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-canvas/85 backdrop-blur-md">
+    <header className="sticky top-0 z-(--z-header) border-b border-border bg-canvas/85 backdrop-blur-md">
       <div className={`${containerClasses} relative flex h-16 items-center justify-between gap-6`}>
         <Logo />
 
