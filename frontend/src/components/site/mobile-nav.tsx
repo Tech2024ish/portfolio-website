@@ -45,7 +45,7 @@ export function MobileNav({ items, cvHref }: { items: readonly NavItem[]; cvHref
       <div
         id={panelId}
         hidden={!open}
-        className="absolute inset-x-0 top-full border-b border-border bg-surface shadow-2xl shadow-black/40"
+        className="absolute inset-x-0 top-full border-b border-border bg-surface shadow-overlay"
       >
         <nav aria-label="Mobile" className="px-4 pt-2 pb-5">
           <ul className="flex flex-col">

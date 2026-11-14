@@ -1,64 +1,128 @@
 @import "tailwindcss";
 
 /*
- * Design tokens: the single source of truth for colour, type and shape.
+ * Design tokens: the single source of truth for colour, type, layout, elevation, motion,
+ * focus and layering. Components use these tokens only, never raw values. Every token is listed,
+ * with its purpose, in src/design/tokens.ts; tests keep that registry and this file identical.
  *
- * Measured from design-reference/ (1024×559 board). Two deliberate, documented
- * deviations for WCAG 2.2 AA:
- *   - Text on the teal accent is dark (--color-accent-ink, about 7:1) instead of white (2.8:1).
- *   - Secondary text is #8B95A5 (about 6.6:1 on surface) instead of the swatch #4C5660 (2.6:1),
- *     which is kept as --color-subtle for decorative use only.
- * Dark mode only, by decision (Phase 0 review).
+ * Sources
+ * - Measured from design-reference/ (1024×559 board): colours, type families and sizes, radii.
+ * - Not measurable on a static, low-resolution board, so set by convention and documented here:
+ *   shadows (the board shows bordered, low-elevation surfaces), motion, focus-ring geometry,
+ *   breakpoints (Tailwind defaults, made explicit) and layering.
+ *
+ * Deliberate deviations from the board, for WCAG 2.2 AA (enforced by src/app/tokens.test.ts):
+ * - Text on the teal accent is dark (--color-accent-ink, about 7:1) instead of white (2.8:1).
+ * - Secondary text is #8B95A5 (about 6.6:1 on surface) instead of the swatch #4C5660 (2.6:1),
+ *   which is kept as --color-subtle for decorative use only.
+ * - Status text uses the -fg variants: --color-danger (4.3:1 on card) and --color-success (3.5:1
+ *   on its soft background) are too dim for text, so --color-danger-fg and --color-success-fg are
+ *   used for text instead.
+ *
+ * Dark mode only, by owner decision.
+ *
+ * "static" emits every token as a CSS variable even if no utility uses it yet, so components
+ * and inline styles can always rely on var(--token).
  */
-@theme {
-  /* surfaces */
+@theme static {
+  /* ---- surfaces, from lowest to highest */
   --color-canvas: #080d17;
   --color-surface: #0d1520;
   --color-card: #111823;
   --color-raised: #161b27;
   --color-overlay: #232c3d;
+  /* Dims the page behind modal dialogs (the board's login modal). */
+  --color-backdrop: rgb(4 8 15 / 0.72);
+
+  /* ---- borders and dividers */
   --color-border: #1e2633;
   --color-border-strong: #2b3546;
 
-  /* text */
+  /* ---- text */
   --color-fg: #f2f3f7;
   --color-muted: #8b95a5;
   --color-subtle: #4c5660;
 
-  /* accent */
+  /* ---- accent */
   --color-accent: #08a9c7;
   --color-accent-hover: #68c7cd;
   --color-accent-ink: #04131a;
   --color-accent-soft: #102f3e;
 
-  /* status */
+  /* ---- focus and interaction (the board's "Interaction State": an accent ring) */
+  --color-focus: #08a9c7;
+
+  /* ---- status: base colour for icons and dots, -fg for text, -soft for backgrounds */
   --color-success: #2cb270;
+  --color-success-fg: #55d394;
   --color-success-soft: #1d4e39;
   --color-danger: #d84e4a;
-  --color-danger-fg: #f07a76; /* error text: #d84e4a is only 4.3:1 on card */
+  --color-danger-fg: #f07a76;
+  --color-danger-soft: #3a1b1d;
+  /* Filled destructive buttons: fg text on --color-danger is only 3.7:1. */
+  --color-danger-strong: #b83b37;
+  --color-danger-strong-hover: #9e2e2a;
   --color-warning: #d3b265;
+  --color-warning-soft: #3a301a;
 
-  /* type */
+  /* ---- type families. Loaded weights (src/app/layout.tsx): display 600/700/800,
+     sans variable (all weights), mono 400/500. Use only loaded weights. */
   --font-display: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
-  --text-display: 3.125rem; /* 50px heading */
+  /* ---- type scale (board: Heading 50px, Subheading 28px semibold, Body 18px regular) */
+  --text-display: 3.125rem;
   --text-display--line-height: 1.12;
-  --text-title: 1.75rem; /* 28px subheading */
+  --text-title: 1.75rem;
   --text-title--line-height: 1.25;
-  --text-body: 1.125rem; /* 18px body */
+  --text-body: 1.125rem;
   --text-body--line-height: 1.6;
 
-  /* shape */
+  /* ---- shape */
   --radius-control: 0.375rem;
   --radius-card: 0.625rem;
   --radius-pill: 9999px;
+
+  /* ---- layout. Spacing uses Tailwind's 0.25rem step (p-4 = 1rem). Breakpoints are Tailwind's
+     defaults, made explicit so they cannot drift; the e2e suite tests 390, 768, 1280 and 1440. */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+  --container-page: 72rem;
+
+  /* ---- elevation. Dark surfaces separate by tone and border; shadows only lift floating
+     elements (menus, popovers, dialogs) off the page. */
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 0.3), 0 4px 12px rgb(0 0 0 / 0.25);
+  --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.45), 0 2px 8px rgb(0 0 0 / 0.3);
+
+  /* ---- motion. Short and functional; all motion is removed under prefers-reduced-motion. */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: var(--ease-standard);
 }
 
 @layer base {
   :root {
     color-scheme: dark;
+
+    /* Motion durations: use as duration-(--duration-normal). */
+    --duration-fast: 150ms;
+    --duration-normal: 200ms;
+    --duration-slow: 300ms;
+
+    /* Focus ring geometry (colour: --color-focus). One rule below styles every element. */
+    --focus-ring-width: 2px;
+    --focus-ring-offset: 2px;
+
+    /* Stacking order, lowest to highest: use as z-(--z-header). */
+    --z-header: 40;
+    --z-overlay: 50;
+    --z-toast: 60;
+    --z-skip-link: 70;
   }
 
   html {
@@ -75,8 +139,8 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--color-focus);
+    outline-offset: var(--focus-ring-offset);
   }
 
   @media (prefers-reduced-motion: reduce) {
