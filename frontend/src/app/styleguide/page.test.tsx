@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { allTokens, tokenGroups } from "@/design/tokens";
+import { allTokens, spacingScale, tokenGroups } from "@/design/tokens";
 
 import StyleguidePage, { metadata } from "./page";
 
@@ -47,5 +47,24 @@ describe("styleguide (development only)", () => {
     const card = container.querySelector('[style*="var(--color-card)"]');
     expect(card).not.toBeNull();
     expect(container.querySelector('[style*="var(--shadow-overlay)"]')).not.toBeNull();
+  });
+
+  it("shows every spacing step, sized from the base unit, in the Spacing section", () => {
+    vi.stubEnv("NODE_ENV", "development");
+    const { container } = render(<StyleguidePage />);
+    const section = screen.getByText("Spacing", { selector: "h2" }).closest("section") as HTMLElement;
+    const samples = [...section.querySelectorAll<HTMLElement>("[data-spacing-sample]")];
+    expect(samples.map((sample) => sample.dataset.spacingSample)).toEqual(
+      spacingScale.map((entry) => entry.step),
+    );
+    for (const sample of samples) {
+      const step = sample.dataset.spacingSample;
+      expect(sample.style.width).toBe(step === "px" ? "1px" : `calc(var(--spacing) * ${step})`);
+    }
+    // Rows are headed by their step, so each row is announced with it.
+    const rowHeaders = [...section.querySelectorAll("tbody th[scope=row]")].map((cell) => cell.textContent);
+    expect(rowHeaders).toEqual(spacingScale.map((entry) => entry.step));
+    // A table, not list items: the page keeps exactly one list item per token.
+    expect(container.querySelectorAll("li")).toHaveLength(allTokens.length);
   });
 });

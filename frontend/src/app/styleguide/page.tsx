@@ -10,7 +10,7 @@ import { Field, Input, Select, Textarea } from "@/components/ui/form";
 import { TextLink } from "@/components/ui/link";
 import { containerClasses } from "@/components/ui/section";
 import { Badge, StatusBadge, Tag } from "@/components/ui/tag";
-import { tokenGroups, type Token, type TokenGroupId } from "@/design/tokens";
+import { spacingScale, tokenGroups, type Token, type TokenGroupId } from "@/design/tokens";
 
 import { InteractiveDemos } from "./demos";
 
@@ -64,6 +64,60 @@ function TokenRow({ group, token }: { group: TokenGroupId; token: Token }) {
         <span className="text-sm text-muted">{token.purpose}</span>
       </span>
     </li>
+  );
+}
+
+function SpacingScale() {
+  return (
+    // On narrow screens the table scrolls sideways; a scrollable region must be reachable and
+    // named for keyboard and screen-reader users (WCAG 2.1.1).
+    <div
+      role="region"
+      aria-label="Spacing scale"
+      tabIndex={0}
+      className="overflow-x-auto rounded-card border border-border"
+    >
+      <table className="w-full text-left text-sm">
+        <caption className="sr-only">Approved spacing steps</caption>
+        <thead className="bg-surface text-muted">
+          <tr>
+            <th scope="col" className="px-4 py-2 font-medium">
+              Step
+            </th>
+            <th scope="col" className="px-4 py-2 font-medium">
+              Size
+            </th>
+            <th scope="col" className="px-4 py-2 font-medium">
+              Use
+            </th>
+            <th scope="col" className="px-4 py-2 font-medium">
+              <span className="sr-only">Sample</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {spacingScale.map(({ step, px, role }) => (
+            <tr key={step} className="border-t border-border">
+              <th scope="row" className="px-4 py-2 font-mono font-normal text-fg">
+                {step}
+              </th>
+              <td className="px-4 py-2 font-mono whitespace-nowrap text-muted">
+                {px / 16}rem / {px}px
+              </td>
+              <td className="px-4 py-2 text-muted">{role}</td>
+              <td className="px-4 py-2">
+                <span
+                  aria-hidden="true"
+                  data-spacing-sample={step}
+                  className="block h-3 rounded-control bg-accent"
+                  style={{ width: step === "px" ? "1px" : `calc(var(--spacing) * ${step})` }}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
@@ -233,6 +287,7 @@ export default function StyleguidePage() {
               <TokenRow key={token.name} group={group.id} token={token} />
             ))}
           </ul>
+          {group.id === "spacing" ? <SpacingScale /> : null}
         </section>
       ))}
     </main>
