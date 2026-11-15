@@ -15,7 +15,7 @@ import { useToastHost } from "./toast";
  * - it is controlled: `open` is the single source of truth; Escape, the close button and
  *   backdrop clicks all request closing through `onClose`;
  * - focus returns to the element that opened it;
- * - page scrolling is locked while it is open;
+ * - page scrolling is locked while it, or any other dialog, is open;
  * - title and description are wired with aria-labelledby / aria-describedby;
  * - toasts raised while it is open appear inside it, because everything outside a modal dialog
  *   is inert (hidden from assistive technology and unreachable); see toast.tsx.
@@ -39,6 +39,20 @@ type DialogProps = {
 
 const sizes = { sm: "max-w-sm", md: "max-w-lg", lg: "max-w-2xl" };
 
+// Page scrolling stays locked while any dialog is open, so closing a nested dialog does not
+// unlock the page under the dialog that is still open.
+let scrollLocks = 0;
+
+function lockScroll() {
+  scrollLocks += 1;
+  document.documentElement.style.overflow = "hidden";
+}
+
+function unlockScroll() {
+  scrollLocks = Math.max(0, scrollLocks - 1);
+  if (scrollLocks === 0) document.documentElement.style.overflow = "";
+}
+
 export function Dialog({
   open,
   onClose,
@@ -52,6 +66,8 @@ export function Dialog({
 }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
+  // Whether this dialog currently holds one of the page's scroll locks.
+  const holdsScrollLock = useRef(false);
   // Whether the current press started on the backdrop (see onClick).
   const pressedBackdrop = useRef(false);
   const titleId = useId();
@@ -68,7 +84,10 @@ export function Dialog({
       returnFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
       dialog.showModal();
       initialFocus?.current?.focus();
-      document.documentElement.style.overflow = "hidden";
+      if (!holdsScrollLock.current) {
+        holdsScrollLock.current = true;
+        lockScroll();
+      }
     } else if (!open && dialog.open) {
       dialog.close();
     }
@@ -79,16 +98,17 @@ export function Dialog({
     return registerToastHost(toastHost.current);
   }, [open, registerToastHost]);
 
-  // If the dialog unmounts while open, still release the scroll lock.
-  useEffect(
-    () => () => {
-      document.documentElement.style.overflow = "";
-    },
-    [],
-  );
+  function releaseScrollLock() {
+    if (!holdsScrollLock.current) return;
+    holdsScrollLock.current = false;
+    unlockScroll();
+  }
+
+  // If the dialog unmounts while open, still release its scroll lock.
+  useEffect(() => releaseScrollLock, []);
 
   function handleClosed() {
-    document.documentElement.style.overflow = "";
+    releaseScrollLock();
     const target = returnFocus.current;
     returnFocus.current = null;
     if (target?.isConnected) target.focus();

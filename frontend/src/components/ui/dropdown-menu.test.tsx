@@ -96,6 +96,21 @@ describe("DropdownMenu", () => {
     expect(trigger).toHaveFocus();
   });
 
+  it("closes on Escape even when every item is disabled and focus stayed on the trigger", () => {
+    const { trigger } = setup({
+      edit: { disabled: true },
+      publish: { disabled: true },
+      remove: { disabled: true },
+    });
+    trigger.focus();
+    fireEvent.click(trigger);
+    expect(screen.getByRole("menu")).toBeInTheDocument();
+    expect(trigger).toHaveFocus(); // no enabled item to move focus to
+    fireEvent.keyDown(trigger, { key: "Escape" });
+    expect(screen.queryByRole("menu")).toBeNull();
+    expect(trigger).toHaveFocus();
+  });
+
   it("closes on Tab and on a pointer press outside", () => {
     const { trigger } = setup();
     fireEvent.click(trigger);
