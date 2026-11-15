@@ -16,6 +16,7 @@ export type TokenGroupId =
   | "font"
   | "type"
   | "radius"
+  | "spacing"
   | "layout"
   | "shadow"
   | "motion"
@@ -126,6 +127,16 @@ export const tokenGroups: readonly TokenGroup[] = [
     ],
   },
   {
+    id: "spacing",
+    title: "Spacing",
+    tokens: [
+      {
+        name: "--spacing",
+        purpose: "Base unit, 0.25rem (4px). Every spacing utility is a multiple of it; see the scale",
+      },
+    ],
+  },
+  {
     id: "layout",
     title: "Layout",
     tokens: [
@@ -171,3 +182,44 @@ export const tokenGroups: readonly TokenGroup[] = [
 ];
 
 export const allTokens: readonly Token[] = tokenGroups.flatMap((group) => group.tokens);
+
+/** Size of one `--spacing` unit in CSS pixels (0.25rem at the default 16px root size). */
+export const SPACING_UNIT_PX = 4;
+
+export type SpacingRole = "none" | "hairline" | "control" | "component" | "group" | "section";
+
+export type SpacingStep = {
+  /** The Tailwind utility suffix, as in `p-4`, `gap-1.5` or `mt-px`. */
+  step: string;
+  /** Rendered size: `step` x SPACING_UNIT_PX, or 1 for the `px` hairline. */
+  px: number;
+  role: SpacingRole;
+};
+
+/**
+ * The approved spacing steps for padding, margin, gap and space utilities, enforced by
+ * src/design/spacing-usage.test.ts. A 4px grid: half steps only inside small controls (badges,
+ * fields, icon alignment), whole steps for components, groups and page sections. Add a step here
+ * deliberately, never ad hoc in a component.
+ */
+export const spacingScale: readonly SpacingStep[] = [
+  { step: "0", px: 0, role: "none" },
+  { step: "px", px: 1, role: "hairline" },
+  { step: "0.5", px: 2, role: "control" },
+  { step: "1", px: 4, role: "control" },
+  { step: "1.5", px: 6, role: "control" },
+  { step: "2", px: 8, role: "control" },
+  { step: "2.5", px: 10, role: "control" },
+  { step: "3", px: 12, role: "control" },
+  { step: "3.5", px: 14, role: "control" },
+  { step: "4", px: 16, role: "component" },
+  { step: "5", px: 20, role: "component" },
+  { step: "6", px: 24, role: "component" },
+  { step: "8", px: 32, role: "group" },
+  { step: "10", px: 40, role: "group" },
+  { step: "12", px: 48, role: "group" },
+  { step: "14", px: 56, role: "section" },
+  { step: "16", px: 64, role: "section" },
+  { step: "20", px: 80, role: "section" },
+  { step: "24", px: 96, role: "section" },
+];

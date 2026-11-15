@@ -43,8 +43,9 @@ after the publishing transaction has committed.
 
 Source: `design-reference/` (local only). Implemented in `frontend/src/app/globals.css` as Tailwind v4 `@theme`
 tokens and registered in `frontend/src/design/tokens.ts`. Colours, type and radii are measured from the board;
-shadows, motion, focus-ring geometry, breakpoints and layering cannot be measured on a static board and follow
-documented conventions. Three deliberate deviations for WCAG AA are enforced by `src/app/tokens.test.ts`:
+shadows, motion, focus-ring geometry, breakpoints, layering and the spacing scale (a 4px grid, enforced by
+`frontend/src/design/spacing-usage.test.ts`) cannot be measured on a static board and follow documented
+conventions. Three deliberate deviations for WCAG AA are enforced by `src/app/tokens.test.ts`:
 dark ink on the teal accent, a lighter secondary-text colour, and `-fg` variants for status text (the base
 danger and success colours are too dim for text). Automated WCAG 2.2 A/AA checks run with axe-core
 (`frontend/e2e/accessibility.spec.ts`).

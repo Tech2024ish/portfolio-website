@@ -84,8 +84,13 @@
   --radius-card: 0.625rem;
   --radius-pill: 9999px;
 
-  /* ---- layout. Spacing uses Tailwind's 0.25rem step (p-4 = 1rem). Breakpoints are Tailwind's
-     defaults, made explicit so they cannot drift; the e2e suite tests 390, 768, 1280 and 1440. */
+  /* ---- spacing. One base unit: every spacing utility is a multiple of it (p-4 = 4 x 0.25rem =
+     1rem). Use only the steps registered in src/design/tokens.ts (spacingScale): a 4px grid with
+     half steps for small controls. Same value as Tailwind's default, made explicit. */
+  --spacing: 0.25rem;
+
+  /* ---- layout. Breakpoints are Tailwind's defaults, made explicit so they cannot drift; the
+     e2e suite tests 390, 768, 1280 and 1440. */
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
   --breakpoint-lg: 64rem;

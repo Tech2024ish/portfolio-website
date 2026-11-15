@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import { allTokens } from "@/design/tokens";
+import { allTokens, SPACING_UNIT_PX, spacingScale } from "@/design/tokens";
 
 const css = readFileSync(fileURLToPath(new URL("./globals.css", import.meta.url)), "utf8");
 const layout = readFileSync(fileURLToPath(new URL("./layout.tsx", import.meta.url)), "utf8");
@@ -185,5 +185,33 @@ describe("values that must mirror a token", () => {
   it("the browser theme colour equals the canvas token", () => {
     const themeColor = layout.match(/themeColor:\s*"(#[0-9a-fA-F]{6})"/)?.[1];
     expect(themeColor?.toLowerCase()).toBe(token("canvas").toLowerCase());
+  });
+});
+
+describe("spacing scale", () => {
+  it("declares one base unit of 0.25rem, matching the registry's pixel size", () => {
+    expect(declaredValue("--spacing")).toBe("0.25rem");
+    expect(Number.parseFloat(declaredValue("--spacing")) * 16).toBe(SPACING_UNIT_PX);
+  });
+
+  it("lists each step once, in ascending order", () => {
+    const steps = spacingScale.map((entry) => entry.step);
+    expect(new Set(steps).size).toBe(steps.length);
+    const sizes = spacingScale.map((entry) => entry.px);
+    expect(sizes).toEqual([...sizes].sort((a, b) => a - b));
+  });
+
+  it("gives every step the size the base unit produces", () => {
+    for (const { step, px } of spacingScale) {
+      const expected = step === "px" ? 1 : Number(step) * SPACING_UNIT_PX;
+      expect({ step, px }).toEqual({ step, px: expected });
+    }
+  });
+
+  it("stays on the 4px grid, with half steps only for small controls", () => {
+    for (const { step, px, role } of spacingScale) {
+      if (step === "px") continue;
+      if (px % SPACING_UNIT_PX !== 0) expect({ step, role }).toEqual({ step, role: "control" });
+    }
   });
 });

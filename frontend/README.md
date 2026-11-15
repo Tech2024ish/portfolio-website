@@ -12,8 +12,12 @@ in `src/lib/api/client.ts`.
 - Styling uses tokens from `src/app/globals.css` only. No raw hex values in components.
 - Every token is registered, with its purpose, in `src/design/tokens.ts`; `src/app/tokens.test.ts` fails if
   the registry and `globals.css` differ. Groups: surfaces, borders, text, accent, focus, status, fonts, type
-  scale, radii, layout (breakpoints, page container), elevation (shadows), motion (easing, durations) and
+  scale, radii, spacing, layout (breakpoints, page container), elevation (shadows), motion (easing, durations) and
   layers (z-index). Status text uses the `-fg` colours; the base status colours are for icons and dots.
+- Spacing is one base unit, `--spacing` (0.25rem), and padding, margin, gap and space utilities use only the
+  steps in `spacingScale` (`src/design/tokens.ts`): a 4px grid with half steps for small controls.
+  `src/design/spacing-usage.test.ts` fails on any other step or an arbitrary value such as `p-[13px]`. Positioning
+  (`top`, `inset`) and sizing (`w`, `h`, `size`) utilities are not covered.
 - `/styleguide` previews every token and every reusable component **in development only** (`npm run dev`);
   production builds answer 404 (tested in `e2e/design-tokens.spec.ts`) and the page is never linked or indexed.
 - Only `NEXT_PUBLIC_*` values reach the browser, and none of them are secrets.
