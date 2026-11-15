@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import type { FormEvent } from "react";
+import type { FormEvent, ReactElement } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { Button, buttonClasses } from "./button";
@@ -56,6 +56,15 @@ describe("Button", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: "Sending" }));
     expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("attaches no event handler unless given one, so Server Components can render it", () => {
+    // React Server Components cannot pass functions to elements: an always-present handler
+    // breaks every Server Component that renders a Button (e.g. the styleguide page).
+    for (const loading of [false, true]) {
+      const element = Button({ loading, children: "Save" }) as ReactElement<{ onClick?: unknown }>;
+      expect(element.props.onClick).toBeUndefined();
+    }
   });
 
   it("uses dark ink on the teal primary for AA contrast", () => {
