@@ -39,7 +39,9 @@ type ButtonProps = ComponentPropsWithRef<"button"> & {
 /**
  * While `loading`, the button is aria-disabled rather than natively disabled: a natively disabled
  * button drops keyboard focus (to <body>, or out of a dialog), so the person who pressed it
- * would lose their place. Activation is ignored instead, including implicit form submission.
+ * would lose their place. Activation is ignored instead: the caller's onClick is not attached and
+ * the button is rendered as type="button", so it cannot submit its form.
+ * Button attaches no event handler of its own, so Server Components can render it.
  */
 export function Button({
   variant = "primary",
@@ -54,17 +56,11 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      type={type}
+      type={loading ? "button" : type}
       disabled={disabled}
       aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
-      onClick={(event) => {
-        if (loading) {
-          event.preventDefault();
-          return;
-        }
-        onClick?.(event);
-      }}
+      onClick={loading ? undefined : onClick}
       className={cx(buttonClasses(variant, size), className)}
       {...rest}
     >
