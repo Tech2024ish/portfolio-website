@@ -37,6 +37,11 @@ packages = ["app"]
 [tool.uv]
 # Supply-chain guard: never resolve a release younger than this date. Bump deliberately.
 exclude-newer = "2026-10-25T00:00:00Z"
+# Security exceptions, each limited to the first fixed release (cut-off just after its upload):
+# - dnspython 2.9.2 (via email-validator), uploaded 2026-11-03, fixes CVE-2026-128089.
+# - opentelemetry-api 1.45.2 (via fastapi), uploaded 2026-10-29, fixes CVE-2026-126360.
+# Remove an entry once the global exclude-newer date passes it.
+exclude-newer-package = { dnspython = "2026-11-04T00:00:00Z", opentelemetry-api = "2026-10-30T00:00:00Z" }
 
 # ---------------------------------------------------------------- quality tools
 
