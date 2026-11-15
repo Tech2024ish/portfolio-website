@@ -7,7 +7,7 @@ export function ExperienceSection() {
     <Section id="experience" eyebrow="Experience" title="Experience and education">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-12">
         <ol
-          className="relative flex flex-col gap-8 border-l border-border-strong pl-6"
+          className="relative flex flex-col gap-8 self-start border-l border-border-strong pl-6"
           aria-label="Work history"
         >
           {publicExperience.map((job) => (

@@ -10,15 +10,15 @@ Supabase PostgreSQL and Supabase Storage.
 backend/
 ├── app/
 │   ├── api/            health.py (unversioned probes), v1/router.py, v1/endpoints/
-│   ├── core/           settings (config.py); security, logging, errors from Phase 2
-│   ├── database/       engine, sessions, transaction boundaries (Phase 2)
+│   ├── core/           settings, error envelope, body-size limit, client IP
+│   ├── database/       engine, sessions, transaction boundaries, readiness
 │   ├── integrations/   Supabase Storage, email, Next.js revalidation adapters
 │   ├── models/         SQLAlchemy models
 │   ├── repositories/   data access, including public visibility filters
 │   ├── schemas/        Pydantic request/response contracts
 │   ├── services/       business logic and transactions
 │   └── main.py         create_app() factory
-├── migrations/         Alembic (Phase 2)
+├── migrations/         Alembic (see migrations/README.md)
 ├── tests/
 ├── legacy/             V2 implementation: read-only reference, ported phase by phase, then removed
 ├── Dockerfile

@@ -1,6 +1,6 @@
 """Proves the integration-test database is real PostgreSQL at the agreed major version.
 
-Phase 2 builds on this fixture to run Alembic migrations against PostgreSQL.
+The migration tests build on this fixture to run Alembic migrations against PostgreSQL.
 """
 
 from __future__ import annotations
