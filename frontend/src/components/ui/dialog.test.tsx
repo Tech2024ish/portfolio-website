@@ -88,6 +88,29 @@ describe("Dialog", () => {
     expect(screen.queryByRole("button", { name: "Close dialog" })).toBeNull();
   });
 
+  it("keeps the page locked while an outer dialog is still open", () => {
+    function Nested() {
+      const [outer, setOuter] = useState(true);
+      const [inner, setInner] = useState(true);
+      return (
+        <>
+          <Dialog open={outer} onClose={() => setOuter(false)} title="Outer">
+            <Button onClick={() => setOuter(false)}>Close outer</Button>
+          </Dialog>
+          <Dialog open={inner} onClose={() => setInner(false)} title="Inner">
+            <Button onClick={() => setInner(false)}>Close inner</Button>
+          </Dialog>
+        </>
+      );
+    }
+    render(<Nested />);
+    expect(document.documentElement.style.overflow).toBe("hidden");
+    fireEvent.click(screen.getByRole("button", { name: "Close inner", hidden: true }));
+    expect(document.documentElement.style.overflow).toBe("hidden");
+    fireEvent.click(screen.getByRole("button", { name: "Close outer", hidden: true }));
+    expect(document.documentElement.style.overflow).toBe("");
+  });
+
   it("releases the scroll lock if it unmounts while open", () => {
     const { unmount } = render(<Harness />);
     fireEvent.click(screen.getByRole("button", { name: "Edit profile" }));

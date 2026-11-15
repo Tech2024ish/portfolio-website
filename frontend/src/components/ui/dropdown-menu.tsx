@@ -74,6 +74,12 @@ export function DropdownMenu({ label, items, align = "start", variant = "seconda
   }
 
   function onTriggerKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    // Focus stays on the trigger when every item is disabled; Escape must still close the menu.
+    if (event.key === "Escape" && open) {
+      event.preventDefault();
+      close(true);
+      return;
+    }
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       openMenu(event.key === "ArrowDown" ? "first" : "last");

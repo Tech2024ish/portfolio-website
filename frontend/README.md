@@ -22,20 +22,20 @@ in `src/lib/api/client.ts`.
 
 Reusable primitives live in `src/components/ui/`. Build pages from these instead of restyling raw elements.
 
-| Module              | Exports                                                       | Notes                                                                                                                 |
-| ------------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `button.tsx`        | `Button`, `buttonClasses`                                     | Variants primary, secondary, outline, ghost, danger; `loading` shows a spinner and sets `aria-busy`.                  |
-| `form.tsx`          | `Field`, `Label`, `Input`, `Textarea`, `Select`, `FieldError` | `Field` wires the label, hint, error and aside to the control (`aria-describedby`, `aria-invalid`, `required`).       |
-| `feedback.tsx`      | `Alert`, `Spinner`, `EmptyState`, `ErrorState`                | `Alert` is `role="alert"` for danger and `role="status"` otherwise; pass `role="note"` for static content.            |
-| `toast.tsx`         | `ToastProvider`, `useToast`                                   | Client. Pre-rendered polite and assertive live regions; text only; pauses on hover or focus; `duration: 0` is sticky. |
-| `dialog.tsx`        | `Dialog`, `ConfirmDialog`                                     | Client. Native modal `<dialog>`; restores focus; a destructive confirmation focuses Cancel first.                     |
-| `dropdown-menu.tsx` | `DropdownMenu`                                                | Client. WAI-ARIA menu button: arrows, Home/End, Escape, disabled items skipped.                                       |
-| `tag.tsx`           | `Badge`, `Tag`, `StatusBadge`                                 | Meaning is always in the text; dots are decorative.                                                                   |
-| `card.tsx`          | `Card`                                                        | `interactive` adds hover feedback.                                                                                    |
-| `link.tsx`          | `TextLink`, `textLinkClasses`                                 | In-site links, underlined so they are not identified by colour alone.                                                 |
-| `external-link.tsx` | `ExternalLink`                                                | Opens in a new tab with `rel="noopener noreferrer"`.                                                                  |
-| `section.tsx`       | `Section`, `containerClasses`                                 | Page sections inside the `max-w-page` container.                                                                      |
-| `icons.tsx`         | Inline SVG icons                                              | Always decorative (`aria-hidden`); the accessible name comes from visible text or the control's `aria-label`.         |
+| Module              | Exports                                                       | Notes                                                                                                                                |
+| ------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `button.tsx`        | `Button`, `buttonClasses`                                     | Variants primary, secondary, outline, ghost, danger; `loading` shows a spinner, is `aria-busy` and `aria-disabled`, and keeps focus. |
+| `form.tsx`          | `Field`, `Label`, `Input`, `Textarea`, `Select`, `FieldError` | `Field` wires the label, hint, error and aside to the control (`aria-describedby`, `aria-invalid`, `required`).                      |
+| `feedback.tsx`      | `Alert`, `Spinner`, `EmptyState`, `ErrorState`                | `Alert` is `role="alert"` for danger and `role="status"` otherwise; pass `role="note"` for static content.                           |
+| `toast.tsx`         | `ToastProvider`, `useToast`                                   | Client. Pre-rendered polite and assertive live regions; text only; pauses on hover or focus; `duration: 0` is sticky.                |
+| `dialog.tsx`        | `Dialog`, `ConfirmDialog`                                     | Client. Native modal `<dialog>`; restores focus; a destructive confirmation focuses Cancel first.                                    |
+| `dropdown-menu.tsx` | `DropdownMenu`                                                | Client. WAI-ARIA menu button: arrows, Home/End, Escape, disabled items skipped.                                                      |
+| `tag.tsx`           | `Badge`, `Tag`, `StatusBadge`                                 | Meaning is always in the text; dots are decorative.                                                                                  |
+| `card.tsx`          | `Card`                                                        | `interactive` adds hover feedback.                                                                                                   |
+| `link.tsx`          | `TextLink`, `textLinkClasses`                                 | In-site links, underlined so they are not identified by colour alone.                                                                |
+| `external-link.tsx` | `ExternalLink`                                                | Opens in a new tab with `rel="noopener noreferrer"`.                                                                                 |
+| `section.tsx`       | `Section`, `containerClasses`                                 | Page sections inside the `max-w-page` container.                                                                                     |
+| `icons.tsx`         | Inline SVG icons                                              | Always decorative (`aria-hidden`); the accessible name comes from visible text or the control's `aria-label`.                        |
 
 Most components have unit tests, and the form, feedback, toast, dialog and menu tests include an axe scan
 (`src/test/axe.ts`; colour contrast is checked in the browser instead). `external-link.tsx` and `section.tsx` are

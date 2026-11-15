@@ -9,7 +9,7 @@ export type ButtonSize = "sm" | "md";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-control font-medium transition-colors " +
-  "disabled:cursor-not-allowed disabled:opacity-50 aria-busy:cursor-progress";
+  "disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:opacity-50 aria-busy:cursor-progress";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-accent text-accent-ink hover:bg-accent-hover active:bg-accent",
@@ -36,6 +36,11 @@ type ButtonProps = ComponentPropsWithRef<"button"> & {
   children: ReactNode;
 };
 
+/**
+ * While `loading`, the button is aria-disabled rather than natively disabled: a natively disabled
+ * button drops keyboard focus (to <body>, or out of a dialog), so the person who pressed it
+ * would lose their place. Activation is ignored instead, including implicit form submission.
+ */
 export function Button({
   variant = "primary",
   size = "md",
@@ -43,14 +48,23 @@ export function Button({
   disabled,
   className,
   type = "button",
+  onClick,
   children,
   ...rest
 }: ButtonProps) {
   return (
     <button
       type={type}
-      disabled={disabled || loading}
+      disabled={disabled}
+      aria-disabled={loading || undefined}
       aria-busy={loading || undefined}
+      onClick={(event) => {
+        if (loading) {
+          event.preventDefault();
+          return;
+        }
+        onClick?.(event);
+      }}
       className={cx(buttonClasses(variant, size), className)}
       {...rest}
     >

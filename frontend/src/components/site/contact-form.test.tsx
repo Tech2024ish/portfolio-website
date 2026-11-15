@@ -158,7 +158,7 @@ describe("ContactForm", () => {
     fireEvent.submit(form);
 
     const button = screen.getByRole("button", { name: "Sending…" });
-    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("aria-disabled", "true");
     expect(button).toHaveAttribute("aria-busy", "true");
     expect(screen.getByLabelText("Message")).toBeDisabled();
     expect(fetchMock).toHaveBeenCalledOnce();
