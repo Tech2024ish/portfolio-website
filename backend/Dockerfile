@@ -33,7 +33,8 @@ ENV PATH="/opt/venv/bin:$PATH" \
 RUN groupadd --system app && useradd --system --gid app --home-dir /srv --no-create-home app
 WORKDIR /srv
 COPY --from=build /opt/venv /opt/venv
-# Alembic files are added here in Phase 2 so the image can run controlled pre-deploy migrations.
+# Alembic files are not in the image yet. Running controlled migrations from the image is decided with
+# production deployment (Phase 11); until then migrations run as a separate, deliberate step.
 
 USER app
 EXPOSE 8000
@@ -42,5 +43,5 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
     CMD ["python", "-c", "import os, urllib.request; urllib.request.urlopen(f\"http://127.0.0.1:{os.environ['PORT']}/health\", timeout=4)"]
 
 # Render injects $PORT. FORWARDED_ALLOW_IPS controls whose X-Forwarded-For is trusted
-# (reviewed in Phase 3 together with rate limiting).
+# (reviewed with the production proxy chain and TRUSTED_PROXY_COUNT in Phase 11).
 CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port \"$PORT\" --proxy-headers --no-server-header"]

@@ -13,7 +13,7 @@ const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
-  // A full Content-Security-Policy is added and verified in Phase 11.
+  // A full Content-Security-Policy is added and verified with production deployment (Phase 11).
 ];
 
 const nextConfig: NextConfig = {

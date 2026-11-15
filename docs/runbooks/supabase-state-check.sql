@@ -4,7 +4,7 @@
 -- Every statement only reads catalog metadata or counts rows. Nothing is created,
 -- changed or deleted, and no row contents, emails, hashes or secrets are returned.
 --
--- Purpose (Phase 2 prerequisite): decide whether V2 migrations 0001/0002 are applied,
+-- Purpose (prerequisite for the first V3 migration): decide whether V2 migrations 0001/0002 are applied,
 -- and which PostgreSQL major version local Docker and CI must match.
 
 -- 1. PostgreSQL version --------------------------------------------------------

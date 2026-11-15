@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import type { FormEvent, ReactElement } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { Button, buttonClasses } from "./button";
@@ -18,7 +19,7 @@ describe("Button", () => {
     expect(onClick).toHaveBeenCalledOnce();
   });
 
-  it("is disabled and announces busy state while loading", () => {
+  it("announces a busy, disabled state while loading and ignores activation", () => {
     const onClick = vi.fn();
     render(
       <Button loading onClick={onClick}>
@@ -26,10 +27,44 @@ describe("Button", () => {
       </Button>,
     );
     const button = screen.getByRole("button", { name: "Saving" });
-    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute("aria-disabled", "true");
     expect(button).toHaveAttribute("aria-busy", "true");
     fireEvent.click(button);
     expect(onClick).not.toHaveBeenCalled();
+  });
+
+  it("keeps keyboard focus while loading, unlike a natively disabled button", () => {
+    function Saving({ loading }: { loading: boolean }) {
+      return <Button loading={loading}>Save</Button>;
+    }
+    const { rerender } = render(<Saving loading={false} />);
+    const button = screen.getByRole("button", { name: "Save" });
+    button.focus();
+    rerender(<Saving loading />);
+    expect(button).not.toBeDisabled();
+    expect(button).toHaveFocus();
+  });
+
+  it("does not submit its form while loading", () => {
+    const onSubmit = vi.fn((event: FormEvent) => event.preventDefault());
+    render(
+      <form onSubmit={onSubmit}>
+        <Button type="submit" loading>
+          Sending
+        </Button>
+      </form>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Sending" }));
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it("attaches no event handler unless given one, so Server Components can render it", () => {
+    // React Server Components cannot pass functions to elements: an always-present handler
+    // breaks every Server Component that renders a Button (e.g. the styleguide page).
+    for (const loading of [false, true]) {
+      const element = Button({ loading, children: "Save" }) as ReactElement<{ onClick?: unknown }>;
+      expect(element.props.onClick).toBeUndefined();
+    }
   });
 
   it("uses dark ink on the teal primary for AA contrast", () => {

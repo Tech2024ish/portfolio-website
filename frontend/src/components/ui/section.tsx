@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /** Page-width wrapper shared by the header, every section and the footer. */
-export const containerClasses = "mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8";
+export const containerClasses = "mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8";
 
 type SectionProps = {
   id: string;
