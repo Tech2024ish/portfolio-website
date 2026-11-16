@@ -22,6 +22,8 @@ Owner Studio (private; never cached or indexed):
 | ------------------------------------------ | -------------------------------------------------------------------------------- |
 | `/owner/login`                             | Sign-in. Returns to the requested Studio page; `next=` accepts Studio paths only |
 | `/owner`                                   | Dashboard: published and draft counts, messages, recent changes                  |
+| `/owner/messages`                          | Inbox: views, search, pages; unread and email-problem markers                    |
+| `/owner/messages/[id]`                     | One message: status, delete, reply, email history with "Send again"              |
 | `/owner/profile`                           | Profile editor                                                                   |
 | `/owner/content/[collection]`              | Every item of a collection, drafts included: order, publish, unpublish           |
 | `/owner/content/[collection]/new`          | New item (a draft)                                                               |
@@ -115,6 +117,7 @@ npm run dev            # http://localhost:3000, proxies /api/* to API_ORIGIN
 | `npm run test:e2e`            | Both suites below, one after the other. Run `npm run build` first and `npx playwright install chromium` once. |
 | `npm run test:e2e:site`       | Playwright against the production build at 1440/1280/768/390 px.                                              |
 | `npm run test:e2e:components` | `e2e/components/` against a dev server on port 3101 (`/styleguide` exists only in development).               |
+| `npm run perf`                | Lab Core Web Vitals and page weight against a running production build (`docs/quality.md`)                    |
 | `npm run format:check`        | Prettier (with Tailwind class sorting)                                                                        |
 
 The two suites run as separate Playwright invocations, so a site-only run needs no dev server. Next.js allows one

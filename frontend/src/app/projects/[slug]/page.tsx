@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { JsonLd } from "@/components/site/json-ld";
 import { ProjectDetail } from "@/components/site/project-detail";
 import { SiteShell } from "@/components/site/site-shell";
 import { getPublicContent, getPublicProject } from "@/lib/content/portfolio";
+import { projectGraph } from "@/lib/structured-data";
 
 /**
  * A page per published project. Published projects are generated at build time; a project
@@ -42,6 +44,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <SiteShell page="projects" profile={content.profile} articleCount={content.articles.length}>
       <ProjectDetail project={project} details={project.details} related={related} />
+      <JsonLd data={projectGraph(project, content.profile)} />
     </SiteShell>
   );
 }

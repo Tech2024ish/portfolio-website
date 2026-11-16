@@ -33,6 +33,14 @@ class StorageBackend(StrEnum):
     SUPABASE = "supabase"
 
 
+class MailProvider(StrEnum):
+    DISABLED = "disabled"  # messages are stored; nothing is sent (deliveries are "skipped")
+    RESEND = "resend"  # production
+    SMTP = (
+        "smtp"  # controlled testing only (e.g. Gmail with an app password); refused in production
+    )
+
+
 def normalise_database_url(url: str) -> str:
     """Supabase and Render hand out ``postgres://`` URLs; SQLAlchemy needs an explicit driver."""
     if url.startswith("postgres://"):
@@ -101,10 +109,19 @@ class Settings(BaseSettings):
     max_image_mb: int = Field(default=8, ge=1, le=50)
     max_document_mb: int = Field(default=10, ge=1, le=50)
 
-    # ---- email (provider-agnostic; Resend adapter first)
+    # ---- email: new-message notifications to the owner and replies to visitors
+    mail_provider: MailProvider = MailProvider.DISABLED
+    mail_from: str | None = None  # e.g. "Jean Claude Ishimwe <hello@your-domain.com>"
+    mail_reply_to: str | None = None  # where visitors' answers to replies go
+    contact_notify_email: str | None = None  # the owner's inbox for new-message notifications
     resend_api_key: SecretStr | None = None
-    mail_from: str | None = None
-    mail_reply_to: str | None = None
+    smtp_host: str | None = None
+    smtp_port: int = Field(default=587, ge=1, le=65535)
+    smtp_username: str | None = None
+    smtp_password: SecretStr | None = None
+    mail_max_attempts: int = Field(default=5, ge=1, le=10)
+    # Identical messages (same email, subject and text) within this window are accepted once.
+    contact_duplicate_window_minutes: int = Field(default=10, ge=1, le=24 * 60)
 
     # ------------------------------------------------------------------ parsing
 
@@ -128,7 +145,11 @@ class Settings(BaseSettings):
         return value
 
     @field_validator(
-        "supabase_service_key", "resend_api_key", "revalidate_signing_secret", mode="before"
+        "supabase_service_key",
+        "resend_api_key",
+        "smtp_password",
+        "revalidate_signing_secret",
+        mode="before",
     )
     @classmethod
     def _blank_secret_is_none(cls, value: object) -> object:
@@ -173,6 +194,14 @@ class Settings(BaseSettings):
             secret = self.revalidate_signing_secret
             if secret is None or len(secret.get_secret_value()) < 32:
                 problems.append("REVALIDATE_SIGNING_SECRET of at least 32 characters is required")
+        if self.mail_provider is MailProvider.SMTP:
+            problems.append("MAIL_PROVIDER=smtp is for controlled testing only; use resend")
+        if self.mail_provider is MailProvider.RESEND and not (
+            self.resend_api_key and self.mail_from and self.contact_notify_email
+        ):
+            problems.append(
+                "RESEND_API_KEY, MAIL_FROM and CONTACT_NOTIFY_EMAIL are required for resend"
+            )
         if problems:
             # Messages name variables only, never their values.
             raise ValueError("Unsafe production configuration: " + "; ".join(problems))
@@ -192,7 +221,14 @@ class Settings(BaseSettings):
 
     @property
     def email_configured(self) -> bool:
-        return bool(self.resend_api_key and self.mail_from)
+        """Whether email can be sent at all (a provider with its credentials and a sender)."""
+        if not self.mail_from:
+            return False
+        if self.mail_provider is MailProvider.RESEND:
+            return self.resend_api_key is not None
+        if self.mail_provider is MailProvider.SMTP:
+            return bool(self.smtp_host and self.smtp_username and self.smtp_password)
+        return False
 
     @property
     def session_cookie_name(self) -> str:

@@ -6,7 +6,14 @@
 import { api, ApiError, toApiError } from "@/lib/api/client";
 
 import type { OwnerItem } from "./content-schema";
-import { CSRF_HEADER, type OwnerMedia, type OwnerSessionInfo } from "./types";
+import {
+  CSRF_HEADER,
+  type Delivery,
+  type MessageDetail,
+  type MessageStatus,
+  type OwnerMedia,
+  type OwnerSessionInfo,
+} from "./types";
 
 export function signIn(email: string, password: string): Promise<OwnerSessionInfo> {
   return api.post<OwnerSessionInfo>("/api/v1/auth/login", { email, password });
@@ -60,6 +67,20 @@ async function sendForm<T>(path: string, form: FormData, csrfToken: string): Pro
   }
   if (!response.ok) throw await toApiError(response);
   return (await response.json()) as T;
+}
+
+/** The inbox (`/api/v1/owner/messages`) and email deliveries. */
+export function inboxActions(csrfToken: string) {
+  const options = { headers: { [CSRF_HEADER]: csrfToken } };
+  return {
+    setStatus: (id: number, status: MessageStatus) =>
+      api.patch<MessageDetail>(`/api/v1/owner/messages/${id}`, { status }, options),
+    remove: (id: number) => api.delete<void>(`/api/v1/owner/messages/${id}`, options),
+    reply: (id: number, body: string) =>
+      api.post<Delivery>(`/api/v1/owner/messages/${id}/reply`, { body }, options),
+    retry: (deliveryId: number) =>
+      api.post<Delivery>(`/api/v1/owner/deliveries/${deliveryId}/retry`, undefined, options),
+  };
 }
 
 /** The media library (`/api/v1/owner/media`). */

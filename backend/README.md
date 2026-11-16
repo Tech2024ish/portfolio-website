@@ -125,6 +125,24 @@ Images are uploaded in the Studio (`/owner/media`). Set `STORAGE_BACKEND`:
 Uploads are limited to `MAX_IMAGE_MB` and to real JPEG, PNG or WebP images; metadata is stripped and responsive
 WebP sizes are stored. Details: `docs/architecture.md`, "Media library".
 
+## Contact inbox and email
+
+Messages are always stored; email is optional. Set `MAIL_PROVIDER`:
+
+- `disabled` (default): nothing is sent; each notification is recorded as "skipped".
+- `resend` (production): `RESEND_API_KEY`, `MAIL_FROM` (a verified sender), `CONTACT_NOTIFY_EMAIL` (your inbox),
+  and optionally `MAIL_REPLY_TO`.
+- `smtp` (controlled testing only, refused in production): `SMTP_HOST`, `SMTP_PORT` (587, STARTTLS),
+  `SMTP_USERNAME`, `SMTP_PASSWORD` (for Gmail, an app password), plus `MAIL_FROM` and `CONTACT_NOTIFY_EMAIL`.
+
+Failed sends are retried automatically. To send anything still due (for example from a Render cron job):
+
+```bash
+uv run python -m app.cli.mail process
+```
+
+Details: `docs/architecture.md`, "Contact inbox and email".
+
 ## Endpoints
 
 | Path | Purpose |
@@ -136,6 +154,7 @@ WebP sizes are stored. Details: `docs/architecture.md`, "Media library".
 | `/api/v1/owner/*` | Owner Studio API. Every route requires the owner session (router-level guard): `dashboard`, `activity`, `profile`, and for each of `projects`, `experiences`, `education`, `certifications`, `skill-categories`, `skills`, `articles`: list, create, get, update (versioned), delete (soft), `reorder`, and `publish`/`unpublish` where content has a status. |
 | `/api/v1/owner/media` | Media library (owner only): list, upload, details and usages, edit alt text and folder, `replace`, delete (refused while in use). |
 | `/api/v1/media/files/*` | Library files when `STORAGE_BACKEND=local` (development). Immutable caching. |
+| `/api/v1/owner/messages` | Inbox (owner only): list with views, search and pages; details with email history; status; delete; `reply`. `/api/v1/owner/deliveries/{id}/retry` sends a failed email again. |
 | `/api/v1/public/*` | Published content for the site: `portfolio`, `projects/{slug}`, `articles`, `articles/{slug}`. No authentication; drafts are never returned. |
 | `/api/v1/*` | Further areas are added as their phases land. |
 | `/api/v1/docs` | OpenAPI UI, disabled in production by default. |

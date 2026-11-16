@@ -13,11 +13,15 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+// Monospace is used only for small labels, so it is not preloaded: on slow connections the
+// preloaded fonts compete with the page itself for bandwidth. It still loads, with a metric-matched
+// fallback until then, so swapping it in does not shift the layout.
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-jetbrains",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -34,7 +38,7 @@ export const metadata: Metadata = {
     description: siteDescription,
     url: "/",
     locale: "en_US",
-    images: [{ url: "/ishimwe-jean-claude.png", width: 987, height: 1070, alt: siteName }],
+    // The sharing image is generated (app/opengraph-image.tsx and per project and note).
   },
   twitter: { card: "summary_large_image", title: siteTitle, description: siteDescription },
 };

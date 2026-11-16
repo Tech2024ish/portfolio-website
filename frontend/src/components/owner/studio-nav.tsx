@@ -7,6 +7,7 @@ import { cx } from "@/lib/cx";
 
 export const STUDIO_LINKS = [
   { href: "/owner", label: "Dashboard" },
+  { href: "/owner/messages", label: "Messages" },
   { href: "/owner/profile", label: "Profile" },
   { href: "/owner/content/projects", label: "Projects" },
   { href: "/owner/content/experiences", label: "Experience" },
