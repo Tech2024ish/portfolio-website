@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
+import { JsonLd } from "@/components/site/json-ld";
 import { PageHeader } from "@/components/site/page-header";
 import { ProjectsIndex } from "@/components/site/projects-index";
 import { SiteShell } from "@/components/site/site-shell";
 import { getPublicContent } from "@/lib/content/portfolio";
+import { projectsGraph } from "@/lib/structured-data";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { profile } = await getPublicContent();
@@ -26,6 +28,7 @@ export default async function ProjectsPage() {
         description={<p>Backend platforms and APIs I have built or contributed to.</p>}
       />
       <ProjectsIndex projects={content.projects} />
+      <JsonLd data={projectsGraph(content.projects)} />
     </SiteShell>
   );
 }

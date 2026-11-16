@@ -447,3 +447,35 @@ def test_an_invalid_import_file_imports_nothing(
         import_content(session, data)
     database.dispose()
     assert query("select count(*) from profile") == [(0,)]
+
+
+# ------------------------------------------------------------------ query efficiency
+
+
+def test_the_public_portfolio_takes_a_fixed_number_of_queries(
+    studio: tuple[TestClient, dict[str, str]], seeded: None
+) -> None:
+    """No query per item: adding projects must not add queries (no N+1)."""
+    from sqlalchemy import event
+
+    client, headers = studio
+    engine = client.app.state.database.engine  # type: ignore[attr-defined]
+    statements: list[str] = []
+
+    def count(*args: Any) -> None:
+        statements.append(str(args[2]))
+
+    event.listen(engine, "before_cursor_execute", count)
+    try:
+        client.get("/api/v1/public/portfolio")
+        baseline = len(statements)
+        for n in range(5):
+            project = create_project(client, headers, slug=f"extra-{n}", title=f"Extra {n}")
+            client.post(f"/api/v1/owner/projects/{project['id']}/publish", headers=headers)
+        statements.clear()
+        body = client.get("/api/v1/public/portfolio").json()
+    finally:
+        event.remove(engine, "before_cursor_execute", count)
+    assert len(body["projects"]) == 7
+    assert len(statements) == baseline
+    assert baseline <= 12
