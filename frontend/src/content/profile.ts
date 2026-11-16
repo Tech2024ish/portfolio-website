@@ -204,7 +204,7 @@ export const projects: Project[] = [
     featured: true,
     repoUrl: "https://github.com/Tech2024ish/mosaic",
     // Drafted from the project's own README (owner-authored, public); every statement restates it.
-    // Unpublished until the owner approves it for the portfolio.
+    // Published as drafted with the owner's approval (2026-11-16).
     details: {
       sources: ["https://github.com/Tech2024ish/mosaic#readme (default branch, last pushed 2026-10-19)"],
       overview: [
@@ -262,7 +262,7 @@ export const projects: Project[] = [
           "Role-based permissions and a distributed rate limiter.",
         ],
       },
-      visibility: "draft",
+      visibility: "published",
     },
     visibility: "published",
   },
