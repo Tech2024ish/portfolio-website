@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import type { Project } from "@/content/profile";
@@ -41,8 +41,21 @@ describe("ProjectCard", () => {
 
   it("says plainly when there is no public link instead of rendering a dead one", () => {
     render(<ProjectCard project={{ ...base, featured: false }} />);
-    expect(screen.queryByRole("link")).not.toBeInTheDocument();
+    // The only link is the title, to the project's own page: no external link is invented.
+    expect(screen.getAllByRole("link")).toHaveLength(1);
+    expect(screen.queryByRole("link", { name: /source code|live site/i })).not.toBeInTheDocument();
     expect(screen.getByText("No public link available")).toBeInTheDocument();
     expect(screen.queryByText("Featured")).not.toBeInTheDocument();
+  });
+
+  it("links its title to the project's page", () => {
+    render(<ProjectCard project={base} />);
+    const heading = screen.getByRole("heading", { level: 3, name: "Demo API" });
+    expect(within(heading).getByRole("link", { name: "Demo API" })).toHaveAttribute("href", "/projects/demo");
+  });
+
+  it("uses the heading level it is given, to fit the page outline", () => {
+    render(<ProjectCard project={base} headingLevel={2} />);
+    expect(screen.getByRole("heading", { level: 2, name: "Demo API" })).toBeInTheDocument();
   });
 });
