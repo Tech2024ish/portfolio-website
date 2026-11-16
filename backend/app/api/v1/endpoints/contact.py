@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Request, Response, status
+from fastapi import APIRouter, BackgroundTasks, Request, Response, status
 
 from app.core.client_ip import client_address
 from app.core.config import Settings
 from app.database.session import DbSession
 from app.schemas.contact import ContactReceipt, ContactSubmission
+from app.services import mail
 from app.services.contact import submit_contact_message
 
 router = APIRouter(tags=["contact"])
@@ -33,14 +34,21 @@ _ERRORS: dict[int | str, dict[str, str]] = {
     responses=_ERRORS,
 )
 def create_contact_message(
-    submission: ContactSubmission, request: Request, response: Response, session: DbSession
+    submission: ContactSubmission,
+    request: Request,
+    response: Response,
+    tasks: BackgroundTasks,
+    session: DbSession,
 ) -> ContactReceipt:
     settings: Settings = request.app.state.settings
-    submit_contact_message(
+    result = submit_contact_message(
         session, submission, client_address(request, settings.trusted_proxy_count), settings
     )
     # Commit here, not in the dependency's teardown: teardown can run after the response has
     # been sent, and the client must only ever see success for a durably stored message.
     session.commit()
+    if result.delivery is not None and result.delivery.status == "pending":
+        # After the response: the visitor never waits for, or depends on, email delivery.
+        tasks.add_task(mail.process_due, request.app.state.database, settings)
     response.headers["Cache-Control"] = "no-store"
     return ContactReceipt()

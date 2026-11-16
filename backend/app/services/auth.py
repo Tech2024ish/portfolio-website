@@ -256,7 +256,7 @@ def message_counts(session: Session) -> dict[str, int]:
     rows = session.execute(
         select(ContactMessage.status, func.count()).group_by(ContactMessage.status)
     ).all()
-    counts = {"new": 0, "read": 0, "archived": 0}
+    counts = {"new": 0, "read": 0, "archived": 0, "spam": 0}
     for status, count in rows:
         counts[str(status)] = int(count)
     return counts

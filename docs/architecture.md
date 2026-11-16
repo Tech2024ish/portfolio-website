@@ -149,6 +149,35 @@ configured (Phase 11): switching the live site to `api` before `API_ORIGIN` is s
   replace, delete). "Choose from library" sets the profile portrait (and its alt text when empty) or adds a
   project image line.
 
+## Contact inbox and email (Phase 8)
+
+- **Storing first.** `POST /api/v1/contact` commits the message (and, for real messages, a notification row in the
+  `email_deliveries` outbox) before answering `{"status": "received"}`. Email is sent afterwards, so a provider
+  outage can never lose a message, and the response never claims anything about email.
+- **Abuse.** Per-address rate limit (as before); a honeypot field (accepted, discarded); identical resubmissions
+  (same email, subject and text, whitespace and case ignored) within `CONTACT_DUPLICATE_WINDOW_MINUTES` are
+  accepted once; messages with link markup or more than three links are stored with status `spam` and never
+  notified.
+- **Outbox** (`app/services/mail.py`). Deliveries are claimed with `FOR UPDATE SKIP LOCKED` and marked `sending`
+  in a short transaction before the provider is called; results are recorded separately. Transient errors
+  (network, 429, 5xx) are retried after 1 min, 5 min, 30 min, 2 h and 6 h up to `MAIL_MAX_ATTEMPTS`; permanent
+  errors fail at once. A delivery stuck in `sending` for 10 minutes is picked up again. At most one notification
+  per message (partial unique index). Statuses are literal: `sent` only when the provider accepted the email,
+  `skipped` when no provider is configured. The API sends right after queueing; `python -m app.cli.mail process`
+  sends whatever is still due (run it on a schedule).
+- **Providers** (`app/integrations/email.py`): `MAIL_PROVIDER=resend` for production; `smtp` (for example Gmail
+  with an app password) for controlled testing only, refused in production; `disabled` by default.
+  Notifications go to `CONTACT_NOTIFY_EMAIL` with Reply-To set to the visitor; replies go to the visitor with
+  Reply-To `MAIL_REPLY_TO`. Errors are recorded without credentials or provider response bodies.
+- **Inbox API** (`/api/v1/owner/messages`, owner only): views `inbox` (new and read), `new`, `read`, `archived`,
+  `spam`, `all`; search across name, email, subject and text (LIKE wildcards escaped); pagination; status
+  changes; permanent deletion (the message and its email records: it is personal data); replies (`202`, queued)
+  and `POST /api/v1/owner/deliveries/{id}/retry`. Every change is audited without message contents.
+- **Studio.** `/owner/messages` (views, search, pages, unread and email-problem markers) and `/owner/messages/{id}`
+  (the message rendered as text, status actions, delete with confirmation, reply form when email is configured,
+  email history with "Send again"). Opening an unread message marks it read from the browser, never during a
+  server render or prefetch.
+
 ## Design tokens
 
 Source: `design-reference/` (local only). Implemented in `frontend/src/app/globals.css` as Tailwind v4 `@theme`

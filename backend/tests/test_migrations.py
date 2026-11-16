@@ -38,6 +38,7 @@ EXPECTED_NAMES = {
         "ck_contact_messages_status_allowed",
         "ck_contact_messages_message_length",
         "ix_contact_messages_status_created_at",
+        "ix_contact_messages_fingerprint_created_at",
     },
     "rate_limit_events": {
         "pk_rate_limit_events",
@@ -124,6 +125,7 @@ DATA_TABLES = (
     "rate_limit_events",
     "owner_users",
     "owner_sessions",
+    "email_deliveries",
     *CONTENT_TABLES,
 )
 # Tables with an identity sequence (profile's id is fixed at 1).
@@ -197,9 +199,9 @@ def test_migration_role_can_still_read_and_update_alembic_version(
 ) -> None:
     url, config = supabase_first_deploy
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0004",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0005",)]
         updated = conn.execute(
-            "update alembic_version set version_num = version_num where version_num = 'v3_0004'"
+            "update alembic_version set version_num = version_num where version_num = 'v3_0005'"
         )
         assert updated.rowcount == 1
         conn.rollback()
@@ -209,4 +211,4 @@ def test_migration_role_can_still_read_and_update_alembic_version(
         assert conn.execute("select count(*) from alembic_version").fetchone() == (0,)
     command.upgrade(config, "head")
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0004",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0005",)]
