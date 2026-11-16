@@ -78,7 +78,13 @@ function details(study: ApiProject["case_study"]): ProjectDetails | undefined {
     challenges: some(study.challenges),
     outcomes: some(study.outcomes),
     scope,
-    media: some(study.media.map(({ caption, ...media }) => ({ ...media, caption: caption ?? undefined }))),
+    media: some(
+      study.media.map(({ caption, variants, ...media }) => ({
+        ...media,
+        caption: caption ?? undefined,
+        variants: variants?.length ? variants : undefined,
+      })),
+    ),
     visibility: "published",
   };
 }
@@ -133,6 +139,7 @@ export function contentFromApi(data: ApiPortfolio): PublicContent {
       cvHref: p.cv_href,
       portraitSrc: p.portrait_src,
       portraitAlt: p.portrait_alt,
+      portraitImage: data.portrait?.variants.length ? data.portrait : undefined,
       contactIntro: p.contact_intro,
       social: p.social.filter((link): link is SocialLink => SOCIAL.has(link.label as SocialLink["label"])),
     },

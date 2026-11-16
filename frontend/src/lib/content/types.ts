@@ -1,4 +1,6 @@
 import type {
+  ImageVariant,
+  ResponsiveImage,
   Article,
   Certification,
   Education,
@@ -61,7 +63,14 @@ export type ApiCaseStudy = {
   outcomes: string[];
   scope_implemented: string[];
   scope_not_yet: string[];
-  media: { src: string; alt: string; caption: string | null; width: number; height: number }[];
+  media: {
+    src: string;
+    alt: string;
+    caption: string | null;
+    width: number;
+    height: number;
+    variants?: ImageVariant[];
+  }[];
 };
 
 export type ApiProject = {
@@ -88,6 +97,7 @@ export type ApiArticle = ApiArticleSummary & { body: string };
 
 export type ApiPortfolio = {
   profile: ApiProfile;
+  portrait?: ResponsiveImage | null;
   skill_groups: { name: string; skills: string[] }[];
   experience: {
     organization: string;

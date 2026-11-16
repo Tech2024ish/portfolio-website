@@ -12,6 +12,7 @@ from fastapi import APIRouter, Response
 from app.core.errors import AppError
 from app.database.session import DbSession
 from app.models.content import Article, Certification, ContentStatus, Education, Experience, Project
+from app.models.media import MediaAsset
 from app.repositories import content as repository
 from app.schemas.content import (
     ProfileFields,
@@ -21,10 +22,13 @@ from app.schemas.content import (
     PublicCertification,
     PublicEducation,
     PublicExperience,
+    PublicMedia,
     PublicPortfolio,
     PublicProject,
     PublicSkillGroup,
 )
+from app.schemas.media import MediaVariant, PublicImage
+from app.services import media as media_service
 
 router = APIRouter(prefix="/public", tags=["public content"])
 
@@ -37,7 +41,15 @@ def _not_found(label: str) -> AppError:
     return AppError(404, "not_found", f"{label} not found.")
 
 
-def _project(project: Project) -> PublicProject:
+def _variants(asset: MediaAsset | None) -> list[MediaVariant]:
+    if asset is None:
+        return []
+    return [
+        MediaVariant(width=v["width"], height=v["height"], url=v["url"]) for v in asset.variants
+    ]
+
+
+def _project(project: Project, library: dict[str, MediaAsset]) -> PublicProject:
     case_study = None
     if project.case_study_status == ContentStatus.PUBLISHED.value:
         case_study = PublicCaseStudy(
@@ -51,7 +63,17 @@ def _project(project: Project) -> PublicProject:
             outcomes=project.outcomes,
             scope_implemented=project.scope_implemented,
             scope_not_yet=project.scope_not_yet,
-            media=project.media,  # type: ignore[arg-type]
+            media=[
+                PublicMedia(
+                    src=item["src"],
+                    alt=item["alt"],
+                    caption=item.get("caption"),
+                    width=item["width"],
+                    height=item["height"],
+                    variants=_variants(library.get(item["src"])),
+                )
+                for item in project.media
+            ],
         )
     return PublicProject(
         slug=project.slug,
@@ -82,8 +104,19 @@ def portfolio(session: DbSession, response: Response) -> PublicPortfolio:
     if profile is None:
         raise AppError(404, "not_found", "The portfolio content has not been set up yet.")
     response.headers.update(_CACHE)
+    projects = repository.published(session, Project)
+    library = media_service.by_url(
+        session,
+        {profile.portrait_src} | {item["src"] for project in projects for item in project.media},
+    )
+    portrait = library.get(profile.portrait_src)
     return PublicPortfolio(
         profile=ProfileFields.model_validate(profile, from_attributes=True),
+        portrait=PublicImage(
+            width=portrait.width, height=portrait.height, variants=_variants(portrait)
+        )
+        if portrait
+        else None,
         skill_groups=[
             PublicSkillGroup(name=name, skills=skills)
             for name, skills in repository.skill_groups(session)
@@ -100,7 +133,7 @@ def portfolio(session: DbSession, response: Response) -> PublicPortfolio:
             PublicCertification.model_validate(row, from_attributes=True)
             for row in repository.published(session, Certification)
         ],
-        projects=[_project(row) for row in repository.published(session, Project)],
+        projects=[_project(row, library) for row in projects],
         articles=[_article_summary(row) for row in repository.published(session, Article)],
     )
 
@@ -111,7 +144,7 @@ def project(slug: str, session: DbSession, response: Response) -> PublicProject:
     if row is None:
         raise _not_found("Project")
     response.headers.update(_CACHE)
-    return _project(row)
+    return _project(row, media_service.by_url(session, {item["src"] for item in row.media}))
 
 
 @router.get("/articles", response_model=list[PublicArticleSummary], summary="Published notes")

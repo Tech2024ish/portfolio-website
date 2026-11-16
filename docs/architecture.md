@@ -116,6 +116,39 @@ configured (Phase 11): switching the live site to `api` before `API_ORIGIN` is s
 - **Note bodies** are plain text with a small markup (`## ` headings, `- ` lists, code fences, blank lines between
   paragraphs), parsed into blocks and rendered as text, never as HTML.
 
+## Media library (Phase 7)
+
+- **Storage.** `STORAGE_BACKEND=supabase` in production: Supabase Storage through its HTTP API with the service
+  key, which never leaves the backend. The bucket (`MEDIA_BUCKET`) must be **public for reads**; writes and deletes
+  need the service key, so only the API can change it. `local` (development only, refused in production) keeps
+  files under `LOCAL_MEDIA_DIR` and serves them at `/api/v1/media/files/{key}`; `disabled` makes the media
+  endpoints answer 503.
+- **Validation** (`app/services/images.py`). The body is capped before parsing (`MAX_IMAGE_MB` plus 64 KB, in
+  `BodySizeLimitMiddleware`) and again while reading. The file's first bytes must be a JPEG, PNG or WebP
+  signature matching the declared type; Pillow must decode it completely as that format; animated images and
+  images over 40 megapixels are refused (decompression bombs are caught before decoding pixels). SVG is never
+  accepted.
+- **Processing.** The stored original is re-encoded from the decoded pixels, oriented by EXIF and without any
+  metadata (location, camera). WebP versions 480, 960 and 1600 px wide are stored for responsive delivery; images
+  are never enlarged.
+- **Naming and caching.** Keys are generated, never taken from the client: `{folder}/{uid}/r{revision}/original.{ext}`
+  and `.../w{width}.webp`. The uploaded name is kept, sanitised, for display only. A file never changes under its
+  key, so it is cached as `immutable` for a year; replacing an image writes a new revision.
+- **Integrity.** Files are written before the row is committed and removed if the request fails; replaced and
+  deleted files are removed only after the commit. Replacing an image points the content that used it (profile
+  portrait, project images) at the new revision in the same transaction and refreshes the public site. An image
+  still in use cannot be deleted (409 naming where it is used). Uploads, edits, replacements and deletions are
+  audited.
+- **API.** `/api/v1/owner/media` (list with folder filter, upload), `/{id}` (details with usages, edit alt text and
+  folder with a version check, delete) and `/{id}/replace`, all behind the owner router's guard and CSRF check.
+- **Delivery.** The public API adds the stored sizes of library images (`portrait`, and `variants` on case-study
+  images); the site renders them with `srcset` and explicit width and height (`MediaImage`). Images bundled in
+  `/public` keep using `next/image`. Existing bundled images are preserved and keep working; the library holds
+  new uploads.
+- **Studio.** `/owner/media` (upload, folders, thumbnails) and `/owner/media/{id}` (preview, alt text, folder,
+  replace, delete). "Choose from library" sets the profile portrait (and its alt text when empty) or adds a
+  project image line.
+
 ## Design tokens
 
 Source: `design-reference/` (local only). Implemented in `frontend/src/app/globals.css` as Tailwind v4 `@theme`

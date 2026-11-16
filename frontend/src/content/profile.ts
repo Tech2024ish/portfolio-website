@@ -19,6 +19,12 @@
 /** "draft" records are kept for later review and are never rendered publicly. */
 export type Visibility = "published" | "draft";
 
+/** A narrower version of a media-library image, for `srcset`. */
+export type ImageVariant = { width: number; height: number; url: string };
+
+/** Responsive versions of a media-library image (absent for images bundled with the site). */
+export type ResponsiveImage = { width: number; height: number; variants: ImageVariant[] };
+
 export type SocialLink = { label: "GitHub" | "LinkedIn"; href: string };
 
 export type Profile = {
@@ -35,6 +41,8 @@ export type Profile = {
   cvHref: string;
   portraitSrc: string;
   portraitAlt: string;
+  /** Set when the portrait is a media-library image. */
+  portraitImage?: ResponsiveImage;
   social: SocialLink[];
   contactIntro: string;
 };
@@ -48,7 +56,15 @@ export type Principle = {
 export type SkillGroup = { name: string; skills: string[] };
 
 /** An image shown on a project page. Paths are under /public; `alt` describes the image. */
-export type ProjectMedia = { src: string; alt: string; caption?: string; width: number; height: number };
+export type ProjectMedia = {
+  src: string;
+  alt: string;
+  caption?: string;
+  width: number;
+  height: number;
+  /** Narrower versions when the image is in the media library. */
+  variants?: ImageVariant[];
+};
 
 /**
  * The long-form case study of a project. It has its own visibility: a published project can have
