@@ -78,6 +78,14 @@ class Settings(BaseSettings):
     session_idle_minutes: int = Field(default=120, ge=5, le=24 * 60)
     cookie_secure: bool = True
 
+    # ---- owner sign-in throttling (brute-force protection)
+    # Every attempt from one client address counts toward the address limit; only failed
+    # attempts count toward the account limit, so the owner is never locked out by signing in.
+    login_ip_attempts: int = Field(default=10, ge=1, le=1000)
+    login_ip_window_minutes: int = Field(default=15, ge=1, le=24 * 60)
+    login_account_failures: int = Field(default=10, ge=1, le=1000)
+    login_account_window_minutes: int = Field(default=60, ge=1, le=24 * 60)
+
     # ---- file storage
     storage_backend: StorageBackend = StorageBackend.DISABLED
     supabase_url: str | None = None
@@ -171,6 +179,18 @@ class Settings(BaseSettings):
     @property
     def email_configured(self) -> bool:
         return bool(self.resend_api_key and self.mail_from)
+
+    @property
+    def session_cookie_name(self) -> str:
+        # The __Host- prefix makes browsers refuse the cookie unless it is Secure, has Path=/
+        # and no Domain, so no subdomain or plain-HTTP page can set or overwrite it. Browsers
+        # also refuse a __Host- cookie without Secure, so local HTTP development uses a plain name.
+        return "__Host-owner_session" if self.cookie_secure else "owner_session"
+
+    @property
+    def allowed_origins(self) -> frozenset[str]:
+        """Origins allowed to send state-changing owner requests (the site itself and CORS)."""
+        return frozenset({self.public_site_url, *self.cors_origins})
 
 
 @lru_cache

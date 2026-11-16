@@ -77,7 +77,10 @@ def migrated_database(postgres_url: str) -> str:
 @pytest.fixture
 def clean_database(migrated_database: str) -> Iterator[str]:
     with psycopg.connect(libpq_url(migrated_database)) as conn:
-        conn.execute("truncate contact_messages, rate_limit_events restart identity")
+        conn.execute(
+            "truncate contact_messages, rate_limit_events, owner_sessions, owner_users "
+            "restart identity cascade"
+        )
     yield migrated_database
 
 

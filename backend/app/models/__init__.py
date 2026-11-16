@@ -2,5 +2,6 @@
 
 from app.models.base import Base
 from app.models.contact import ContactMessage, MessageStatus, RateLimitEvent
+from app.models.owner import OwnerSession, OwnerUser
 
-__all__ = ["Base", "ContactMessage", "MessageStatus", "RateLimitEvent"]
+__all__ = ["Base", "ContactMessage", "MessageStatus", "OwnerSession", "OwnerUser", "RateLimitEvent"]

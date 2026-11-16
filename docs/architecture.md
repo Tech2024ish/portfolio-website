@@ -46,6 +46,32 @@ live site to an API before production deployment is configured (Phase 11) would 
 | 9 | uv `exclude-newer` and exact npm pins; no release younger than two weeks | Supply-chain hygiene and reproducible builds. |
 | 10 | TypeScript 6.0 (not 7.0) | TS 7 is the native-Go compiler. Next.js and typescript-eslint (`<6.1`) still need the JS compiler API. |
 
+## Owner authentication (Phase 5)
+
+- **One owner, one role.** The account is created with `python -m app.cli.owner`; there is no
+  sign-up. Every owner endpoint lives under `/api/v1/owner` and the router itself requires the
+  owner session, so no route can be added unprotected (a test enumerates them from OpenAPI).
+- **Passwords.** Argon2id (`argon2-cffi`, RFC 9106 low-memory profile). V2 `scrypt$...` hashes
+  are verified and re-hashed with Argon2id after a successful sign-in, so owner access survives
+  the migration. An unknown email spends the time of a real verification.
+- **Sessions.** 256-bit random tokens in an HttpOnly, SameSite=Strict cookie, `__Host-` prefixed
+  and Secure in production; PostgreSQL stores only the SHA-256 digest. Absolute lifetime 12 h,
+  idle timeout 2 h, revocation per session or all others; a password change ends every other
+  session.
+- **CSRF.** State-changing owner requests must carry `X-CSRF-Token` (an HMAC of the session
+  token, returned by `GET /auth/session`) and, when sent, an allowed `Origin`. Sign-in needs an
+  allowed `Origin` and a JSON body.
+- **Brute force.** Per client address (every attempt) and per account (failures only) in the
+  PostgreSQL rate-limit ledger; the account key is the submitted email, so limits reveal nothing
+  about which accounts exist. Responses are generic and logs never contain credentials, tokens or
+  the email.
+- **Frontend.** Next.js never decides who is signed in: `src/lib/owner/session.ts` (server-only)
+  forwards the session cookie to FastAPI and redirects to `/owner/login` on 401. An unreachable
+  API shows an error, never the Studio. Owner pages are dynamic, `no-store` and `noindex`.
+- **Production note (Phase 11).** The per-address limit relies on `TRUSTED_PROXY_COUNT` matching
+  the real proxy chain (Vercel rewrite, Render router). With the default 0 every sign-in arrives
+  from the proxy's address and shares one limit, so it must be set during deployment.
+
 ## Design tokens
 
 Source: `design-reference/` (local only). Implemented in `frontend/src/app/globals.css` as Tailwind v4 `@theme`
