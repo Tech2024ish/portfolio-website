@@ -16,4 +16,11 @@ describe("Logo", () => {
     expect(link).toHaveAccessibleName(expect.stringContaining(profile.name));
     expect(link).toHaveAccessibleName(expect.stringMatching(/^JC\./));
   });
+
+  it("leads home from other pages, still starting with its visible text", () => {
+    render(<Logo home={false} />);
+    const link = screen.getByRole("link", { name: /home$/ });
+    expect(link).toHaveAttribute("href", "/");
+    expect(link).toHaveAccessibleName(expect.stringMatching(/^JC\./));
+  });
 });

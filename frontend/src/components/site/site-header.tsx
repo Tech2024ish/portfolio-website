@@ -1,38 +1,49 @@
 import { buttonClasses } from "@/components/ui/button";
 import { DownloadIcon } from "@/components/ui/icons";
 import { containerClasses } from "@/components/ui/section";
-import { navigation, profile } from "@/content/profile";
+import { profile } from "@/content/profile";
+import { siteNavigation, type SitePage } from "@/lib/navigation";
 
 import { MobileNav } from "./mobile-nav";
+import { NavAnchor } from "./nav-anchor";
 
-export function Logo() {
+/** On the home page the logo returns to the top; on every other page it leads home. */
+export function Logo({ home = true }: { home?: boolean }) {
   return (
     // The accessible name must contain the visible text ("JC."), so speech-input users can say
     // what they see (WCAG 2.5.3). The rest of the name is announced but not shown.
-    <a href="#top" className="rounded-control font-display text-xl font-extrabold tracking-tight text-fg">
+    <NavAnchor
+      href={home ? "#top" : "/"}
+      className="rounded-control font-display text-xl font-extrabold tracking-tight text-fg"
+    >
       {profile.initials}
       <span className="text-accent">.</span>
-      <span className="sr-only"> — {profile.name}, back to top</span>
-    </a>
+      <span className="sr-only">
+        {" "}
+        — {profile.name}, {home ? "back to top" : "home"}
+      </span>
+    </NavAnchor>
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ page = "home" }: { page?: SitePage }) {
+  const links = siteNavigation(page);
   return (
     <header className="sticky top-0 z-(--z-header) border-b border-border bg-canvas/85 backdrop-blur-md">
       <div className={`${containerClasses} relative flex h-16 items-center justify-between gap-6`}>
-        <Logo />
+        <Logo home={page === "home"} />
 
         <nav aria-label="Primary" className="hidden md:block">
           <ul className="flex items-center gap-1 lg:gap-2">
-            {navigation.map((item) => (
+            {links.map((item) => (
               <li key={item.href}>
-                <a
+                <NavAnchor
                   href={item.href}
-                  className="rounded-control px-3 py-2 text-sm text-muted transition-colors hover:text-fg"
+                  aria-current={item.current ? "page" : undefined}
+                  className="rounded-control px-3 py-2 text-sm text-muted transition-colors hover:text-fg aria-[current=page]:text-fg aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-8"
                 >
                   {item.label}
-                </a>
+                </NavAnchor>
               </li>
             ))}
           </ul>
@@ -46,7 +57,7 @@ export function SiteHeader() {
           </a>
         </div>
 
-        <MobileNav items={navigation} cvHref={profile.cvHref} />
+        <MobileNav items={links} cvHref={profile.cvHref} />
       </div>
     </header>
   );

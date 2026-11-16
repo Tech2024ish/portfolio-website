@@ -1,19 +1,22 @@
 import { ExternalLink } from "@/components/ui/external-link";
 import { containerClasses } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/tag";
-import { navigation, profile } from "@/content/profile";
+import { profile } from "@/content/profile";
+import { siteNavigation, type SitePage } from "@/lib/navigation";
 
+import { NavAnchor } from "./nav-anchor";
 import { Logo } from "./site-header";
 
 const footerLink = "inline-flex min-h-8 items-center text-sm text-muted transition-colors hover:text-fg";
 
-export function SiteFooter() {
+export function SiteFooter({ page = "home" }: { page?: SitePage }) {
   const year = new Date().getFullYear();
+  const links = siteNavigation(page);
   return (
     <footer className="border-t border-border bg-surface">
       <div className={`${containerClasses} grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4`}>
         <div className="flex flex-col gap-3 lg:col-span-2">
-          <Logo />
+          <Logo home={page === "home"} />
           <p className="max-w-sm text-sm text-muted">
             {profile.name} — {profile.title} in {profile.location}.
           </p>
@@ -23,11 +26,15 @@ export function SiteFooter() {
         <nav aria-label="Footer">
           <h2 className="mb-3 text-sm font-semibold text-fg">Navigate</h2>
           <ul className="flex flex-col gap-1">
-            {navigation.map((item) => (
+            {links.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className={footerLink}>
+                <NavAnchor
+                  href={item.href}
+                  aria-current={item.current ? "page" : undefined}
+                  className={footerLink}
+                >
                   {item.label}
-                </a>
+                </NavAnchor>
               </li>
             ))}
           </ul>

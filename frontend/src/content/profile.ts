@@ -11,8 +11,9 @@
  * so the data is not lost. Components must render only the `public*` lists exported at the end
  * of this file, never the raw arrays; tests enforce that no draft reaches the page.
  *
- * This file is the static source until the public content API exists; the shapes mirror
- * that API so the components will not change when data moves to FastAPI.
+ * This file is the static content source of the public site. Content moves to PostgreSQL and the
+ * FastAPI public API together with the Owner Studio (Phase 6), which writes it; the shapes here are
+ * kept close to that API so the pages change little when the source does.
  */
 
 /** "draft" records are kept for later review and are never rendered publicly. */
@@ -44,15 +45,63 @@ export type Principle = {
 
 export type SkillGroup = { name: string; skills: string[] };
 
+/** An image shown on a project page. Paths are under /public; `alt` describes the image. */
+export type ProjectMedia = { src: string; alt: string; caption?: string; width: number; height: number };
+
+/**
+ * The long-form case study of a project. It has its own visibility: a published project can have
+ * draft details, which are never rendered until the owner approves them. Every field except
+ * `sources` is optional and its section is shown only when present: nothing is filled in to look
+ * complete.
+ */
+export type ProjectDetails = {
+  /** Where the statements come from, e.g. the project's README. Required, never rendered. */
+  sources: string[];
+  /** Full description, one entry per paragraph. */
+  overview?: string[];
+  problem?: string;
+  objectives?: string[];
+  approach?: string;
+  architecture?: string[];
+  decisions?: { title: string; detail: string }[];
+  challenges?: { challenge: string; solution: string }[];
+  /** Results that have been verified. Never estimates or goals. */
+  outcomes?: string[];
+  /** What exists today and what is deliberately not built yet. */
+  scope?: { implemented: string[]; notYetImplemented: string[] };
+  media?: ProjectMedia[];
+  visibility: Visibility;
+};
+
 export type Project = {
   slug: string;
   title: string;
   category: string;
+  /** The short description shown on cards and at the top of the project page. */
   summary: string;
   tech: string[];
   featured: boolean;
   repoUrl?: string;
   liveUrl?: string;
+  details?: ProjectDetails;
+  visibility: Visibility;
+};
+
+/** One block of an article body. Text is rendered as text, never as HTML. */
+export type ArticleBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "heading"; text: string }
+  | { type: "list"; items: string[] }
+  | { type: "code"; language: string; code: string };
+
+/** An Engineering Note. `publishedOn` is an ISO date (YYYY-MM-DD). */
+export type Article = {
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  publishedOn: string;
+  body: ArticleBlock[];
   visibility: Visibility;
 };
 
@@ -154,6 +203,67 @@ export const projects: Project[] = [
     tech: ["Python", "FastAPI", "PostgreSQL", "Alembic", "React", "Docker"],
     featured: true,
     repoUrl: "https://github.com/Tech2024ish/mosaic",
+    // Drafted from the project's own README (owner-authored, public); every statement restates it.
+    // Unpublished until the owner approves it for the portfolio.
+    details: {
+      sources: ["https://github.com/Tech2024ish/mosaic#readme (default branch, last pushed 2026-10-19)"],
+      overview: [
+        "MOSAIC is a supply-chain decision intelligence platform for mid-market distributors, beginning with African distribution businesses.",
+        "The repository contains its production-oriented foundation: a modular-monolith FastAPI backend, PostgreSQL persistence and migrations, a minimal React frontend, Docker Compose development services and automated quality checks.",
+      ],
+      problem:
+        "Mid-market distributors already run ERP, inventory, accounting, POS and spreadsheet systems. MOSAIC is meant to sit above them and explain what is happening, why it is happening and what the business should do next.",
+      objectives: [
+        "Build the ingestion and operations foundations first.",
+        "Add forecasting, optimisation, scenario simulation and recommendations incrementally, after those foundations.",
+      ],
+      approach:
+        "A modular monolith: one FastAPI service with explicit layers, PostgreSQL as the system of record with migration-managed schema, and a React and TypeScript frontend that never embeds credentials. Quality is enforced with pytest, Ruff and mypy.",
+      architecture: [
+        "Core: settings, security and shared application concerns.",
+        "Models and schemas: SQLAlchemy persistence models and Pydantic API contracts.",
+        "Routers: thin HTTP endpoints.",
+        "Services: application orchestration and transaction boundaries.",
+        "Domain: framework-independent modules reserved for the future decision engine.",
+        "Infrastructure: database and external adapters.",
+      ],
+      decisions: [
+        {
+          title: "Tenant-scoped data access",
+          detail:
+            "Master-data and analytics APIs are authenticated and scoped to the user's organization, and organization IDs are never accepted from clients.",
+        },
+        {
+          title: "Aggregation in PostgreSQL",
+          detail:
+            "Sales analytics are aggregated in the database within the organization's scope; the browser never aggregates raw sales data.",
+        },
+        {
+          title: "Revocable, database-backed sessions",
+          detail:
+            "Login creates a revocable session and logout revokes only the current one. Password-reset tokens are hashed, expiring and single-use, and revoke active sessions when consumed.",
+        },
+        {
+          title: "Safe production configuration",
+          detail:
+            "Production settings reject debug mode, development signing keys, the default database password, SQLite and wildcard or local CORS origins.",
+        },
+      ],
+      scope: {
+        implemented: [
+          "CSV imports for sales history, products, warehouses, suppliers and inventory snapshots.",
+          "A tenant-scoped sales analytics API, grouped by date, product or warehouse.",
+          "An overview dashboard of revenue, transactions and trends.",
+          "Email verification and optional Google sign-in.",
+        ],
+        notYetImplemented: [
+          "The decision engine: forecasting, machine learning, optimisation, scenario simulation and recommendations.",
+          "ERP synchronisation.",
+          "Role-based permissions and a distributed rate limiter.",
+        ],
+      },
+      visibility: "draft",
+    },
     visibility: "published",
   },
   {
@@ -257,6 +367,12 @@ export const certifications: Certification[] = [
   { name: "HTML Essentials", issuer: "Cisco Networking Academy", visibility: "draft" },
 ];
 
+/**
+ * Engineering Notes. None is published yet: the only writing on record (the Techinika technical
+ * writer role) is itself an unpublished draft, and no article text has been provided.
+ */
+export const articles: Article[] = [];
+
 /** In-page navigation, in page order. Every href must match a section id on the home page. */
 export const navigation = [
   { label: "About", href: "#about" },
@@ -272,6 +388,37 @@ export function isPublished(record: { visibility: Visibility }): boolean {
 }
 
 export const publicProjects = projects.filter(isPublished);
+export const publicArticles = articles.filter(isPublished);
 export const publicExperience = experience.filter(isPublished);
 export const publicEducation = education.filter(isPublished);
 export const publicCertifications = certifications.filter(isPublished);
+
+/** A published project by slug, or undefined for drafts and unknown slugs. */
+export function getPublicProject(slug: string, list: readonly Project[] = projects): Project | undefined {
+  return list.find((project) => project.slug === slug && isPublished(project));
+}
+
+/** The project's case study, only when both the project and its details are published. */
+export function publicDetails(project: Project): ProjectDetails | undefined {
+  return isPublished(project) && project.details && isPublished(project.details)
+    ? project.details
+    : undefined;
+}
+
+/** Projects for the home page: featured first, then the rest in their order, at most `limit`. */
+export function homeProjects(list: readonly Project[] = publicProjects, limit = 3): Project[] {
+  return list
+    .filter(isPublished)
+    .sort((a, b) => Number(b.featured) - Number(a.featured))
+    .slice(0, limit);
+}
+
+/** A published article by slug, or undefined for drafts and unknown slugs. */
+export function getPublicArticle(slug: string, list: readonly Article[] = articles): Article | undefined {
+  return list.find((article) => article.slug === slug && isPublished(article));
+}
+
+/** Published articles, newest first. */
+export function sortedArticles(list: readonly Article[] = publicArticles): Article[] {
+  return list.filter(isPublished).sort((a, b) => b.publishedOn.localeCompare(a.publishedOn));
+}
