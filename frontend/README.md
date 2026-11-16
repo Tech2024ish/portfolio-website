@@ -1,8 +1,28 @@
 # Portfolio web (frontend)
 
 Next.js App Router application: the public portfolio and the private owner portal (`/owner`).
-It contains **no business logic**. All data comes from the FastAPI backend through the typed client
-in `src/lib/api/client.ts`.
+It contains **no business logic**. The contact form talks to the FastAPI backend through the typed client in
+`src/lib/api/client.ts`. Public content is, for now, the verified module `src/content/profile.ts`; it moves to
+the FastAPI public API with the Owner Studio (Phase 6).
+
+## Public pages
+
+| Route                     | Content                                                                                                       |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `/`                       | Home: introduction, about, skills, featured projects, experience, education and contact                       |
+| `/projects`               | Every published project, with an empty state when there is none                                               |
+| `/projects/[slug]`        | One published project. Built only for published projects; any other slug answers 404                          |
+| `/notes`, `/notes/[slug]` | Engineering Notes. Linked from the navigation only once a note is published; the empty listing is not indexed |
+| any other URL             | The not-found page (404, not indexed). Unexpected errors show `app/error.tsx` with a retry                    |
+
+Content rules (`src/content/profile.ts`):
+
+- Every record has a `visibility`. Components render only the `public*` lists and the `getPublic*` and
+  `publicDetails` helpers, never the raw arrays; tests check that no draft reaches a page.
+- A project's case study (`details`) has its own visibility, so a published project can keep an unapproved case
+  study. Each case-study section is shown only when it has content; nothing is filled in to look complete.
+- Every case study records its `sources`. `outcomes` is for verified results only.
+- To publish a record, set its `visibility` to `"published"` after the owner approves it.
 
 ## Rules
 
