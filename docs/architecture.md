@@ -178,6 +178,13 @@ configured (Phase 11): switching the live site to `api` before `API_ORIGIN` is s
   email history with "Send again"). Opening an unread message marks it read from the browser, never during a
   server render or prefetch.
 
+## SEO, performance and accessibility (Phase 9)
+
+See `docs/quality.md` for the implementation, measurements and remaining items. In short: the
+canonical origin is resolved at build time (`NEXT_PUBLIC_SITE_URL`, else Vercel's production domain);
+`robots.txt`, `sitemap.xml`, generated sharing images and schema.org data come from the same
+published content as the pages; preview deployments and private areas are never indexed.
+
 ## Design tokens
 
 Source: `design-reference/` (local only). Implemented in `frontend/src/app/globals.css` as Tailwind v4 `@theme`

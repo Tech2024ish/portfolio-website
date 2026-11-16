@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { JsonLd } from "@/components/site/json-ld";
 import { ArticleView } from "@/components/site/notes";
 import { SiteShell } from "@/components/site/site-shell";
 import { getPublicArticle, getPublicContent } from "@/lib/content/portfolio";
+import { articleGraph } from "@/lib/structured-data";
 
 /**
  * A page per published note. Notes published at build time are generated then; later ones on
@@ -46,6 +48,7 @@ export default async function NotePage({ params }: NotePageProps) {
   return (
     <SiteShell page="notes" profile={content.profile} articleCount={content.articles.length}>
       <ArticleView article={article} />
+      <JsonLd data={articleGraph(article, content.profile)} />
     </SiteShell>
   );
 }

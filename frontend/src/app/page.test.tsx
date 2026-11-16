@@ -128,8 +128,11 @@ describe("home page", () => {
   it("embeds Person structured data built from the profile", async () => {
     const { container } = render(await HomePage());
     const script = container.querySelector('script[type="application/ld+json"]');
-    const data = JSON.parse(script?.textContent ?? "{}") as Record<string, unknown>;
-    expect(data["@type"]).toBe("Person");
+    const graph = (JSON.parse(script?.textContent ?? "{}") as { "@graph": Record<string, unknown>[] })[
+      "@graph"
+    ];
+    expect(graph.map((node) => node["@type"])).toEqual(["Person", "WebSite"]);
+    const data = graph[0]!;
     expect(data.name).toBe(profile.name);
     expect(data.sameAs).toEqual(profile.social.map((link) => link.href));
     // The owner is a current student: "alumniOf" would claim a completed degree.
