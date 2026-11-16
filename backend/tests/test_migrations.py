@@ -117,6 +117,7 @@ CONTENT_TABLES = (
     "projects",
     "articles",
     "audit_events",
+    "media_assets",
 )
 DATA_TABLES = (
     "contact_messages",
@@ -196,9 +197,9 @@ def test_migration_role_can_still_read_and_update_alembic_version(
 ) -> None:
     url, config = supabase_first_deploy
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0003",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0004",)]
         updated = conn.execute(
-            "update alembic_version set version_num = version_num where version_num = 'v3_0003'"
+            "update alembic_version set version_num = version_num where version_num = 'v3_0004'"
         )
         assert updated.rowcount == 1
         conn.rollback()
@@ -208,4 +209,4 @@ def test_migration_role_can_still_read_and_update_alembic_version(
         assert conn.execute("select count(*) from alembic_version").fetchone() == (0,)
     command.upgrade(config, "head")
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0003",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0004",)]

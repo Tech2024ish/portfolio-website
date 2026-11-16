@@ -15,6 +15,7 @@ export const STUDIO_LINKS = [
   { href: "/owner/content/skill-categories", label: "Skill groups" },
   { href: "/owner/content/skills", label: "Skills" },
   { href: "/owner/content/articles", label: "Notes" },
+  { href: "/owner/media", label: "Media" },
   { href: "/owner/activity", label: "Activity" },
   { href: "/owner/security", label: "Security" },
 ] as const;

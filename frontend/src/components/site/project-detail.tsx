@@ -1,10 +1,10 @@
-import Image from "next/image";
 import type { ReactNode } from "react";
 
 import { buttonClasses } from "@/components/ui/button";
 import { ExternalLink } from "@/components/ui/external-link";
 import { ExternalIcon, GitHubIcon } from "@/components/ui/icons";
 import { TextLink } from "@/components/ui/link";
+import { MediaImage } from "@/components/ui/media-image";
 import { cardClasses, containerClasses } from "@/components/ui/section";
 import { TagList } from "@/components/ui/tag";
 import type { Project, ProjectDetails } from "@/content/profile";
@@ -118,11 +118,12 @@ function CaseStudy({ details }: { details: ProjectDetails }) {
           <div className="grid gap-6">
             {details.media.map((item) => (
               <figure key={item.src} className="flex flex-col gap-2">
-                <Image
+                <MediaImage
                   src={item.src}
                   alt={item.alt}
                   width={item.width}
                   height={item.height}
+                  variants={item.variants}
                   sizes="(min-width: 1024px) 48rem, 100vw"
                   className="h-auto w-full rounded-card border border-border"
                 />

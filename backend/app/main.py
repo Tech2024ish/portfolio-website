@@ -14,7 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import __version__
 from app.api.health import router as health_router
-from app.api.v1.endpoints import auth, contact
+from app.api.v1.endpoints import auth, contact, owner_media
 from app.api.v1.router import api_router
 from app.core.body_limit import BodySizeLimitMiddleware
 from app.core.config import Settings, get_settings
@@ -53,6 +53,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             ("POST", "/api/v1/contact"): contact.MAX_BODY_BYTES,
             ("POST", "/api/v1/auth/login"): auth.MAX_BODY_BYTES,
             ("POST", "/api/v1/auth/password"): auth.MAX_BODY_BYTES,
+            ("POST", "/api/v1/owner/media"): owner_media.upload_limit(settings),
+            ("POST", "/api/v1/owner/media/{id}/replace"): owner_media.upload_limit(settings),
         },
     )
     application.add_middleware(
