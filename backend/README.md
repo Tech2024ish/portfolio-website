@@ -96,6 +96,23 @@ How it works (details in `docs/architecture.md`, "Owner authentication"):
 - Brute force: per-address and per-account limits in PostgreSQL, generic error messages, and
   equal timing for unknown accounts. Logs never contain emails, passwords or tokens.
 
+## Portfolio content
+
+Content (profile, skills, experience, education, certifications, projects, Engineering Notes) is edited in the
+Owner Studio. To start a database from the verified content in `frontend/src/content/profile.ts`:
+
+```bash
+node ../frontend/scripts/export-content.mjs        # refreshes app/cli/verified-content.json
+uv run python -m app.cli.content import            # into an EMPTY database; drafts stay drafts
+```
+
+The import validates everything first, runs in one transaction and refuses to run when any content already
+exists. Details: `docs/architecture.md`, "Content management".
+
+Set `REVALIDATE_URL` (the site's `/api/revalidate`) and `REVALIDATE_SIGNING_SECRET` (shared with the frontend,
+at least 32 characters) so the public site refreshes after each change. Without them nothing is sent and the
+site refreshes when its cache expires (five minutes).
+
 ## Endpoints
 
 | Path | Purpose |
@@ -104,6 +121,7 @@ How it works (details in `docs/architecture.md`, "Owner authentication"):
 | `GET /ready` | Readiness. 200 only when a read-only query succeeds and `alembic_version` is exactly the expected revision; otherwise 503. Results are cached for 5 s per process, one check at a time. |
 | `/api/v1/contact` | Public contact form. |
 | `/api/v1/auth/*` | Owner sign-in (`login`), `session`, `logout`, `password`, `sessions` (list, revoke one, revoke others). |
-| `/api/v1/owner/*` | Owner Studio API. Every route requires the owner session (router-level guard). |
+| `/api/v1/owner/*` | Owner Studio API. Every route requires the owner session (router-level guard): `dashboard`, `activity`, `profile`, and for each of `projects`, `experiences`, `education`, `certifications`, `skill-categories`, `skills`, `articles`: list, create, get, update (versioned), delete (soft), `reorder`, and `publish`/`unpublish` where content has a status. |
+| `/api/v1/public/*` | Published content for the site: `portfolio`, `projects/{slug}`, `articles`, `articles/{slug}`. No authentication; drafts are never returned. |
 | `/api/v1/*` | Further areas are added as their phases land. |
 | `/api/v1/docs` | OpenAPI UI, disabled in production by default. |

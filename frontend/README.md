@@ -1,9 +1,10 @@
 # Portfolio web (frontend)
 
 Next.js App Router application: the public portfolio and the private owner portal (`/owner`).
-It contains **no business logic**. The contact form talks to the FastAPI backend through the typed client in
-`src/lib/api/client.ts`. Public content is, for now, the verified module `src/content/profile.ts`; it moves to
-the FastAPI public API with the Owner Studio (Phase 6).
+It contains **no business logic**. The contact form and the Owner Studio talk to the FastAPI backend through the
+typed client in `src/lib/api/client.ts`. Public pages read content through `src/lib/content/portfolio.ts`, from the
+verified module `src/content/profile.ts` (`PUBLIC_CONTENT_SOURCE=bundled`, the default) or from the FastAPI public
+API (`api`), which the Owner Studio edits.
 
 ## Public pages
 
@@ -11,29 +12,46 @@ the FastAPI public API with the Owner Studio (Phase 6).
 | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `/`                       | Home: introduction, about, skills, featured projects, experience, education and contact                       |
 | `/projects`               | Every published project, with an empty state when there is none                                               |
-| `/projects/[slug]`        | One published project. Built only for published projects; any other slug answers 404                          |
+| `/projects/[slug]`        | One published project. Published at build time: prerendered; later: rendered on first visit. Others: 404      |
 | `/notes`, `/notes/[slug]` | Engineering Notes. Linked from the navigation only once a note is published; the empty listing is not indexed |
 | any other URL             | The not-found page (404, not indexed). Unexpected errors show `app/error.tsx` with a retry                    |
 
 Owner Studio (private; never cached or indexed):
 
-| Route          | Content                                                                                         |
-| -------------- | ----------------------------------------------------------------------------------------------- |
-| `/owner/login` | Sign-in. Returns to the requested Studio page; `next=` accepts Studio paths only                |
-| `/owner`       | Studio home: message counts, active sessions (end one or all others), password change, sign out |
+| Route                                      | Content                                                                          |
+| ------------------------------------------ | -------------------------------------------------------------------------------- |
+| `/owner/login`                             | Sign-in. Returns to the requested Studio page; `next=` accepts Studio paths only |
+| `/owner`                                   | Dashboard: published and draft counts, messages, recent changes                  |
+| `/owner/profile`                           | Profile editor                                                                   |
+| `/owner/content/[collection]`              | Every item of a collection, drafts included: order, publish, unpublish           |
+| `/owner/content/[collection]/new`          | New item (a draft)                                                               |
+| `/owner/content/[collection]/[id]`         | Edit, publish, delete (with confirmation)                                        |
+| `/owner/content/[collection]/[id]/preview` | Projects and notes as the site will show them, drafts included                   |
+| `/owner/activity`                          | The audit trail                                                                  |
+| `/owner/security`                          | Active sessions (end one or all others) and password change                      |
+
+Collections: `projects`, `experiences`, `education`, `certifications`, `skill-categories`, `skills`, `articles`.
+Their forms come from `src/lib/owner/content-schema.ts`; FastAPI validates again and its field errors appear next to
+the fields. Saving sends the loaded version, so a change made elsewhere is refused instead of overwritten.
 
 Authentication is decided by FastAPI. `src/lib/owner/session.ts` (server-only) forwards the session
 cookie and redirects to sign-in on 401; if the API cannot answer, the page shows an error, never the
 Studio. Browser requests send the CSRF token from the verified session (`src/lib/owner/actions.ts`).
 
-Content rules (`src/content/profile.ts`):
+Content rules:
 
-- Every record has a `visibility`. Components render only the `public*` lists and the `getPublic*` and
-  `publicDetails` helpers, never the raw arrays; tests check that no draft reaches a page.
+- Pages get content only from `src/lib/content/portfolio.ts`, which returns published records only, whichever the
+  source; components receive it as props. Tests check that no draft reaches a page.
+- With `api`, responses are cached under the `content` tag. FastAPI clears it after every change through
+  `POST /api/revalidate`, signed with `REVALIDATE_SIGNING_SECRET` (`src/lib/content/revalidate.ts`); the cache also
+  expires after five minutes.
+- `src/content/profile.ts` is the verified starting content: `node scripts/export-content.mjs` exports it for the
+  backend's one-time import (`--check` verifies the export is current).
 - A project's case study (`details`) has its own visibility, so a published project can keep an unapproved case
   study. Each case-study section is shown only when it has content; nothing is filled in to look complete.
 - Every case study records its `sources`. `outcomes` is for verified results only.
-- To publish a record, set its `visibility` to `"published"` after the owner approves it.
+- In the bundled source, publish a record by setting its `visibility` to `"published"` after the owner approves it;
+  with the API source, publish it in the Studio.
 
 ## Rules
 
