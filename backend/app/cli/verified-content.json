@@ -1,0 +1,333 @@
+{
+  "profile": {
+    "name": "Jean Claude Ishimwe",
+    "initials": "JC",
+    "title": "Backend Software Engineer",
+    "location": "Kigali, Rwanda",
+    "availability": "Available for backend opportunities",
+    "headline": "Building reliable backend systems for real-world problems.",
+    "summary": "Backend Developer at SilverLandTech and Computer Science student at the University of Rwanda. I design REST APIs and database-driven services with Python, FastAPI and PostgreSQL.",
+    "about_lead": "A backend-minded builder, passionate about reliable, scalable systems and technology that solves real-world problems.",
+    "about_body": [
+      "I develop backend applications using Python, FastAPI, Java, PostgreSQL, SQL and REST APIs, with experience designing APIs, implementing backend logic and building maintainable software. I also work with JavaScript and React, which helps me collaborate across the whole development lifecycle.",
+      "I'm particularly interested in backend engineering, system design, cloud technologies and AI-driven applications."
+    ],
+    "email": "claudeish88@gmail.com",
+    "cv_href": "/Resume.pdf",
+    "portrait_src": "/ishimwe-jean-claude.png",
+    "portrait_alt": "Portrait of Jean Claude Ishimwe",
+    "contact_intro": "Open to backend engineering internships, graduate programs, junior backend engineer roles and software engineering opportunities.",
+    "social": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/Tech2024ish"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/ishimwe-jean-claude-goslish/"
+      }
+    ],
+    "principles": [
+      {
+        "title": "Architecture",
+        "body": "Clear boundaries, cohesive business logic and maintainable service structure.",
+        "icon": "architecture"
+      },
+      {
+        "title": "Database engineering",
+        "body": "Thoughtful schemas, relationships and persistence shaped around the domain.",
+        "icon": "database"
+      },
+      {
+        "title": "API design",
+        "body": "Explicit contracts and RESTful interfaces that frontend teams can work with.",
+        "icon": "api"
+      },
+      {
+        "title": "Engineering quality",
+        "body": "An emphasis on reliability, authentication and code that stays understandable.",
+        "icon": "quality"
+      }
+    ]
+  },
+  "skill_groups": [
+    {
+      "name": "Programming languages",
+      "skills": [
+        "Python",
+        "Java",
+        "JavaScript",
+        "SQL"
+      ]
+    },
+    {
+      "name": "Backend engineering",
+      "skills": [
+        "FastAPI",
+        "REST APIs",
+        "API Design",
+        "JWT Authentication"
+      ]
+    },
+    {
+      "name": "Databases",
+      "skills": [
+        "PostgreSQL",
+        "MySQL"
+      ]
+    },
+    {
+      "name": "Frontend",
+      "skills": [
+        "React",
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
+      "name": "Tools",
+      "skills": [
+        "Git",
+        "GitHub",
+        "Docker",
+        "Postman"
+      ]
+    },
+    {
+      "name": "Practices",
+      "skills": [
+        "OOP",
+        "Database Design",
+        "Data Structures",
+        "Algorithms",
+        "Software Engineering"
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "organization": "SilverLandTech",
+      "role": "Backend Developer",
+      "start_month": "2026-01-01",
+      "end_month": null,
+      "is_current": true,
+      "highlights": [
+        "Develop scalable backend services using FastAPI and PostgreSQL.",
+        "Design and maintain RESTful APIs for business applications.",
+        "Collaborate with frontend developers to integrate APIs and improve performance.",
+        "Participate in debugging, code reviews and backend architecture discussions."
+      ],
+      "status": "published"
+    },
+    {
+      "organization": "Techinika",
+      "role": "Technical Writer",
+      "start_month": "2026-01-01",
+      "end_month": "2026-09-01",
+      "is_current": false,
+      "highlights": [
+        "Wrote technical articles explaining software engineering concepts.",
+        "Produced educational technical content in collaboration with editorial members."
+      ],
+      "status": "draft"
+    }
+  ],
+  "education": [
+    {
+      "institution": "University of Rwanda",
+      "qualification": "Bachelor of Science in Computer Science",
+      "location": "Kigali, Rwanda",
+      "status_label": "In progress",
+      "coursework": [
+        "Data Structures & Algorithms",
+        "Database Systems",
+        "Software Engineering",
+        "Web Development"
+      ],
+      "status": "published"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Python programming",
+      "issuer": "Cisco Networking Academy",
+      "status": "published"
+    },
+    {
+      "name": "Data Structures and Algorithms",
+      "issuer": "A2SV (Africa to Silicon Valley)",
+      "status": "published"
+    },
+    {
+      "name": "Python Essentials",
+      "issuer": "Cisco Networking Academy",
+      "status": "draft"
+    },
+    {
+      "name": "HTML Essentials",
+      "issuer": "Cisco Networking Academy",
+      "status": "draft"
+    }
+  ],
+  "projects": [
+    {
+      "slug": "mosaic",
+      "title": "MOSAIC",
+      "category": "Backend platform",
+      "summary": "A supply-chain decision intelligence platform for mid-market distributors, starting with African distribution businesses. The current foundation is a modular-monolith FastAPI backend with PostgreSQL migrations; the decision engine is not implemented yet.",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "PostgreSQL",
+        "Alembic",
+        "React",
+        "Docker"
+      ],
+      "featured": true,
+      "repo_url": "https://github.com/Tech2024ish/mosaic",
+      "live_url": null,
+      "status": "published",
+      "case_study_status": "published",
+      "overview": [
+        "MOSAIC is a supply-chain decision intelligence platform for mid-market distributors, beginning with African distribution businesses.",
+        "The repository contains its production-oriented foundation: a modular-monolith FastAPI backend, PostgreSQL persistence and migrations, a minimal React frontend, Docker Compose development services and automated quality checks."
+      ],
+      "problem": "Mid-market distributors already run ERP, inventory, accounting, POS and spreadsheet systems. MOSAIC is meant to sit above them and explain what is happening, why it is happening and what the business should do next.",
+      "objectives": [
+        "Build the ingestion and operations foundations first.",
+        "Add forecasting, optimisation, scenario simulation and recommendations incrementally, after those foundations."
+      ],
+      "approach": "A modular monolith: one FastAPI service with explicit layers, PostgreSQL as the system of record with migration-managed schema, and a React and TypeScript frontend that never embeds credentials. Quality is enforced with pytest, Ruff and mypy.",
+      "architecture": [
+        "Core: settings, security and shared application concerns.",
+        "Models and schemas: SQLAlchemy persistence models and Pydantic API contracts.",
+        "Routers: thin HTTP endpoints.",
+        "Services: application orchestration and transaction boundaries.",
+        "Domain: framework-independent modules reserved for the future decision engine.",
+        "Infrastructure: database and external adapters."
+      ],
+      "decisions": [
+        {
+          "title": "Tenant-scoped data access",
+          "detail": "Master-data and analytics APIs are authenticated and scoped to the user's organization, and organization IDs are never accepted from clients."
+        },
+        {
+          "title": "Aggregation in PostgreSQL",
+          "detail": "Sales analytics are aggregated in the database within the organization's scope; the browser never aggregates raw sales data."
+        },
+        {
+          "title": "Revocable, database-backed sessions",
+          "detail": "Login creates a revocable session and logout revokes only the current one. Password-reset tokens are hashed, expiring and single-use, and revoke active sessions when consumed."
+        },
+        {
+          "title": "Safe production configuration",
+          "detail": "Production settings reject debug mode, development signing keys, the default database password, SQLite and wildcard or local CORS origins."
+        }
+      ],
+      "challenges": [],
+      "outcomes": [],
+      "scope_implemented": [
+        "CSV imports for sales history, products, warehouses, suppliers and inventory snapshots.",
+        "A tenant-scoped sales analytics API, grouped by date, product or warehouse.",
+        "An overview dashboard of revenue, transactions and trends.",
+        "Email verification and optional Google sign-in."
+      ],
+      "scope_not_yet": [
+        "The decision engine: forecasting, machine learning, optimisation, scenario simulation and recommendations.",
+        "ERP synchronisation.",
+        "Role-based permissions and a distributed rate limiter."
+      ],
+      "media": [],
+      "sources": [
+        "https://github.com/Tech2024ish/mosaic#readme (default branch, last pushed 2026-10-19)"
+      ]
+    },
+    {
+      "slug": "school-management-system",
+      "title": "School Management System",
+      "category": "Backend & web app",
+      "summary": "A full-stack Java application for managing students, teachers, courses, attendance and reports, with secure authentication built on an MVC architecture.",
+      "tech": [
+        "Java",
+        "JSF",
+        "Hibernate",
+        "MySQL"
+      ],
+      "featured": false,
+      "repo_url": "https://github.com/Tech2024ish/school-management-system",
+      "live_url": null,
+      "status": "draft",
+      "case_study_status": "draft",
+      "overview": [],
+      "problem": null,
+      "objectives": [],
+      "approach": null,
+      "architecture": [],
+      "decisions": [],
+      "challenges": [],
+      "outcomes": [],
+      "scope_implemented": [],
+      "scope_not_yet": [],
+      "media": [],
+      "sources": []
+    },
+    {
+      "slug": "buzhub-platform",
+      "title": "BuzHub Platform",
+      "category": "Backend contribution",
+      "summary": "Backend development contribution focused on API design, business logic and persistence for a platform built around real product needs.",
+      "tech": [
+        "FastAPI",
+        "PostgreSQL",
+        "REST APIs"
+      ],
+      "featured": false,
+      "repo_url": null,
+      "live_url": null,
+      "status": "published",
+      "case_study_status": "draft",
+      "overview": [],
+      "problem": null,
+      "objectives": [],
+      "approach": null,
+      "architecture": [],
+      "decisions": [],
+      "challenges": [],
+      "outcomes": [],
+      "scope_implemented": [],
+      "scope_not_yet": [],
+      "media": [],
+      "sources": []
+    },
+    {
+      "slug": "portfolio-website",
+      "title": "Portfolio Website",
+      "category": "Full-stack project",
+      "summary": "This site: a responsive personal portfolio showcasing projects, skills and experience, built with a Next.js frontend and a FastAPI and PostgreSQL backend.",
+      "tech": [
+        "Next.js",
+        "TypeScript",
+        "FastAPI",
+        "PostgreSQL"
+      ],
+      "featured": false,
+      "repo_url": "https://github.com/Tech2024ish/portfolio-website",
+      "live_url": "https://goslish.vercel.app",
+      "status": "draft",
+      "case_study_status": "draft",
+      "overview": [],
+      "problem": null,
+      "objectives": [],
+      "approach": null,
+      "architecture": [],
+      "decisions": [],
+      "challenges": [],
+      "outcomes": [],
+      "scope_implemented": [],
+      "scope_not_yet": [],
+      "media": [],
+      "sources": []
+    }
+  ],
+  "articles": []
+}

@@ -77,3 +77,29 @@ def acquire(session: Session, bucket: str, key: str, limit: int, window: timedel
     session.add(RateLimitEvent(bucket=bucket, client_key=key, created_at=func.clock_timestamp()))
     session.flush()
     return True
+
+
+def lock(session: Session, key: str) -> None:
+    """Serialise this transaction with every other request for the same client key."""
+    session.execute(text("select pg_advisory_xact_lock(:id)"), {"id": _lock_id(key)})
+
+
+def recent_count(session: Session, bucket: str, key: str, window: timedelta) -> int:
+    """Events recorded for this client within the window. Records nothing."""
+    count = session.scalar(
+        select(func.count())
+        .select_from(RateLimitEvent)
+        .where(
+            RateLimitEvent.bucket == bucket,
+            RateLimitEvent.client_key == key,
+            RateLimitEvent.created_at >= func.clock_timestamp() - window,
+        )
+    )
+    return int(count or 0)
+
+
+def record(session: Session, bucket: str, key: str, window: timedelta) -> None:
+    """Record one event without checking a limit (e.g. a failed sign-in), and prune old rows."""
+    purge_expired(session, bucket, window)
+    session.add(RateLimitEvent(bucket=bucket, client_key=key, created_at=func.clock_timestamp()))
+    session.flush()

@@ -3,25 +3,27 @@ import { notFound } from "next/navigation";
 
 import { ProjectDetail } from "@/components/site/project-detail";
 import { SiteShell } from "@/components/site/site-shell";
-import { getPublicProject, profile, publicDetails, publicProjects } from "@/content/profile";
+import { getPublicContent, getPublicProject } from "@/lib/content/portfolio";
 
 /**
- * A page per published project, generated at build time. Any other slug, including an
- * unpublished project's, is a 404: drafts are never rendered or reachable.
+ * A page per published project. Published projects are generated at build time; a project
+ * published later is rendered on its first visit. Any other slug, including an unpublished
+ * project's, is a 404: drafts are never rendered or reachable.
  */
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 // Declared here rather than with Next's generated PageProps<...>: those types exist only after
 // `next dev` or `next build`, and CI type-checks a fresh checkout before building.
 type ProjectPageProps = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams(): { slug: string }[] {
-  return publicProjects.map((project) => ({ slug: project.slug }));
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const { projects } = await getPublicContent();
+  return projects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getPublicProject(slug);
+  const [project, { profile }] = await Promise.all([getPublicProject(slug), getPublicContent()]);
   if (!project) return {};
   const path = `/projects/${project.slug}`;
   return {
@@ -34,12 +36,12 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = getPublicProject(slug);
+  const [project, content] = await Promise.all([getPublicProject(slug), getPublicContent()]);
   if (!project) notFound();
-  const related = publicProjects.filter((other) => other.slug !== project.slug);
+  const related = content.projects.filter((other) => other.slug !== project.slug);
   return (
-    <SiteShell page="projects">
-      <ProjectDetail project={project} details={publicDetails(project)} related={related} />
+    <SiteShell page="projects" profile={content.profile} articleCount={content.articles.length}>
+      <ProjectDetail project={project} details={project.details} related={related} />
     </SiteShell>
   );
 }
