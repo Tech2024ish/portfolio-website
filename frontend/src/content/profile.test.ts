@@ -143,10 +143,10 @@ describe("project pages", () => {
     }
   });
 
-  it("keeps MOSAIC's case study unpublished until the owner approves it", () => {
+  it("publishes MOSAIC's case study, approved by the owner", () => {
     const mosaic = projects.find((project) => project.slug === "mosaic");
-    expect(mosaic?.details?.visibility).toBe("draft");
-    expect(publicDetails(mosaic as Project)).toBeUndefined();
+    expect(mosaic?.details?.visibility).toBe("published");
+    expect(publicDetails(mosaic as Project)).toBe(mosaic?.details);
   });
 
   it("returns details only when both the project and its details are published", () => {

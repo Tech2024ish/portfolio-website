@@ -57,12 +57,15 @@ describe("/projects/[slug]", () => {
     expect(screen.getByRole("heading", { level: 1, name: "MOSAIC" })).toBeInTheDocument();
   });
 
-  it("does not render MOSAIC's unpublished case study", async () => {
+  it("renders MOSAIC's published case study", async () => {
     render(await ProjectPage(params("mosaic")));
-    expect(
-      screen.queryByRole("heading", { level: 2, name: "Engineering decisions" }),
-    ).not.toBeInTheDocument();
-    expect(screen.queryByText(/tenant-scoped/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Engineering decisions" })).toBeInTheDocument();
+    expect(screen.getByText("Tenant-scoped data access")).toBeInTheDocument();
+  });
+
+  it("renders no case study for a project without published details", async () => {
+    render(await ProjectPage(params("buzhub-platform")));
+    expect(screen.queryByRole("heading", { level: 2, name: "Overview" })).not.toBeInTheDocument();
   });
 
   it("answers 404 for drafts and unknown slugs", async () => {

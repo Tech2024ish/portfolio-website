@@ -85,10 +85,19 @@ test.describe("public portfolio pages", () => {
     }
   });
 
-  test("MOSAIC's unpublished case study is not on its page", async ({ page }) => {
+  test("MOSAIC's published case study is on its page, section by section", async ({ page }) => {
     await page.goto("/projects/mosaic");
-    await expect(page.getByRole("heading", { name: "Engineering decisions" })).toHaveCount(0);
-    await expect(page.getByText(/tenant-scoped/i)).toHaveCount(0);
+    for (const name of [
+      "Overview",
+      "Problem",
+      "Architecture overview",
+      "Engineering decisions",
+      "Current scope",
+    ]) {
+      await expect(page.getByRole("heading", { level: 2, name, exact: true })).toBeVisible();
+    }
+    // No outcome is claimed: none has been verified.
+    await expect(page.getByRole("heading", { level: 2, name: "Outcomes", exact: true })).toHaveCount(0);
   });
 
   test("navigation from an inner page leads back to the home page's sections", async ({ page, isMobile }) => {
