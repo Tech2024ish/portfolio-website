@@ -3,8 +3,7 @@ import { ContactSection } from "@/components/site/contact-section";
 import { ExperienceSection } from "@/components/site/experience-section";
 import { Hero } from "@/components/site/hero";
 import { ProjectsSection } from "@/components/site/projects-section";
-import { SiteFooter } from "@/components/site/site-footer";
-import { SiteHeader } from "@/components/site/site-header";
+import { SiteShell } from "@/components/site/site-shell";
 import { SkillsSection } from "@/components/site/skills-section";
 import { profile } from "@/content/profile";
 import { serializeJsonLd } from "@/lib/json-ld";
@@ -27,22 +26,14 @@ const personJsonLd = {
 export default function HomePage() {
   return (
     <>
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-(--z-skip-link) focus:rounded-control focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
-      >
-        Skip to content
-      </a>
-      <SiteHeader />
-      <main id="main" tabIndex={-1} className="focus:outline-none">
+      <SiteShell page="home">
         <Hero />
         <AboutSection />
         <SkillsSection />
         <ProjectsSection />
         <ExperienceSection />
         <ContactSection />
-      </main>
-      <SiteFooter />
+      </SiteShell>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(personJsonLd) }}

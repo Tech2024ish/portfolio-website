@@ -5,11 +5,13 @@ import { useEffect, useId, useRef, useState } from "react";
 import { buttonClasses } from "@/components/ui/button";
 import { CloseIcon, DownloadIcon, MenuIcon } from "@/components/ui/icons";
 
-type NavItem = { label: string; href: string };
+import { NavAnchor } from "./nav-anchor";
+
+type NavItem = { label: string; href: string; current?: boolean };
 
 /**
- * Disclosure menu for small screens. The only client component on the home page:
- * it needs state for open/closed, Escape to close, and closing after navigation.
+ * Disclosure menu for small screens. A client component: it needs state for open/closed,
+ * Escape to close, and closing after navigation.
  */
 export function MobileNav({ items, cvHref }: { items: readonly NavItem[]; cvHref: string }) {
   const [open, setOpen] = useState(false);
@@ -51,13 +53,14 @@ export function MobileNav({ items, cvHref }: { items: readonly NavItem[]; cvHref
           <ul className="flex flex-col">
             {items.map((item) => (
               <li key={item.href}>
-                <a
+                <NavAnchor
                   href={item.href}
+                  aria-current={item.current ? "page" : undefined}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-12 items-center rounded-control px-3 text-base text-fg hover:bg-raised"
+                  className="flex min-h-12 items-center rounded-control px-3 text-base text-fg hover:bg-raised aria-[current=page]:text-accent"
                 >
                   {item.label}
-                </a>
+                </NavAnchor>
               </li>
             ))}
           </ul>

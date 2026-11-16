@@ -46,6 +46,21 @@ describe("home page", () => {
     }
   });
 
+  it("links from the projects section to the full listing", () => {
+    render(<HomePage />);
+    const section = screen.getByRole("region", { name: "Selected work" });
+    expect(within(section).getByRole("link", { name: /view all projects/i })).toHaveAttribute(
+      "href",
+      "/projects",
+    );
+    for (const project of publicProjects) {
+      expect(within(section).getByRole("link", { name: project.title })).toHaveAttribute(
+        "href",
+        `/projects/${project.slug}`,
+      );
+    }
+  });
+
   it("never renders draft records, their text or their links", () => {
     const { container } = render(<HomePage />);
     const html = container.innerHTML;
@@ -53,6 +68,10 @@ describe("home page", () => {
       ...projects.filter((p) => !isPublished(p)).flatMap((p) => [p.title, p.summary, p.repoUrl, p.liveUrl]),
       ...experience.filter((j) => !isPublished(j)).flatMap((j) => [j.organization, ...j.highlights]),
       ...certifications.filter((c) => !isPublished(c)).map((c) => c.name),
+      // Unpublished case studies of published projects.
+      ...projects
+        .filter((p) => p.details && !isPublished(p.details))
+        .flatMap((p) => [p.details?.problem, p.details?.approach, ...(p.details?.overview ?? [])]),
     ].filter((value): value is string => Boolean(value));
     expect(drafts.length).toBeGreaterThan(0);
     for (const value of drafts) expect(html).not.toContain(value);
