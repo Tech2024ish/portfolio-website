@@ -3,10 +3,10 @@
  * to FastAPI), so the HttpOnly session cookie is sent automatically; every state-changing call
  * also sends the CSRF token, which the server checks against that cookie.
  */
-import { api } from "@/lib/api/client";
+import { api, ApiError, toApiError } from "@/lib/api/client";
 
 import type { OwnerItem } from "./content-schema";
-import { CSRF_HEADER, type OwnerSessionInfo } from "./types";
+import { CSRF_HEADER, type OwnerMedia, type OwnerSessionInfo } from "./types";
 
 export function signIn(email: string, password: string): Promise<OwnerSessionInfo> {
   return api.post<OwnerSessionInfo>("/api/v1/auth/login", { email, password });
@@ -39,6 +39,40 @@ export function contentActions(csrfToken: string, collection: string) {
     setPublished: (id: number, published: boolean) =>
       api.post<OwnerItem>(`${base}/${id}/${published ? "publish" : "unpublish"}`, undefined, options),
     reorder: (ids: number[]) => api.post<void>(`${base}/reorder`, { ids }, options),
+  };
+}
+
+/** A multipart request (file uploads); the browser sets the multipart Content-Type itself. */
+async function sendForm<T>(path: string, form: FormData, csrfToken: string): Promise<T> {
+  let response: Response;
+  try {
+    response = await fetch(path, {
+      method: "POST",
+      body: form,
+      headers: { Accept: "application/json", [CSRF_HEADER]: csrfToken },
+    });
+  } catch {
+    throw new ApiError({
+      status: 0,
+      code: "network_error",
+      message: "The server could not be reached. Check your connection and try again.",
+    });
+  }
+  if (!response.ok) throw await toApiError(response);
+  return (await response.json()) as T;
+}
+
+/** The media library (`/api/v1/owner/media`). */
+export function mediaActions(csrfToken: string) {
+  const options = { headers: { [CSRF_HEADER]: csrfToken } };
+  const base = "/api/v1/owner/media";
+  return {
+    list: () => api.get<OwnerMedia[]>(base, { cache: "no-store" }),
+    upload: (form: FormData) => sendForm<OwnerMedia>(base, form, csrfToken),
+    replace: (id: number, form: FormData) => sendForm<OwnerMedia>(`${base}/${id}/replace`, form, csrfToken),
+    update: (id: number, body: { alt_text: string; folder: string; version: number }) =>
+      api.put<OwnerMedia>(`${base}/${id}`, body, options),
+    remove: (id: number) => api.delete<void>(`${base}/${id}`, options),
   };
 }
 

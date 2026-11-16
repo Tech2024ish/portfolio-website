@@ -34,6 +34,13 @@ export type FieldSpec = {
   /** For "pairs": the object keys, in column order; numeric keys are converted. */
   keys?: string[];
   numericKeys?: string[];
+  /**
+   * Offers "Choose from library": `set` puts the image's address in the field, `append` adds a
+   * line "address | alt text | width | height" (for the "pairs" image list).
+   */
+  picker?: "set" | "append";
+  /** With `set`: a field that receives the image's alt text when it is still empty. */
+  pickerAlt?: string;
   /** Groups fields under a heading in the editor. */
   group?: string;
 };
@@ -159,7 +166,9 @@ export const PROFILE_SPEC: CollectionSpec = {
       label: "Portrait image",
       kind: "text",
       required: true,
-      help: "A site path such as /portrait.png, or an https address.",
+      help: "Choose from the media library, or enter a site path such as /portrait.png.",
+      picker: "set",
+      pickerAlt: "portrait_alt",
       group: "Files",
     },
     {
@@ -265,6 +274,7 @@ export const COLLECTIONS: CollectionSpec[] = [
         keys: ["src", "alt", "width", "height", "caption"],
         numericKeys: ["width", "height"],
         help: "One per line: path | alt text | width | height | caption (optional).",
+        picker: "append",
         group: "Case study",
       },
       {

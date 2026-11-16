@@ -1,7 +1,6 @@
-import Image from "next/image";
-
 import { buttonClasses } from "@/components/ui/button";
 import { ExternalLink } from "@/components/ui/external-link";
+import { MediaImage } from "@/components/ui/media-image";
 import { ArrowRightIcon, DownloadIcon, GitHubIcon, LinkedInIcon, MapPinIcon } from "@/components/ui/icons";
 import { containerClasses } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/tag";
@@ -73,15 +72,15 @@ export function Hero({ profile }: { profile: Profile }) {
             className="absolute inset-0 translate-x-3 translate-y-3 rounded-card border border-accent/50"
           />
           <div className="relative overflow-hidden rounded-card border border-border-strong bg-accent-soft">
-            <Image
+            <MediaImage
               src={profile.portraitSrc}
-              width={987}
-              height={1070}
+              width={profile.portraitImage?.width ?? 987}
+              height={profile.portraitImage?.height ?? 1070}
+              variants={profile.portraitImage?.variants}
               alt={profile.portraitAlt}
               sizes="(min-width: 1024px) 384px, (min-width: 640px) 384px, 320px"
               className="aspect-[4/5] h-auto w-full object-cover object-top"
-              loading="eager"
-              fetchPriority="high"
+              priority
             />
           </div>
         </div>

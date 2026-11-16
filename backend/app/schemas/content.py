@@ -26,6 +26,7 @@ from pydantic import (
 )
 
 from app.models.content import SLUG_PATTERN
+from app.schemas.media import MediaVariant, PublicImage
 from app.schemas.text import MultiLine, SingleLine
 
 Status = Literal["draft", "published"]
@@ -416,6 +417,16 @@ class PublicSkillGroup(BaseModel):
     skills: list[str]
 
 
+class PublicMedia(BaseModel):
+    src: str
+    alt: str
+    caption: str | None
+    width: int
+    height: int
+    # Narrower WebP versions when the image is in the media library; empty otherwise.
+    variants: list[MediaVariant] = []
+
+
 class PublicCaseStudy(BaseModel):
     overview: list[str]
     problem: str | None
@@ -427,7 +438,7 @@ class PublicCaseStudy(BaseModel):
     outcomes: list[str]
     scope_implemented: list[str]
     scope_not_yet: list[str]
-    media: list[Media]
+    media: list[PublicMedia]
 
 
 class PublicProject(BaseModel):
@@ -456,6 +467,8 @@ class PublicArticle(PublicArticleSummary):
 
 class PublicPortfolio(BaseModel):
     profile: ProfileFields
+    # Responsive versions of the portrait when it is a library image.
+    portrait: PublicImage | None = None
     skill_groups: list[PublicSkillGroup]
     experience: list[PublicExperience]
     education: list[PublicEducation]

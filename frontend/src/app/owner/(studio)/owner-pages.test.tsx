@@ -49,6 +49,8 @@ const { default: SecurityPage } = await import("./security/page");
 const { default: CollectionPage } = await import("./content/[collection]/page");
 const { default: EditItemPage } = await import("./content/[collection]/[id]/page");
 const { default: PreviewPage } = await import("./content/[collection]/[id]/preview/page");
+const { default: MediaPage } = await import("./media/page");
+const { default: MediaItemPage } = await import("./media/[id]/page");
 const { default: LoginPage } = await import("../login/page");
 
 const SESSION = {
@@ -61,6 +63,22 @@ const params = (collection: string, id?: string) => ({
   params: Promise.resolve({ collection, id: id ?? "" }),
   searchParams: Promise.resolve({}),
 });
+
+const MEDIA = {
+  id: 3,
+  folder: "projects",
+  filename: "dashboard.png",
+  content_type: "image/png",
+  url: "/api/v1/media/files/projects/aa/r1/original.png",
+  byte_size: 120_000,
+  width: 2000,
+  height: 1200,
+  variants: [{ width: 480, height: 288, url: "/api/v1/media/files/projects/aa/r1/w480.webp" }],
+  alt_text: "The MOSAIC dashboard",
+  version: 1,
+  created_at: "2026-11-16T08:00:00Z",
+  updated_at: "2026-11-16T08:00:00Z",
+};
 
 beforeEach(() => {
   state.session = { status: "signed-out" };
@@ -94,6 +112,8 @@ beforeEach(() => {
     ],
     "/api/v1/owner/projects": [PROJECT_FIXTURE],
     "/api/v1/owner/projects/7": PROJECT_FIXTURE,
+    "/api/v1/owner/media": [MEDIA],
+    "/api/v1/owner/media/3": { ...MEDIA, used_by: ["the profile portrait"] },
   };
 });
 
@@ -202,6 +222,36 @@ describe("Studio pages", () => {
     expect(screen.getByText(/It is a draft: nobody else can see it/)).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Demo API" })).toBeInTheDocument();
     expect(screen.getByText("A private problem statement.")).toBeInTheDocument();
+  });
+});
+
+describe("/owner/media", () => {
+  const search = (folder?: string) => ({ searchParams: Promise.resolve(folder ? { folder } : {}) });
+
+  it("redirects without a session, back to the library", async () => {
+    await expect(MediaPage(search())).rejects.toThrow(`NEXT_REDIRECT:${loginUrl("/owner/media")}`);
+  });
+
+  it("lists images with thumbnails and offers an upload form", async () => {
+    state.session = { status: "signed-in", session: SESSION };
+    render(await MediaPage(search()));
+    expect(screen.getByRole("form", { name: "Upload an image" })).toBeInTheDocument();
+    const images = screen.getByRole("list", { name: "Images" });
+    expect(within(images).getByRole("link", { name: "The MOSAIC dashboard" })).toHaveAttribute(
+      "href",
+      "/owner/media/3",
+    );
+    expect(within(images).getByText(/2000 × 1200 · 117 KB · Projects/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "All" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("shows where an image is used and does not offer to delete it", async () => {
+    state.session = { status: "signed-in", session: SESSION };
+    render(await MediaItemPage({ params: Promise.resolve({ id: "3" }) }));
+    expect(screen.getByText(/Used by the profile portrait/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Delete image" })).toBeDisabled();
+    expect(screen.getByRole("img", { name: "The MOSAIC dashboard" })).toBeInTheDocument();
+    await expect(MediaItemPage({ params: Promise.resolve({ id: "../x" }) })).rejects.toThrow("404");
   });
 });
 

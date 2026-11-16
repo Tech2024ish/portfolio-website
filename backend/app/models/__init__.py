@@ -14,6 +14,7 @@ from app.models.content import (
     Skill,
     SkillCategory,
 )
+from app.models.media import MediaAsset
 from app.models.owner import OwnerSession, OwnerUser
 
 __all__ = [
@@ -25,6 +26,7 @@ __all__ = [
     "ContentStatus",
     "Education",
     "Experience",
+    "MediaAsset",
     "MessageStatus",
     "OwnerSession",
     "OwnerUser",
