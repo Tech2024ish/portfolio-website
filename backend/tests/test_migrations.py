@@ -44,6 +44,17 @@ EXPECTED_NAMES = {
         "ix_rate_limit_events_bucket_client_key_created_at",
         "ix_rate_limit_events_bucket_created_at",
     },
+    "owner_users": {
+        "pk_owner_users",
+        "uq_owner_users_email",
+        "ck_owner_users_email_lowercase",
+    },
+    "owner_sessions": {
+        "pk_owner_sessions",
+        "uq_owner_sessions_token_hash",
+        "fk_owner_sessions_user_id_owner_users",
+        "ix_owner_sessions_user_id",
+    },
 }
 
 
@@ -80,7 +91,8 @@ def test_migrated_names_match_the_models_exactly(migrated_database: str) -> None
 
 
 CLIENT_ROLES = ("anon", "authenticated")
-PROTECTED_TABLES = ("contact_messages", "rate_limit_events", "alembic_version")
+DATA_TABLES = ("contact_messages", "rate_limit_events", "owner_users", "owner_sessions")
+PROTECTED_TABLES = (*DATA_TABLES, "alembic_version")
 
 
 @pytest.fixture
@@ -129,7 +141,7 @@ def test_tables_are_closed_to_supabase_client_roles(
                         "select has_table_privilege(%s, %s, %s)", (role, table, privilege)
                     ).fetchone()
                     assert row == (False,), f"{role} has {privilege} on {table}"
-            for table in ("contact_messages", "rate_limit_events"):
+            for table in DATA_TABLES:
                 row = conn.execute(
                     "select has_sequence_privilege(%s, pg_get_serial_sequence(%s, 'id'), 'USAGE')",
                     (role, table),
@@ -144,6 +156,8 @@ def test_tables_are_closed_to_supabase_client_roles(
         assert rls == [
             ("alembic_version", True, False),
             ("contact_messages", True, False),
+            ("owner_sessions", True, False),
+            ("owner_users", True, False),
             ("rate_limit_events", True, False),
         ]
 
@@ -153,9 +167,9 @@ def test_migration_role_can_still_read_and_update_alembic_version(
 ) -> None:
     url, config = supabase_first_deploy
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0001",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0002",)]
         updated = conn.execute(
-            "update alembic_version set version_num = version_num where version_num = 'v3_0001'"
+            "update alembic_version set version_num = version_num where version_num = 'v3_0002'"
         )
         assert updated.rowcount == 1
         conn.rollback()
@@ -165,4 +179,4 @@ def test_migration_role_can_still_read_and_update_alembic_version(
         assert conn.execute("select count(*) from alembic_version").fetchone() == (0,)
     command.upgrade(config, "head")
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0001",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0002",)]

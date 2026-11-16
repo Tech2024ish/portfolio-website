@@ -15,6 +15,17 @@ the FastAPI public API with the Owner Studio (Phase 6).
 | `/notes`, `/notes/[slug]` | Engineering Notes. Linked from the navigation only once a note is published; the empty listing is not indexed |
 | any other URL             | The not-found page (404, not indexed). Unexpected errors show `app/error.tsx` with a retry                    |
 
+Owner Studio (private; never cached or indexed):
+
+| Route          | Content                                                                                         |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| `/owner/login` | Sign-in. Returns to the requested Studio page; `next=` accepts Studio paths only                |
+| `/owner`       | Studio home: message counts, active sessions (end one or all others), password change, sign out |
+
+Authentication is decided by FastAPI. `src/lib/owner/session.ts` (server-only) forwards the session
+cookie and redirects to sign-in on 401; if the API cannot answer, the page shows an error, never the
+Studio. Browser requests send the CSRF token from the verified session (`src/lib/owner/actions.ts`).
+
 Content rules (`src/content/profile.ts`):
 
 - Every record has a `visibility`. Components render only the `public*` lists and the `getPublic*` and

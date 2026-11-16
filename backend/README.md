@@ -70,11 +70,40 @@ enabled with no policies, so that Supabase's `anon` and `authenticated` roles ca
 or write them. Any other role is blocked in the same way: requests fail, and `GET /ready`
 reports `migrations: pending` even after a successful migration.
 
+## Owner account
+
+There is one owner. The account is created and managed only from the command line; passwords are
+typed at a hidden prompt, never passed as arguments:
+
+```bash
+uv run python -m app.cli.owner create owner@example.com --name "Jean Claude"
+uv run python -m app.cli.owner set-password owner@example.com      # also ends every session
+uv run python -m app.cli.owner revoke-sessions owner@example.com
+uv run python -m app.cli.owner import-legacy-hash owner@example.com < v2-hash.txt
+```
+
+`import-legacy-hash` keeps a V2 password working during migration: the `scrypt$...` hash is
+stored as is and re-hashed with Argon2id at the next successful sign-in.
+
+How it works (details in `docs/architecture.md`, "Owner authentication"):
+
+- Passwords: Argon2id (RFC 9106 low-memory profile); V2 scrypt hashes are verified and upgraded.
+- Sessions: a random token in an HttpOnly, SameSite=Strict cookie (`__Host-` and Secure in
+  production); only its SHA-256 digest is stored. Sessions expire (12 h), end when idle (2 h)
+  and can be revoked; a password change ends every other session.
+- CSRF: state-changing owner requests need `X-CSRF-Token` (derived from the session) and an
+  allowed `Origin`; sign-in needs a JSON body and an allowed `Origin`.
+- Brute force: per-address and per-account limits in PostgreSQL, generic error messages, and
+  equal timing for unknown accounts. Logs never contain emails, passwords or tokens.
+
 ## Endpoints
 
 | Path | Purpose |
 |---|---|
 | `GET /health` | Liveness. 200 while the process serves HTTP; never touches the database. Use it for Render's health check. |
 | `GET /ready` | Readiness. 200 only when a read-only query succeeds and `alembic_version` is exactly the expected revision; otherwise 503. Results are cached for 5 s per process, one check at a time. |
-| `/api/v1/*` | Versioned API (Phases 2–10). |
+| `/api/v1/contact` | Public contact form. |
+| `/api/v1/auth/*` | Owner sign-in (`login`), `session`, `logout`, `password`, `sessions` (list, revoke one, revoke others). |
+| `/api/v1/owner/*` | Owner Studio API. Every route requires the owner session (router-level guard). |
+| `/api/v1/*` | Further areas are added as their phases land. |
 | `/api/v1/docs` | OpenAPI UI, disabled in production by default. |
