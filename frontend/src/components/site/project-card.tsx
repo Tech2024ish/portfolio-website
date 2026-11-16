@@ -1,47 +1,46 @@
+import Link from "next/link";
+
 import { ExternalLink } from "@/components/ui/external-link";
 import { ExternalIcon, GitHubIcon } from "@/components/ui/icons";
 import { cardClasses } from "@/components/ui/section";
 import { TagList } from "@/components/ui/tag";
 import type { Project } from "@/content/profile";
 
+import { ProjectCover } from "./project-cover";
+
 const linkClasses =
   "inline-flex min-h-11 items-center gap-2 rounded-control text-sm font-medium text-accent transition-colors hover:text-accent-hover";
 
+/** The project's page on this site. */
+export function projectHref(slug: string): string {
+  return `/projects/${slug}`;
+}
+
 /**
- * Project summary card. The cover is typographic: no project imagery has been
- * verified yet, so none is invented.
+ * Project summary card. Its title links to the project's page; source and live links, when the
+ * project has them, open the external sites. `headingLevel` fits the card into the page outline.
  */
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project, headingLevel = 3 }: { project: Project; headingLevel?: 2 | 3 }) {
   const titleId = `project-${project.slug}`;
+  const Heading = `h${headingLevel}` as const;
   return (
     <article
       aria-labelledby={titleId}
       className={`${cardClasses} group flex h-full flex-col overflow-hidden transition-colors hover:border-border-strong`}
     >
-      <div className="relative flex h-36 items-end overflow-hidden border-b border-border bg-surface p-5">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,var(--color-accent-soft),transparent_60%)]"
-        />
-        {project.featured ? (
-          <span className="absolute top-4 left-4 rounded-pill bg-warning px-2.5 py-0.5 text-xs font-semibold text-accent-ink">
-            Featured
-          </span>
-        ) : null}
-        <p
-          aria-hidden="true"
-          className="relative font-display text-3xl font-extrabold tracking-tight text-fg/90 transition-colors group-hover:text-fg"
-        >
-          {project.title}
-        </p>
-      </div>
+      <ProjectCover project={project} className="border-b border-border" />
 
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div>
           <p className="mb-1 font-mono text-xs text-accent">{project.category}</p>
-          <h3 id={titleId} className="font-display text-lg font-semibold text-fg">
-            {project.title}
-          </h3>
+          <Heading id={titleId} className="font-display text-lg font-semibold text-fg">
+            <Link
+              href={projectHref(project.slug)}
+              className="inline-flex min-h-6 items-center rounded-control underline decoration-transparent underline-offset-4 transition-colors hover:decoration-accent"
+            >
+              {project.title}
+            </Link>
+          </Heading>
         </div>
         <p className="text-sm text-muted">{project.summary}</p>
         <TagList items={project.tech} label={`${project.title} technologies`} />

@@ -34,6 +34,20 @@ test.describe("accessibility (axe, WCAG 2.2 A/AA)", () => {
     expect(await violations(page)).toEqual([]);
   });
 
+  for (const path of [
+    "/projects",
+    "/projects/mosaic",
+    "/projects/buzhub-platform",
+    "/notes",
+    "/no-such-page",
+  ]) {
+    test(`${path} has no detectable violations`, async ({ page }) => {
+      await page.goto(path);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      expect(await violations(page)).toEqual([]);
+    });
+  }
+
   test("the contact form in its error state has no detectable violations", async ({ page }) => {
     await page.goto("/#contact");
     const form = page.getByRole("form", { name: "Send a message" });
