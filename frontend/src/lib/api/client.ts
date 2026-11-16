@@ -5,7 +5,7 @@
  *   rewrites to FastAPI, so cookies stay first-party.
  * - On the server (Server Components), requests go straight to API_ORIGIN.
  *
- * Response types come from the OpenAPI schema once the public content API exists (Phase 4). Until
+ * Response types come from the OpenAPI schema once the public content API exists (Phase 6). Until
  * then callers pass the expected type explicitly.
  */
 

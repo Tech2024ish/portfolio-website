@@ -24,6 +24,13 @@ Requests must carry an HMAC-SHA256 signature over a timestamp and nonce. Stale t
 replayed nonces are refused. Only an allowlist of tags or paths can be cleared. FastAPI calls it only
 after the publishing transaction has committed.
 
+**Public content source (Phase 4).** Until the Owner Studio exists, public content (profile, skills, projects,
+experience, education, certifications and Engineering Notes) is a verified, typed module in the frontend,
+`frontend/src/content/profile.ts`, rendered statically. Every record, and every project case study, has its own
+visibility; drafts are never rendered, and unpublished or unknown project and note slugs answer 404. The content
+moves to PostgreSQL and the FastAPI public API in Phase 6, together with the Studio that writes it. Switching the
+live site to an API before production deployment is configured (Phase 11) would take it offline.
+
 ## Key decisions
 
 | # | Decision | Why |
@@ -61,14 +68,14 @@ in the phase shown, then deleted from `legacy/`. The untouched original stays in
 | `core/db.py`, `alembic/` | `app/database/`, `migrations/` (new V3 history from `v3_0001`) | 2–2.5 ✅ |
 | `main.py` error envelope and security headers | `app/core/errors.py`, middleware | 2 ✅ |
 | `models/entities.py` (contact messages) | `app/models/contact.py` | 2 ✅ |
-| `models/entities.py` (content) | `app/models/` (+ forward migrations) | 4, 6 |
-| `routers/v1/public.py`, `models/v1.py` | `app/api/v1/endpoints/public_*`, `app/schemas/` | 4 |
+| `models/entities.py` (content) | `app/models/` (+ forward migrations) | 6 |
+| `routers/v1/public.py`, `models/v1.py` | `app/api/v1/endpoints/public_*`, `app/schemas/` | 6 |
 | `core/security.py`, `services/auth.py`, `routers/v1/auth.py` | `app/core/security.py`, `app/services/auth.py` | 5 |
 | `routers/v1/admin_content.py` | owner endpoints and services | 6 |
 | `services/storage.py`, `routers/v1/admin_media.py` | `app/integrations/storage.py`, media service | 7 |
 | `routers/v1/admin_inbox.py`, `services/email.py` | inbox service, `app/integrations/email.py` | 8 |
 | `services/activity.py` | audit service | 6, 10 |
-| `services/seed.py` | verified-content data migration (drafts where unverified) | 4, 11 |
+| `services/seed.py` | verified-content data migration (drafts where unverified) | 6, 11 |
 | Legacy Supabase data and `/api/*` routes (`visits`, `gallery`, `contact`, `projects`) | reviewed and migrated, then retired | 11 |
 
 The V2 frontend (React/Vite, EN/FR/RW) is in Git history only. It is not ported; the V3 frontend is built
