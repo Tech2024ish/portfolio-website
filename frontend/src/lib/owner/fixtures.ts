@@ -1,0 +1,33 @@
+import type { OwnerItem } from "./content-schema";
+
+/** A draft project as the owner API returns it. Test data only. */
+export const PROJECT_FIXTURE: OwnerItem = {
+  id: 7,
+  version: 4,
+  position: 1,
+  created_at: "2026-11-16T08:00:00Z",
+  updated_at: "2026-11-16T09:00:00Z",
+  status: "draft",
+  published_at: null,
+  slug: "demo-api",
+  title: "Demo API",
+  category: "Backend API",
+  summary: "A demonstration API used only by tests.",
+  tech: ["Python", "FastAPI"],
+  featured: false,
+  repo_url: null,
+  live_url: null,
+  case_study_status: "draft",
+  overview: [],
+  problem: "A private problem statement.",
+  objectives: [],
+  approach: null,
+  architecture: [],
+  decisions: [],
+  challenges: [],
+  outcomes: [],
+  scope_implemented: [],
+  scope_not_yet: [],
+  media: [],
+  sources: [],
+};

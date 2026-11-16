@@ -71,3 +71,26 @@ export async function ownerGet<T>(path: string, returnTo: string): Promise<T> {
     throw new OwnerApiUnavailableError();
   }
 }
+
+/** Like `ownerGet`, but a 404 (no such item, or no profile yet) is `null` instead of an error. */
+export async function ownerFind<T>(path: string, returnTo: string): Promise<T | null> {
+  const cookie = await sessionCookieHeader();
+  if (!cookie) redirect(loginUrl(returnTo));
+  try {
+    return await server.get<T>(path, { headers: { Cookie: cookie }, cache: "no-store" });
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) return null;
+    if (error instanceof ApiError && error.status === 401) redirect(loginUrl(returnTo, "expired"));
+    throw new OwnerApiUnavailableError();
+  }
+}
+
+/**
+ * The session for a Studio page: redirects to sign-in without one, and is `null` when FastAPI
+ * cannot answer (the page then shows the unavailable state, never its content).
+ */
+export async function studioSession(returnTo: string): Promise<OwnerSessionInfo | null> {
+  const result = await getOwnerSession();
+  if (result.status === "signed-out") redirect(loginUrl(returnTo));
+  return result.status === "signed-in" ? result.session : null;
+}

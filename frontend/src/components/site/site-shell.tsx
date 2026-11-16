@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import type { Profile } from "@/content/profile";
 import type { SitePage } from "@/lib/navigation";
 
 import { SiteFooter } from "./site-footer";
@@ -9,7 +10,18 @@ import { SiteHeader } from "./site-header";
  * The frame of every public page: skip link, header, the page's main landmark and the footer.
  * `page` marks the current navigation entry and adapts links that only make sense on the home page.
  */
-export function SiteShell({ page, children }: { page: SitePage; children: ReactNode }) {
+export function SiteShell({
+  page,
+  profile,
+  articleCount,
+  children,
+}: {
+  page: SitePage;
+  profile: Profile;
+  /** Published notes: the Notes link appears only when there is at least one. */
+  articleCount: number;
+  children: ReactNode;
+}) {
   return (
     <>
       <a
@@ -18,11 +30,11 @@ export function SiteShell({ page, children }: { page: SitePage; children: ReactN
       >
         Skip to content
       </a>
-      <SiteHeader page={page} />
+      <SiteHeader page={page} profile={profile} articleCount={articleCount} />
       <main id="main" tabIndex={-1} className="focus:outline-none">
         {children}
       </main>
-      <SiteFooter page={page} />
+      <SiteFooter page={page} profile={profile} articleCount={articleCount} />
     </>
   );
 }

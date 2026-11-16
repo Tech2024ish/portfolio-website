@@ -17,6 +17,23 @@ export type SessionSummary = {
 
 export type OwnerOverview = { messages: { new: number; read: number; archived: number } };
 
+export type AuditEvent = {
+  id: number;
+  created_at: string;
+  action: string;
+  entity_type: string;
+  entity_id: number | null;
+  summary: string;
+  changed_fields: string[];
+};
+
+export type OwnerDashboard = {
+  messages: { new: number; read: number; archived: number };
+  content: Record<string, { draft: number; published: number }>;
+  recent_messages: { id: number; created_at: string; name: string; subject: string; status: string }[];
+  recent_activity: AuditEvent[];
+};
+
 export const LOGIN_PATH = "/owner/login";
 export const STUDIO_PATH = "/owner";
 export const CSRF_HEADER = "X-CSRF-Token";

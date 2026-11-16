@@ -5,6 +5,7 @@
  */
 import { api } from "@/lib/api/client";
 
+import type { OwnerItem } from "./content-schema";
 import { CSRF_HEADER, type OwnerSessionInfo } from "./types";
 
 export function signIn(email: string, password: string): Promise<OwnerSessionInfo> {
@@ -25,6 +26,25 @@ export function ownerActions(csrfToken: string) {
         options,
       ),
   };
+}
+
+/** Content changes for one collection (`/api/v1/owner/{collection}`). */
+export function contentActions(csrfToken: string, collection: string) {
+  const options = { headers: { [CSRF_HEADER]: csrfToken } };
+  const base = `/api/v1/owner/${collection}`;
+  return {
+    create: (body: Record<string, unknown>) => api.post<OwnerItem>(base, body, options),
+    update: (id: number, body: Record<string, unknown>) => api.put<OwnerItem>(`${base}/${id}`, body, options),
+    remove: (id: number) => api.delete<void>(`${base}/${id}`, options),
+    setPublished: (id: number, published: boolean) =>
+      api.post<OwnerItem>(`${base}/${id}/${published ? "publish" : "unpublish"}`, undefined, options),
+    reorder: (ids: number[]) => api.post<void>(`${base}/reorder`, { ids }, options),
+  };
+}
+
+/** Creates (version 0) or updates the single profile. */
+export function saveProfile(csrfToken: string, body: Record<string, unknown>) {
+  return api.put<OwnerItem>("/api/v1/owner/profile", body, { headers: { [CSRF_HEADER]: csrfToken } });
 }
 
 /** A short, human description of a browser's user agent, e.g. "Chrome on Windows". */

@@ -17,6 +17,26 @@ test.describe("owner studio access", () => {
     await expect(page.getByRole("heading", { level: 1, name: "Sign in" })).toBeVisible();
   });
 
+  for (const path of [
+    "/owner/profile",
+    "/owner/content/projects",
+    "/owner/content/articles/1/preview",
+    "/owner/security",
+  ]) {
+    test(`${path} redirects a visitor without a session to sign in, and back afterwards`, async ({
+      page,
+    }) => {
+      await page.goto(path);
+      await expect(page).toHaveURL(`/owner/login?next=${encodeURIComponent(path)}`);
+    });
+  }
+
+  test("the signed revalidation endpoint refuses unsigned requests", async ({ request }) => {
+    const response = await request.post("/api/revalidate", { data: { tags: ["content"] } });
+    // 404 without a configured secret, 401 with one: never a cache clear.
+    expect([401, 404]).toContain(response.status());
+  });
+
   test("owner pages are never cached or indexed", async ({ request }) => {
     const response = await request.get("/owner/login");
     expect(response.headers()["cache-control"]).toContain("no-store");

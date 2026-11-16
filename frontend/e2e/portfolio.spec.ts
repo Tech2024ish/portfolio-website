@@ -81,7 +81,12 @@ test.describe("public portfolio pages", () => {
       const response = await page.goto(path);
       expect(response?.status(), path).toBe(404);
       await expect(page.getByRole("heading", { level: 1, name: "Page not found" })).toBeVisible();
-      await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+      // Next.js renders the tag twice for slugs rendered on demand; every copy must say noindex.
+      const robots = await page
+        .locator('meta[name="robots"]')
+        .evaluateAll((tags) => tags.map((tag) => tag.getAttribute("content") ?? ""));
+      expect(robots.length, path).toBeGreaterThan(0);
+      for (const content of robots) expect(content, path).toMatch(/noindex/);
     }
   });
 

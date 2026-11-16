@@ -86,6 +86,12 @@ class Settings(BaseSettings):
     login_account_failures: int = Field(default=10, ge=1, le=1000)
     login_account_window_minutes: int = Field(default=60, ge=1, le=24 * 60)
 
+    # ---- public-site cache invalidation (Next.js /api/revalidate)
+    # When set, content changes ask the public site to refresh its cached pages. Requests are
+    # signed with REVALIDATE_SIGNING_SECRET, which the frontend shares (server-side only).
+    revalidate_url: str | None = None
+    revalidate_signing_secret: SecretStr | None = None
+
     # ---- file storage
     storage_backend: StorageBackend = StorageBackend.DISABLED
     supabase_url: str | None = None
@@ -121,7 +127,9 @@ class Settings(BaseSettings):
             return normalise_database_url(value.strip()) if value.strip() else None
         return value
 
-    @field_validator("supabase_service_key", "resend_api_key", mode="before")
+    @field_validator(
+        "supabase_service_key", "resend_api_key", "revalidate_signing_secret", mode="before"
+    )
     @classmethod
     def _blank_secret_is_none(cls, value: object) -> object:
         if isinstance(value, str) and not value.strip():
@@ -159,6 +167,12 @@ class Settings(BaseSettings):
             problems.append(
                 "SUPABASE_URL and SUPABASE_SERVICE_KEY are required for supabase storage"
             )
+        if self.revalidate_url:
+            if not self.revalidate_url.startswith("https://"):
+                problems.append("REVALIDATE_URL must use https://")
+            secret = self.revalidate_signing_secret
+            if secret is None or len(secret.get_secret_value()) < 32:
+                problems.append("REVALIDATE_SIGNING_SECRET of at least 32 characters is required")
         if problems:
             # Messages name variables only, never their values.
             raise ValueError("Unsafe production configuration: " + "; ".join(problems))

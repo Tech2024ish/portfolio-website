@@ -72,6 +72,22 @@ def _model_names(table_name: str) -> set[str]:
     return set(re.findall(r"(?:CONSTRAINT|INDEX) (\w+)", ddl))
 
 
+def test_every_table_has_exactly_the_names_its_model_declares(migrated_database: str) -> None:
+    """The same guard as below for every table, including ones added later."""
+    from app.models import Base
+
+    with psycopg.connect(libpq_url(migrated_database)) as conn:
+        for table in Base.metadata.tables:
+            constraints = conn.execute(
+                "select conname from pg_constraint where conrelid = %s::regclass", (table,)
+            ).fetchall()
+            indexes = conn.execute(
+                "select indexname from pg_indexes where tablename = %s", (table,)
+            ).fetchall()
+            in_database = {name for (name,) in constraints} | {name for (name,) in indexes}
+            assert in_database == _model_names(table), table
+
+
 def test_migrated_names_match_the_models_exactly(migrated_database: str) -> None:
     """Guards against naming-convention double prefixes (e.g. ck_<table>_ck_<table>_...)."""
     config = _config(migrated_database)
@@ -91,7 +107,26 @@ def test_migrated_names_match_the_models_exactly(migrated_database: str) -> None
 
 
 CLIENT_ROLES = ("anon", "authenticated")
-DATA_TABLES = ("contact_messages", "rate_limit_events", "owner_users", "owner_sessions")
+CONTENT_TABLES = (
+    "profile",
+    "skill_categories",
+    "skills",
+    "experiences",
+    "education",
+    "certifications",
+    "projects",
+    "articles",
+    "audit_events",
+)
+DATA_TABLES = (
+    "contact_messages",
+    "rate_limit_events",
+    "owner_users",
+    "owner_sessions",
+    *CONTENT_TABLES,
+)
+# Tables with an identity sequence (profile's id is fixed at 1).
+SEQUENCED_TABLES = tuple(table for table in DATA_TABLES if table != "profile")
 PROTECTED_TABLES = (*DATA_TABLES, "alembic_version")
 
 
@@ -141,7 +176,7 @@ def test_tables_are_closed_to_supabase_client_roles(
                         "select has_table_privilege(%s, %s, %s)", (role, table, privilege)
                     ).fetchone()
                     assert row == (False,), f"{role} has {privilege} on {table}"
-            for table in DATA_TABLES:
+            for table in SEQUENCED_TABLES:
                 row = conn.execute(
                     "select has_sequence_privilege(%s, pg_get_serial_sequence(%s, 'id'), 'USAGE')",
                     (role, table),
@@ -153,13 +188,7 @@ def test_tables_are_closed_to_supabase_client_roles(
             (list(PROTECTED_TABLES),),
         ).fetchall()
         # RLS on, never forced: the owning migration/API role is not restricted by it.
-        assert rls == [
-            ("alembic_version", True, False),
-            ("contact_messages", True, False),
-            ("owner_sessions", True, False),
-            ("owner_users", True, False),
-            ("rate_limit_events", True, False),
-        ]
+        assert rls == sorted((table, True, False) for table in PROTECTED_TABLES)
 
 
 def test_migration_role_can_still_read_and_update_alembic_version(
@@ -167,9 +196,9 @@ def test_migration_role_can_still_read_and_update_alembic_version(
 ) -> None:
     url, config = supabase_first_deploy
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0002",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0003",)]
         updated = conn.execute(
-            "update alembic_version set version_num = version_num where version_num = 'v3_0002'"
+            "update alembic_version set version_num = version_num where version_num = 'v3_0003'"
         )
         assert updated.rowcount == 1
         conn.rollback()
@@ -179,4 +208,4 @@ def test_migration_role_can_still_read_and_update_alembic_version(
         assert conn.execute("select count(*) from alembic_version").fetchone() == (0,)
     command.upgrade(config, "head")
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0002",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0003",)]

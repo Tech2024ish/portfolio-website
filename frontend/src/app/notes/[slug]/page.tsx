@@ -3,22 +3,26 @@ import { notFound } from "next/navigation";
 
 import { ArticleView } from "@/components/site/notes";
 import { SiteShell } from "@/components/site/site-shell";
-import { getPublicArticle, profile, publicArticles } from "@/content/profile";
+import { getPublicArticle, getPublicContent } from "@/lib/content/portfolio";
 
-/** A page per published note, generated at build time; every other slug is a 404. */
-export const dynamicParams = false;
+/**
+ * A page per published note. Notes published at build time are generated then; later ones on
+ * their first visit. Every other slug, drafts included, is a 404.
+ */
+export const dynamicParams = true;
 
 // Declared here rather than with Next's generated PageProps<...>: those types exist only after
 // `next dev` or `next build`, and CI type-checks a fresh checkout before building.
 type NotePageProps = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams(): { slug: string }[] {
-  return publicArticles.map((article) => ({ slug: article.slug }));
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  const { articles } = await getPublicContent();
+  return articles.map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: NotePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getPublicArticle(slug);
+  const [article, { profile }] = await Promise.all([getPublicArticle(slug), getPublicContent()]);
   if (!article) return {};
   const path = `/notes/${article.slug}`;
   return {
@@ -37,10 +41,10 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
 
 export default async function NotePage({ params }: NotePageProps) {
   const { slug } = await params;
-  const article = getPublicArticle(slug);
+  const [article, content] = await Promise.all([getPublicArticle(slug), getPublicContent()]);
   if (!article) notFound();
   return (
-    <SiteShell page="notes">
+    <SiteShell page="notes" profile={content.profile} articleCount={content.articles.length}>
       <ArticleView article={article} />
     </SiteShell>
   );

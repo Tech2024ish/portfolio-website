@@ -5,6 +5,7 @@ import { EmptyState } from "@/components/ui/feedback";
 import { TextLink } from "@/components/ui/link";
 import { cardClasses, containerClasses } from "@/components/ui/section";
 import type { Article, ArticleBlock } from "@/content/profile";
+import type { ArticleSummary } from "@/lib/content/types";
 
 import { PageHeader } from "./page-header";
 
@@ -20,7 +21,7 @@ export function noteHref(slug: string): string {
 }
 
 /** The Engineering Notes listing, newest first, or an empty state. */
-export function NotesIndex({ articles }: { articles: readonly Article[] }) {
+export function NotesIndex({ articles }: { articles: readonly ArticleSummary[] }) {
   return (
     <section aria-label="All notes" className={`${containerClasses} py-12 sm:py-16`}>
       {articles.length === 0 ? (

@@ -1,8 +1,17 @@
 import { BadgeIcon, GraduationIcon } from "@/components/ui/icons";
 import { cardClasses, Section } from "@/components/ui/section";
-import { publicCertifications, publicEducation, publicExperience } from "@/content/profile";
+import type { Certification, Education, Experience } from "@/content/profile";
 
-export function ExperienceSection() {
+/** Only published records reach these props (see src/lib/content/portfolio.ts). */
+export function ExperienceSection({
+  experience: publicExperience,
+  education: publicEducation,
+  certifications: publicCertifications,
+}: {
+  experience: Experience[];
+  education: Education[];
+  certifications: Certification[];
+}) {
   return (
     <Section id="experience" eyebrow="Experience" title="Experience and education">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-12">
