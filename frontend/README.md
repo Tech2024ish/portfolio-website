@@ -27,6 +27,8 @@ Owner Studio (private; never cached or indexed):
 | `/owner/content/[collection]/new`          | New item (a draft)                                                               |
 | `/owner/content/[collection]/[id]`         | Edit, publish, delete (with confirmation)                                        |
 | `/owner/content/[collection]/[id]/preview` | Projects and notes as the site will show them, drafts included                   |
+| `/owner/media`                             | Media library: upload, folders, thumbnails                                       |
+| `/owner/media/[id]`                        | One image: preview, alt text, folder, replace, delete (refused while in use)     |
 | `/owner/activity`                          | The audit trail                                                                  |
 | `/owner/security`                          | Active sessions (end one or all others) and password change                      |
 
