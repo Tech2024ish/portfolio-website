@@ -77,7 +77,7 @@ function isFieldErrors(value: unknown): value is ApiFieldError[] {
   );
 }
 
-async function toApiError(response: Response): Promise<ApiError> {
+export async function toApiError(response: Response): Promise<ApiError> {
   const requestId = response.headers.get("x-request-id");
   let envelope: ErrorEnvelope | null = null;
   try {

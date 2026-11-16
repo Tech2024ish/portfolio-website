@@ -18,8 +18,10 @@ import {
   type FormValues,
   type OwnerItem,
 } from "@/lib/owner/content-schema";
+import type { OwnerMedia } from "@/lib/owner/types";
 import { useHydrated } from "@/lib/use-hydrated";
 
+import { MediaPicker } from "./media-picker";
 import { useOwnerAction } from "./use-owner-action";
 
 export type Choices = Record<string, { value: string; label: string }[]>;
@@ -210,6 +212,41 @@ export function EntityEditor({ collection, item, csrfToken, choices = {} }: Prop
     );
   }
 
+  /** A field, plus "Choose from library" when the field takes images. */
+  function withPicker(field: FieldSpec) {
+    if (!field.picker) return control(field);
+    const choose = (asset: OwnerMedia) => {
+      if (field.picker === "set") {
+        set(field.name, asset.url);
+        const altField = field.pickerAlt;
+        if (altField && !String(values[altField] ?? "").trim() && asset.alt_text)
+          set(altField, asset.alt_text);
+        return;
+      }
+      const line = [asset.url, asset.alt_text || asset.filename, asset.width, asset.height].join(" | ");
+      const current = String(values[field.name] ?? "").trimEnd();
+      set(
+        field.name,
+        current
+          ? `${current}
+${line}`
+          : line,
+      );
+    };
+    return (
+      <div key={field.name} className="flex flex-col gap-2">
+        {control(field)}
+        <div>
+          <MediaPicker
+            csrfToken={csrfToken}
+            label={field.picker === "set" ? "Choose from library" : "Add from library"}
+            onChoose={choose}
+          />
+        </div>
+      </div>
+    );
+  }
+
   const noun = spec.singular;
   return (
     <form
@@ -234,11 +271,11 @@ export function EntityEditor({ collection, item, csrfToken, choices = {} }: Prop
         group ? (
           <fieldset key={group} className="flex flex-col gap-5 border-t border-border pt-6">
             <legend className="pr-3 font-display text-lg font-bold text-fg">{group}</legend>
-            {fields.map(control)}
+            {fields.map(withPicker)}
           </fieldset>
         ) : (
           <div key="fields" className="flex flex-col gap-5">
-            {fields.map(control)}
+            {fields.map(withPicker)}
           </div>
         ),
       )}

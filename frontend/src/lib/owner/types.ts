@@ -17,6 +17,45 @@ export type SessionSummary = {
 
 export type OwnerOverview = { messages: { new: number; read: number; archived: number } };
 
+export type MediaFolder = "profile" | "projects" | "notes" | "general";
+
+/** A media-library image (`backend/app/schemas/media.py`). */
+export type OwnerMedia = {
+  id: number;
+  folder: MediaFolder;
+  filename: string;
+  content_type: string;
+  url: string;
+  byte_size: number;
+  width: number;
+  height: number;
+  variants: { width: number; height: number; url: string }[];
+  alt_text: string;
+  version: number;
+  created_at: string;
+  updated_at: string;
+};
+
+export type OwnerMediaDetail = OwnerMedia & { used_by: string[] };
+
+/** The smallest stored version, for thumbnails. Shared by server pages and client components. */
+export function thumbnailOf(asset: OwnerMedia): string {
+  return asset.variants[0]?.url ?? asset.url;
+}
+
+export const MEDIA_FOLDERS: { value: MediaFolder; label: string }[] = [
+  { value: "projects", label: "Projects" },
+  { value: "profile", label: "Profile" },
+  { value: "notes", label: "Notes" },
+  { value: "general", label: "General" },
+];
+
+/** The backend's default MAX_IMAGE_MB; the server enforces its own setting either way. */
+export const MAX_IMAGE_MB = 8;
+
+/** Matches the server: JPEG, PNG and WebP only; the server checks the bytes, not just this. */
+export const MEDIA_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
 export type AuditEvent = {
   id: number;
   created_at: string;

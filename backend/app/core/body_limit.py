@@ -2,7 +2,8 @@
 
 FastAPI reads and parses a whole JSON body before any length validation runs, so without a
 cap a client could make the API buffer an arbitrarily large payload. This ASGI middleware
-enforces a byte limit per (method, path):
+enforces a byte limit per (method, path). A path may contain ``{name}`` segments, which match
+one path segment (for example ``/api/v1/owner/media/{id}/replace``).
 
 - A declared ``Content-Length`` above the limit is answered with 413 immediately; the
   application is never called and the body is never read.
@@ -14,6 +15,7 @@ enforces a byte limit per (method, path):
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping
 
 from starlette.datastructures import Headers
@@ -28,13 +30,31 @@ _MESSAGE = "The request body is too large."
 class BodySizeLimitMiddleware:
     def __init__(self, app: ASGIApp, limits: Mapping[tuple[str, str], int]) -> None:
         self.app = app
-        self.limits = dict(limits)
+        self.limits = {key: value for key, value in limits.items() if "{" not in key[1]}
+        self.patterns = [
+            (
+                method,
+                re.compile("^" + re.sub(r"\\{[^/]+?\\}", "[^/]+", re.escape(path)) + "$"),
+                value,
+            )
+            for (method, path), value in limits.items()
+            if "{" in path
+        ]
+
+    def limit_for(self, method: str, path: str) -> int | None:
+        limit = self.limits.get((method, path))
+        if limit is not None:
+            return limit
+        for pattern_method, pattern, value in self.patterns:
+            if pattern_method == method and pattern.match(path):
+                return value
+        return None
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] != "http":
             await self.app(scope, receive, send)
             return
-        limit = self.limits.get((scope["method"], scope["path"]))
+        limit = self.limit_for(scope["method"], scope["path"])
         if limit is None:
             await self.app(scope, receive, send)
             return
