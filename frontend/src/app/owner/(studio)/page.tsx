@@ -87,13 +87,17 @@ export default async function OwnerStudioPage() {
             {dashboard.recent_messages.map((message) => (
               <li key={message.id} className="flex flex-wrap justify-between gap-2 py-3 text-sm">
                 <span className="text-fg">
-                  {message.subject} <span className="text-muted">from {message.name}</span>
+                  <TextLink href={`/owner/messages/${message.id}`}>{message.subject}</TextLink>{" "}
+                  <span className="text-muted">from {message.name}</span>
                 </span>
                 <span className="text-muted">{formatUtc(message.created_at)}</span>
               </li>
             ))}
           </ul>
         ) : null}
+        <p>
+          <TextLink href="/owner/messages">Open the inbox</TextLink>
+        </p>
       </StudioCard>
 
       <StudioCard id="recent-activity" title="Recent changes">

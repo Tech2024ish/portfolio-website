@@ -51,6 +51,8 @@ const { default: EditItemPage } = await import("./content/[collection]/[id]/page
 const { default: PreviewPage } = await import("./content/[collection]/[id]/preview/page");
 const { default: MediaPage } = await import("./media/page");
 const { default: MediaItemPage } = await import("./media/[id]/page");
+const { default: MessagesPage } = await import("./messages/page");
+const { default: MessagePage } = await import("./messages/[id]/page");
 const { default: LoginPage } = await import("../login/page");
 
 const SESSION = {
@@ -63,6 +65,14 @@ const params = (collection: string, id?: string) => ({
   params: Promise.resolve({ collection, id: id ?? "" }),
   searchParams: Promise.resolve({}),
 });
+
+const MESSAGE_SUMMARY = {
+  created_at: "2026-11-16T08:00:00Z",
+  name: "Ada Lovelace",
+  email: "ada@example.com",
+  subject: "Backend role",
+  snippet: "Hello, I would like to talk about a backend role.",
+};
 
 const MEDIA = {
   id: 3,
@@ -113,6 +123,39 @@ beforeEach(() => {
     "/api/v1/owner/projects": [PROJECT_FIXTURE],
     "/api/v1/owner/projects/7": PROJECT_FIXTURE,
     "/api/v1/owner/media": [MEDIA],
+    "/api/v1/owner/messages?status=inbox&page=1&page_size=20": {
+      items: [
+        { ...MESSAGE_SUMMARY, id: 9, status: "new", notification: "failed" },
+        { ...MESSAGE_SUMMARY, id: 8, subject: "Earlier", status: "read", notification: "sent" },
+      ],
+      total: 45,
+      page: 1,
+      page_size: 20,
+    },
+    "/api/v1/owner/messages/9": {
+      ...MESSAGE_SUMMARY,
+      id: 9,
+      message: "Hello <script>alert(1)</script>\nSecond line",
+      status: "read",
+      spam_reason: null,
+      read_at: null,
+      email_configured: false,
+      deliveries: [
+        {
+          id: 1,
+          kind: "notification",
+          status: "skipped",
+          recipient: "",
+          subject: "New message: Backend role",
+          body: "",
+          attempts: 0,
+          next_attempt_at: null,
+          last_error: "Email is not configured on the server; nothing was sent.",
+          created_at: "2026-11-16T08:00:00Z",
+          sent_at: null,
+        },
+      ],
+    },
     "/api/v1/owner/media/3": { ...MEDIA, used_by: ["the profile portrait"] },
   };
 });
@@ -252,6 +295,42 @@ describe("/owner/media", () => {
     expect(screen.getByRole("button", { name: "Delete image" })).toBeDisabled();
     expect(screen.getByRole("img", { name: "The MOSAIC dashboard" })).toBeInTheDocument();
     await expect(MediaItemPage({ params: Promise.resolve({ id: "../x" }) })).rejects.toThrow("404");
+  });
+});
+
+describe("/owner/messages", () => {
+  it("redirects without a session", async () => {
+    await expect(MessagesPage({ searchParams: Promise.resolve({}) })).rejects.toThrow(
+      `NEXT_REDIRECT:${loginUrl("/owner/messages")}`,
+    );
+  });
+
+  it("lists messages with unread and email-failure markers, search and pages", async () => {
+    state.session = { status: "signed-in", session: SESSION };
+    render(await MessagesPage({ searchParams: Promise.resolve({}) }));
+    const list = screen.getByRole("list", { name: "Messages" });
+    expect(within(list).getByRole("link", { name: "Backend role" })).toHaveAttribute(
+      "href",
+      "/owner/messages/9",
+    );
+    expect(within(list).getByText("Unread")).toBeInTheDocument();
+    expect(within(list).getByText("Email not sent")).toBeInTheDocument();
+    expect(screen.getByRole("search")).toBeInTheDocument();
+    expect(screen.getByText("Page 1 of 3")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Older" })).toHaveAttribute("href", "/owner/messages?page=2");
+    expect(screen.getByRole("link", { name: "Inbox" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("shows a message as text and never claims an email was sent when it was not", async () => {
+    state.session = { status: "signed-in", session: SESSION };
+    const { container } = render(await MessagePage({ params: Promise.resolve({ id: "9" }) }));
+    expect(container.querySelector("script")).toBeNull();
+    expect(screen.getByText(/Hello <script>alert\(1\)<\/script>/)).toBeInTheDocument();
+    expect(screen.getByText("Not sent: email is not configured")).toBeInTheDocument();
+    expect(screen.queryByText(/^Sent/)).not.toBeInTheDocument();
+    expect(screen.getByText(/replies cannot be sent from here/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Archive" })).toBeInTheDocument();
+    await expect(MessagePage({ params: Promise.resolve({ id: "x" }) })).rejects.toThrow("404");
   });
 });
 

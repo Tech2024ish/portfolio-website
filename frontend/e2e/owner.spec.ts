@@ -23,6 +23,7 @@ test.describe("owner studio access", () => {
     "/owner/content/articles/1/preview",
     "/owner/security",
     "/owner/media",
+    "/owner/messages",
   ]) {
     test(`${path} redirects a visitor without a session to sign in, and back afterwards`, async ({
       page,
