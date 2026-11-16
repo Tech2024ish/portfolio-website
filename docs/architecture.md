@@ -18,18 +18,21 @@ Browser ──HTTPS──▶ Next.js (Vercel) ──rewrite /api/*──▶ Fast
 | Rendering, SEO metadata, caching of **published** content | Next.js | FastAPI |
 | Secrets (`DATABASE_URL`, `SUPABASE_SERVICE_KEY`, mail keys) | Render env vars | Next.js, browser bundles, Git, logs |
 
-Next.js will have exactly one route handler, `/api/revalidate`, added with content publishing (Phase 6). Its only
+Next.js has exactly one route handler, `/api/revalidate` (Phase 6). Its only
 job is to clear cache tags; it never duplicates business logic, authentication, authorization or data access.
 Requests must carry an HMAC-SHA256 signature over a timestamp and nonce. Stale timestamps and
 replayed nonces are refused. Only an allowlist of tags or paths can be cleared. FastAPI calls it only
 after the publishing transaction has committed.
 
-**Public content source (Phase 4).** Until the Owner Studio exists, public content (profile, skills, projects,
-experience, education, certifications and Engineering Notes) is a verified, typed module in the frontend,
-`frontend/src/content/profile.ts`, rendered statically. Every record, and every project case study, has its own
-visibility; drafts are never rendered, and unpublished or unknown project and note slugs answer 404. The content
-moves to PostgreSQL and the FastAPI public API in Phase 6, together with the Studio that writes it. Switching the
-live site to an API before production deployment is configured (Phase 11) would take it offline.
+**Public content source.** Public pages read content through one loader, `frontend/src/lib/content/portfolio.ts`,
+from one of two sources chosen by `PUBLIC_CONTENT_SOURCE` (server-only):
+
+- `bundled` (default): the verified module `frontend/src/content/profile.ts` (Phase 4), rendered statically.
+- `api`: the FastAPI public API (`/api/v1/public/*`), which the Owner Studio edits (Phase 6).
+
+Both return published records only, and both produce the same pages (a test renders the exported seed through the
+API mapping and compares it with the bundled content). `bundled` stays the default until production deployment is
+configured (Phase 11): switching the live site to `api` before `API_ORIGIN` is set on Vercel would take it offline.
 
 ## Key decisions
 
@@ -71,6 +74,47 @@ live site to an API before production deployment is configured (Phase 11) would 
 - **Production note (Phase 11).** The per-address limit relies on `TRUSTED_PROXY_COUNT` matching
   the real proxy chain (Vercel rewrite, Render router). With the default 0 every sign-in arrives
   from the proxy's address and shares one limit, so it must be set during deployment.
+
+## Content management (Phase 6)
+
+- **Data.** Profile (one row), skill groups and skills, experience, education, certifications, projects (with their
+  case study) and Engineering Notes live in PostgreSQL (migration `v3_0003`). Every row has a `position`, a
+  `version` and soft delete (`deleted_at`); everything but the profile, skill groups and skills has a
+  `draft`/`published` status. A project's case study has its own status. Slugs and names are unique among live rows
+  (partial unique indexes), so a deleted item's slug can be reused. RLS is enabled and the Supabase `anon` and
+  `authenticated` roles have no privileges on these tables.
+- **Owner API.** `/api/v1/owner/{collection}` gives every collection the same routes (list, create, get, update,
+  delete, publish, unpublish, reorder), built from one `CollectionSpec` registry in `app/services/content.py`, plus
+  `/owner/profile`, `/owner/dashboard` and `/owner/activity`. They are included in the owner router, so its guard
+  (session, and CSRF for changes) applies to all of them; the OpenAPI enumeration test covers them.
+- **Concurrency.** Updates carry the `version` the editor loaded; a different current version answers 409 and
+  nothing is written, so a change made in another tab is never silently overwritten. The Studio offers to load the
+  latest version.
+- **Validation.** Pydantic schemas mirror the database limits: slugs, `https://` URLs only, site-relative or
+  `https://` asset paths (no `..`), months as `YYYY-MM`, date order, no control characters, blank list lines
+  dropped. Unknown fields are rejected.
+- **Audit.** Every change records who, what (entity and id), the action and the names of the changed fields, never
+  their contents. `/owner/activity` lists them.
+- **Public API.** `/api/v1/public/portfolio`, `/projects/{slug}`, `/articles`, `/articles/{slug}`: published and
+  undeleted only, enforced in `app/repositories/content.py`. Drafts and unknown slugs get the same 404. A case study
+  is included only when it is published too. Responses are `Cache-Control: public, max-age=60`.
+- **Cache invalidation.** After each committed change FastAPI sends, as a background task,
+  `POST {REVALIDATE_URL}` with body `{"tags":["content"],"timestamp":…,"nonce":…}` and
+  `X-Revalidate-Signature: sha256=<HMAC-SHA256(body)>` (`app/integrations/revalidate.py`). The Next.js handler
+  refuses bad signatures, timestamps older than five minutes, replayed nonces and any tag but `content`, then calls
+  `revalidateTag("content", { expire: 0 })`. Failures are logged and never fail a save. Cached content also expires
+  after five minutes, so a missed invalidation cannot leave the site stale for long.
+- **Initial content.** `node frontend/scripts/export-content.mjs` exports `profile.ts` to
+  `backend/app/cli/verified-content.json` (`--check` fails when it is out of date);
+  `python -m app.cli.content import` loads it into an empty database in one transaction, keeping each record's
+  draft or published state. It refuses to run when any content exists, so it can never overwrite Studio edits.
+- **Studio.** `/owner` (dashboard), `/owner/profile`, `/owner/content/{collection}` (list, order, publish),
+  `.../new`, `.../{id}` (edit, publish, delete with confirmation), `.../{id}/preview` (projects and notes, drafts
+  included, owner only) and `/owner/activity`; sessions and the password moved to `/owner/security`. Forms are
+  generated from one field description per collection (`src/lib/owner/content-schema.ts`); FastAPI remains the
+  authority and its field errors are shown next to the fields.
+- **Note bodies** are plain text with a small markup (`## ` headings, `- ` lists, code fences, blank lines between
+  paragraphs), parsed into blocks and rendered as text, never as HTML.
 
 ## Design tokens
 
