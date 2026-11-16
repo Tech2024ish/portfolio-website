@@ -113,6 +113,18 @@ Set `REVALIDATE_URL` (the site's `/api/revalidate`) and `REVALIDATE_SIGNING_SECR
 at least 32 characters) so the public site refreshes after each change. Without them nothing is sent and the
 site refreshes when its cache expires (five minutes).
 
+## Media library
+
+Images are uploaded in the Studio (`/owner/media`). Set `STORAGE_BACKEND`:
+
+- `local` for development: files go to `LOCAL_MEDIA_DIR` (default `media_uploads/`, gitignored) and are served by
+  the API at `/api/v1/media/files/...`.
+- `supabase` for production: `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` (backend only) and a **public-read** bucket
+  named `MEDIA_BUCKET`. Only the API can write to it.
+
+Uploads are limited to `MAX_IMAGE_MB` and to real JPEG, PNG or WebP images; metadata is stripped and responsive
+WebP sizes are stored. Details: `docs/architecture.md`, "Media library".
+
 ## Endpoints
 
 | Path | Purpose |
@@ -122,6 +134,8 @@ site refreshes when its cache expires (five minutes).
 | `/api/v1/contact` | Public contact form. |
 | `/api/v1/auth/*` | Owner sign-in (`login`), `session`, `logout`, `password`, `sessions` (list, revoke one, revoke others). |
 | `/api/v1/owner/*` | Owner Studio API. Every route requires the owner session (router-level guard): `dashboard`, `activity`, `profile`, and for each of `projects`, `experiences`, `education`, `certifications`, `skill-categories`, `skills`, `articles`: list, create, get, update (versioned), delete (soft), `reorder`, and `publish`/`unpublish` where content has a status. |
+| `/api/v1/owner/media` | Media library (owner only): list, upload, details and usages, edit alt text and folder, `replace`, delete (refused while in use). |
+| `/api/v1/media/files/*` | Library files when `STORAGE_BACKEND=local` (development). Immutable caching. |
 | `/api/v1/public/*` | Published content for the site: `portfolio`, `projects/{slug}`, `articles`, `articles/{slug}`. No authentication; drafts are never returned. |
 | `/api/v1/*` | Further areas are added as their phases land. |
 | `/api/v1/docs` | OpenAPI UI, disabled in production by default. |
