@@ -11,11 +11,15 @@ import { getPublicProject, profile, publicDetails, publicProjects } from "@/cont
  */
 export const dynamicParams = false;
 
+// Declared here rather than with Next's generated PageProps<...>: those types exist only after
+// `next dev` or `next build`, and CI type-checks a fresh checkout before building.
+type ProjectPageProps = { params: Promise<{ slug: string }> };
+
 export function generateStaticParams(): { slug: string }[] {
   return publicProjects.map((project) => ({ slug: project.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/projects/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = getPublicProject(slug);
   if (!project) return {};
@@ -28,7 +32,7 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
   };
 }
 
-export default async function ProjectPage({ params }: PageProps<"/projects/[slug]">) {
+export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getPublicProject(slug);
   if (!project) notFound();

@@ -57,8 +57,8 @@ describe("Engineering Notes routes", () => {
   it("generates no note page and answers 404 for any slug", async () => {
     expect(noteParams()).toEqual([]);
     expect(noteDynamicParams).toBe(false);
-    await expect(
-      NotePage({ params: Promise.resolve({ slug: "anything" }) } as PageProps<"/notes/[slug]">),
-    ).rejects.toThrow("NEXT_HTTP_ERROR_FALLBACK;404");
+    await expect(NotePage({ params: Promise.resolve({ slug: "anything" }) })).rejects.toThrow(
+      "NEXT_HTTP_ERROR_FALLBACK;404",
+    );
   });
 });

@@ -13,7 +13,7 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
-const params = (slug: string) => ({ params: Promise.resolve({ slug }) }) as PageProps<"/projects/[slug]">;
+const params = (slug: string) => ({ params: Promise.resolve({ slug }) });
 const drafts = projects.filter((project) => project.visibility === "draft");
 
 describe("/projects", () => {
