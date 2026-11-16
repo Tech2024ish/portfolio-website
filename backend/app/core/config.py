@@ -78,6 +78,20 @@ class Settings(BaseSettings):
     session_idle_minutes: int = Field(default=120, ge=5, le=24 * 60)
     cookie_secure: bool = True
 
+    # ---- owner sign-in throttling (brute-force protection)
+    # Every attempt from one client address counts toward the address limit; only failed
+    # attempts count toward the account limit, so the owner is never locked out by signing in.
+    login_ip_attempts: int = Field(default=10, ge=1, le=1000)
+    login_ip_window_minutes: int = Field(default=15, ge=1, le=24 * 60)
+    login_account_failures: int = Field(default=10, ge=1, le=1000)
+    login_account_window_minutes: int = Field(default=60, ge=1, le=24 * 60)
+
+    # ---- public-site cache invalidation (Next.js /api/revalidate)
+    # When set, content changes ask the public site to refresh its cached pages. Requests are
+    # signed with REVALIDATE_SIGNING_SECRET, which the frontend shares (server-side only).
+    revalidate_url: str | None = None
+    revalidate_signing_secret: SecretStr | None = None
+
     # ---- file storage
     storage_backend: StorageBackend = StorageBackend.DISABLED
     supabase_url: str | None = None
@@ -113,7 +127,9 @@ class Settings(BaseSettings):
             return normalise_database_url(value.strip()) if value.strip() else None
         return value
 
-    @field_validator("supabase_service_key", "resend_api_key", mode="before")
+    @field_validator(
+        "supabase_service_key", "resend_api_key", "revalidate_signing_secret", mode="before"
+    )
     @classmethod
     def _blank_secret_is_none(cls, value: object) -> object:
         if isinstance(value, str) and not value.strip():
@@ -151,6 +167,12 @@ class Settings(BaseSettings):
             problems.append(
                 "SUPABASE_URL and SUPABASE_SERVICE_KEY are required for supabase storage"
             )
+        if self.revalidate_url:
+            if not self.revalidate_url.startswith("https://"):
+                problems.append("REVALIDATE_URL must use https://")
+            secret = self.revalidate_signing_secret
+            if secret is None or len(secret.get_secret_value()) < 32:
+                problems.append("REVALIDATE_SIGNING_SECRET of at least 32 characters is required")
         if problems:
             # Messages name variables only, never their values.
             raise ValueError("Unsafe production configuration: " + "; ".join(problems))
@@ -171,6 +193,18 @@ class Settings(BaseSettings):
     @property
     def email_configured(self) -> bool:
         return bool(self.resend_api_key and self.mail_from)
+
+    @property
+    def session_cookie_name(self) -> str:
+        # The __Host- prefix makes browsers refuse the cookie unless it is Secure, has Path=/
+        # and no Domain, so no subdomain or plain-HTTP page can set or overwrite it. Browsers
+        # also refuse a __Host- cookie without Secure, so local HTTP development uses a plain name.
+        return "__Host-owner_session" if self.cookie_secure else "owner_session"
+
+    @property
+    def allowed_origins(self) -> frozenset[str]:
+        """Origins allowed to send state-changing owner requests (the site itself and CORS)."""
+        return frozenset({self.public_site_url, *self.cors_origins})
 
 
 @lru_cache

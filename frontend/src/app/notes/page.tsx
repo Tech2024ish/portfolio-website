@@ -3,23 +3,25 @@ import type { Metadata } from "next";
 import { NotesIndex } from "@/components/site/notes";
 import { PageHeader } from "@/components/site/page-header";
 import { SiteShell } from "@/components/site/site-shell";
-import { profile, sortedArticles } from "@/content/profile";
+import { getPublicContent } from "@/lib/content/portfolio";
 
-const articles = sortedArticles();
-const description = `Engineering Notes by ${profile.name}: write-ups on backend engineering.`;
+export async function generateMetadata(): Promise<Metadata> {
+  const { profile, articles } = await getPublicContent();
+  const description = `Engineering Notes by ${profile.name}: write-ups on backend engineering.`;
+  return {
+    title: "Engineering Notes",
+    description,
+    alternates: { canonical: "/notes" },
+    openGraph: { title: `Engineering Notes · ${profile.name}`, description, url: "/notes" },
+    // An empty listing has nothing worth indexing; it is not linked from the site until a note exists.
+    robots: articles.length === 0 ? { index: false, follow: true } : undefined,
+  };
+}
 
-export const metadata: Metadata = {
-  title: "Engineering Notes",
-  description,
-  alternates: { canonical: "/notes" },
-  openGraph: { title: `Engineering Notes · ${profile.name}`, description, url: "/notes" },
-  // An empty listing has nothing worth indexing; it is not linked from the site until a note exists.
-  robots: articles.length === 0 ? { index: false, follow: true } : undefined,
-};
-
-export default function NotesPage() {
+export default async function NotesPage() {
+  const content = await getPublicContent();
   return (
-    <SiteShell page="notes">
+    <SiteShell page="notes" profile={content.profile} articleCount={content.articles.length}>
       <PageHeader
         eyebrow="Notes"
         title="Engineering Notes"
@@ -29,7 +31,7 @@ export default function NotesPage() {
           </p>
         }
       />
-      <NotesIndex articles={articles} />
+      <NotesIndex articles={content.articles} />
     </SiteShell>
   );
 }

@@ -1,6 +1,6 @@
 import { ApiIcon, ArchitectureIcon, DatabaseIcon, ShieldIcon } from "@/components/ui/icons";
 import { cardClasses, Section } from "@/components/ui/section";
-import { principles, profile, type Principle } from "@/content/profile";
+import type { Principle, Profile } from "@/content/profile";
 
 const principleIcons: Record<Principle["icon"], typeof ApiIcon> = {
   architecture: ArchitectureIcon,
@@ -9,7 +9,7 @@ const principleIcons: Record<Principle["icon"], typeof ApiIcon> = {
   quality: ShieldIcon,
 };
 
-export function AboutSection() {
+export function AboutSection({ profile, principles }: { profile: Profile; principles: Principle[] }) {
   return (
     <Section id="about" eyebrow="About" title="Engineering philosophy" description={profile.aboutLead}>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">

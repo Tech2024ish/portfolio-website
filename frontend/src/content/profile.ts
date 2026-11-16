@@ -33,6 +33,8 @@ export type Profile = {
   aboutBody: string[];
   email: string;
   cvHref: string;
+  portraitSrc: string;
+  portraitAlt: string;
   social: SocialLink[];
   contactIntro: string;
 };
@@ -143,6 +145,8 @@ export const profile: Profile = {
   ],
   email: "claudeish88@gmail.com",
   cvHref: "/Resume.pdf",
+  portraitSrc: "/ishimwe-jean-claude.png",
+  portraitAlt: "Portrait of Jean Claude Ishimwe",
   social: [
     { label: "GitHub", href: "https://github.com/Tech2024ish" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ishimwe-jean-claude-goslish/" },
@@ -204,7 +208,7 @@ export const projects: Project[] = [
     featured: true,
     repoUrl: "https://github.com/Tech2024ish/mosaic",
     // Drafted from the project's own README (owner-authored, public); every statement restates it.
-    // Unpublished until the owner approves it for the portfolio.
+    // Published as drafted with the owner's approval (2026-11-16).
     details: {
       sources: ["https://github.com/Tech2024ish/mosaic#readme (default branch, last pushed 2026-10-19)"],
       overview: [
@@ -262,7 +266,7 @@ export const projects: Project[] = [
           "Role-based permissions and a distributed rate limiter.",
         ],
       },
-      visibility: "draft",
+      visibility: "published",
     },
     visibility: "published",
   },

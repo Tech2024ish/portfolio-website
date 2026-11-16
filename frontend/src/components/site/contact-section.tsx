@@ -3,11 +3,9 @@ import { ExternalLink } from "@/components/ui/external-link";
 import { DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon, MapPinIcon } from "@/components/ui/icons";
 import { cardClasses, Section } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/tag";
-import { profile } from "@/content/profile";
+import type { Profile } from "@/content/profile";
 
 import { ContactForm } from "./contact-form";
-
-const social = Object.fromEntries(profile.social.map((link) => [link.label, link.href]));
 
 const rowClasses =
   "flex min-h-16 items-center gap-4 rounded-card border border-border bg-card px-5 py-3 transition-colors hover:border-accent/60 hover:bg-raised";
@@ -16,7 +14,8 @@ const rowClasses =
  * The contact form (stored by FastAPI) with direct channels kept alongside as alternatives.
  * Only the form is a client component; the rest of the section renders on the server.
  */
-export function ContactSection() {
+export function ContactSection({ profile }: { profile: Profile }) {
+  const social = Object.fromEntries(profile.social.map((link) => [link.label, link.href]));
   return (
     <Section id="contact" eyebrow="Contact" title="Let's build something reliable">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-10">
