@@ -79,7 +79,8 @@ def migrated_database(postgres_url: str) -> str:
 def clean_database(migrated_database: str) -> Iterator[str]:
     with psycopg.connect(libpq_url(migrated_database)) as conn:
         conn.execute(
-            "truncate contact_messages, rate_limit_events, owner_sessions, owner_users, "
+            "truncate contact_messages, email_deliveries, rate_limit_events, "
+            "owner_sessions, owner_users, "
             "profile, skill_categories, skills, experiences, education, certifications, "
             "projects, articles, audit_events, media_assets restart identity cascade"
         )

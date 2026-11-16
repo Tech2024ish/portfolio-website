@@ -369,7 +369,7 @@ def test_the_dashboard_counts_content_and_shows_recent_activity(
     dashboard = client.get("/api/v1/owner/dashboard").json()
     assert dashboard["content"]["projects"] == {"draft": 2, "published": 2}
     assert dashboard["content"]["experiences"] == {"draft": 1, "published": 1}
-    assert dashboard["messages"] == {"new": 0, "read": 0, "archived": 0}
+    assert dashboard["messages"] == {"new": 0, "read": 0, "archived": 0, "spam": 0}
     assert dashboard["recent_activity"][0]["action"] == "import"
 
 

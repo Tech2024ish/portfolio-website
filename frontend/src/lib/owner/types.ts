@@ -17,6 +17,69 @@ export type SessionSummary = {
 
 export type OwnerOverview = { messages: { new: number; read: number; archived: number } };
 
+export type MessageStatus = "new" | "read" | "archived" | "spam";
+export type DeliveryStatus = "pending" | "sending" | "sent" | "failed" | "skipped";
+
+/** The inbox (`backend/app/schemas/inbox.py`). */
+export type MessageSummary = {
+  id: number;
+  created_at: string;
+  name: string;
+  email: string;
+  subject: string;
+  snippet: string;
+  status: MessageStatus;
+  notification: DeliveryStatus | null;
+};
+
+export type MessagePage = { items: MessageSummary[]; total: number; page: number; page_size: number };
+
+export type Delivery = {
+  id: number;
+  kind: "notification" | "reply";
+  status: DeliveryStatus;
+  recipient: string;
+  subject: string;
+  body: string;
+  attempts: number;
+  next_attempt_at: string | null;
+  last_error: string | null;
+  created_at: string;
+  sent_at: string | null;
+};
+
+export type MessageDetail = {
+  id: number;
+  created_at: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: MessageStatus;
+  spam_reason: string | null;
+  read_at: string | null;
+  deliveries: Delivery[];
+  email_configured: boolean;
+};
+
+/** Inbox views, in tab order. "inbox" is new and read messages. */
+export const MESSAGE_VIEWS = [
+  { value: "inbox", label: "Inbox" },
+  { value: "new", label: "Unread" },
+  { value: "archived", label: "Archived" },
+  { value: "spam", label: "Spam" },
+  { value: "all", label: "All" },
+] as const;
+
+/** What each delivery status means, in words that never overstate what happened. */
+export const DELIVERY_LABELS: Record<DeliveryStatus, string> = {
+  pending: "Waiting to be sent",
+  sending: "Sending",
+  sent: "Sent (accepted by the email provider)",
+  failed: "Not sent",
+  skipped: "Not sent: email is not configured",
+};
+
 export type MediaFolder = "profile" | "projects" | "notes" | "general";
 
 /** A media-library image (`backend/app/schemas/media.py`). */
@@ -67,7 +130,7 @@ export type AuditEvent = {
 };
 
 export type OwnerDashboard = {
-  messages: { new: number; read: number; archived: number };
+  messages: { new: number; read: number; archived: number; spam?: number };
   content: Record<string, { draft: number; published: number }>;
   recent_messages: { id: number; created_at: string; name: string; subject: string; status: string }[];
   recent_activity: AuditEvent[];

@@ -1,7 +1,14 @@
 """SQLAlchemy models. Import every model here so Alembic sees the complete metadata."""
 
 from app.models.base import Base
-from app.models.contact import ContactMessage, MessageStatus, RateLimitEvent
+from app.models.contact import (
+    ContactMessage,
+    DeliveryKind,
+    DeliveryStatus,
+    EmailDelivery,
+    MessageStatus,
+    RateLimitEvent,
+)
 from app.models.content import (
     Article,
     AuditEvent,
@@ -24,7 +31,10 @@ __all__ = [
     "Certification",
     "ContactMessage",
     "ContentStatus",
+    "DeliveryKind",
+    "DeliveryStatus",
     "Education",
+    "EmailDelivery",
     "Experience",
     "MediaAsset",
     "MessageStatus",

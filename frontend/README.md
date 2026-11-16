@@ -22,6 +22,8 @@ Owner Studio (private; never cached or indexed):
 | ------------------------------------------ | -------------------------------------------------------------------------------- |
 | `/owner/login`                             | Sign-in. Returns to the requested Studio page; `next=` accepts Studio paths only |
 | `/owner`                                   | Dashboard: published and draft counts, messages, recent changes                  |
+| `/owner/messages`                          | Inbox: views, search, pages; unread and email-problem markers                    |
+| `/owner/messages/[id]`                     | One message: status, delete, reply, email history with "Send again"              |
 | `/owner/profile`                           | Profile editor                                                                   |
 | `/owner/content/[collection]`              | Every item of a collection, drafts included: order, publish, unpublish           |
 | `/owner/content/[collection]/new`          | New item (a draft)                                                               |
