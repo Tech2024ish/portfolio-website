@@ -1,8 +1,8 @@
 import { cardClasses, Section } from "@/components/ui/section";
 import { TagList } from "@/components/ui/tag";
-import { skillGroups } from "@/content/profile";
+import type { SkillGroup } from "@/content/profile";
 
-export function SkillsSection() {
+export function SkillsSection({ skillGroups }: { skillGroups: SkillGroup[] }) {
   return (
     <Section id="skills" eyebrow="Skills" title="Technical expertise">
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

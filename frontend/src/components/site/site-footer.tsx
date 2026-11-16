@@ -1,7 +1,7 @@
 import { ExternalLink } from "@/components/ui/external-link";
 import { containerClasses } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/tag";
-import { profile } from "@/content/profile";
+import type { Profile } from "@/content/profile";
 import { siteNavigation, type SitePage } from "@/lib/navigation";
 
 import { NavAnchor } from "./nav-anchor";
@@ -9,14 +9,22 @@ import { Logo } from "./site-header";
 
 const footerLink = "inline-flex min-h-8 items-center text-sm text-muted transition-colors hover:text-fg";
 
-export function SiteFooter({ page = "home" }: { page?: SitePage }) {
+export function SiteFooter({
+  page,
+  profile,
+  articleCount,
+}: {
+  page: SitePage;
+  profile: Profile;
+  articleCount: number;
+}) {
   const year = new Date().getFullYear();
-  const links = siteNavigation(page);
+  const links = siteNavigation(page, articleCount);
   return (
     <footer className="border-t border-border bg-surface">
       <div className={`${containerClasses} grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4`}>
         <div className="flex flex-col gap-3 lg:col-span-2">
-          <Logo home={page === "home"} />
+          <Logo profile={profile} home={page === "home"} />
           <p className="max-w-sm text-sm text-muted">
             {profile.name} — {profile.title} in {profile.location}.
           </p>

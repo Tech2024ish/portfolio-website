@@ -1,14 +1,20 @@
 import { buttonClasses } from "@/components/ui/button";
 import { DownloadIcon } from "@/components/ui/icons";
 import { containerClasses } from "@/components/ui/section";
-import { profile } from "@/content/profile";
+import type { Profile } from "@/content/profile";
 import { siteNavigation, type SitePage } from "@/lib/navigation";
 
 import { MobileNav } from "./mobile-nav";
 import { NavAnchor } from "./nav-anchor";
 
 /** On the home page the logo returns to the top; on every other page it leads home. */
-export function Logo({ home = true }: { home?: boolean }) {
+export function Logo({
+  profile,
+  home = true,
+}: {
+  profile: Pick<Profile, "initials" | "name">;
+  home?: boolean;
+}) {
   return (
     // The accessible name must contain the visible text ("JC."), so speech-input users can say
     // what they see (WCAG 2.5.3). The rest of the name is announced but not shown.
@@ -26,12 +32,20 @@ export function Logo({ home = true }: { home?: boolean }) {
   );
 }
 
-export function SiteHeader({ page = "home" }: { page?: SitePage }) {
-  const links = siteNavigation(page);
+export function SiteHeader({
+  page,
+  profile,
+  articleCount,
+}: {
+  page: SitePage;
+  profile: Profile;
+  articleCount: number;
+}) {
+  const links = siteNavigation(page, articleCount);
   return (
     <header className="sticky top-0 z-(--z-header) border-b border-border bg-canvas/85 backdrop-blur-md">
       <div className={`${containerClasses} relative flex h-16 items-center justify-between gap-6`}>
-        <Logo home={page === "home"} />
+        <Logo profile={profile} home={page === "home"} />
 
         <nav aria-label="Primary" className="hidden md:block">
           <ul className="flex items-center gap-1 lg:gap-2">

@@ -4,95 +4,28 @@ from __future__ import annotations
 
 import logging
 import re
-from collections.abc import Callable, Iterator
+from collections.abc import Callable
 from typing import Any
 
 import pytest
 from fastapi.testclient import TestClient
 
-from app.core.config import Settings
-from app.core.security import hash_password, token_digest
-from app.main import create_app
-from tests.conftest import SettingsFactory
+from app.core.security import token_digest
+from tests.conftest import (
+    COOKIE,
+    EMAIL,
+    NEW_PASSWORD,
+    ORIGIN,
+    PASSWORD,
+    csrf_headers,
+    login,
+    signed_in,
+)
 from tests.test_security import v2_scrypt_hash
 
 pytestmark = pytest.mark.postgres
 
 Query = Callable[..., list[tuple[Any, ...]]]
-
-ORIGIN = "http://localhost:3000"
-EMAIL = "owner@example.com"
-PASSWORD = "Correct-Horse-9-battery"
-NEW_PASSWORD = "Another-Strong-7-phrase"
-COOKIE = "owner_session"  # cookie_secure=False in these tests: TestClient talks plain HTTP
-
-
-@pytest.fixture
-def make_auth_settings(
-    make_settings: SettingsFactory, clean_database: str
-) -> Callable[..., Settings]:
-    def factory(**overrides: Any) -> Settings:
-        values: dict[str, Any] = {
-            "database_url": clean_database,
-            "cookie_secure": False,
-            "public_site_url": ORIGIN,
-            "cors_origins": [ORIGIN],
-        }
-        values.update(overrides)
-        return make_settings(**values)
-
-    return factory
-
-
-@pytest.fixture
-def make_api(make_auth_settings: Callable[..., Settings]) -> Iterator[Callable[..., TestClient]]:
-    clients: list[TestClient] = []
-
-    def factory(**overrides: Any) -> TestClient:
-        client = TestClient(create_app(make_auth_settings(**overrides)))
-        client.__enter__()
-        clients.append(client)
-        return client
-
-    yield factory
-    for client in clients:
-        client.__exit__(None, None, None)
-
-
-@pytest.fixture
-def api(make_api: Callable[..., TestClient]) -> TestClient:
-    return make_api()
-
-
-@pytest.fixture
-def owner(query: Query) -> int:
-    rows = query(
-        "insert into owner_users (email, display_name, password_hash) values (%s, %s, %s) "
-        "returning id",
-        EMAIL,
-        "Jean Claude",
-        hash_password(PASSWORD),
-    )
-    return int(rows[0][0])
-
-
-def login(client: TestClient, email: str = EMAIL, password: str = PASSWORD, **headers: str) -> Any:
-    return client.post(
-        "/api/v1/auth/login",
-        json={"email": email, "password": password},
-        headers={"Origin": ORIGIN, **headers},
-    )
-
-
-def signed_in(client: TestClient) -> str:
-    """Sign in and return the CSRF token."""
-    response = login(client)
-    assert response.status_code == 200, response.text
-    return str(response.json()["csrf_token"])
-
-
-def csrf_headers(token: str) -> dict[str, str]:
-    return {"Origin": ORIGIN, "X-CSRF-Token": token}
 
 
 # ------------------------------------------------------------------ sign-in

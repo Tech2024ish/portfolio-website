@@ -1,4 +1,4 @@
-import { navigation, publicArticles } from "@/content/profile";
+import { navigation } from "@/content/profile";
 
 /** The page a navigation is rendered on. */
 export type SitePage = "home" | "projects" | "notes" | "other";
@@ -10,7 +10,7 @@ export type NavLink = { label: string; href: string; current: boolean };
  * lead back to those sections, except Projects, which opens the projects listing. Notes appears
  * only once a note is published, so the site never links to an empty page.
  */
-export function siteNavigation(page: SitePage, publishedArticles = publicArticles.length): NavLink[] {
+export function siteNavigation(page: SitePage, publishedArticles: number): NavLink[] {
   const links: NavLink[] = navigation.map(({ label, href }) => {
     if (page === "home") return { label, href, current: false };
     if (href === "#projects") return { label, href: "/projects", current: page === "projects" };

@@ -1,12 +1,12 @@
 import { TextLink } from "@/components/ui/link";
 import { Section } from "@/components/ui/section";
-import { homeProjects, publicProjects } from "@/content/profile";
+import { homeProjects, type Project } from "@/content/profile";
 
 import { ProjectCard } from "./project-card";
 
 /** The home page's project highlights: featured projects first, with a link to all of them. */
-export function ProjectsSection() {
-  const shown = homeProjects();
+export function ProjectsSection({ projects }: { projects: Project[] }) {
+  const shown = homeProjects(projects);
   return (
     <Section
       id="projects"
@@ -24,7 +24,7 @@ export function ProjectsSection() {
       <p className="mt-8">
         <TextLink href="/projects" className="inline-flex min-h-6 items-center">
           View all projects
-          <span className="sr-only"> ({publicProjects.length})</span>
+          <span className="sr-only"> ({projects.length})</span>
         </TextLink>
       </p>
     </Section>

@@ -5,11 +5,11 @@ import { ExternalLink } from "@/components/ui/external-link";
 import { ArrowRightIcon, DownloadIcon, GitHubIcon, LinkedInIcon, MapPinIcon } from "@/components/ui/icons";
 import { containerClasses } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/tag";
-import { profile } from "@/content/profile";
+import type { Profile } from "@/content/profile";
 
 const socialIcons = { GitHub: GitHubIcon, LinkedIn: LinkedInIcon } as const;
 
-export function Hero() {
+export function Hero({ profile }: { profile: Profile }) {
   return (
     <section aria-labelledby="hero-heading" className="relative overflow-hidden">
       {/* Decorative glow behind the hero, from the accent token. */}
@@ -74,10 +74,10 @@ export function Hero() {
           />
           <div className="relative overflow-hidden rounded-card border border-border-strong bg-accent-soft">
             <Image
-              src="/ishimwe-jean-claude.png"
+              src={profile.portraitSrc}
               width={987}
               height={1070}
-              alt={`Portrait of ${profile.name}`}
+              alt={profile.portraitAlt}
               sizes="(min-width: 1024px) 384px, (min-width: 640px) 384px, 320px"
               className="aspect-[4/5] h-auto w-full object-cover object-top"
               loading="eager"

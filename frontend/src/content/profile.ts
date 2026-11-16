@@ -33,6 +33,8 @@ export type Profile = {
   aboutBody: string[];
   email: string;
   cvHref: string;
+  portraitSrc: string;
+  portraitAlt: string;
   social: SocialLink[];
   contactIntro: string;
 };
@@ -143,6 +145,8 @@ export const profile: Profile = {
   ],
   email: "claudeish88@gmail.com",
   cvHref: "/Resume.pdf",
+  portraitSrc: "/ishimwe-jean-claude.png",
+  portraitAlt: "Portrait of Jean Claude Ishimwe",
   social: [
     { label: "GitHub", href: "https://github.com/Tech2024ish" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ishimwe-jean-claude-goslish/" },
