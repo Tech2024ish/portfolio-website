@@ -26,6 +26,8 @@ test.describe("design tokens in the browser", () => {
   test("keyboard focus draws the token focus ring", async ({ page, isMobile }) => {
     test.skip(isMobile, "Tab-key navigation is a desktop interaction");
     await page.goto("/");
+    // A Tab pressed while the page is still hydrating can be lost: wait until it has settled.
+    await page.waitForLoadState("networkidle");
     await page.keyboard.press("Tab");
     const skip = page.getByRole("link", { name: "Skip to content" });
     await expect(skip).toBeFocused();
@@ -42,6 +44,8 @@ test.describe("design tokens in the browser", () => {
   test("buttons get the same focus ring as links (one global rule)", async ({ page, isMobile }) => {
     test.skip(isMobile, "Tab-key navigation is a desktop interaction");
     await page.goto("/");
+    // A Tab pressed while the page is still hydrating can be lost: wait until it has settled.
+    await page.waitForLoadState("networkidle");
     const button = page.getByRole("link", { name: "View projects" });
     for (let i = 0; i < 20 && !(await button.evaluate((el) => el === document.activeElement)); i++) {
       await page.keyboard.press("Tab");

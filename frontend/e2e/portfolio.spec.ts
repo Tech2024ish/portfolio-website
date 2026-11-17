@@ -159,6 +159,8 @@ test.describe("public portfolio pages", () => {
   test("the skip link moves focus to the page's main content", async ({ page, isMobile }) => {
     test.skip(isMobile, "Tab-key navigation is a desktop interaction");
     await page.goto("/projects");
+    // A Tab pressed while the page is still hydrating can be lost: wait until it has settled.
+    await page.waitForLoadState("networkidle");
     await page.keyboard.press("Tab");
     await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
     await page.keyboard.press("Enter");
