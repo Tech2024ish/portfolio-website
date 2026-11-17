@@ -27,6 +27,7 @@ from app.schemas.auth import (
     SessionInfo,
     SessionSummary,
 )
+from app.services import audit
 from app.services import auth as auth_service
 
 router = APIRouter(prefix="/auth", tags=["owner authentication"])
@@ -35,6 +36,14 @@ router = APIRouter(prefix="/auth", tags=["owner authentication"])
 MAX_BODY_BYTES = 8 * 1024
 
 _NO_STORE = {"Cache-Control": "no-store"}
+
+
+def _audit(
+    session: DbSession, owner: auth_service.OwnerContext | None, action: str, summary: str
+) -> None:
+    """Authentication events in the owner's activity history. Never credentials, tokens or
+    addresses: the summary is fixed text."""
+    audit.record(session, owner, action=action, entity_type="auth", entity_id=None, summary=summary)
 
 
 def _session_info(owner: auth_service.OwnerContext) -> SessionInfo:
@@ -70,16 +79,21 @@ def login(
             settings=settings,
         )
     except auth_service.SignInFailedError:
+        # Audited without the submitted email, the password or the address.
+        _audit(session, None, "sign_in_failed", "Failed sign-in attempt")
         session.commit()  # keep the counted attempt and failure
         raise AppError(401, "invalid_credentials", "The email or password is incorrect.") from None
     except AppError as error:
         if error.status_code == 429:
+            _audit(session, None, "sign_in_blocked", "Sign-in refused: too many attempts")
             session.commit()  # keep the counted attempt
         raise
+    context = auth_service.OwnerContext(user=user, session=owner_session, token=token)
+    _audit(session, context, "sign_in", "Signed in")
     session.commit()
     set_session_cookie(response, token, settings)
     response.headers.update(_NO_STORE)
-    return _session_info(auth_service.OwnerContext(user=user, session=owner_session, token=token))
+    return _session_info(context)
 
 
 @router.get("/session", response_model=SessionInfo, summary="The signed-in owner")
@@ -92,6 +106,7 @@ def current_session(owner: Owner, response: Response, session: DbSession) -> Ses
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT, summary="Sign out")
 def logout(owner: Owner, request: Request, session: DbSession) -> Response:
     auth_service.sign_out(owner)
+    _audit(session, owner, "sign_out", "Signed out")
     session.commit()
     response = Response(status_code=status.HTTP_204_NO_CONTENT, headers=_NO_STORE)
     clear_session_cookie(response, settings_of(request))
@@ -110,6 +125,7 @@ def change_password(body: PasswordChangeRequest, owner: Owner, session: DbSessio
         current_password=body.current_password,
         new_password=body.new_password,
     )
+    _audit(session, owner, "password_change", "Changed the password; other sessions were ended")
     session.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT, headers=_NO_STORE)
 
@@ -142,6 +158,7 @@ def list_sessions(
 )
 def revoke_session(session_id: int, owner: Owner, request: Request, session: DbSession) -> Response:
     auth_service.revoke_session(session, owner, session_id)
+    _audit(session, owner, "session_revoke", f"Ended session #{session_id}")
     session.commit()
     response = Response(status_code=status.HTTP_204_NO_CONTENT, headers=_NO_STORE)
     if session_id == owner.session.id:
@@ -156,6 +173,7 @@ def revoke_session(session_id: int, owner: Owner, request: Request, session: DbS
 )
 def revoke_other_sessions(owner: Owner, response: Response, session: DbSession) -> RevokedSessions:
     revoked = auth_service.revoke_other_sessions(session, owner)
+    _audit(session, owner, "sessions_revoke", f"Ended {revoked} other session(s)")
     session.commit()
     response.headers.update(_NO_STORE)
     return RevokedSessions(revoked=revoked)

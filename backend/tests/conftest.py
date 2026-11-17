@@ -82,7 +82,8 @@ def clean_database(migrated_database: str) -> Iterator[str]:
             "truncate contact_messages, email_deliveries, rate_limit_events, "
             "owner_sessions, owner_users, "
             "profile, skill_categories, skills, experiences, education, certifications, "
-            "projects, articles, audit_events, media_assets restart identity cascade"
+            "projects, articles, audit_events, media_assets, site_settings, page_views, "
+            "analytics_keys restart identity cascade"
         )
     yield migrated_database
 

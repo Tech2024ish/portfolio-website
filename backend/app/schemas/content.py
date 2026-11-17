@@ -27,6 +27,7 @@ from pydantic import (
 
 from app.models.content import SLUG_PATTERN
 from app.schemas.media import MediaVariant, PublicImage
+from app.schemas.site import SettingsFields
 from app.schemas.text import MultiLine, SingleLine
 
 Status = Literal["draft", "published"]
@@ -467,6 +468,7 @@ class PublicArticle(PublicArticleSummary):
 
 class PublicPortfolio(BaseModel):
     profile: ProfileFields
+    settings: SettingsFields
     # Responsive versions of the portrait when it is a library image.
     portrait: PublicImage | None = None
     skill_groups: list[PublicSkillGroup]

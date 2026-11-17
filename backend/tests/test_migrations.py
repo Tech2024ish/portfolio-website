@@ -126,10 +126,16 @@ DATA_TABLES = (
     "owner_users",
     "owner_sessions",
     "email_deliveries",
+    "site_settings",
+    "page_views",
+    "analytics_keys",
     *CONTENT_TABLES,
 )
-# Tables with an identity sequence (profile's id is fixed at 1).
-SEQUENCED_TABLES = tuple(table for table in DATA_TABLES if table != "profile")
+# Tables with an identity sequence (profile and site_settings have fixed ids;
+# analytics_keys is keyed by day).
+SEQUENCED_TABLES = tuple(
+    table for table in DATA_TABLES if table not in ("profile", "site_settings", "analytics_keys")
+)
 PROTECTED_TABLES = (*DATA_TABLES, "alembic_version")
 
 
@@ -199,9 +205,9 @@ def test_migration_role_can_still_read_and_update_alembic_version(
 ) -> None:
     url, config = supabase_first_deploy
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0005",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0006",)]
         updated = conn.execute(
-            "update alembic_version set version_num = version_num where version_num = 'v3_0005'"
+            "update alembic_version set version_num = version_num where version_num = 'v3_0006'"
         )
         assert updated.rowcount == 1
         conn.rollback()
@@ -211,4 +217,4 @@ def test_migration_role_can_still_read_and_update_alembic_version(
         assert conn.execute("select count(*) from alembic_version").fetchone() == (0,)
     command.upgrade(config, "head")
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0005",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0006",)]

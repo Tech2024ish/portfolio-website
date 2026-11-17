@@ -29,6 +29,7 @@ from app.schemas.content import (
 )
 from app.schemas.media import MediaVariant, PublicImage
 from app.services import media as media_service
+from app.services import site as site_service
 
 router = APIRouter(prefix="/public", tags=["public content"])
 
@@ -112,6 +113,7 @@ def portfolio(session: DbSession, response: Response) -> PublicPortfolio:
     portrait = library.get(profile.portrait_src)
     return PublicPortfolio(
         profile=ProfileFields.model_validate(profile, from_attributes=True),
+        settings=site_service.current(session),
         portrait=PublicImage(
             width=portrait.width, height=portrait.height, variants=_variants(portrait)
         )

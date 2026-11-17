@@ -31,6 +31,7 @@ from app.models.contact import ContactMessage, EmailDelivery, MessageStatus
 from app.repositories import rate_limit
 from app.schemas.contact import ContactSubmission
 from app.services import mail
+from app.services import site as site_service
 
 logger = logging.getLogger("app.contact")
 
@@ -70,6 +71,10 @@ def spam_reason(submission: ContactSubmission) -> str | None:
 def submit_contact_message(
     session: Session, submission: ContactSubmission, client_address: str, settings: Settings
 ) -> Submission:
+    if not site_service.current(session).show_contact_form:
+        raise AppError(
+            403, "contact_closed", "The contact form is closed. Please write by email instead."
+        )
     key = rate_limit.client_key(RATE_LIMIT_BUCKET, client_address)
     window = timedelta(minutes=settings.contact_rate_window_minutes)
     if not rate_limit.acquire(session, RATE_LIMIT_BUCKET, key, settings.contact_rate_limit, window):

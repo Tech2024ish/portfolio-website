@@ -10,7 +10,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends, Response
 
 from app.api.owner_access import require_owner
-from app.api.v1.endpoints import owner_content, owner_media, owner_messages
+from app.api.v1.endpoints import owner_content, owner_media, owner_messages, owner_site
 from app.database.session import DbSession
 from app.schemas.auth import MessageCounts, OwnerOverview
 from app.services import auth as auth_service
@@ -29,3 +29,4 @@ def overview(response: Response, session: DbSession) -> OwnerOverview:
 router.include_router(owner_content.router)
 router.include_router(owner_media.router)
 router.include_router(owner_messages.router)
+router.include_router(owner_site.router)
