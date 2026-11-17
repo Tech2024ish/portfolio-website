@@ -15,7 +15,7 @@ from collections.abc import Iterator
 from typing import Annotated
 
 from fastapi import Depends, Request
-from sqlalchemy import Engine, create_engine
+from sqlalchemy import Engine, create_engine, make_url
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import NullPool
 
@@ -33,6 +33,34 @@ class Database:
     @property
     def configured(self) -> bool:
         return self._url is not None
+
+    def target_summary(self) -> str:
+        """The kind of server the URL points at, for logs.
+
+        Never the host, port, database, user name or password: only the driver, the names (not
+        values) of URL options, and a coarse kind such as ``supabase_session_pooler``.
+        Never raises.
+        """
+        if self._url is None:
+            return "not configured"
+        try:
+            url = make_url(self._url.get_secret_value())
+        except Exception:  # an unparsable URL; its text must not reach the log
+            return "unparsable"
+        host = (url.host or "").lower()
+        port = url.port or 5432
+        if host.endswith(".pooler.supabase.com"):
+            kind = {5432: "supabase_session_pooler", 6543: "supabase_transaction_pooler"}.get(
+                port, "supabase_pooler_unexpected_port"
+            )
+        elif host.endswith(".supabase.co"):
+            kind = "supabase_direct"
+        elif host in ("", "localhost", "127.0.0.1", "::1"):
+            kind = "local"
+        else:
+            kind = "other"
+        options = ",".join(sorted(url.query)) or "none"
+        return f"kind={kind} driver={url.drivername} options={options}"
 
     def _url_or_unavailable(self) -> str:
         if self._url is None:
