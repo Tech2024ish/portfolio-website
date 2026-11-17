@@ -6,6 +6,7 @@ state. ``app`` is the module-level instance that uvicorn serves.
 
 from __future__ import annotations
 
+import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
@@ -19,6 +20,7 @@ from app.api.v1.router import api_router
 from app.core.body_limit import BodySizeLimitMiddleware
 from app.core.config import Settings, get_settings
 from app.core.errors import install_error_handlers
+from app.core.request_id import RequestIdMiddleware
 from app.database.readiness import ReadinessCache
 from app.database.session import Database
 
@@ -42,6 +44,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         lifespan=_lifespan,
     )
     application.state.settings = settings
+    if settings.is_production and settings.trusted_proxy_count == 0:
+        # Not fatal (the value depends on the hosting chain), but every client would share one
+        # address for rate limits and analytics. See docs/deployment.md, "Client addresses".
+        logging.getLogger("app").warning(
+            "TRUSTED_PROXY_COUNT is 0 in production: client addresses are not resolved"
+        )
     application.state.database = Database(settings)
     application.state.readiness_cache = ReadinessCache()
     install_error_handlers(application)
@@ -58,6 +66,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             ("POST", "/api/v1/owner/media/{id}/replace"): owner_media.upload_limit(settings),
         },
     )
+    # Outermost: every response, including CORS preflights and errors, carries the request id.
+    application.add_middleware(RequestIdMiddleware)
     application.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,

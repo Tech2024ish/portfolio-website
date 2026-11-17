@@ -43,3 +43,6 @@ frontend/blob-report/
 # ---- OS / editor
 .DS_Store
 Thumbs.db
+
+# Production database backups (scripts/production/backup.sh): never commit them.
+backups/
