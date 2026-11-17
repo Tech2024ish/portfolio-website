@@ -105,7 +105,12 @@ def describe_failure(exc: BaseException, stage: str, elapsed: float) -> str:
     orig = exc.orig if isinstance(exc, DBAPIError) and exc.orig is not None else exc
     sqlstate = getattr(orig, "sqlstate", None)
     message = str(orig).lower()
-    reason = "other"
+    # psycopg tries every address a host resolves to. When all fail, the message starts with
+    # the last attempt's error (the one whose class was raised), then lists every attempt on
+    # its own "- " line. The reason must describe the last attempt only: an earlier address
+    # timing out must not hide, say, rejected credentials on the address that answered.
+    head, _, listing = message.partition("\nmultiple connection attempts failed")
+    per_attempt = [_reason_from_text(line) for line in listing.split("\n- ")[1:]]
     if isinstance(orig, psycopg.errors.ConnectionTimeout):
         reason = "timeout"
     elif isinstance(orig, psycopg.errors.QueryCanceled):
@@ -113,17 +118,22 @@ def describe_failure(exc: BaseException, stage: str, elapsed: float) -> str:
     elif sqlstate in _SQLSTATE_REASONS:
         reason = _SQLSTATE_REASONS[sqlstate]
     else:
-        for label, fragments in _REASONS:
-            if any(fragment in message for fragment in fragments):
-                reason = label
-                break
-    # psycopg tries every address a host resolves to and lists each failure on its own line.
-    attempts = max(1, message.count("\n- ")) if "multiple connection attempts" in message else 1
+        reason = _reason_from_text(head)
     code = sqlstate if isinstance(sqlstate, str) and sqlstate.isalnum() else "none"
-    return (
+    summary = (
         f"stage={stage} driver={type(orig).__name__} sqlstate={code} reason={reason} "
-        f"attempts={attempts} elapsed_ms={round(elapsed * 1000)}"
+        f"attempts={max(1, len(per_attempt))}"
     )
+    if len(per_attempt) > 1:
+        summary += f" attempt_reasons={','.join(per_attempt)}"
+    return f"{summary} elapsed_ms={round(elapsed * 1000)}"
+
+
+def _reason_from_text(message: str) -> str:
+    for label, fragments in _REASONS:
+        if any(fragment in message for fragment in fragments):
+            return label
+    return "other"
 
 
 def check_database(database: Database) -> Readiness:

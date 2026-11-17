@@ -17,6 +17,7 @@ from collections.abc import Iterator
 import psycopg
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import make_url
 from sqlalchemy.exc import OperationalError
 
 from app.database.readiness import UNAVAILABLE, check_database, describe_failure
@@ -92,7 +93,24 @@ def test_every_address_attempt_is_counted() -> None:
     summary = describe_failure(_wrapped(psycopg.errors.ConnectionTimeout(message)), "connect", 6)
     assert "attempts=2" in summary
     assert "reason=timeout" in summary
+    assert "attempt_reasons=timeout,timeout" in summary
     assert "3.1.1." not in summary and SECRET_HOST not in summary
+
+
+def test_the_reason_describes_the_last_attempt_not_the_first_match() -> None:
+    """``localhost`` (or a pooler with several addresses): one address times out, the next
+    answers and rejects the password. The reason is the answer, not the earlier timeout."""
+    message = (
+        f'connection failed: FATAL:  password authentication failed for user "{SECRET_USER}"\n'
+        "Multiple connection attempts failed. All failures were:\n"
+        "- host: 'localhost', port: '5432', hostaddr: '::1': connection timeout expired\n"
+        "- host: 'localhost', port: '5432', hostaddr: '127.0.0.1': connection failed: "
+        f'FATAL:  password authentication failed for user "{SECRET_USER}"'
+    )
+    summary = describe_failure(_wrapped(psycopg.OperationalError(message)), "connect", 3.0)
+    assert "reason=credentials attempts=2 attempt_reasons=timeout,credentials" in summary
+    for leak in (SECRET_USER, "localhost", "::1", "127.0.0.1", "FATAL"):
+        assert leak not in summary
 
 
 # ------------------------------------------------------------------ target summary
@@ -176,10 +194,11 @@ def test_a_server_that_never_answers_is_reported_as_a_connect_timeout(
 
 @pytest.mark.postgres
 def test_wrong_credentials_are_reported_as_such(
-    make_settings: SettingsFactory, caplog: pytest.LogCaptureFixture
+    make_settings: SettingsFactory, postgres_url: str, caplog: pytest.LogCaptureFixture
 ) -> None:
     caplog.set_level(logging.INFO)
-    url = "postgresql://portfolio:wr0ng-s3cret@127.0.0.1:54329/portfolio_test"
+    # The configured test server (its host and port differ locally and in CI), wrong password.
+    url = make_url(postgres_url).set(password="wr0ng-s3cret").render_as_string(hide_password=False)
     with TestClient(create_app(make_settings(database_url=url))) as client:
         assert client.get("/ready").status_code == 503
     assert "stage=connect" in caplog.text
