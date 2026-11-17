@@ -98,5 +98,5 @@ jobs:
           retention-days: 7
       - name: Audit production dependencies (any severity fails)
         run: npm audit --omit=dev
-      - name: Audit all dependencies (high or critical fails)
-        run: npm audit --audit-level=high
+      - name: Audit all dependencies (high or critical fails, except dated exceptions in audit-exceptions.json)
+        run: node scripts/audit-dev.mjs

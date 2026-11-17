@@ -18,6 +18,7 @@
     "test:e2e:site": "playwright test --project=desktop-1440 --project=laptop-1280 --project=tablet-768 --project=mobile-390",
     "test:e2e:components": "playwright test --project=components-*",
     "perf": "node scripts/measure-vitals.mjs",
+    "audit:dev": "node scripts/audit-dev.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
