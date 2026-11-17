@@ -185,6 +185,35 @@ canonical origin is resolved at build time (`NEXT_PUBLIC_SITE_URL`, else Vercel'
 `robots.txt`, `sitemap.xml`, generated sharing images and schema.org data come from the same
 published content as the pages; preview deployments and private areas are never indexed.
 
+## Settings, analytics and owner activity (Phase 10)
+
+- **Settings** (`site_settings`, one row, migration `v3_0006`): default title and description for
+  search and sharing, which home-page sections show (skills; experience, education and
+  certifications), whether the contact form accepts messages (off: the form is replaced by the email
+  address and `POST /api/v1/contact` answers 403 `contact_closed`), the CV download, and how many
+  projects the home page features. Versioned saves (409 on stale), audited, and the public site is
+  refreshed after saving. Without a saved row the defaults reproduce the site as before; the bundled
+  content source always uses them. Social and contact links stay in the profile.
+- **Analytics, from recorded events only.** The public pages report each view the visitor actually
+  opens (`POST /api/v1/analytics/pageview`, always 204). The API counts it only if it is a public
+  page that exists (unpublished or unknown slugs never count), the user agent is not a crawler,
+  script or headless browser, the request carries no owner session cookie, and the browser did not
+  send Do Not Track or Global Privacy Control; at most 200 views per visitor per day and 120 requests
+  per address per hour. Stored per view: UTC day, path, the referring site's host name, a device class
+  and a visitor hash. No IP address, user agent or cookie is stored. The hash is an HMAC of address and
+  user agent under a random per-day key (`analytics_keys`) deleted after two days, so visitors are
+  distinct per day and cannot be followed across days.
+- **Owner analytics** (`GET /api/v1/owner/analytics?start=&end=`, at most 366 days): views, visitors
+  (sum of daily distinct visitors), a zero-filled daily series, top pages, project pages, referrers
+  and devices, plus the first recorded day, so days before recording began are shown as not measured,
+  never as zero traffic. `/owner/analytics` shows them as stat tiles, a daily bar chart (hover and
+  keyboard tooltips, with a table of the same numbers) and bar lists.
+- **Owner activity.** The audit trail now also records sign-in, failed sign-in (without the submitted
+  email), sign-ins refused by the rate limit, sign-out, password changes and ended sessions, and
+  settings changes. `GET /api/v1/owner/activity?kind=` filters by content, media, messages, settings
+  or auth; `/owner/activity` has the same filter. `/owner/security` shows this session (start, device,
+  latest end) above the session list and password form.
+
 ## Design tokens
 
 Source: `design-reference/` (local only). Implemented in `frontend/src/app/globals.css` as Tailwind v4 `@theme`

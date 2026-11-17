@@ -18,21 +18,23 @@ API (`api`), which the Owner Studio edits.
 
 Owner Studio (private; never cached or indexed):
 
-| Route                                      | Content                                                                          |
-| ------------------------------------------ | -------------------------------------------------------------------------------- |
-| `/owner/login`                             | Sign-in. Returns to the requested Studio page; `next=` accepts Studio paths only |
-| `/owner`                                   | Dashboard: published and draft counts, messages, recent changes                  |
-| `/owner/messages`                          | Inbox: views, search, pages; unread and email-problem markers                    |
-| `/owner/messages/[id]`                     | One message: status, delete, reply, email history with "Send again"              |
-| `/owner/profile`                           | Profile editor                                                                   |
-| `/owner/content/[collection]`              | Every item of a collection, drafts included: order, publish, unpublish           |
-| `/owner/content/[collection]/new`          | New item (a draft)                                                               |
-| `/owner/content/[collection]/[id]`         | Edit, publish, delete (with confirmation)                                        |
-| `/owner/content/[collection]/[id]/preview` | Projects and notes as the site will show them, drafts included                   |
-| `/owner/media`                             | Media library: upload, folders, thumbnails                                       |
-| `/owner/media/[id]`                        | One image: preview, alt text, folder, replace, delete (refused while in use)     |
-| `/owner/activity`                          | The audit trail                                                                  |
-| `/owner/security`                          | Active sessions (end one or all others) and password change                      |
+| Route                                      | Content                                                                                   |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| `/owner/login`                             | Sign-in. Returns to the requested Studio page; `next=` accepts Studio paths only          |
+| `/owner`                                   | Dashboard: published and draft counts, messages, recent changes                           |
+| `/owner/messages`                          | Inbox: views, search, pages; unread and email-problem markers                             |
+| `/owner/messages/[id]`                     | One message: status, delete, reply, email history with "Send again"                       |
+| `/owner/profile`                           | Profile editor                                                                            |
+| `/owner/content/[collection]`              | Every item of a collection, drafts included: order, publish, unpublish                    |
+| `/owner/content/[collection]/new`          | New item (a draft)                                                                        |
+| `/owner/content/[collection]/[id]`         | Edit, publish, delete (with confirmation)                                                 |
+| `/owner/content/[collection]/[id]/preview` | Projects and notes as the site will show them, drafts included                            |
+| `/owner/media`                             | Media library: upload, folders, thumbnails                                                |
+| `/owner/media/[id]`                        | One image: preview, alt text, folder, replace, delete (refused while in use)              |
+| `/owner/analytics`                         | Recorded page views: date range, totals, daily chart, pages, projects, referrers, devices |
+| `/owner/settings`                          | Website settings: default title and description, home-page sections, contact form, CV     |
+| `/owner/activity`                          | The audit trail                                                                           |
+| `/owner/security`                          | Active sessions (end one or all others) and password change                               |
 
 Collections: `projects`, `experiences`, `education`, `certifications`, `skill-categories`, `skills`, `articles`.
 Their forms come from `src/lib/owner/content-schema.ts`; FastAPI validates again and its field errors appear next to
