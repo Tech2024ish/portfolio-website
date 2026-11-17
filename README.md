@@ -3,9 +3,9 @@
 A professional portfolio for Jean Claude Ishimwe, Backend Software Engineer in Kigali, Rwanda,
 with a private owner portal at `/owner` for managing all public content without editing code.
 
-> **Status:** V3 is built in phases on feature branches merged into `main` (Vercel deploys `main`). Phases 1, 2 and
-> 2.5 (foundation; homepage and contact; readiness and production configuration) are merged; Phase 3 (design
-> system) is in progress. Production configuration and data migration are Phase 11 work.
+> **Status:** V3 is built in phases on feature branches merged into `main` (Vercel deploys `main`). Phases 1 to 10
+> are merged. Phase 11 (production deployment and data migration) is prepared in the repository; the production
+> steps follow [`docs/deployment.md`](docs/deployment.md).
 
 | Part | Stack | Hosting |
 |---|---|---|

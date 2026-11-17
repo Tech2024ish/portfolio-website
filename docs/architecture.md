@@ -214,6 +214,29 @@ published content as the pages; preview deployments and private areas are never 
   or auth; `/owner/activity` has the same filter. `/owner/security` shows this session (start, device,
   latest end) above the session list and password form.
 
+## Production deployment and data migration (Phase 11)
+
+The runbook is `docs/deployment.md`. In short:
+
+- **Legacy data.** Migration `v3_0000`, the first of the V3 history, moves the V1/V2 tables found in
+  production (`contacts`, `projects`, `visits`, `customer`, and `skills`/`visit_stats` if present)
+  from `public` into a `legacy` schema with all their rows, sequences, indexes and policies, and
+  revokes the Supabase client roles' privileges on them (they had every privilege, TRUNCATE
+  included). V3's own `projects` table could not be created otherwise. It moves `projects` and
+  `skills` only when they have the old columns, and does nothing on a database without them.
+- **Production CLI** (`python -m app.cli.production`): `check`, a read-only preflight (target,
+  migration state, legacy tables, RLS, client-role privileges, sequences); `legacy-report`, a
+  read-only summary of the old data; `import-legacy-contacts`, a dry run by default that copies the
+  old messages into the inbox with their original dates, idempotently, without email.
+- **Backups.** `scripts/production/backup.sh` (pg_dump through the `postgres:17` image; the
+  connection string stays in the environment) and `verify-backup.sh` (restores into a throwaway
+  local database and prints every table's row count).
+- **Client addresses.** `GET /api/v1/owner/diagnostics/client-address` (owner only) shows the
+  `X-Forwarded-For` chain and the address each `TRUSTED_PROXY_COUNT` would choose, so the value is
+  set from evidence; production logs a warning while it is 0.
+- **Request ids.** Every response carries `X-Request-ID` (a well-formed incoming id is kept,
+  anything else replaced), and error logs include it.
+
 ## Design tokens
 
 Source: `design-reference/` (local only). Implemented in `frontend/src/app/globals.css` as Tailwind v4 `@theme`
