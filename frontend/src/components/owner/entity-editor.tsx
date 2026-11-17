@@ -6,12 +6,13 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/feedback";
 import { Field, Input, Select, Textarea } from "@/components/ui/form";
-import { contentActions, saveProfile } from "@/lib/owner/actions";
+import { contentActions, saveProfile, saveSettings } from "@/lib/owner/actions";
 import {
   collectionSpec,
   fieldOf,
   fromFormValues,
   PROFILE_SPEC,
+  SETTINGS_SPEC,
   toFormValues,
   type CollectionSpec,
   type FieldSpec,
@@ -36,7 +37,12 @@ type Props = {
 };
 
 function specFor(collection: string): CollectionSpec {
-  const spec = collection === "profile" ? PROFILE_SPEC : collectionSpec(collection);
+  const spec =
+    collection === "profile"
+      ? PROFILE_SPEC
+      : collection === "settings"
+        ? SETTINGS_SPEC
+        : collectionSpec(collection);
   if (!spec) throw new Error(`Unknown collection: ${collection}`);
   return spec;
 }
@@ -95,6 +101,8 @@ export function EntityEditor({ collection, item, csrfToken, choices = {} }: Prop
     const result = await run(() => {
       if (collection === "profile")
         return saveProfile(csrfToken, { ...payload, version: item?.version ?? 0 });
+      if (collection === "settings")
+        return saveSettings(csrfToken, { ...payload, version: item?.version ?? 0 });
       const actions = contentActions(csrfToken, collection);
       return item ? actions.update(item.id, { ...payload, version: item.version }) : actions.create(payload);
     });
@@ -104,8 +112,8 @@ export function EntityEditor({ collection, item, csrfToken, choices = {} }: Prop
       // The page reloads the saved item (and its new version) and confirms from the URL, so the
       // notice survives the editor being re-created with the new version.
       const target =
-        collection === "profile"
-          ? `/owner/profile?saved=${result.value.version}`
+        collection === "profile" || collection === "settings"
+          ? `/owner/${collection}?saved=${result.value.version}`
           : item
             ? `/owner/content/${collection}/${item.id}?saved=${result.value.version}`
             : `/owner/content/${collection}/${result.value.id}?created=1`;
@@ -281,7 +289,7 @@ ${line}`
       )}
       <div className="flex flex-wrap items-center gap-3">
         <Button type="submit" loading={pending} disabled={!hydrated}>
-          {item ? "Save changes" : `Create ${noun}`}
+          {item || collection === "settings" ? "Save changes" : `Create ${noun}`}
         </Button>
         {!item && spec.publishable ? (
           <p className="text-sm text-muted">New items are drafts until you publish them.</p>
