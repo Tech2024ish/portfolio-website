@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/site/json-ld";
 import { ArticleView } from "@/components/site/notes";
 import { SiteShell } from "@/components/site/site-shell";
+import { hiddenSections } from "@/lib/content/settings";
 import { getPublicArticle, getPublicContent } from "@/lib/content/portfolio";
 import { articleGraph } from "@/lib/structured-data";
 
@@ -46,7 +47,12 @@ export default async function NotePage({ params }: NotePageProps) {
   const [article, content] = await Promise.all([getPublicArticle(slug), getPublicContent()]);
   if (!article) notFound();
   return (
-    <SiteShell page="notes" profile={content.profile} articleCount={content.articles.length}>
+    <SiteShell
+      page="notes"
+      profile={content.profile}
+      articleCount={content.articles.length}
+      hidden={hiddenSections(content.settings)}
+    >
       <ArticleView article={article} />
       <JsonLd data={articleGraph(article, content.profile)} />
     </SiteShell>

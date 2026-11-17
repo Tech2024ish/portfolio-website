@@ -53,6 +53,9 @@ const { default: MediaPage } = await import("./media/page");
 const { default: MediaItemPage } = await import("./media/[id]/page");
 const { default: MessagesPage } = await import("./messages/page");
 const { default: MessagePage } = await import("./messages/[id]/page");
+const { default: SettingsPage } = await import("./settings/page");
+const { default: AnalyticsPage } = await import("./analytics/page");
+const { default: ActivityPage } = await import("./activity/page");
 const { default: LoginPage } = await import("../login/page");
 
 const SESSION = {
@@ -123,6 +126,44 @@ beforeEach(() => {
     "/api/v1/owner/projects": [PROJECT_FIXTURE],
     "/api/v1/owner/projects/7": PROJECT_FIXTURE,
     "/api/v1/owner/media": [MEDIA],
+    "/api/v1/owner/settings": {
+      seo_title: "Jean Claude Ishimwe — Backend Software Engineer",
+      seo_description: "Backend Software Engineer in Kigali, Rwanda, building reliable APIs.",
+      show_skills: true,
+      show_experience: true,
+      show_contact_form: true,
+      show_cv_download: true,
+      home_project_count: 3,
+      version: 0,
+      updated_at: null,
+    },
+    "/api/v1/owner/analytics?start=2026-11-10&end=2026-11-16": {
+      start: "2026-11-10",
+      end: "2026-11-16",
+      recording_since: "2026-11-15",
+      views: 12,
+      visitors: 5,
+      daily: ["10", "11", "12", "13", "14", "15", "16"].map((d) => ({
+        day: `2026-11-${d}`,
+        views: d === "15" ? 4 : d === "16" ? 8 : 0,
+        visitors: d === "15" ? 2 : d === "16" ? 3 : 0,
+      })),
+      pages: [{ label: "/projects/mosaic", views: 7, visitors: 4 }],
+      projects: [{ label: "MOSAIC", views: 7, visitors: 4 }],
+      referrers: [{ label: "www.linkedin.com", views: 3, visitors: 2 }],
+      devices: [{ label: "mobile", views: 9, visitors: 4 }],
+    },
+    "/api/v1/owner/activity?limit=100&kind=auth": [
+      {
+        id: 3,
+        created_at: "2026-11-16T09:00:00Z",
+        action: "sign_in_failed",
+        entity_type: "auth",
+        entity_id: null,
+        summary: "Failed sign-in attempt",
+        changed_fields: [],
+      },
+    ],
     "/api/v1/owner/messages?status=inbox&page=1&page_size=20": {
       items: [
         { ...MESSAGE_SUMMARY, id: 9, status: "new", notification: "failed" },
@@ -331,6 +372,43 @@ describe("/owner/messages", () => {
     expect(screen.getByText(/replies cannot be sent from here/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Archive" })).toBeInTheDocument();
     await expect(MessagePage({ params: Promise.resolve({ id: "x" }) })).rejects.toThrow("404");
+  });
+});
+
+describe("settings, analytics and activity", () => {
+  it("edits the website settings, saying when only defaults apply", async () => {
+    state.session = { status: "signed-in", session: SESSION };
+    render(await SettingsPage({ searchParams: Promise.resolve({}) }));
+    expect(screen.getByText(/nothing has been saved yet/)).toBeInTheDocument();
+    const form = screen.getByRole("form", { name: "Edit settings" });
+    expect(within(form).getByLabelText(/^Default page title/)).toHaveValue(
+      "Jean Claude Ishimwe — Backend Software Engineer",
+    );
+    expect(within(form).getByLabelText("Accept messages through the contact form")).toBeChecked();
+    expect(within(form).getByLabelText("Projects on the home page")).toHaveValue("3");
+  });
+
+  it("shows recorded analytics only, marking days before recording began", async () => {
+    state.session = { status: "signed-in", session: SESSION };
+    vi.useFakeTimers({ now: new Date("2026-11-16T12:00:00Z"), toFake: ["Date"] });
+    render(await AnalyticsPage({ searchParams: Promise.resolve({ days: "7" }) }));
+    vi.useRealTimers();
+    expect(screen.getByText("Page views").nextElementSibling).toHaveTextContent("12");
+    expect(screen.getByText(/Recording began on 15 November 2026/)).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "16 Nov: 8 views, 3 visitors" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "10 Nov: not measured" })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Project pages" })).toHaveTextContent("MOSAIC");
+    expect(screen.getByRole("link", { name: "Last 7 days" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("filters the activity history", async () => {
+    state.session = { status: "signed-in", session: SESSION };
+    render(await ActivityPage({ searchParams: Promise.resolve({ kind: "auth" }) }));
+    expect(screen.getByText("Failed sign-in attempt")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Sign-ins and security" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
   });
 });
 

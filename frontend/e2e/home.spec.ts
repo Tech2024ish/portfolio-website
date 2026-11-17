@@ -3,6 +3,11 @@ import { expect, test } from "@playwright/test";
 const sections = ["about", "skills", "projects", "experience", "contact"] as const;
 
 test.describe("home page", () => {
+  // No API runs in these tests: answer the page-view report the way the API does (204).
+  test.beforeEach(async ({ page }) => {
+    await page.route("**/api/v1/analytics/pageview", (route) => route.fulfill({ status: 204 }));
+  });
+
   test("renders every section, the real portrait and no console errors", async ({ page }) => {
     const errors: string[] = [];
     page.on("console", (message) => {
@@ -93,6 +98,8 @@ test.describe("home page", () => {
   test("keyboard users can skip straight to the content", async ({ page, isMobile }) => {
     test.skip(isMobile, "Tab-key navigation is a desktop interaction");
     await page.goto("/");
+    // A Tab pressed while the page is still hydrating can be lost: wait until it has settled.
+    await page.waitForLoadState("networkidle");
     await page.keyboard.press("Tab");
     const skip = page.getByRole("link", { name: "Skip to content" });
     await expect(skip).toBeFocused();

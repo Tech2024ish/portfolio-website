@@ -5,8 +5,8 @@ import { homeProjects, type Project } from "@/content/profile";
 import { ProjectCard } from "./project-card";
 
 /** The home page's project highlights: featured projects first, with a link to all of them. */
-export function ProjectsSection({ projects }: { projects: Project[] }) {
-  const shown = homeProjects(projects);
+export function ProjectsSection({ projects, limit = 3 }: { projects: Project[]; limit?: number }) {
+  const shown = homeProjects(projects, limit);
   return (
     <Section
       id="projects"

@@ -41,6 +41,8 @@ export type FieldSpec = {
   picker?: "set" | "append";
   /** With `set`: a field that receives the image's alt text when it is still empty. */
   pickerAlt?: string;
+  /** For "select": the value is sent as a number. */
+  numeric?: boolean;
   /** Groups fields under a heading in the editor. */
   group?: string;
 };
@@ -178,6 +180,58 @@ export const PROFILE_SPEC: CollectionSpec = {
       required: true,
       maxLength: 200,
       group: "Files",
+    },
+  ],
+};
+
+export const SETTINGS_SPEC: CollectionSpec = {
+  key: "settings",
+  label: "Settings",
+  singular: "settings",
+  publishable: false,
+  titleField: "seo_title",
+  fields: [
+    {
+      name: "seo_title",
+      label: "Default page title",
+      kind: "text",
+      required: true,
+      maxLength: 70,
+      help: "Shown by search engines and when the home page is shared. Up to 70 characters.",
+      group: "Search and sharing",
+    },
+    {
+      name: "seo_description",
+      label: "Default description",
+      kind: "textarea",
+      required: true,
+      maxLength: 200,
+      help: "One or two sentences, 50 to 200 characters. Pages with their own description use that.",
+      group: "Search and sharing",
+    },
+    { name: "show_skills", label: "Show the Skills section", kind: "checkbox", group: "Home page" },
+    {
+      name: "show_experience",
+      label: "Show Experience, education and certifications",
+      kind: "checkbox",
+      group: "Home page",
+    },
+    {
+      name: "home_project_count",
+      label: "Projects on the home page",
+      kind: "select",
+      numeric: true,
+      options: [1, 2, 3, 4, 5, 6].map((n) => ({ value: String(n), label: String(n) })),
+      help: "Featured projects first. All published projects are on the Projects page.",
+      group: "Home page",
+    },
+    { name: "show_cv_download", label: "Offer the CV download", kind: "checkbox", group: "Contact" },
+    {
+      name: "show_contact_form",
+      label: "Accept messages through the contact form",
+      kind: "checkbox",
+      help: "Off: the form is hidden and the server refuses messages; your email stays visible.",
+      group: "Contact",
     },
   ],
 };
@@ -488,7 +542,7 @@ function fromText(field: FieldSpec, value: string | boolean | undefined): unknow
       });
     case "select":
       if (field.choices) return text === "" ? null : Number(text);
-      return text;
+      return field.numeric ? Number(text) : text;
     case "body":
       return text.replace(/\r\n?/g, "\n");
     default: {

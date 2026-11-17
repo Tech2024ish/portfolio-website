@@ -8,7 +8,7 @@ import type { Profile } from "@/content/profile";
 
 const socialIcons = { GitHub: GitHubIcon, LinkedIn: LinkedInIcon } as const;
 
-export function Hero({ profile }: { profile: Profile }) {
+export function Hero({ profile, showCv = true }: { profile: Profile; showCv?: boolean }) {
   return (
     <section aria-labelledby="hero-heading" className="relative overflow-hidden">
       {/* Decorative glow behind the hero, from the accent token. */}
@@ -43,10 +43,12 @@ export function Hero({ profile }: { profile: Profile }) {
               View projects
               <ArrowRightIcon className="size-4" />
             </a>
-            <a href={profile.cvHref} download className={buttonClasses("secondary")}>
-              <DownloadIcon className="size-4" />
-              Download CV
-            </a>
+            {showCv ? (
+              <a href={profile.cvHref} download className={buttonClasses("secondary")}>
+                <DownloadIcon className="size-4" />
+                Download CV
+              </a>
+            ) : null}
             <ul className="flex items-center gap-1 sm:ml-2" aria-label="Profiles">
               {profile.social.map((link) => {
                 const Icon = socialIcons[link.label];

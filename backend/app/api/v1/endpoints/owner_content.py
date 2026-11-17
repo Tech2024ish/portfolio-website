@@ -18,7 +18,7 @@ This module deliberately has no ``from __future__ import annotations``: route si
 the collection's schema classes, which FastAPI must see as real classes, not strings.
 """
 
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import APIRouter, BackgroundTasks, Query, Request, Response, status
 
@@ -179,9 +179,10 @@ def activity(
     session: DbSession,
     response: Response,
     limit: int = Query(default=50, ge=1, le=200),
+    kind: Literal["content", "media", "messages", "settings", "auth"] | None = Query(default=None),
 ) -> Any:
     response.headers.update(_NO_STORE)
-    return audit.recent(session, limit)
+    return audit.recent(session, limit, kind)
 
 
 @router.get("/dashboard", response_model=OwnerDashboard, tags=["owner content"])

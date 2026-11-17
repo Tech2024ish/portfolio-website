@@ -155,6 +155,9 @@ Details: `docs/architecture.md`, "Contact inbox and email".
 | `/api/v1/owner/media` | Media library (owner only): list, upload, details and usages, edit alt text and folder, `replace`, delete (refused while in use). |
 | `/api/v1/media/files/*` | Library files when `STORAGE_BACKEND=local` (development). Immutable caching. |
 | `/api/v1/owner/messages` | Inbox (owner only): list with views, search and pages; details with email history; status; delete; `reply`. `/api/v1/owner/deliveries/{id}/retry` sends a failed email again. |
+| `/api/v1/owner/settings` | Website settings (owner only): read and save, versioned. |
+| `/api/v1/owner/analytics` | Page-view summary for a date range (owner only). |
+| `/api/v1/analytics/pageview` | The public site reports a page view; always 204. No personal data is stored. |
 | `/api/v1/public/*` | Published content for the site: `portfolio`, `projects/{slug}`, `articles`, `articles/{slug}`. No authentication; drafts are never returned. |
 | `/api/v1/*` | Further areas are added as their phases land. |
 | `/api/v1/docs` | OpenAPI UI, disabled in production by default. |
