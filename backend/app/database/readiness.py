@@ -5,7 +5,8 @@
   readiness check cannot write even by mistake, and it never competes with request handlers
   for pooled connections.
 - ``check_database`` never raises: any failure, expected or not, becomes a sanitised
-  "not ready" result. Logs carry exception class names only, never messages, hosts or URLs.
+  "not ready" result. Logs carry the stage, exception class names, the SQLSTATE and a fixed
+  reason label (``describe_failure``), never driver messages, hosts or URLs.
 - ``ReadinessCache`` runs at most one check per process at a time and stores the result for a
   fixed period measured from when the check *finished*. Concurrent callers never wait for the
   check; they get the last result immediately (or "unknown" before the first one completes),
@@ -65,10 +66,73 @@ def read_only_connection(database: Database) -> Iterator[Connection]:
             connection.rollback()
 
 
+# Driver messages are never logged (they carry hosts, ports, user and database names). They are
+# matched against these fragments and only the fixed label is logged. Order matters: first match.
+_REASONS: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("timeout", ("timeout expired", "timed out")),
+    ("dns", ("failed to resolve host", "could not translate host", "name or service not known")),
+    ("network_unreachable", ("network is unreachable", "no route to host")),
+    ("tcp_rejected", ("connection refused",)),
+    ("credentials", ("password authentication failed", "authentication error", "sasl")),
+    ("pooler_tenant_or_user", ("tenant or user not found",)),
+    (
+        "too_many_connections",
+        ("max client connections", "too many connections", "remaining connection slots"),
+    ),
+    ("pooler_circuit_breaker", ("circuit breaker",)),
+    ("network_restricted", ("not allowed", "no pg_hba.conf entry", "address not permitted")),
+    ("tls", ("ssl", "tls", "certificate")),
+    (
+        "server_closed",
+        ("server closed the connection", "connection reset", "unexpected eof", "eof detected"),
+    ),
+)
+_SQLSTATE_REASONS = {
+    "28P01": "credentials",
+    "28000": "credentials",
+    "53300": "too_many_connections",
+    "57014": "statement_timeout",
+    "57P03": "server_starting",
+}
+
+
+def describe_failure(exc: BaseException, stage: str, elapsed: float) -> str:
+    """A log-safe summary of a failed check: fixed labels, class names and SQLSTATE codes only.
+
+    ``OperationalError`` alone (SQLAlchemy's wrapper) does not say whether the server was
+    unreachable, slow, or refused the credentials; this does, without the driver's message.
+    """
+    orig = exc.orig if isinstance(exc, DBAPIError) and exc.orig is not None else exc
+    sqlstate = getattr(orig, "sqlstate", None)
+    message = str(orig).lower()
+    reason = "other"
+    if isinstance(orig, psycopg.errors.ConnectionTimeout):
+        reason = "timeout"
+    elif isinstance(orig, psycopg.errors.QueryCanceled):
+        reason = "statement_timeout"
+    elif sqlstate in _SQLSTATE_REASONS:
+        reason = _SQLSTATE_REASONS[sqlstate]
+    else:
+        for label, fragments in _REASONS:
+            if any(fragment in message for fragment in fragments):
+                reason = label
+                break
+    # psycopg tries every address a host resolves to and lists each failure on its own line.
+    attempts = max(1, message.count("\n- ")) if "multiple connection attempts" in message else 1
+    code = sqlstate if isinstance(sqlstate, str) and sqlstate.isalnum() else "none"
+    return (
+        f"stage={stage} driver={type(orig).__name__} sqlstate={code} reason={reason} "
+        f"attempts={attempts} elapsed_ms={round(elapsed * 1000)}"
+    )
+
+
 def check_database(database: Database) -> Readiness:
-    """Never raises; never returns or logs exception details."""
+    """Never raises; never returns or logs exception details (see ``describe_failure``)."""
+    stage = "connect"  # opening the connection and starting the read-only transaction
+    began = time.monotonic()
     try:
         with read_only_connection(database) as connection:
+            stage = "query"
             connection.execute(text("SELECT 1"))
             try:
                 found = list(
@@ -79,7 +143,14 @@ def check_database(database: Database) -> Readiness:
                     return Readiness(database="ok", migrations="pending")  # never migrated
                 raise
     except Exception as exc:  # any failure is "not ready"; details stay out of logs and bodies
-        logger.warning("readiness: database check failed (%s)", type(exc).__name__)
+        # The target (kind of server, driver, option names; never host, port, user or password)
+        # shows which server the deployed process really uses.
+        logger.warning(
+            "readiness: database check failed (%s) %s target: %s",
+            type(exc).__name__,
+            describe_failure(exc, stage, time.monotonic() - began),
+            database.target_summary(),
+        )
         return UNAVAILABLE
 
     if found != [EXPECTED_REVISION]:
