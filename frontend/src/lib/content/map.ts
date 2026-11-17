@@ -17,6 +17,7 @@ import {
 
 import { parseArticleBody } from "./body";
 import { formatPeriod } from "./period";
+import { DEFAULT_SETTINGS, settingsFromApi } from "./settings";
 import type {
   ApiArticle,
   ApiArticleSummary,
@@ -55,6 +56,7 @@ export function bundledContent(): PublicContent {
     education: education.filter(isPublished),
     certifications: certifications.filter(isPublished),
     articles: newestFirst(articles.filter(isPublished).map(summaryOf)),
+    settings: DEFAULT_SETTINGS,
   };
 }
 
@@ -167,6 +169,7 @@ export function contentFromApi(data: ApiPortfolio): PublicContent {
       issuer: cert.issuer,
       visibility: "published",
     })),
+    settings: settingsFromApi(data.settings),
     articles: newestFirst(
       data.articles.map(articleSummaryFromApi).filter((item): item is ArticleSummary => item !== null),
     ),

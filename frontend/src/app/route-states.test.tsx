@@ -12,6 +12,7 @@ import ProjectsLoading from "./projects/loading";
 
 vi.mock("server-only", () => ({}));
 vi.mock("next/navigation", () => ({
+  usePathname: () => null,
   notFound: vi.fn(() => {
     throw new Error("NEXT_HTTP_ERROR_FALLBACK;404");
   }),

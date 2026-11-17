@@ -11,6 +11,8 @@ import type {
   SkillGroup,
 } from "@/content/profile";
 
+import type { ApiSettings, SiteSettings } from "./settings";
+
 /** A note without its body, as listings show it. */
 export type ArticleSummary = Omit<Article, "body">;
 
@@ -29,6 +31,7 @@ export type PublicContent = {
   certifications: Certification[];
   /** Newest first. */
   articles: ArticleSummary[];
+  settings: SiteSettings;
 };
 
 /* ---- the FastAPI public API (/api/v1/public), as served ---- */
@@ -97,6 +100,7 @@ export type ApiArticle = ApiArticleSummary & { body: string };
 
 export type ApiPortfolio = {
   profile: ApiProfile;
+  settings?: ApiSettings;
   portrait?: ResponsiveImage | null;
   skill_groups: { name: string; skills: string[] }[];
   experience: {

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/site/json-ld";
 import { ProjectDetail } from "@/components/site/project-detail";
 import { SiteShell } from "@/components/site/site-shell";
+import { hiddenSections } from "@/lib/content/settings";
 import { getPublicContent, getPublicProject } from "@/lib/content/portfolio";
 import { projectGraph } from "@/lib/structured-data";
 
@@ -42,7 +43,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (!project) notFound();
   const related = content.projects.filter((other) => other.slug !== project.slug);
   return (
-    <SiteShell page="projects" profile={content.profile} articleCount={content.articles.length}>
+    <SiteShell
+      page="projects"
+      profile={content.profile}
+      articleCount={content.articles.length}
+      hidden={hiddenSections(content.settings)}
+    >
       <ProjectDetail project={project} details={project.details} related={related} />
       <JsonLd data={projectGraph(project, content.profile)} />
     </SiteShell>
