@@ -13,13 +13,16 @@ export function SiteFooter({
   page,
   profile,
   articleCount,
+  hidden = [],
 }: {
   page: SitePage;
   profile: Profile;
   articleCount: number;
+  /** Home-page sections switched off in the settings. */
+  hidden?: readonly string[];
 }) {
   const year = new Date().getFullYear();
-  const links = siteNavigation(page, articleCount);
+  const links = siteNavigation(page, articleCount, hidden);
   return (
     <footer className="border-t border-border bg-surface">
       <div className={`${containerClasses} grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4`}>

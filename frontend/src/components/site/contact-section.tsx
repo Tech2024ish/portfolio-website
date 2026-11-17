@@ -14,7 +14,16 @@ const rowClasses =
  * The contact form (stored by FastAPI) with direct channels kept alongside as alternatives.
  * Only the form is a client component; the rest of the section renders on the server.
  */
-export function ContactSection({ profile }: { profile: Profile }) {
+export function ContactSection({
+  profile,
+  showForm = true,
+  showCv = true,
+}: {
+  profile: Profile;
+  /** Off: the email and links stay; the form is replaced by a note. */
+  showForm?: boolean;
+  showCv?: boolean;
+}) {
   const social = Object.fromEntries(profile.social.map((link) => [link.label, link.href]));
   return (
     <Section id="contact" eyebrow="Contact" title="Let's build something reliable">
@@ -32,10 +41,12 @@ export function ContactSection({ profile }: { profile: Profile }) {
                 <MailIcon className="size-4" />
                 Email me
               </a>
-              <a href={profile.cvHref} download className={buttonClasses("secondary")}>
-                <DownloadIcon className="size-4" />
-                Download CV
-              </a>
+              {showCv ? (
+                <a href={profile.cvHref} download className={buttonClasses("secondary")}>
+                  <DownloadIcon className="size-4" />
+                  Download CV
+                </a>
+              ) : null}
             </div>
           </div>
 
@@ -74,7 +85,17 @@ export function ContactSection({ profile }: { profile: Profile }) {
           </ul>
         </div>
 
-        <ContactForm email={profile.email} />
+        {showForm ? (
+          <ContactForm email={profile.email} />
+        ) : (
+          <p className="text-muted">
+            The contact form is closed for now. Please write to{" "}
+            <a href={`mailto:${profile.email}`} className="text-fg underline underline-offset-4">
+              {profile.email}
+            </a>
+            .
+          </p>
+        )}
       </div>
     </Section>
   );

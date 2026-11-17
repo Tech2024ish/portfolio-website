@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 
-import { siteDescription, siteName, siteTitle, siteUrl } from "@/lib/site";
+import { getPublicContent } from "@/lib/content/portfolio";
+import { DEFAULT_SETTINGS } from "@/lib/content/settings";
+import { siteName, siteUrl } from "@/lib/site";
 
 import "./globals.css";
 
@@ -24,24 +26,33 @@ const jetbrains = JetBrains_Mono({
   preload: false,
 });
 
-export const metadata: Metadata = {
-  metadataBase: siteUrl,
-  title: { default: siteTitle, template: `%s · ${siteName}` },
-  description: siteDescription,
-  applicationName: siteName,
-  authors: [{ name: siteName }],
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    siteName,
-    title: siteTitle,
-    description: siteDescription,
-    url: "/",
-    locale: "en_US",
-    // The sharing image is generated (app/opengraph-image.tsx and per project and note).
-  },
-  twitter: { card: "summary_large_image", title: siteTitle, description: siteDescription },
-};
+/** Default title and description come from the owner's settings (defaults if unavailable). */
+export async function generateMetadata(): Promise<Metadata> {
+  let { seoTitle: title, seoDescription: description } = DEFAULT_SETTINGS;
+  try {
+    ({ seoTitle: title, seoDescription: description } = (await getPublicContent()).settings);
+  } catch {
+    // The content API is unreachable: the defaults keep every page (and the Studio) working.
+  }
+  return {
+    metadataBase: siteUrl,
+    title: { default: title, template: `%s · ${siteName}` },
+    description,
+    applicationName: siteName,
+    authors: [{ name: siteName }],
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      siteName,
+      title,
+      description,
+      url: "/",
+      locale: "en_US",
+      // The sharing image is generated (app/opengraph-image.tsx and per project and note).
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#080d17",

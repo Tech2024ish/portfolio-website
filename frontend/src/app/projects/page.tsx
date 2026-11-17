@@ -4,6 +4,7 @@ import { JsonLd } from "@/components/site/json-ld";
 import { PageHeader } from "@/components/site/page-header";
 import { ProjectsIndex } from "@/components/site/projects-index";
 import { SiteShell } from "@/components/site/site-shell";
+import { hiddenSections } from "@/lib/content/settings";
 import { getPublicContent } from "@/lib/content/portfolio";
 import { projectsGraph } from "@/lib/structured-data";
 
@@ -21,7 +22,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ProjectsPage() {
   const content = await getPublicContent();
   return (
-    <SiteShell page="projects" profile={content.profile} articleCount={content.articles.length}>
+    <SiteShell
+      page="projects"
+      profile={content.profile}
+      articleCount={content.articles.length}
+      hidden={hiddenSections(content.settings)}
+    >
       <PageHeader
         eyebrow="Projects"
         title="Projects"

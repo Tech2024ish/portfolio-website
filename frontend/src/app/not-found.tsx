@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/site/page-header";
 import { SiteShell } from "@/components/site/site-shell";
 import { buttonClasses } from "@/components/ui/button";
 import { containerClasses } from "@/components/ui/section";
+import { hiddenSections } from "@/lib/content/settings";
 import { getPublicContent } from "@/lib/content/portfolio";
 
 export const metadata: Metadata = { title: "Page not found" };
@@ -16,7 +17,13 @@ export const metadata: Metadata = { title: "Page not found" };
 export default async function NotFound() {
   const content = await getPublicContent();
   return (
-    <SiteShell page="other" profile={content.profile} articleCount={content.articles.length}>
+    <SiteShell
+      page="other"
+      profile={content.profile}
+      articleCount={content.articles.length}
+      hidden={hiddenSections(content.settings)}
+      track={false}
+    >
       <PageHeader
         eyebrow="404"
         title="Page not found"

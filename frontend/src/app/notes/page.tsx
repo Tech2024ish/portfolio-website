@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { NotesIndex } from "@/components/site/notes";
 import { PageHeader } from "@/components/site/page-header";
 import { SiteShell } from "@/components/site/site-shell";
+import { hiddenSections } from "@/lib/content/settings";
 import { getPublicContent } from "@/lib/content/portfolio";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,7 +22,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function NotesPage() {
   const content = await getPublicContent();
   return (
-    <SiteShell page="notes" profile={content.profile} articleCount={content.articles.length}>
+    <SiteShell
+      page="notes"
+      profile={content.profile}
+      articleCount={content.articles.length}
+      hidden={hiddenSections(content.settings)}
+    >
       <PageHeader
         eyebrow="Notes"
         title="Engineering Notes"

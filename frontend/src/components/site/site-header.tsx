@@ -36,12 +36,15 @@ export function SiteHeader({
   page,
   profile,
   articleCount,
+  hidden = [],
 }: {
   page: SitePage;
   profile: Profile;
   articleCount: number;
+  /** Home-page sections switched off in the settings. */
+  hidden?: readonly string[];
 }) {
-  const links = siteNavigation(page, articleCount);
+  const links = siteNavigation(page, articleCount, hidden);
   return (
     <header className="sticky top-0 z-(--z-header) border-b border-border bg-canvas/85 backdrop-blur-md">
       <div className={`${containerClasses} relative flex h-16 items-center justify-between gap-6`}>
