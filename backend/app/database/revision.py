@@ -5,4 +5,4 @@ migration scripts are not deployed. ``tests/test_ready.py`` asserts it equals th
 so adding a migration without updating it fails the test suite.
 """
 
-EXPECTED_REVISION = "v3_0005"
+EXPECTED_REVISION = "v3_0006"

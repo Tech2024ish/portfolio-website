@@ -36,11 +36,38 @@ def record(
     )
 
 
-def recent(session: Session, limit: int = 50) -> list[AuditEvent]:
+# Activity filters: what kinds of events each one shows.
+KINDS: dict[str, tuple[str, ...]] = {
+    "content": (
+        "content",
+        "profile",
+        "skill_category",
+        "skill",
+        "experience",
+        "education",
+        "certification",
+        "project",
+        "article",
+    ),
+    "media": ("media",),
+    "messages": ("message",),
+    "settings": ("settings",),
+    "auth": ("auth",),
+}
+
+
+def recent(session: Session, limit: int = 50, kind: str | None = None) -> list[AuditEvent]:
+    query = select(AuditEvent)
+    if kind is not None:
+        types = KINDS.get(kind, ())
+        if kind == "content":
+            # Anything that is not one of the other kinds is content.
+            others = [t for name, values in KINDS.items() if name != "content" for t in values]
+            query = query.where(AuditEvent.entity_type.not_in(others))
+        else:
+            query = query.where(AuditEvent.entity_type.in_(types))
     return list(
         session.scalars(
-            select(AuditEvent)
-            .order_by(AuditEvent.created_at.desc(), AuditEvent.id.desc())
-            .limit(limit)
+            query.order_by(AuditEvent.created_at.desc(), AuditEvent.id.desc()).limit(limit)
         )
     )
