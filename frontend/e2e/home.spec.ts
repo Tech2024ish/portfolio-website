@@ -98,6 +98,8 @@ test.describe("home page", () => {
   test("keyboard users can skip straight to the content", async ({ page, isMobile }) => {
     test.skip(isMobile, "Tab-key navigation is a desktop interaction");
     await page.goto("/");
+    // A Tab pressed while the page is still hydrating can be lost: wait until it has settled.
+    await page.waitForLoadState("networkidle");
     await page.keyboard.press("Tab");
     const skip = page.getByRole("link", { name: "Skip to content" });
     await expect(skip).toBeFocused();
