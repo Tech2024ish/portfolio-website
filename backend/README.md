@@ -143,6 +143,19 @@ uv run python -m app.cli.mail process
 
 Details: `docs/architecture.md`, "Contact inbox and email".
 
+## Production
+
+The deployment procedure, environment variables and rollback are in `docs/deployment.md`. Tools:
+
+```bash
+uv run python -m app.cli.production check                  # read-only preflight
+uv run python -m app.cli.production legacy-report          # read-only: the V1/V2 data
+uv run python -m app.cli.production import-legacy-contacts # dry run; add --apply to import
+```
+
+Migrations are applied by hand (`uv run alembic upgrade head`), never at startup. The first
+revision, `v3_0000`, moves the V1/V2 tables into a `legacy` schema without deleting anything.
+
 ## Endpoints
 
 | Path | Purpose |
@@ -158,6 +171,7 @@ Details: `docs/architecture.md`, "Contact inbox and email".
 | `/api/v1/owner/settings` | Website settings (owner only): read and save, versioned. |
 | `/api/v1/owner/analytics` | Page-view summary for a date range (owner only). |
 | `/api/v1/analytics/pageview` | The public site reports a page view; always 204. No personal data is stored. |
+| `/api/v1/owner/diagnostics/client-address` | How the request's client address is resolved, for setting `TRUSTED_PROXY_COUNT` (owner only). |
 | `/api/v1/public/*` | Published content for the site: `portfolio`, `projects/{slug}`, `articles`, `articles/{slug}`. No authentication; drafts are never returned. |
 | `/api/v1/*` | Further areas are added as their phases land. |
 | `/api/v1/docs` | OpenAPI UI, disabled in production by default. |

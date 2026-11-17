@@ -9,6 +9,7 @@ from typing import Annotated
 from fastapi import APIRouter, BackgroundTasks, Query, Request, Response
 
 from app.api.owner_access import Owner, settings_of
+from app.core.client_ip import client_address
 from app.database.session import DbSession
 from app.integrations.revalidate import notify_content_changed
 from app.schemas.site import AnalyticsSummary, SettingsOut, SettingsUpdate
@@ -44,3 +45,21 @@ def get_analytics(
 ) -> AnalyticsSummary:
     response.headers.update(_NO_STORE)
     return analytics.summary(session, start, end)
+
+
+@router.get("/diagnostics/client-address", summary="How this request's address is resolved")
+def client_address_diagnostics(request: Request, response: Response) -> dict[str, object]:
+    """For setting TRUSTED_PROXY_COUNT in production: the X-Forwarded-For chain this request
+    arrived with, and which address each possible setting would choose. Compare with your own
+    public IP address: the setting that picks it is the right one. Owner only, never cached."""
+    response.headers.update(_NO_STORE)
+    settings = settings_of(request)
+    joined = ",".join(request.headers.getlist("x-forwarded-for"))
+    chain = [part.strip() for part in joined.split(",") if part.strip()]
+    return {
+        "peer": request.client.host if request.client else None,
+        "x_forwarded_for": chain,
+        "trusted_proxy_count": settings.trusted_proxy_count,
+        "resolved": client_address(request, settings.trusted_proxy_count),
+        "candidates": {str(n): client_address(request, n) for n in range(len(chain) + 1)},
+    }

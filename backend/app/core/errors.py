@@ -17,6 +17,8 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import DBAPIError, OperationalError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from app.core.request_id import current_request_id
+
 logger = logging.getLogger("app.errors")
 
 
@@ -124,7 +126,11 @@ def install_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(DBAPIError)
     async def _database_error(_: Request, exc: DBAPIError) -> JSONResponse:
         # Connection refused, timeouts, pooler outages. Log the class, never the URL or SQL.
-        logger.error("database error: %s", type(exc.orig).__name__ if exc.orig else type(exc))
+        logger.error(
+            "database error: %s (request %s)",
+            type(exc.orig).__name__ if exc.orig else type(exc),
+            current_request_id(),
+        )
         return error_response(
             503,
             "service_unavailable",
@@ -133,5 +139,5 @@ def install_error_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(Exception)
     async def _unexpected(_: Request, exc: Exception) -> JSONResponse:
-        logger.exception("unhandled error", exc_info=exc)
+        logger.exception("unhandled error (request %s)", current_request_id(), exc_info=exc)
         return error_response(500, "internal_error", "Something went wrong on our side.")
