@@ -1,9 +1,10 @@
 """Contact messages and the rate-limit ledger.
 
-First revision of the V3 history. The Supabase inventory (2026-11-09) found no
-``alembic_version`` table and none of the V2 tables, so there are no V2 revisions to carry over.
-The legacy ``public.contacts`` table is not touched; importing its rows is a separate,
-reviewed data migration.
+First V3 table revision (after ``v3_0000``, which moves any V1/V2 tables out of the way). The
+Supabase inventory (2026-11-09) found no ``alembic_version`` table and none of the V2 tables, so
+there are no V2 revisions to carry over. The legacy contacts table (moved to
+``legacy.contacts`` by ``v3_0000``) is not changed; importing its rows is a separate, reviewed
+data migration (``python -m app.cli.production import-legacy-contacts``).
 
 Supabase grants ``anon`` and ``authenticated`` full privileges on new ``public`` tables by
 default. These tables are written only by the API (as the table owner), so the migration
@@ -16,7 +17,7 @@ revision through the REST API. The migration role owns the table, so row-level s
 (not forced) does not restrict Alembic itself.
 
 Revision ID: v3_0001
-Revises:
+Revises: v3_0000
 Create Date: 2026-11-10
 """
 
@@ -32,7 +33,7 @@ from alembic import op
 # constraints were created as "ck_contact_messages_ck_contact_messages_...".
 
 revision: str = "v3_0001"
-down_revision: str | Sequence[str] | None = None
+down_revision: str | Sequence[str] | None = "v3_0000"
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
 
