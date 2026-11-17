@@ -97,6 +97,11 @@ export function mediaActions(csrfToken: string) {
   };
 }
 
+/** Creates (version 0) or updates the website settings. */
+export function saveSettings(csrfToken: string, body: Record<string, unknown>) {
+  return api.put<OwnerItem>("/api/v1/owner/settings", body, { headers: { [CSRF_HEADER]: csrfToken } });
+}
+
 /** Creates (version 0) or updates the single profile. */
 export function saveProfile(csrfToken: string, body: Record<string, unknown>) {
   return api.put<OwnerItem>("/api/v1/owner/profile", body, { headers: { [CSRF_HEADER]: csrfToken } });
