@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, BackgroundTasks, Request, Response, status
 
-from app.core.client_ip import client_address
+from app.core.client_ip import resolve_client_address
 from app.core.config import Settings
 from app.database.session import DbSession
 from app.schemas.contact import ContactReceipt, ContactSubmission
@@ -42,7 +42,7 @@ def create_contact_message(
 ) -> ContactReceipt:
     settings: Settings = request.app.state.settings
     result = submit_contact_message(
-        session, submission, client_address(request, settings.trusted_proxy_count), settings
+        session, submission, resolve_client_address(request, settings), settings
     )
     # Commit here, not in the dependency's teardown: teardown can run after the response has
     # been sent, and the client must only ever see success for a durably stored message.

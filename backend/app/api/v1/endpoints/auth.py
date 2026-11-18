@@ -15,7 +15,7 @@ from app.api.owner_access import (
     set_session_cookie,
     settings_of,
 )
-from app.core.client_ip import client_address
+from app.core.client_ip import resolve_client_address
 from app.core.errors import AppError
 from app.core.security import csrf_token_for
 from app.database.session import DbSession
@@ -74,7 +74,7 @@ def login(
             session,
             email=str(body.email),
             password=body.password,
-            client_address=client_address(request, settings.trusted_proxy_count),
+            client_address=resolve_client_address(request, settings),
             user_agent=request.headers.get("user-agent"),
             settings=settings,
         )

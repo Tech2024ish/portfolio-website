@@ -76,6 +76,9 @@ class Settings(BaseSettings):
     # the TCP peer address. Never set it higher than the real proxy count: the header is
     # otherwise client-controlled and rate limits could be bypassed by spoofing it.
     trusted_proxy_count: int = Field(default=0, ge=0, le=5)
+    # Sent by the site's proxy. When set, X-Forwarded-For is used only on requests carrying it, so
+    # a caller reaching the API's own URL directly cannot choose its address.
+    trusted_proxy_secret: SecretStr | None = None
 
     # ---- public contact form
     contact_rate_limit: int = Field(default=5, ge=1, le=100)
@@ -149,6 +152,7 @@ class Settings(BaseSettings):
         "resend_api_key",
         "smtp_password",
         "revalidate_signing_secret",
+        "trusted_proxy_secret",
         mode="before",
     )
     @classmethod
@@ -194,6 +198,9 @@ class Settings(BaseSettings):
             secret = self.revalidate_signing_secret
             if secret is None or len(secret.get_secret_value()) < 32:
                 problems.append("REVALIDATE_SIGNING_SECRET of at least 32 characters is required")
+        proxy_secret = self.trusted_proxy_secret
+        if proxy_secret is not None and len(proxy_secret.get_secret_value()) < 32:
+            problems.append("TRUSTED_PROXY_SECRET must have at least 32 characters")
         if self.mail_provider is MailProvider.SMTP:
             problems.append("MAIL_PROVIDER=smtp is for controlled testing only; use resend")
         if self.mail_provider is MailProvider.RESEND and not (

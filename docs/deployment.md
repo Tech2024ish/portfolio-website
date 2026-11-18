@@ -78,6 +78,7 @@ no pre-deploy command (migrations are manual, step 5). Environment:
 | `PUBLIC_SITE_URL` | `https://goslish.vercel.app` (or the custom domain) |
 | `CORS_ORIGINS` | `https://goslish.vercel.app` |
 | `TRUSTED_PROXY_COUNT` | leave `0` for now; set in step 8 |
+| `TRUSTED_PROXY_SECRET` | added in step 8, the **same** value as on Vercel |
 | `STORAGE_BACKEND` | `supabase` |
 | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
 | `SUPABASE_SERVICE_KEY` | the **service_role** key (secret; Render only, never Vercel) |
@@ -139,6 +140,7 @@ Vercel → the project → Settings → Environment Variables (Production), then
 | `API_ORIGIN` | `https://<service>.onrender.com` (no trailing slash) |
 | `PUBLIC_CONTENT_SOURCE` | `api` |
 | `REVALIDATE_SIGNING_SECRET` | the same value as on Render |
+| `TRUSTED_PROXY_SECRET` | 64 random hex characters, server side only; never prefix it with `NEXT_PUBLIC_` (step 8) |
 | `NEXT_PUBLIC_SITE_URL` | only for a custom domain; otherwise Vercel's production domain is used |
 
 The build reads the content from the API, so the API must be up (step 5) before redeploying.
@@ -156,6 +158,20 @@ page again: `resolved` must now be your address.
 
 Too low and every visitor shares one address (one sign-in rate limit for everyone, merged
 analytics visitors); too high and visitors could choose their own address.
+
+The Render URL is public too, and a request sent straight to it passes through fewer proxies, so
+it could place a chosen address at that position. `TRUSTED_PROXY_SECRET` closes this. The order
+matters, so that real visitors are never cut off from their address:
+
+1. Generate a value (`python -c "import secrets; print(secrets.token_hex(32))"`), add it on
+   **Vercel**, and redeploy the site.
+2. Open the diagnostics page: `proxy_secret` is `not_configured`. Check the request carries the
+   header before enforcing it: `proxy_secret_received` is `true`.
+3. Add the same value on **Render** and redeploy.
+4. Open the page again: `proxy_secret` must be `verified` and `resolved` your address.
+
+Requests without the correct value are then identified by their direct connection, whatever their
+`X-Forwarded-For` says.
 
 ## 9. Retries for email
 
