@@ -9,7 +9,12 @@ from typing import Annotated
 from fastapi import APIRouter, BackgroundTasks, Query, Request, Response
 
 from app.api.owner_access import Owner, settings_of
-from app.core.client_ip import client_address
+from app.core.client_ip import (
+    PROXY_SECRET_HEADER,
+    client_address,
+    proxy_secret_status,
+    resolve_client_address,
+)
 from app.database.session import DbSession
 from app.integrations.revalidate import notify_content_changed
 from app.schemas.site import AnalyticsSummary, SettingsOut, SettingsUpdate
@@ -60,6 +65,8 @@ def client_address_diagnostics(request: Request, response: Response) -> dict[str
         "peer": request.client.host if request.client else None,
         "x_forwarded_for": chain,
         "trusted_proxy_count": settings.trusted_proxy_count,
-        "resolved": client_address(request, settings.trusted_proxy_count),
+        "proxy_secret": proxy_secret_status(request, settings),
+        "proxy_secret_received": bool(request.headers.get(PROXY_SECRET_HEADER)),
+        "resolved": resolve_client_address(request, settings),
         "candidates": {str(n): client_address(request, n) for n in range(len(chain) + 1)},
     }

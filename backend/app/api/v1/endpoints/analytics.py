@@ -13,7 +13,7 @@ from urllib.parse import urlsplit
 from fastapi import APIRouter, Request, Response, status
 
 from app.api.owner_access import settings_of
-from app.core.client_ip import client_address
+from app.core.client_ip import resolve_client_address
 from app.database.session import DbSession
 from app.repositories import rate_limit
 from app.schemas.site import PageViewIn
@@ -29,7 +29,7 @@ RATE_LIMIT = 120  # views per address per hour: generous for a person, a ceiling
 @router.post("/pageview", status_code=status.HTTP_204_NO_CONTENT, include_in_schema=False)
 def page_view(body: PageViewIn, request: Request, session: DbSession) -> Response:
     settings = settings_of(request)
-    address = client_address(request, settings.trusted_proxy_count)
+    address = resolve_client_address(request, settings)
     key = rate_limit.client_key(RATE_LIMIT_BUCKET, address)
     if rate_limit.acquire(session, RATE_LIMIT_BUCKET, key, RATE_LIMIT, timedelta(hours=1)):
         headers = request.headers

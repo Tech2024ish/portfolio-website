@@ -50,6 +50,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         logging.getLogger("app").warning(
             "TRUSTED_PROXY_COUNT is 0 in production: client addresses are not resolved"
         )
+    if (
+        settings.is_production
+        and settings.trusted_proxy_count > 0
+        and settings.trusted_proxy_secret is None
+    ):
+        logging.getLogger("app").warning(
+            "TRUSTED_PROXY_SECRET is not set: direct requests can choose their client address"
+        )
     application.state.database = Database(settings)
     application.state.readiness_cache = ReadinessCache()
     install_error_handlers(application)

@@ -233,7 +233,9 @@ The runbook is `docs/deployment.md`. In short:
   local database and prints every table's row count).
 - **Client addresses.** `GET /api/v1/owner/diagnostics/client-address` (owner only) shows the
   `X-Forwarded-For` chain and the address each `TRUSTED_PROXY_COUNT` would choose, so the value is
-  set from evidence; production logs a warning while it is 0.
+  set from evidence; production logs a warning while it is 0. With `TRUSTED_PROXY_SECRET` set, the
+  header is used only on requests marked by `frontend/src/proxy.ts`, which runs on just the four
+  routes that use the address, so direct calls to the API cannot choose theirs.
 - **Request ids.** Every response carries `X-Request-ID` (a well-formed incoming id is kept,
   anything else replaced), and error logs include it.
 

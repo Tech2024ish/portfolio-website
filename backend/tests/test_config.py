@@ -104,6 +104,7 @@ def test_production_docs_follow_an_explicit_override(
     ("override", "message"),
     [
         ({"database_url": None}, "DATABASE_URL is required"),
+        ({"trusted_proxy_secret": "too-short"}, "TRUSTED_PROXY_SECRET"),
         ({"database_url": "sqlite:///x.db"}, "must be a PostgreSQL URL"),
         ({"cookie_secure": False}, "COOKIE_SECURE must be true"),
         ({"cors_origins": ""}, "CORS_ORIGINS must list"),
