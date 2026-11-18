@@ -23,7 +23,7 @@ support what Alembic needs, and the direct connection is IPv6-only on many netwo
 | Item | Contents | V3 plan |
 |---|---|---|
 | `public.contacts` | 13 messages from the earlier site | Moved to `legacy.contacts` by migration `v3_0000`; imported into the inbox with their original dates (step 6) |
-| `public.projects` | 3 demo projects ("REST API Service", "Task Management API", "Auth Microservice") | Moved to `legacy.projects`; **not imported** (demo data; V3 has the verified projects) |
+| `public.projects` | 3 projects from the earlier site (Task Management API, Book Notes App, School Management System) | Moved to `legacy.projects` and kept; **not imported** (V3 has the verified projects) |
 | `public.visits` | 362 visits (time only) | Moved to `legacy.visits` and kept as is; `legacy-report` summarises them by month. V3 analytics start fresh, because these rows have no page or visitor |
 | `public.customer` | empty (Supabase starter table) | Moved to `legacy.customer`, kept |
 | Storage bucket `gallery` | 3 files, 6 MB, public | Kept untouched; V3 uses a new bucket `media` |
@@ -100,7 +100,7 @@ mail, a short signing secret) and names the variable at fault in the log, never 
 ```bash
 cd backend
 uv run python -m app.cli.production check        # still the "before" state
-uv run alembic upgrade head                      # v3_0000 ... v3_0006, one transaction each
+uv run alembic upgrade head                      # v3_0000 ... v3_0007, one transaction each
 uv run python -m app.cli.production check        # must end with "0 problem(s)"
 uv run python -m app.cli.production legacy-report
 ```
@@ -117,7 +117,7 @@ visits; `https://<service>.onrender.com/ready` answers 200.
 
 ```bash
 uv run python -m app.cli.content import                      # the verified portfolio content
-uv run python -m app.cli.production import-legacy-contacts   # dry run: expect 13 to import
+uv run python -m app.cli.production import-legacy-contacts   # dry run: review what would import
 uv run python -m app.cli.production import-legacy-contacts --apply
 uv run python -m app.cli.owner create claudeish88@gmail.com --name "Jean Claude"
 ```
@@ -126,7 +126,9 @@ The contact import keeps each message's original date, marks them unread, sends 
 `legacy.contacts` unchanged, and is safe to repeat (already imported rows are skipped). Rows that
 fail V3's validation are listed and left out.
 
-**Check:** the Studio inbox (after step 7) shows the 13 old messages with their dates.
+**Check:** the Studio inbox (after step 7) shows the imported messages with their dates. In the
+first production run 12 of the 13 were imported; legacy id 8 failed validation and stays in
+`legacy.contacts`.
 
 ## 7. Configure Vercel (the site)
 
