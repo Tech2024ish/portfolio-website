@@ -46,7 +46,7 @@ class SiteSettings(Base):
         CheckConstraint("home_project_count between 1 and 6", name="home_project_count_range"),
     )
 
-    id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, default=1)
+    id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=False, default=1)
     seo_title: Mapped[str] = mapped_column(String(70), nullable=False)
     seo_description: Mapped[str] = mapped_column(String(200), nullable=False)
     show_skills: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default="true")

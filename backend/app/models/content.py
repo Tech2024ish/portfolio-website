@@ -80,7 +80,7 @@ class Profile(Base):
     __tablename__ = "profile"
     __table_args__ = (CheckConstraint("id = 1", name="single_row"),)
 
-    id: Mapped[int] = mapped_column(SmallInteger, primary_key=True)
+    id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=False)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     initials: Mapped[str] = mapped_column(String(4), nullable=False)
     title: Mapped[str] = mapped_column(String(120), nullable=False)

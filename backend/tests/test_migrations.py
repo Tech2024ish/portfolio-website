@@ -12,7 +12,10 @@ import pytest
 from alembic import command
 from alembic.config import Config
 
-from tests.conftest import libpq_url
+from app.cli import production
+from app.database.revision import EXPECTED_REVISION
+from app.database.session import Database
+from tests.conftest import SettingsFactory, libpq_url
 
 pytestmark = pytest.mark.postgres
 
@@ -131,10 +134,11 @@ DATA_TABLES = (
     "analytics_keys",
     *CONTENT_TABLES,
 )
-# Tables with an identity sequence (profile and site_settings have fixed ids;
-# analytics_keys is keyed by day).
+# One row with the fixed id 1: they must not have an id sequence.
+SINGLE_ROW_TABLES = ("profile", "site_settings")
+# Tables with an identity sequence (analytics_keys is keyed by day).
 SEQUENCED_TABLES = tuple(
-    table for table in DATA_TABLES if table not in ("profile", "site_settings", "analytics_keys")
+    table for table in DATA_TABLES if table not in (*SINGLE_ROW_TABLES, "analytics_keys")
 )
 PROTECTED_TABLES = (*DATA_TABLES, "alembic_version")
 
@@ -205,9 +209,12 @@ def test_migration_role_can_still_read_and_update_alembic_version(
 ) -> None:
     url, config = supabase_first_deploy
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0006",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [
+            (EXPECTED_REVISION,)
+        ]
         updated = conn.execute(
-            "update alembic_version set version_num = version_num where version_num = 'v3_0006'"
+            "update alembic_version set version_num = version_num where version_num = %s",
+            (EXPECTED_REVISION,),
         )
         assert updated.rowcount == 1
         conn.rollback()
@@ -217,7 +224,85 @@ def test_migration_role_can_still_read_and_update_alembic_version(
         assert conn.execute("select count(*) from alembic_version").fetchone() == (0,)
     command.upgrade(config, "head")
     with psycopg.connect(url) as conn:
-        assert conn.execute("select version_num from alembic_version").fetchall() == [("v3_0006",)]
+        assert conn.execute("select version_num from alembic_version").fetchall() == [
+            (EXPECTED_REVISION,)
+        ]
+
+
+SETTINGS_ROW = (
+    "insert into site_settings (id, seo_title, seo_description) "
+    "values (1, 'A title', 'A description')"
+)
+
+
+def test_single_row_tables_have_no_id_sequence(
+    supabase_first_deploy: tuple[str, Config],
+) -> None:
+    url, _ = supabase_first_deploy
+    with psycopg.connect(url) as conn:
+        for table in SINGLE_ROW_TABLES:
+            assert conn.execute("select pg_get_serial_sequence(%s, 'id')", (table,)).fetchone() == (
+                None,
+            ), table
+            assert conn.execute(
+                "select column_default from information_schema.columns "
+                "where table_schema = 'public' and table_name = %s and column_name = 'id'",
+                (table,),
+            ).fetchone() == (None,), table
+
+
+def test_the_production_preflight_passes_under_supabase_grants(
+    supabase_first_deploy: tuple[str, Config], make_settings: SettingsFactory
+) -> None:
+    """The check that found the defect in production, on a Supabase-like database with a
+    fixed-id row present."""
+    url, _ = supabase_first_deploy
+    with psycopg.connect(url, autocommit=True) as conn:
+        conn.execute(SETTINGS_ROW)
+    settings = make_settings(database_url=url)
+    database = Database(settings)
+    try:
+        with database.engine.connect() as conn:
+            report = production.check(conn, settings)
+            conn.rollback()
+    finally:
+        database.dispose()
+        with psycopg.connect(url, autocommit=True) as conn:
+            conn.execute("delete from site_settings")
+    assert report.failures == 0, "\n".join(report.lines)
+
+
+def test_removing_the_sequences_keeps_rows_and_can_be_reversed(
+    supabase_first_deploy: tuple[str, Config],
+) -> None:
+    """From the state production was in: sequences present and granted, a fixed-id row stored."""
+    url, config = supabase_first_deploy
+    command.downgrade(config, "v3_0006")
+    try:
+        with psycopg.connect(url, autocommit=True) as conn:
+            for table in SINGLE_ROW_TABLES:
+                sequence = f"{table}_id_seq"
+                assert conn.execute("select to_regclass(%s)", (sequence,)).fetchone() != (None,)
+                for role in CLIENT_ROLES:
+                    # The downgrade itself leaves the recreated sequence closed.
+                    assert conn.execute(
+                        "select has_sequence_privilege(%s, %s, 'USAGE')", (role, sequence)
+                    ).fetchone() == (False,)
+                    conn.execute(f"grant all on sequence {sequence} to {role}")
+            conn.execute(SETTINGS_ROW)
+        command.upgrade(config, "head")
+        with psycopg.connect(url) as conn:
+            assert conn.execute("select id, seo_title from site_settings").fetchall() == [
+                (1, "A title")
+            ]
+            for table in SINGLE_ROW_TABLES:
+                assert conn.execute("select to_regclass(%s)", (f"{table}_id_seq",)).fetchone() == (
+                    None,
+                )
+    finally:
+        command.upgrade(config, "head")
+        with psycopg.connect(url, autocommit=True) as conn:
+            conn.execute("delete from site_settings")
 
 
 # ------------------------------------------------------------------ the V1/V2 tables on Supabase
