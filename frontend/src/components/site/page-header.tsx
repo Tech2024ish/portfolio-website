@@ -19,7 +19,7 @@ export function PageHeader({
 }) {
   return (
     <header className="border-b border-border bg-surface">
-      <div className={`${containerClasses} flex flex-col gap-4 py-12 sm:py-16`}>
+      <div className={`${containerClasses} flex flex-col gap-4 py-10 sm:py-12`}>
         {eyebrow ? <div className="font-mono text-sm text-accent">{eyebrow}</div> : null}
         <h1
           id={titleId}

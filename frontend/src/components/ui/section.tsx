@@ -19,9 +19,9 @@ type SectionProps = {
 export function Section({ id, title, eyebrow, description, children }: SectionProps) {
   const headingId = `${id}-heading`;
   return (
-    <section id={id} aria-labelledby={headingId} className="scroll-mt-20 py-16 sm:py-20">
+    <section id={id} aria-labelledby={headingId} className="scroll-mt-20 py-10 sm:py-12">
       <div className={containerClasses}>
-        <div className="mb-8 max-w-2xl sm:mb-10">
+        <div className="mb-6 max-w-2xl sm:mb-8">
           {eyebrow ? <p className="mb-2 font-mono text-sm text-accent">{eyebrow}</p> : null}
           <h2 id={headingId} className="font-display text-2xl font-bold tracking-tight text-fg sm:text-title">
             {title}

@@ -23,7 +23,7 @@ export function noteHref(slug: string): string {
 /** The Engineering Notes listing, newest first, or an empty state. */
 export function NotesIndex({ articles }: { articles: readonly ArticleSummary[] }) {
   return (
-    <section aria-label="All notes" className={`${containerClasses} py-12 sm:py-16`}>
+    <section aria-label="All notes" className={`${containerClasses} py-10 sm:py-12`}>
       {articles.length === 0 ? (
         <EmptyState
           headingLevel={2}
@@ -124,7 +124,7 @@ export function ArticleView({ article }: { article: Article }) {
           <PublishedDate isoDate={article.publishedOn} />
         </p>
       </PageHeader>
-      <div className={`${containerClasses} py-12 sm:py-16`}>
+      <div className={`${containerClasses} py-10 sm:py-12`}>
         <div className="flex max-w-prose flex-col gap-5 text-body text-muted">
           {article.body.map((block, index) => (
             <Block key={index} block={block} />

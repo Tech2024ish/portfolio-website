@@ -17,7 +17,7 @@ export function Hero({ profile, showCv = true }: { profile: Profile; showCv?: bo
         className="pointer-events-none absolute -top-40 right-0 h-[28rem] w-[28rem] rounded-full bg-accent/10 blur-3xl"
       />
       <div
-        className={`${containerClasses} relative grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:gap-16 lg:py-24`}
+        className={`${containerClasses} relative grid items-center gap-12 pt-14 pb-10 sm:pt-20 sm:pb-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:gap-16 lg:pt-24 lg:pb-12`}
       >
         <div className="flex flex-col gap-6">
           <StatusBadge>{profile.availability}</StatusBadge>

@@ -193,7 +193,7 @@ export function ProjectDetail({
         ) : null}
       </PageHeader>
 
-      <div className={`${containerClasses} flex flex-col gap-12 py-12 sm:py-16`}>
+      <div className={`${containerClasses} flex flex-col gap-10 py-10 sm:py-12`}>
         <aside aria-label="Project facts" className="grid gap-4 sm:grid-cols-3">
           <div className={`${cardClasses} flex flex-col gap-2 p-5`}>
             <h2 className="text-sm font-semibold text-fg">Category</h2>
