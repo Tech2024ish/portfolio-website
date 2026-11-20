@@ -1,19 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
+import { themeScript } from "@/components/site/theme-toggle";
 import { getPublicContent } from "@/lib/content/portfolio";
 import { DEFAULT_SETTINGS } from "@/lib/content/settings";
 import { siteName, siteUrl } from "@/lib/site";
 
 import "./globals.css";
 
-// Self-hosted at build time by next/font: no runtime request to Google.
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  variable: "--font-plus-jakarta",
-  display: "swap",
-});
+// Self-hosted at build time by next/font: no runtime request to Google. Inter (variable, every
+// weight) sets both headings and text, as in the reference design.
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 // Monospace is used only for small labels, so it is not preloaded: on slow connections the
 // preloaded fonts compete with the page itself for bandwidth. It still loads, with a metric-matched
@@ -54,14 +50,24 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+// Light is the default theme; the browser colour follows it (the toggle may switch the page to dark).
 export const viewport: Viewport = {
-  themeColor: "#080d17",
-  colorScheme: "dark",
+  themeColor: "#ffffff",
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${inter.variable} ${jetbrains.variable} antialiased`}>
+    // suppressHydrationWarning: the theme script may set data-theme on <html> before React hydrates.
+    <html
+      lang="en"
+      className={`${inter.variable} ${jetbrains.variable} antialiased`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Applies a stored dark choice before the first paint, so the page never flashes. */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body id="top">{children}</body>
     </html>
   );

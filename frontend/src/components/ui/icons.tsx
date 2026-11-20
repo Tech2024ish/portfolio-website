@@ -186,3 +186,55 @@ export const LinkedInIcon = (p: IconProps) => (
     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
   </Filled>
 );
+
+export const SunIcon = (p: IconProps) => (
+  <Stroke {...p}>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+  </Stroke>
+);
+
+export const MoonIcon = (p: IconProps) => (
+  <Stroke {...p}>
+    <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z" />
+  </Stroke>
+);
+
+export const CodeIcon = (p: IconProps) => (
+  <Stroke {...p}>
+    <path d="m8 7-5 5 5 5m8-10 5 5-5 5" />
+  </Stroke>
+);
+
+export const LayoutIcon = (p: IconProps) => (
+  <Stroke {...p}>
+    <rect x="3" y="4" width="18" height="16" rx="2" />
+    <path d="M3 9h18M9 9v11" />
+  </Stroke>
+);
+
+export const WrenchIcon = (p: IconProps) => (
+  <Stroke {...p}>
+    <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8a2.8 2.8 0 0 1-4-4l8-8-1.3-1.3a4 4 0 0 0-5-5l2.6 2.6-.6 2.4-2.4.6-2.6-2.6a4 4 0 0 0 5 5" />
+  </Stroke>
+);
+
+export const BriefcaseIcon = (p: IconProps) => (
+  <Stroke {...p}>
+    <rect x="3" y="7" width="18" height="13" rx="2" />
+    <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18" />
+  </Stroke>
+);
+
+export const CalendarIcon = (p: IconProps) => (
+  <Stroke {...p}>
+    <rect x="3" y="5" width="18" height="16" rx="2" />
+    <path d="M8 3v4m8-4v4M3 10h18" />
+  </Stroke>
+);
+
+export const SendIcon = (p: IconProps) => (
+  <Stroke {...p}>
+    <path d="m22 2-7 20-4-9-9-4 20-7ZM22 2 11 13" />
+  </Stroke>
+);

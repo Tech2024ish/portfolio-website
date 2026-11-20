@@ -19,7 +19,10 @@
  *   on its soft background) are too dim for text, so --color-danger-fg and --color-success-fg are
  *   used for text instead.
  *
- * Dark mode only, by owner decision.
+ * Two themes (owner decision, November 2026, after a monochrome reference design): light by default,
+ * dark on request. The values in @theme below are the DARK theme; the light theme overrides the
+ * colour tokens in the base layer (`:root:not([data-theme="dark"])`). Both palettes are checked for
+ * contrast by tokens.test.ts. The theme toggle sets `data-theme` on <html> and remembers it.
  *
  * "static" emits every token as a CSS variable even if no utility uses it yet, so components
  * and inline styles can always rely on var(--token).
@@ -43,7 +46,7 @@
   --color-muted: #8b95a5;
   --color-subtle: #4c5660;
 
-  /* ---- accent */
+  /* ---- accent: the live site's teal in dark (unchanged); near-black in light (see below) */
   --color-accent: #08a9c7;
   --color-accent-hover: #68c7cd;
   --color-accent-ink: #04131a;
@@ -62,12 +65,14 @@
   /* Filled destructive buttons: fg text on --color-danger is only 3.7:1. */
   --color-danger-strong: #b83b37;
   --color-danger-strong-hover: #9e2e2a;
+  /* Text on filled destructive buttons. */
+  --color-danger-ink: #f2f3f7;
   --color-warning: #d3b265;
   --color-warning-soft: #3a301a;
 
   /* ---- type families. Loaded weights (src/app/layout.tsx): display 600/700/800,
      sans variable (all weights), mono 400/500. Use only loaded weights. */
-  --font-display: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
@@ -111,6 +116,40 @@
 }
 
 @layer base {
+  /* Light theme (the default): overrides the colour tokens declared in @theme. */
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --color-canvas: #ffffff;
+    --color-surface: #fafafb;
+    --color-card: #ffffff;
+    --color-raised: #f3f3f5;
+    --color-overlay: #ffffff;
+    --color-backdrop: rgb(3 2 19 / 0.4);
+    --color-border: #e6e6eb;
+    --color-border-strong: #d6d6de;
+    --color-fg: #030213;
+    --color-muted: #656575;
+    --color-subtle: #a1a1ad;
+    --color-accent: #030213;
+    --color-accent-hover: #26253a;
+    --color-accent-ink: #ffffff;
+    --color-accent-soft: #f0f0f3;
+    --color-focus: #030213;
+    --color-success: #16a34a;
+    --color-success-fg: #166534;
+    --color-success-soft: #dcfce7;
+    --color-danger: #dc2626;
+    --color-danger-fg: #b91c1c;
+    --color-danger-soft: #fee2e2;
+    --color-danger-strong: #b91c1c;
+    --color-danger-strong-hover: #991b1b;
+    --color-danger-ink: #ffffff;
+    --color-warning: #8a6200;
+    --color-warning-soft: #fef3c7;
+    --shadow-raised: 0 1px 2px rgb(3 2 19 / 0.06), 0 4px 12px rgb(3 2 19 / 0.06);
+    --shadow-overlay: 0 12px 32px rgb(3 2 19 / 0.12), 0 2px 8px rgb(3 2 19 / 0.08);
+  }
+
   :root {
     color-scheme: dark;
 

@@ -50,17 +50,14 @@ test.describe("home page", () => {
     await page.goto("/");
     const primary = page.getByRole("navigation", { name: "Primary" });
     const toggle = page.getByRole("button", { name: "Open menu" });
-    // The first download link in the header is the desktop CV button (the menu's comes later).
-    const headerCv = page.locator("header a[download]").first();
+    // The theme toggle stays in the header at every width; the CV is offered by the hero.
+    await expect(page.getByRole("banner").getByRole("button", { name: /^Switch to/ })).toBeVisible();
     if (isMobile) {
       await expect(primary).toBeHidden();
       await expect(toggle).toBeVisible();
-      // The header CV button moves into the menu on small screens.
-      await expect(headerCv).toBeHidden();
     } else {
       await expect(primary).toBeVisible();
       await expect(toggle).toBeHidden();
-      await expect(headerCv).toBeVisible();
     }
   });
 

@@ -182,9 +182,13 @@ describe("motion and layering tokens", () => {
 });
 
 describe("values that must mirror a token", () => {
-  it("the browser theme colour equals the canvas token", () => {
+  it("the browser theme colour equals the default (light) canvas", () => {
     const themeColor = layout.match(/themeColor:\s*"(#[0-9a-fA-F]{6})"/)?.[1];
-    expect(themeColor?.toLowerCase()).toBe(token("canvas").toLowerCase());
+    const lightCanvas = css.match(
+      /:root:not\(\[data-theme="dark"\]\)\s*\{[^}]*--color-canvas:\s*(#[0-9a-fA-F]{6})/,
+    )?.[1];
+    expect(lightCanvas).toBeDefined();
+    expect(themeColor?.toLowerCase()).toBe(lightCanvas?.toLowerCase());
   });
 });
 
@@ -213,5 +217,58 @@ describe("spacing scale", () => {
       if (step === "px") continue;
       if (px % SPACING_UNIT_PX !== 0) expect({ step, role }).toEqual({ step, role: "control" });
     }
+  });
+});
+
+describe("light theme (the default) is as legible as the dark theme", () => {
+  const block = css.match(/:root:not\(\[data-theme="dark"\]\)\s*\{([^}]*)\}/)?.[1] ?? "";
+  function light(name: string): string {
+    const match = block.match(new RegExp(`--color-${name}:\\s*(#[0-9a-fA-F]{6})\\s*;`));
+    if (!match?.[1]) throw new Error(`light token --color-${name} not found`);
+    return match[1];
+  }
+
+  it("overrides only tokens the theme declares", () => {
+    const names = [...block.matchAll(/(--[\w-]+):/g)].map((m) => m[1]);
+    expect(names.length).toBeGreaterThan(20);
+    for (const name of names)
+      expect(
+        allTokens.map((entry) => entry.name),
+        name,
+      ).toContain(name);
+  });
+
+  it.each(SURFACES)("text, links and status text are legible on %s", (surface) => {
+    for (const text of ["fg", "muted", "accent", "success-fg", "danger-fg", "warning"]) {
+      expect(contrast(light(text), light(surface)), text).toBeGreaterThanOrEqual(AA);
+    }
+  });
+
+  it("text on filled buttons is legible, including on hover", () => {
+    expect(contrast(light("accent-ink"), light("accent"))).toBeGreaterThanOrEqual(AA);
+    expect(contrast(light("accent-ink"), light("accent-hover"))).toBeGreaterThanOrEqual(AA);
+    expect(contrast(light("danger-ink"), light("danger-strong"))).toBeGreaterThanOrEqual(AA);
+    expect(contrast(light("danger-ink"), light("danger-strong-hover"))).toBeGreaterThanOrEqual(AA);
+  });
+
+  it.each([
+    ["accent", "accent-soft"],
+    ["success-fg", "success-soft"],
+    ["danger-fg", "danger-soft"],
+    ["warning", "warning-soft"],
+    ["fg", "success-soft"],
+    ["fg", "danger-soft"],
+    ["fg", "warning-soft"],
+  ])("text %s is legible on its tinted background %s", (text, background) => {
+    expect(contrast(light(text), light(background))).toBeGreaterThanOrEqual(AA);
+  });
+
+  it.each([...SURFACES, "accent-soft"])("the focus ring is visible on %s", (surface) => {
+    expect(contrast(light("focus"), light(surface))).toBeGreaterThanOrEqual(NON_TEXT);
+  });
+
+  it("the dark theme also has legible text on destructive buttons", () => {
+    expect(contrast(token("danger-ink"), token("danger-strong"))).toBeGreaterThanOrEqual(AA);
+    expect(contrast(token("danger-ink"), token("danger-strong-hover"))).toBeGreaterThanOrEqual(AA);
   });
 });

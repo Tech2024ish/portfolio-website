@@ -1,33 +1,19 @@
-import { buttonClasses } from "@/components/ui/button";
-import { DownloadIcon } from "@/components/ui/icons";
 import { containerClasses } from "@/components/ui/section";
 import type { Profile } from "@/content/profile";
 import { siteNavigation, type SitePage } from "@/lib/navigation";
 
 import { MobileNav } from "./mobile-nav";
 import { NavAnchor } from "./nav-anchor";
+import { ThemeToggle } from "./theme-toggle";
 
 /** On the home page the logo returns to the top; on every other page it leads home. */
-export function Logo({
-  profile,
-  home = true,
-}: {
-  profile: Pick<Profile, "initials" | "name">;
-  home?: boolean;
-}) {
+export function Logo({ profile, home = true }: { profile: Pick<Profile, "name">; home?: boolean }) {
   return (
-    // The accessible name must contain the visible text ("JC."), so speech-input users can say
-    // what they see (WCAG 2.5.3). The rest of the name is announced but not shown.
-    <NavAnchor
-      href={home ? "#top" : "/"}
-      className="rounded-control font-display text-xl font-extrabold tracking-tight text-fg"
-    >
-      {profile.initials}
-      <span className="text-accent">.</span>
-      <span className="sr-only">
-        {" "}
-        — {profile.name}, {home ? "back to top" : "home"}
-      </span>
+    // The accessible name starts with the visible text (the name), so speech-input users can say
+    // what they see (WCAG 2.5.3). Where the link leads is announced but not shown.
+    <NavAnchor href={home ? "#top" : "/"} className="rounded-control text-base font-medium text-fg">
+      {profile.name}
+      <span className="sr-only">, {home ? "back to top" : "home"}</span>
     </NavAnchor>
   );
 }
@@ -46,7 +32,7 @@ export function SiteHeader({
 }) {
   const links = siteNavigation(page, articleCount, hidden);
   return (
-    <header className="sticky top-0 z-(--z-header) border-b border-border bg-canvas/85 backdrop-blur-md">
+    <header className="sticky top-0 z-(--z-header) border-b border-border bg-canvas/90 backdrop-blur-md">
       <div className={`${containerClasses} relative flex h-16 items-center justify-between gap-6`}>
         <Logo profile={profile} home={page === "home"} />
 
@@ -57,7 +43,7 @@ export function SiteHeader({
                 <NavAnchor
                   href={item.href}
                   aria-current={item.current ? "page" : undefined}
-                  className="rounded-control px-3 py-2 text-sm text-muted transition-colors hover:text-fg aria-[current=page]:text-fg aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-8"
+                  className="rounded-control px-3 py-2 text-sm text-muted transition-colors hover:text-fg aria-[current=page]:font-medium aria-[current=page]:text-fg"
                 >
                   {item.label}
                 </NavAnchor>
@@ -66,15 +52,10 @@ export function SiteHeader({
           </ul>
         </nav>
 
-        {/* Wrapper owns visibility: buttonClasses sets display, which would override `hidden`. */}
-        <div className="hidden md:block">
-          <a href={profile.cvHref} download className={buttonClasses("primary", "sm")}>
-            <DownloadIcon className="size-4" />
-            Download CV
-          </a>
+        <div className="flex items-center gap-1">
+          <ThemeToggle />
+          <MobileNav items={links} cvHref={profile.cvHref} />
         </div>
-
-        <MobileNav items={links} cvHref={profile.cvHref} />
       </div>
     </header>
   );
