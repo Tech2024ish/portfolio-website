@@ -11,6 +11,7 @@ import {
 } from "react";
 
 import { Button } from "@/components/ui/button";
+import { CheckCircleIcon } from "@/components/ui/icons";
 import { Alert } from "@/components/ui/feedback";
 import { Field, Input, Textarea } from "@/components/ui/form";
 import { cardClasses } from "@/components/ui/section";
@@ -127,10 +128,13 @@ export function ContactForm({ email }: { email: string }) {
         ref={successRef}
         tabIndex={-1}
         role="status"
-        className={`${cardClasses} flex flex-col items-start gap-4 self-start border-success/40 p-6 sm:p-8`}
+        className="flex flex-col items-start gap-4 rounded-card border border-success/40 bg-success-soft p-6"
       >
-        <h3 className="font-display text-xl font-semibold text-fg">Message sent</h3>
-        <p className="text-base text-muted">Thank you. Your message has been received and saved.</p>
+        <h3 className="flex items-center gap-2 text-lg font-medium text-success-fg">
+          <CheckCircleIcon className="size-5" />
+          Message sent
+        </h3>
+        <p className="text-base text-fg">Thank you. Your message has been received and saved.</p>
         <Button
           variant="secondary"
           onClick={() => {
@@ -157,13 +161,13 @@ export function ContactForm({ email }: { email: string }) {
       data-ready={hydrated || undefined}
       aria-labelledby={`${id}-title`}
       aria-busy={submitting || undefined}
-      className={`${cardClasses} relative flex flex-col gap-5 p-6 sm:p-8`}
+      className={`${cardClasses} relative flex flex-col gap-4 p-6`}
     >
-      <div>
-        <h3 id={`${id}-title`} className="font-display text-xl font-semibold text-fg">
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h3 id={`${id}-title`} className="text-lg font-medium text-fg">
           Send a message
         </h3>
-        <p className="mt-1 text-sm text-muted">All fields are required.</p>
+        <p className="text-sm text-muted">All fields are required.</p>
       </div>
 
       {failure ? (
@@ -181,7 +185,7 @@ export function ContactForm({ email }: { email: string }) {
         </Alert>
       ) : null}
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Full name" id={fieldId("name")} error={errors.name} required>
           {(control) => (
             <Input
@@ -223,18 +227,22 @@ export function ContactForm({ email }: { email: string }) {
           />
         )}
       </Field>
+      {/* On wide screens the message box takes the remaining height, so the form ends level with
+          the contact cards beside it (the section's grid stretches both columns to one height). */}
       <Field
         label="Message"
         id={fieldId("message")}
         error={errors.message}
         aside={`${messageLength} / ${CONTACT_LIMITS.message.max}`}
         required
+        className="flex-1"
       >
         {(control) => (
           <Textarea
             {...control}
             name="message"
             rows={6}
+            className="min-h-36 flex-1 basis-0 lg:min-h-24"
             maxLength={CONTACT_LIMITS.message.max}
             value={values.message}
             onChange={onChange}
@@ -257,7 +265,7 @@ export function ContactForm({ email }: { email: string }) {
       </div>
 
       {/* Disabled until hydrated, so it can only ever submit through the API client. */}
-      <Button type="submit" loading={submitting} disabled={!hydrated} className="w-full sm:w-fit">
+      <Button type="submit" loading={submitting} disabled={!hydrated} className="w-full">
         {submitting ? "Sending…" : "Send message"}
       </Button>
       <p className="sr-only" role="status" aria-live="polite">
