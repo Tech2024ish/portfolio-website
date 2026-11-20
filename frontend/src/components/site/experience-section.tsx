@@ -1,5 +1,6 @@
-import { BadgeIcon, GraduationIcon } from "@/components/ui/icons";
+import { BadgeIcon, BriefcaseIcon, CalendarIcon, GraduationIcon, MapPinIcon } from "@/components/ui/icons";
 import { cardClasses, Section } from "@/components/ui/section";
+import { Badge } from "@/components/ui/tag";
 import type { Certification, Education, Experience } from "@/content/profile";
 
 /** Only published records reach these props (see src/lib/content/portfolio.ts). */
@@ -13,29 +14,33 @@ export function ExperienceSection({
   certifications: Certification[];
 }) {
   return (
-    <Section id="experience" eyebrow="Experience" title="Experience and education">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-12">
-        <ol
-          className="relative flex flex-col gap-8 self-start border-l border-border-strong pl-6"
-          aria-label="Work history"
-        >
+    <Section id="experience" title="Experience and education" tone="band">
+      <div className="mx-auto flex max-w-4xl flex-col gap-5">
+        <ol className="flex flex-col gap-5" aria-label="Work history">
           {publicExperience.map((job) => (
-            <li key={`${job.organization}-${job.role}`} className="relative">
-              <span
-                aria-hidden="true"
-                className={`absolute top-1.5 -left-[1.9rem] size-3 rounded-full border-2 border-canvas ${
-                  job.current ? "bg-accent" : "bg-border-strong"
-                }`}
-              />
-              <article className="flex flex-col gap-3">
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                  <h3 className="font-display text-lg font-semibold text-fg">
-                    {job.role} <span className="text-muted">·</span>{" "}
-                    <span className="text-accent">{job.organization}</span>
-                  </h3>
-                  <p className="shrink-0 font-mono text-xs text-muted">{job.period}</p>
+            <li key={`${job.organization}-${job.role}`}>
+              <article className={`${cardClasses} flex flex-col gap-4 p-6`}>
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="flex items-center gap-2 text-base font-medium text-fg">
+                      <BriefcaseIcon className="size-5" />
+                      {job.role}
+                    </h3>
+                    <p className="text-base text-fg">{job.organization}</p>
+                  </div>
+                  <div className="flex shrink-0 flex-col gap-1 text-sm text-muted sm:items-end">
+                    <p className="flex items-center gap-2">
+                      <CalendarIcon className="size-4" />
+                      {job.period}
+                    </p>
+                    {job.current ? (
+                      <Badge tone="success" dot>
+                        Current
+                      </Badge>
+                    ) : null}
+                  </div>
                 </div>
-                <ul className="flex list-disc flex-col gap-1.5 pl-5 text-sm text-muted marker:text-accent">
+                <ul className="flex list-disc flex-col gap-1.5 pl-5 text-sm text-muted marker:text-subtle">
                   {job.highlights.map((highlight) => (
                     <li key={highlight}>{highlight}</li>
                   ))}
@@ -45,33 +50,30 @@ export function ExperienceSection({
           ))}
         </ol>
 
-        <div className="flex flex-col gap-4">
+        <div className="grid gap-5 md:grid-cols-2">
           {publicEducation.map((entry) => (
-            <article key={entry.institution} className={`${cardClasses} flex flex-col gap-3 p-5`}>
-              <div className="flex items-center gap-3">
-                <span className="inline-flex size-10 items-center justify-center rounded-control bg-accent-soft text-accent">
-                  <GraduationIcon />
-                </span>
-                <div>
-                  <h3 className="font-display text-base font-semibold text-fg">{entry.institution}</h3>
-                  <p className="text-sm text-muted">{entry.location}</p>
-                </div>
-              </div>
+            <article key={entry.institution} className={`${cardClasses} flex flex-col gap-3 p-6`}>
+              <h3 className="flex items-center gap-2 text-base font-medium text-fg">
+                <GraduationIcon className="size-5" />
+                {entry.institution}
+              </h3>
+              <p className="flex items-center gap-2 text-sm text-muted">
+                <MapPinIcon className="size-4" />
+                {entry.location}
+              </p>
               <p className="text-sm text-fg">{entry.degree}</p>
-              <p className="font-mono text-xs text-accent">{entry.status}</p>
+              <Badge tone="neutral">{entry.status}</Badge>
               <p className="text-sm text-muted">
-                <span className="text-fg/90">Relevant coursework:</span> {entry.coursework.join(", ")}
+                <span className="text-fg">Relevant coursework:</span> {entry.coursework.join(", ")}
               </p>
             </article>
           ))}
 
-          <article className={`${cardClasses} flex flex-col gap-3 p-5`}>
-            <div className="flex items-center gap-3">
-              <span className="inline-flex size-10 items-center justify-center rounded-control bg-accent-soft text-accent">
-                <BadgeIcon />
-              </span>
-              <h3 className="font-display text-base font-semibold text-fg">Certifications and training</h3>
-            </div>
+          <article className={`${cardClasses} flex flex-col gap-3 p-6`}>
+            <h3 className="flex items-center gap-2 text-base font-medium text-fg">
+              <BadgeIcon className="size-5" />
+              Certifications and training
+            </h3>
             <ul className="flex flex-col gap-3">
               {publicCertifications.map((cert) => (
                 <li key={cert.name} className="text-sm">

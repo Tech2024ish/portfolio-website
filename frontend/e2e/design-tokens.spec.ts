@@ -2,7 +2,7 @@ import { expect, test, type Locator } from "@playwright/test";
 
 /** Design tokens as the browser actually computes them on the production build. */
 
-const FOCUS_RGB = "rgb(8, 169, 199)"; // --color-focus #08a9c7
+const FOCUS_RGB = "rgb(3, 2, 19)"; // --color-focus in the default (light) theme, #030213
 
 async function outline(locator: Locator) {
   return locator.evaluate((element) => {
@@ -96,6 +96,26 @@ test.describe("design tokens in the browser", () => {
   test("status text uses the AA-compliant success colour", async ({ page }) => {
     await page.goto("/");
     const badge = page.getByText("Available for backend opportunities").first();
-    expect(await badge.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(85, 211, 148)");
+    expect(await badge.evaluate((el) => getComputedStyle(el).color)).toBe("rgb(22, 101, 52)");
+  });
+
+  test("the theme toggle switches to dark, and the choice survives a reload", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    const background = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+    expect(await background()).toBe("rgb(255, 255, 255)");
+
+    await page.getByRole("button", { name: "Switch to dark theme" }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    expect(await background()).toBe("rgb(8, 13, 23)");
+
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    expect(await background()).toBe("rgb(8, 13, 23)");
+    await expect(page.getByRole("button", { name: "Switch to light theme" })).toBeVisible();
+
+    await page.getByRole("button", { name: "Switch to light theme" }).click();
+    await expect(page.locator("html")).not.toHaveAttribute("data-theme", "dark");
+    expect(await background()).toBe("rgb(255, 255, 255)");
   });
 });

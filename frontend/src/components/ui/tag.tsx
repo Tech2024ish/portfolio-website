@@ -5,7 +5,7 @@ import { cx } from "@/lib/cx";
 /** A technology or keyword label. Not interactive. */
 export function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-control border border-border-strong bg-raised px-2.5 py-1 font-mono text-xs text-fg/90">
+    <span className="inline-flex items-center rounded-control bg-raised px-2.5 py-1 text-xs font-medium text-fg">
       {children}
     </span>
   );

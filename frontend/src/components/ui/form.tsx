@@ -12,8 +12,8 @@ import { ChevronDownIcon } from "./icons";
  */
 
 export const controlClasses =
-  "w-full rounded-control border border-border-strong bg-surface px-3.5 py-2.5 text-base text-fg " +
-  "placeholder:text-muted transition-colors hover:border-accent/50 focus-visible:border-accent " +
+  "w-full rounded-control border border-transparent bg-raised px-3.5 py-2.5 text-base text-fg " +
+  "placeholder:text-muted transition-colors hover:border-border-strong focus-visible:border-accent " +
   "aria-invalid:border-danger-fg disabled:cursor-not-allowed disabled:opacity-60";
 
 export function Label({ className, ...props }: ComponentPropsWithRef<"label">) {
@@ -25,7 +25,9 @@ export function Input({ className, ...props }: ComponentPropsWithRef<"input">) {
 }
 
 export function Textarea({ className, ...props }: ComponentPropsWithRef<"textarea">) {
-  return <textarea className={cx(controlClasses, "min-h-36 resize-y", className)} {...props} />;
+  // A caller's own min-h-* replaces the default height (cx does not resolve conflicts).
+  const minHeight = className && /(^|\s)(\w+:)?min-h-/.test(className) ? "" : "min-h-36";
+  return <textarea className={cx(controlClasses, minHeight, "resize-y", className)} {...props} />;
 }
 
 /** A native select with a token-styled chevron; the chevron is decorative. */

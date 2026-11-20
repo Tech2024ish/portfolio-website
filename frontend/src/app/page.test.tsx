@@ -94,7 +94,9 @@ describe("home page", () => {
       expect(link).toHaveAttribute("href", "/Resume.pdf");
       expect(link).toHaveAttribute("download");
     }
-    expect(screen.getByRole("link", { name: "Email me" })).toHaveAttribute("href", `mailto:${profile.email}`);
+    const emailLinks = screen.getAllByRole("link", { name: /^email/i });
+    expect(emailLinks.length).toBeGreaterThanOrEqual(2);
+    for (const link of emailLinks) expect(link).toHaveAttribute("href", `mailto:${profile.email}`);
   });
 
   it("opens every new-tab link without giving it window.opener", async () => {

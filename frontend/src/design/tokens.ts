@@ -95,6 +95,7 @@ export const tokenGroups: readonly TokenGroup[] = [
       { name: "--color-danger-soft", purpose: "Error backgrounds" },
       { name: "--color-danger-strong", purpose: "Filled destructive buttons" },
       { name: "--color-danger-strong-hover", purpose: "Hover state of destructive buttons" },
+      { name: "--color-danger-ink", purpose: "Text on filled destructive buttons" },
       { name: "--color-warning", purpose: "Warning text, icons and badges" },
       { name: "--color-warning-soft", purpose: "Warning backgrounds" },
     ],

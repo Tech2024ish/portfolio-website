@@ -26,7 +26,7 @@ test.describe("foundation smoke", () => {
 
     // Dark design tokens are applied (canvas #080d17).
     const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(background).toBe("rgb(8, 13, 23)");
+    expect(background).toBe("rgb(255, 255, 255)"); // light canvas, the default theme
 
     expect(errors).toEqual([]);
   });

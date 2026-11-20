@@ -10,7 +10,7 @@ import { ProjectCard } from "./project-card";
 /** The projects listing: every published project as a card, or an empty state. */
 export function ProjectsIndex({ projects }: { projects: readonly Project[] }) {
   return (
-    <section aria-label="All projects" className={`${containerClasses} py-12 sm:py-16`}>
+    <section aria-label="All projects" className={`${containerClasses} py-10 sm:py-12`}>
       {projects.length === 0 ? (
         <EmptyState
           headingLevel={2}
