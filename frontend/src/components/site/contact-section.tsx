@@ -26,7 +26,7 @@ export function ContactSection({
 }) {
   const social = Object.fromEntries(profile.social.map((link) => [link.label, link.href]));
   return (
-    <Section id="contact" eyebrow="Contact" title="Let's build something reliable">
+    <Section id="contact" title="Let's build something reliable">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-10">
         <div className="flex flex-col gap-4">
           <div className={`${cardClasses} flex flex-col gap-5 p-6 sm:p-8`}>

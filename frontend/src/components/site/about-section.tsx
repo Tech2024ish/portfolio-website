@@ -11,7 +11,7 @@ const principleIcons: Record<Principle["icon"], typeof ApiIcon> = {
 
 export function AboutSection({ profile, principles }: { profile: Profile; principles: Principle[] }) {
   return (
-    <Section id="about" eyebrow="About" title="Engineering philosophy" description={profile.aboutLead}>
+    <Section id="about" title="Engineering philosophy" description={profile.aboutLead}>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
         <div className="flex flex-col gap-4 text-base text-muted">
           {profile.aboutBody.map((paragraph) => (

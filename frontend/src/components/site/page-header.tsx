@@ -20,11 +20,8 @@ export function PageHeader({
   return (
     <header className="border-b border-border bg-surface">
       <div className={`${containerClasses} flex flex-col gap-4 py-10 sm:py-12`}>
-        {eyebrow ? <div className="font-mono text-sm text-accent">{eyebrow}</div> : null}
-        <h1
-          id={titleId}
-          className="font-display text-3xl font-extrabold tracking-tight text-fg sm:text-display"
-        >
+        {eyebrow ? <div className="text-sm font-medium text-muted">{eyebrow}</div> : null}
+        <h1 id={titleId} className="text-3xl font-medium tracking-tight text-fg sm:text-5xl">
           {title}
         </h1>
         {description ? (

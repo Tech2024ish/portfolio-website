@@ -1,6 +1,5 @@
 import { ExternalLink } from "@/components/ui/external-link";
 import { containerClasses } from "@/components/ui/section";
-import { StatusBadge } from "@/components/ui/tag";
 import type { Profile } from "@/content/profile";
 import { siteNavigation, type SitePage } from "@/lib/navigation";
 
@@ -26,12 +25,14 @@ export function SiteFooter({
   return (
     <footer className="border-t border-border bg-surface">
       <div className={`${containerClasses} grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4`}>
-        <div className="flex flex-col gap-3 lg:col-span-2">
+        <div className="flex flex-col gap-3 sm:col-span-2">
           <Logo profile={profile} home={page === "home"} />
-          <p className="max-w-sm text-sm text-muted">
-            {profile.name} — {profile.title} in {profile.location}.
+          <p className="text-sm text-muted">
+            {profile.title} · {profile.location}
           </p>
-          <StatusBadge>{profile.availability}</StatusBadge>
+          <p className="text-xs text-muted">
+            © {year} {profile.name}. All rights reserved.
+          </p>
         </div>
 
         <nav aria-label="Footer">
@@ -73,11 +74,6 @@ export function SiteFooter({
             </li>
           </ul>
         </div>
-      </div>
-      <div className="border-t border-border">
-        <p className={`${containerClasses} py-5 text-xs text-muted`}>
-          © {year} {profile.name}
-        </p>
       </div>
     </footer>
   );

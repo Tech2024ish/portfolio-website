@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { buttonClasses } from "@/components/ui/button";
 import { ExternalLink } from "@/components/ui/external-link";
 import { ExternalIcon, GitHubIcon } from "@/components/ui/icons";
 import { cardClasses } from "@/components/ui/section";
@@ -7,9 +8,6 @@ import { TagList } from "@/components/ui/tag";
 import type { Project } from "@/content/profile";
 
 import { ProjectCover } from "./project-cover";
-
-const linkClasses =
-  "inline-flex min-h-11 items-center gap-2 rounded-control text-sm font-medium text-accent transition-colors hover:text-accent-hover";
 
 /** The project's page on this site. */
 export function projectHref(slug: string): string {
@@ -32,8 +30,8 @@ export function ProjectCard({ project, headingLevel = 3 }: { project: Project; h
 
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div>
-          <p className="mb-1 font-mono text-xs text-accent">{project.category}</p>
-          <Heading id={titleId} className="font-display text-lg font-semibold text-fg">
+          <p className="mb-1 text-xs font-medium text-muted">{project.category}</p>
+          <Heading id={titleId} className="text-lg font-medium text-fg">
             <Link
               href={projectHref(project.slug)}
               className="inline-flex min-h-6 items-center rounded-control underline decoration-transparent underline-offset-4 transition-colors hover:decoration-accent"
@@ -46,30 +44,30 @@ export function ProjectCard({ project, headingLevel = 3 }: { project: Project; h
         <TagList items={project.tech} label={`${project.title} technologies`} />
 
         {project.repoUrl || project.liveUrl ? (
-          <div className="mt-auto flex flex-wrap gap-x-5 border-t border-border pt-3">
+          <div className="mt-auto flex flex-wrap gap-3 pt-1">
             {project.repoUrl ? (
               <ExternalLink
                 href={project.repoUrl}
                 aria-label={`Source code for ${project.title}`}
-                className={linkClasses}
+                className={buttonClasses("secondary", "sm")}
               >
                 <GitHubIcon className="size-4" />
-                Source
+                Code
               </ExternalLink>
             ) : null}
             {project.liveUrl ? (
               <ExternalLink
                 href={project.liveUrl}
                 aria-label={`Live site for ${project.title}`}
-                className={linkClasses}
+                className={buttonClasses("primary", "sm")}
               >
                 <ExternalIcon className="size-4" />
-                Live site
+                Live
               </ExternalLink>
             ) : null}
           </div>
         ) : (
-          <p className="mt-auto border-t border-border pt-3 text-sm text-muted">No public link available</p>
+          <p className="mt-auto pt-1 text-sm text-muted">No public link available</p>
         )}
       </div>
     </article>

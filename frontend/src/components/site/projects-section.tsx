@@ -10,18 +10,17 @@ export function ProjectsSection({ projects, limit = 3 }: { projects: Project[]; 
   return (
     <Section
       id="projects"
-      eyebrow="Projects"
       title="Selected work"
       description="Backend platforms and APIs I have built or contributed to."
     >
-      <ul className="grid gap-5 md:grid-cols-2">
+      <ul className="grid gap-6 md:grid-cols-2">
         {shown.map((project) => (
           <li key={project.slug}>
             <ProjectCard project={project} />
           </li>
         ))}
       </ul>
-      <p className="mt-8">
+      <p className="mt-6 text-center">
         <TextLink href="/projects" className="inline-flex min-h-6 items-center">
           View all projects
           <span className="sr-only"> ({projects.length})</span>
