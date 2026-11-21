@@ -48,7 +48,79 @@
         "body": "An emphasis on reliability, authentication and code that stays understandable.",
         "icon": "quality"
       }
-    ]
+    ],
+    "translations": {
+      "fr": {
+        "title": "Ingénieur logiciel backend",
+        "availability": "Disponible pour des opportunités backend",
+        "headline": "Concevoir des systèmes backend fiables pour des problèmes concrets.",
+        "summary": "Développeur backend chez SilverLandTech et étudiant en informatique à l'Université du Rwanda. Je conçois des API REST et des services orientés données avec Python, FastAPI et PostgreSQL.",
+        "about_lead": "Un développeur à l'esprit backend, passionné par les systèmes fiables et évolutifs et par la technologie qui résout des problèmes concrets.",
+        "about_body": [
+          "Je développe des applications backend avec Python, FastAPI, Java, PostgreSQL, SQL et des API REST, avec de l'expérience dans la conception d'API, la mise en œuvre de la logique métier et la création de logiciels maintenables. Je travaille aussi avec JavaScript et React, ce qui m'aide à collaborer tout au long du cycle de développement.",
+          "Je m'intéresse particulièrement à l'ingénierie backend, à la conception de systèmes, aux technologies cloud et aux applications fondées sur l'IA."
+        ],
+        "portrait_alt": "Portrait de Jean Claude Ishimwe",
+        "contact_intro": "Ouvert aux stages en ingénierie backend, aux programmes pour jeunes diplômés, aux postes d'ingénieur backend junior et aux opportunités en génie logiciel.",
+        "principles": [
+          {
+            "title": "Architecture",
+            "body": "Des frontières claires, une logique métier cohérente et une structure de services maintenable.",
+            "icon": "architecture"
+          },
+          {
+            "title": "Ingénierie des bases de données",
+            "body": "Des schémas, des relations et une persistance réfléchis, construits autour du domaine.",
+            "icon": "database"
+          },
+          {
+            "title": "Conception d'API",
+            "body": "Des contrats explicites et des interfaces REST sur lesquels les équipes frontend peuvent s'appuyer.",
+            "icon": "api"
+          },
+          {
+            "title": "Qualité logicielle",
+            "body": "Une attention portée à la fiabilité, à l'authentification et à un code qui reste compréhensible.",
+            "icon": "quality"
+          }
+        ]
+      },
+      "rw": {
+        "title": "Injeniyeri wa porogaramu za backend",
+        "availability": "Niteguye amahirwe y'akazi ka backend",
+        "headline": "Nubaka sisitemu za backend zizewe zikemura ibibazo nyabyo.",
+        "summary": "Ndi umukozi ukora backend muri SilverLandTech kandi niga ibijyanye na mudasobwa (Computer Science) muri Kaminuza y'u Rwanda. Nkora API za REST na serivisi zishingiye ku makuru nkoresheje Python, FastAPI na PostgreSQL.",
+        "about_lead": "Ndi umwubatsi wibanda kuri backend, ukunda sisitemu zizewe kandi zaguka, n'ikoranabuhanga rikemura ibibazo nyabyo.",
+        "about_body": [
+          "Nkora porogaramu za backend nkoresheje Python, FastAPI, Java, PostgreSQL, SQL na API za REST, mfite uburambe mu gutegura API, gushyira mu bikorwa logique ya backend no kubaka porogaramu zoroshye kwitaho. Nkoresha kandi JavaScript na React, bimfasha gukorana n'abandi mu byiciro byose byo gukora porogaramu.",
+          "Nshishikajwe cyane n'ubuhanga bwa backend, igishushanyo cya sisitemu, ikoranabuhanga rya cloud na porogaramu zikoresha ubwenge bw'ubukorano (AI)."
+        ],
+        "portrait_alt": "Ifoto ya Jean Claude Ishimwe",
+        "contact_intro": "Niteguye kwimenyereza umwuga (internship) mu buhanga bwa backend, gahunda z'abarangije amashuri, imyanya ya injeniyeri wa backend utangira, n'andi mahirwe mu buhanga bwa porogaramu.",
+        "principles": [
+          {
+            "title": "Imiterere ya sisitemu",
+            "body": "Imipaka isobanutse, logique y'ubucuruzi ihuje n'imiterere ya serivisi yoroshye kwitaho.",
+            "icon": "architecture"
+          },
+          {
+            "title": "Ubuhanga bw'ububiko bw'amakuru",
+            "body": "Imiterere y'amakuru, isano hagati yayo n'uburyo bwo kuyabika bitekerejweho neza, bishingiye ku rwego bikoreramo.",
+            "icon": "database"
+          },
+          {
+            "title": "Igishushanyo cya API",
+            "body": "Amasezerano asobanutse n'imiyoboro ya REST amatsinda ya frontend ashobora gukoresha byoroshye.",
+            "icon": "api"
+          },
+          {
+            "title": "Ireme ry'ubuhanga",
+            "body": "Kwita ku kwizerwa, ku kwemeza abakoresha no kuri kode ikomeza kumvikana.",
+            "icon": "quality"
+          }
+        ]
+      }
+    }
   },
   "skill_groups": [
     {
@@ -58,7 +130,15 @@
         "Java",
         "JavaScript",
         "SQL"
-      ]
+      ],
+      "translations": {
+        "fr": {
+          "name": "Langages de programmation"
+        },
+        "rw": {
+          "name": "Indimi za porogaramu"
+        }
+      }
     },
     {
       "name": "Backend engineering",
@@ -67,14 +147,30 @@
         "REST APIs",
         "API Design",
         "JWT Authentication"
-      ]
+      ],
+      "translations": {
+        "fr": {
+          "name": "Ingénierie backend"
+        },
+        "rw": {
+          "name": "Ubuhanga bwa backend"
+        }
+      }
     },
     {
       "name": "Databases",
       "skills": [
         "PostgreSQL",
         "MySQL"
-      ]
+      ],
+      "translations": {
+        "fr": {
+          "name": "Bases de données"
+        },
+        "rw": {
+          "name": "Ububiko bw'amakuru"
+        }
+      }
     },
     {
       "name": "Frontend",
@@ -91,7 +187,15 @@
         "GitHub",
         "Docker",
         "Postman"
-      ]
+      ],
+      "translations": {
+        "fr": {
+          "name": "Outils"
+        },
+        "rw": {
+          "name": "Ibikoresho"
+        }
+      }
     },
     {
       "name": "Practices",
@@ -101,7 +205,15 @@
         "Data Structures",
         "Algorithms",
         "Software Engineering"
-      ]
+      ],
+      "translations": {
+        "fr": {
+          "name": "Pratiques"
+        },
+        "rw": {
+          "name": "Imikorere"
+        }
+      }
     }
   ],
   "experiences": [
@@ -117,7 +229,27 @@
         "Collaborate with frontend developers to integrate APIs and improve performance.",
         "Participate in debugging, code reviews and backend architecture discussions."
       ],
-      "status": "published"
+      "status": "published",
+      "translations": {
+        "fr": {
+          "role": "Développeur backend",
+          "highlights": [
+            "Je développe des services backend évolutifs avec FastAPI et PostgreSQL.",
+            "Je conçois et maintiens des API REST pour des applications métier.",
+            "Je collabore avec les développeurs frontend pour intégrer les API et améliorer les performances.",
+            "Je participe au débogage, aux revues de code et aux discussions sur l'architecture backend."
+          ]
+        },
+        "rw": {
+          "role": "Ukora backend (Backend Developer)",
+          "highlights": [
+            "Nkora serivisi za backend zishobora kwaguka nkoresheje FastAPI na PostgreSQL.",
+            "Ntegura kandi nkita kuri API za REST zikoreshwa na porogaramu z'ubucuruzi.",
+            "Nkorana n'abakora frontend mu guhuza API no kunoza umuvuduko.",
+            "Ngira uruhare mu gukosora amakosa, gusuzuma kode n'ibiganiro ku miterere ya backend."
+          ]
+        }
+      }
     },
     {
       "organization": "Techinika",
@@ -129,7 +261,23 @@
         "Wrote technical articles explaining software engineering concepts.",
         "Produced educational technical content in collaboration with editorial members."
       ],
-      "status": "draft"
+      "status": "draft",
+      "translations": {
+        "fr": {
+          "role": "Rédacteur technique",
+          "highlights": [
+            "Rédaction d'articles techniques expliquant des concepts de génie logiciel.",
+            "Production de contenus techniques pédagogiques en collaboration avec l'équipe éditoriale."
+          ]
+        },
+        "rw": {
+          "role": "Umwanditsi w'inyandiko za tekiniki",
+          "highlights": [
+            "Nanditse inyandiko za tekiniki zisobanura amahame y'ubuhanga bwa porogaramu.",
+            "Nakoze inyandiko za tekiniki zigisha, mfatanyije n'abagize itsinda ry'abanditsi."
+          ]
+        }
+      }
     }
   ],
   "education": [
@@ -144,19 +292,59 @@
         "Software Engineering",
         "Web Development"
       ],
-      "status": "published"
+      "status": "published",
+      "translations": {
+        "fr": {
+          "institution": "Université du Rwanda",
+          "qualification": "Licence en informatique",
+          "status_label": "En cours",
+          "coursework": [
+            "Structures de données et algorithmes",
+            "Systèmes de bases de données",
+            "Génie logiciel",
+            "Développement web"
+          ]
+        },
+        "rw": {
+          "institution": "Kaminuza y'u Rwanda",
+          "qualification": "Impamyabumenyi y'icyiciro cya kabiri muri Computer Science",
+          "status_label": "Ndacyiga",
+          "coursework": [
+            "Imiterere y'amakuru na algorithms",
+            "Sisitemu z'ububiko bw'amakuru",
+            "Ubuhanga bwa porogaramu",
+            "Gukora imbuga za interineti"
+          ]
+        }
+      }
     }
   ],
   "certifications": [
     {
       "name": "Python programming",
       "issuer": "Cisco Networking Academy",
-      "status": "published"
+      "status": "published",
+      "translations": {
+        "fr": {
+          "name": "Programmation Python"
+        },
+        "rw": {
+          "name": "Porogaramu za Python"
+        }
+      }
     },
     {
       "name": "Data Structures and Algorithms",
       "issuer": "A2SV (Africa to Silicon Valley)",
-      "status": "published"
+      "status": "published",
+      "translations": {
+        "fr": {
+          "name": "Structures de données et algorithmes"
+        },
+        "rw": {
+          "name": "Imiterere y'amakuru na algorithms"
+        }
+      }
     },
     {
       "name": "Python Essentials",
@@ -240,7 +428,111 @@
       "media": [],
       "sources": [
         "https://github.com/Tech2024ish/mosaic#readme (default branch, last pushed 2026-10-19)"
-      ]
+      ],
+      "translations": {
+        "fr": {
+          "category": "Plateforme backend",
+          "summary": "Une plateforme d'aide à la décision pour la chaîne d'approvisionnement, destinée aux distributeurs de taille intermédiaire, à commencer par les entreprises de distribution africaines. La base actuelle est un backend FastAPI en monolithe modulaire avec des migrations PostgreSQL ; le moteur de décision n'est pas encore implémenté.",
+          "overview": [
+            "MOSAIC est une plateforme d'aide à la décision pour la chaîne d'approvisionnement, destinée aux distributeurs de taille intermédiaire, à commencer par les entreprises de distribution africaines.",
+            "Le dépôt contient sa base orientée production : un backend FastAPI en monolithe modulaire, la persistance et les migrations PostgreSQL, un frontend React minimal, des services de développement Docker Compose et des contrôles qualité automatisés."
+          ],
+          "problem": "Les distributeurs de taille intermédiaire utilisent déjà des systèmes ERP, de stock, de comptabilité, de caisse et des tableurs. MOSAIC doit se placer au-dessus d'eux et expliquer ce qui se passe, pourquoi cela se passe et ce que l'entreprise devrait faire ensuite.",
+          "objectives": [
+            "Construire d'abord les fondations d'ingestion et d'exploitation.",
+            "Ajouter ensuite, progressivement, la prévision, l'optimisation, la simulation de scénarios et les recommandations."
+          ],
+          "approach": "Un monolithe modulaire : un service FastAPI aux couches explicites, PostgreSQL comme système de référence avec un schéma géré par migrations, et un frontend React et TypeScript qui n'intègre jamais d'identifiants. La qualité est garantie par pytest, Ruff et mypy.",
+          "architecture": [
+            "Cœur : configuration, sécurité et préoccupations communes de l'application.",
+            "Modèles et schémas : modèles de persistance SQLAlchemy et contrats d'API Pydantic.",
+            "Routeurs : points d'accès HTTP légers.",
+            "Services : orchestration applicative et limites de transaction.",
+            "Domaine : modules indépendants du framework, réservés au futur moteur de décision.",
+            "Infrastructure : base de données et adaptateurs externes."
+          ],
+          "decisions": [
+            {
+              "title": "Accès aux données cloisonné par organisation",
+              "detail": "Les API de données de référence et d'analyse sont authentifiées et limitées à l'organisation de l'utilisateur, et les identifiants d'organisation ne sont jamais acceptés depuis le client."
+            },
+            {
+              "title": "Agrégation dans PostgreSQL",
+              "detail": "Les analyses de ventes sont agrégées dans la base de données, dans le périmètre de l'organisation ; le navigateur n'agrège jamais les données de ventes brutes."
+            },
+            {
+              "title": "Sessions révocables stockées en base",
+              "detail": "La connexion crée une session révocable et la déconnexion ne révoque que la session en cours. Les jetons de réinitialisation du mot de passe sont hachés, expirent, ne servent qu'une fois et révoquent les sessions actives lorsqu'ils sont utilisés."
+            },
+            {
+              "title": "Configuration de production sûre",
+              "detail": "La configuration de production refuse le mode débogage, les clés de signature de développement, le mot de passe par défaut de la base, SQLite et les origines CORS génériques ou locales."
+            }
+          ],
+          "scope_implemented": [
+            "Imports CSV de l'historique des ventes, des produits, des entrepôts, des fournisseurs et des instantanés de stock.",
+            "Une API d'analyse des ventes cloisonnée par organisation, regroupée par date, par produit ou par entrepôt.",
+            "Un tableau de bord du chiffre d'affaires, des transactions et des tendances.",
+            "La vérification de l'adresse e-mail et la connexion Google facultative."
+          ],
+          "scope_not_yet": [
+            "Le moteur de décision : prévision, apprentissage automatique, optimisation, simulation de scénarios et recommandations.",
+            "La synchronisation avec les ERP.",
+            "Les permissions par rôle et un limiteur de débit distribué."
+          ]
+        },
+        "rw": {
+          "category": "Urubuga rwa backend",
+          "summary": "Urubuga rufasha gufata ibyemezo mu ruhererekane rw'itangwa ry'ibicuruzwa, rugenewe abacuruzi bo hagati, uhereye ku bigo by'ubucuruzi bwo gukwirakwiza ibicuruzwa muri Afurika. Ishingiro ririho ubu ni backend ya FastAPI yubatse nka monolithe igabanyijemo modules, ifite migrations za PostgreSQL; moteri yo gufata ibyemezo ntirashyirwa mu bikorwa.",
+          "overview": [
+            "MOSAIC ni urubuga rufasha gufata ibyemezo mu ruhererekane rw'itangwa ry'ibicuruzwa, rugenewe abacuruzi bo hagati, uhereye ku bigo byo gukwirakwiza ibicuruzwa muri Afurika.",
+            "Ububiko bwa kode burimo ishingiro ryateguwe gukoreshwa mu kazi nyakuri: backend ya FastAPI yubatse nka monolithe igabanyijemo modules, ububiko n'impinduka (migrations) za PostgreSQL, frontend nto ya React, serivisi zo gukora porogaramu za Docker Compose n'igenzura ry'ireme rikora ubwaryo."
+          ],
+          "problem": "Abacuruzi bo hagati basanzwe bakoresha sisitemu za ERP, iz'ububiko bw'ibicuruzwa, iz'ibaruramari, iz'ubwishyu (POS) n'imbonerahamwe (spreadsheets). MOSAIC igamije kuba hejuru yazo igasobanura ibiri kuba, impamvu biri kuba, n'icyo ikigo gikwiye gukora gikurikiyeho.",
+          "objectives": [
+            "Kubanza kubaka ishingiro ryo kwakira amakuru no gukurikirana ibikorwa.",
+            "Nyuma y'iryo shingiro, kongeramo buhoro buhoro iteganyagihe ry'ibicuruzwa, kunoza imikorere, kugerageza ibishoboka no gutanga inama."
+          ],
+          "approach": "Monolithe igabanyijemo modules: serivisi imwe ya FastAPI ifite ibyiciro bisobanutse, PostgreSQL nk'ububiko nyamukuru bw'amakuru bufite imiterere icungwa na migrations, na frontend ya React na TypeScript itigera ibika amabanga yo kwinjira. Ireme ryubahirizwa hakoreshejwe pytest, Ruff na mypy.",
+          "architecture": [
+            "Intangiriro: igenamiterere, umutekano n'ibisangiwe na porogaramu yose.",
+            "Models na schemas: models za SQLAlchemy zo kubika amakuru n'amasezerano ya API ya Pydantic.",
+            "Routers: imiyoboro ya HTTP yoroheje.",
+            "Serivisi: gutunganya imikorere ya porogaramu n'imipaka y'ibikorwa (transactions).",
+            "Domaine: modules zidashingiye kuri framework, zigenewe moteri yo gufata ibyemezo izaza.",
+            "Infrastructure: ububiko bw'amakuru n'ibihuza na sisitemu zo hanze."
+          ],
+          "decisions": [
+            {
+              "title": "Kugera ku makuru bigarukira ku kigo",
+              "detail": "API z'amakuru y'ibanze n'isesengura zisaba kwinjira kandi zigarukira ku kigo cy'ukoresha, kandi nimero iranga ikigo ntiyakirwa ivuye ku mukoresha."
+            },
+            {
+              "title": "Guteranya amakuru muri PostgreSQL",
+              "detail": "Isesengura ry'ibicuruzwa byagurishijwe riteranyirizwa mu bubiko bw'amakuru, mu rwego rw'ikigo; mudasobwa y'ukoresha ntiteranya amakuru y'igurisha y'ibanze."
+            },
+            {
+              "title": "Sessions zishobora guhagarikwa, zibitswe mu bubiko",
+              "detail": "Kwinjira bitangiza session ishobora guhagarikwa, naho gusohoka bihagarika iya none yonyine. Tokens zo guhindura ijambo ry'ibanga ziba zihishe (hashed), zirangira, zikoreshwa rimwe gusa, kandi zihagarika sessions zikora iyo zikoreshejwe."
+            },
+            {
+              "title": "Igenamiterere ryizewe ry'ahakorerwa",
+              "detail": "Igenamiterere ry'ahakorerwa ryanga uburyo bwa debug, imfunguzo zo gusinya zo mu igerageza, ijambo ry'ibanga risanzwe ry'ububiko, SQLite n'inkomoko za CORS zose cyangwa izo kuri mudasobwa."
+            }
+          ],
+          "scope_implemented": [
+            "Kwinjiza amadosiye ya CSV y'amateka y'igurisha, ibicuruzwa, ububiko, abatanga ibicuruzwa n'uko ububiko buhagaze.",
+            "API y'isesengura ry'igurisha igarukira ku kigo, iteranyije hakurikijwe itariki, igicuruzwa cyangwa ububiko.",
+            "Ikibaho cy'incamake cy'amafaranga yinjiye, ibikorwa n'uko bihinduka.",
+            "Kwemeza imeyili no kwinjira ukoresheje Google (bitari itegeko)."
+          ],
+          "scope_not_yet": [
+            "Moteri yo gufata ibyemezo: iteganyagihe, machine learning, kunoza imikorere, kugerageza ibishoboka no gutanga inama.",
+            "Guhuza na sisitemu za ERP.",
+            "Uburenganzira bushingiye ku nshingano n'igabanya-busabe rikorera ahantu henshi."
+          ]
+        }
+      }
     },
     {
       "slug": "school-management-system",
@@ -269,7 +561,17 @@
       "scope_implemented": [],
       "scope_not_yet": [],
       "media": [],
-      "sources": []
+      "sources": [],
+      "translations": {
+        "fr": {
+          "category": "Backend et application web",
+          "summary": "Une application Java full-stack pour gérer les élèves, les enseignants, les cours, les présences et les bulletins, avec une authentification sécurisée sur une architecture MVC."
+        },
+        "rw": {
+          "category": "Backend na porogaramu y'urubuga",
+          "summary": "Porogaramu ya Java yuzuye yo gucunga abanyeshuri, abarimu, amasomo, ubwitabire na raporo, ifite uburyo bwizewe bwo kwinjira bwubakiye ku miterere ya MVC."
+        }
+      }
     },
     {
       "slug": "buzhub-platform",
@@ -297,7 +599,17 @@
       "scope_implemented": [],
       "scope_not_yet": [],
       "media": [],
-      "sources": []
+      "sources": [],
+      "translations": {
+        "fr": {
+          "category": "Contribution backend",
+          "summary": "Une contribution au développement backend, centrée sur la conception d'API, la logique métier et la persistance, pour une plateforme construite autour de besoins produits réels."
+        },
+        "rw": {
+          "category": "Uruhare muri backend",
+          "summary": "Uruhare mu gukora backend, rwibanda ku gutegura API, logique y'ubucuruzi no kubika amakuru, ku rubuga rwubakiye ku byo abakoresha bakeneye koko."
+        }
+      }
     },
     {
       "slug": "portfolio-website",
@@ -326,7 +638,17 @@
       "scope_implemented": [],
       "scope_not_yet": [],
       "media": [],
-      "sources": []
+      "sources": [],
+      "translations": {
+        "fr": {
+          "category": "Projet full-stack",
+          "summary": "Ce site : un portfolio personnel responsive qui présente mes projets, mes compétences et mon expérience, avec un frontend Next.js et un backend FastAPI et PostgreSQL."
+        },
+        "rw": {
+          "category": "Umushinga wuzuye (full-stack)",
+          "summary": "Uru rubuga: portfolio yanjye igaragaza imishinga, ubumenyi n'uburambe, yubatswe na frontend ya Next.js na backend ya FastAPI na PostgreSQL."
+        }
+      }
     }
   ],
   "articles": []

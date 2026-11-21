@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import re
 from datetime import date, datetime
-from typing import Annotated, Literal
+from typing import Annotated, ClassVar, Literal
 
 from pydantic import (
     AfterValidator,
@@ -29,6 +29,7 @@ from app.models.content import SLUG_PATTERN
 from app.schemas.media import MediaVariant, PublicImage
 from app.schemas.site import SettingsFields
 from app.schemas.text import MultiLine, SingleLine
+from app.schemas.translations import Translatable
 
 Status = Literal["draft", "published"]
 
@@ -150,7 +151,20 @@ class Principle(_Strict):
     icon: Literal["architecture", "database", "api", "quality"]
 
 
-class ProfileFields(_Strict):
+class ProfileFields(_Strict, Translatable):
+    TRANSLATABLE: ClassVar[tuple[str, ...]] = (
+        "title",
+        "location",
+        "availability",
+        "headline",
+        "summary",
+        "about_lead",
+        "about_body",
+        "portrait_alt",
+        "contact_intro",
+        "principles",
+    )
+
     name: SingleLine = Field(min_length=2, max_length=100)
     initials: SingleLine = Field(min_length=1, max_length=4)
     title: SingleLine = Field(min_length=2, max_length=120)
@@ -184,7 +198,9 @@ class ProfileOut(ProfileFields):
 # ------------------------------------------------------------------ skills
 
 
-class SkillCategoryFields(_Strict):
+class SkillCategoryFields(_Strict, Translatable):
+    TRANSLATABLE: ClassVar[tuple[str, ...]] = ("name",)
+
     name: SingleLine = Field(min_length=2, max_length=80)
 
 
@@ -213,7 +229,9 @@ class SkillOut(SkillFields, _OutBase):
 # ------------------------------------------------------------------ experience and education
 
 
-class ExperienceFields(_Strict):
+class ExperienceFields(_Strict, Translatable):
+    TRANSLATABLE: ClassVar[tuple[str, ...]] = ("organization", "role", "location", "highlights")
+
     organization: SingleLine = Field(min_length=2, max_length=150)
     role: SingleLine = Field(min_length=2, max_length=150)
     location: OptionalLine = Field(default=None, max_length=120)
@@ -239,7 +257,15 @@ class ExperienceOut(ExperienceFields, _PublishableOut):
     pass
 
 
-class EducationFields(_Strict):
+class EducationFields(_Strict, Translatable):
+    TRANSLATABLE: ClassVar[tuple[str, ...]] = (
+        "institution",
+        "qualification",
+        "location",
+        "status_label",
+        "coursework",
+    )
+
     institution: SingleLine = Field(min_length=2, max_length=150)
     qualification: SingleLine = Field(min_length=2, max_length=150)
     location: OptionalLine = Field(default=None, max_length=120)
@@ -263,7 +289,9 @@ class EducationOut(EducationFields, _PublishableOut):
     pass
 
 
-class CertificationFields(_Strict):
+class CertificationFields(_Strict, Translatable):
+    TRANSLATABLE: ClassVar[tuple[str, ...]] = ("name", "issuer")
+
     name: SingleLine = Field(min_length=2, max_length=150)
     issuer: SingleLine = Field(min_length=2, max_length=150)
     issued_month: OptionalMonth = None
@@ -299,7 +327,22 @@ class Media(_Strict):
     height: int = Field(ge=16, le=8000)
 
 
-class ProjectFields(_Strict):
+class ProjectFields(_Strict, Translatable):
+    TRANSLATABLE: ClassVar[tuple[str, ...]] = (
+        "category",
+        "summary",
+        "overview",
+        "problem",
+        "objectives",
+        "approach",
+        "architecture",
+        "decisions",
+        "challenges",
+        "outcomes",
+        "scope_implemented",
+        "scope_not_yet",
+    )
+
     slug: Slug
     title: SingleLine = Field(min_length=2, max_length=150)
     category: SingleLine = Field(min_length=2, max_length=80)
@@ -334,7 +377,9 @@ class ProjectOut(ProjectFields, _PublishableOut):
 # ------------------------------------------------------------------ articles
 
 
-class ArticleFields(_Strict):
+class ArticleFields(_Strict, Translatable):
+    TRANSLATABLE: ClassVar[tuple[str, ...]] = ("title", "summary", "category", "body")
+
     slug: Slug
     title: SingleLine = Field(min_length=2, max_length=200)
     summary: MultiLine = Field(min_length=10, max_length=600)

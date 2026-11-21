@@ -39,6 +39,7 @@ from app.models.base import Base
 
 SLUG_PATTERN = "^[a-z0-9]+(-[a-z0-9]+)*$"
 _EMPTY_LIST = text("'[]'::jsonb")
+_EMPTY_OBJECT = text("'{}'::jsonb")
 _LIVE = text("deleted_at is null")
 
 
@@ -52,6 +53,15 @@ _STATUS_CHECK = "status in ('draft', 'published')"
 
 def _json_list() -> Mapped[list[Any]]:
     return mapped_column(JSONB, nullable=False, server_default=_EMPTY_LIST, default=list)
+
+
+def _translations() -> Mapped[dict[str, Any]]:
+    """French and Kinyarwanda text for this record: ``{"fr": {field: value}, "rw": {...}}``.
+
+    Only the translatable fields appear (see ``app.schemas.content``); a field without a
+    translation is shown in English.
+    """
+    return mapped_column(JSONB, nullable=False, server_default=_EMPTY_OBJECT, default=dict)
 
 
 class _Tracked:
@@ -97,6 +107,7 @@ class Profile(Base):
     contact_intro: Mapped[str] = mapped_column(Text, nullable=False)
     social: Mapped[list[dict[str, str]]] = _json_list()
     principles: Mapped[list[dict[str, str]]] = _json_list()
+    translations: Mapped[dict[str, Any]] = _translations()
     version: Mapped[int] = mapped_column(Integer, nullable=False, server_default="1")
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
@@ -110,6 +121,7 @@ class SkillCategory(_Tracked, Base):
     )
 
     name: Mapped[str] = mapped_column(String(80), nullable=False)
+    translations: Mapped[dict[str, Any]] = _translations()
 
 
 class Skill(_Tracked, Base):
@@ -151,6 +163,7 @@ class Experience(_Publishable, Base):
     end_month: Mapped[date | None] = mapped_column(Date)
     is_current: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default="false")
     highlights: Mapped[list[str]] = _json_list()
+    translations: Mapped[dict[str, Any]] = _translations()
 
 
 class Education(_Publishable, Base):
@@ -170,6 +183,7 @@ class Education(_Publishable, Base):
     start_month: Mapped[date | None] = mapped_column(Date)
     end_month: Mapped[date | None] = mapped_column(Date)
     coursework: Mapped[list[str]] = _json_list()
+    translations: Mapped[dict[str, Any]] = _translations()
 
 
 class Certification(_Publishable, Base):
@@ -180,6 +194,7 @@ class Certification(_Publishable, Base):
     issuer: Mapped[str] = mapped_column(String(150), nullable=False)
     issued_month: Mapped[date | None] = mapped_column(Date)
     credential_url: Mapped[str | None] = mapped_column(String(400))
+    translations: Mapped[dict[str, Any]] = _translations()
 
 
 class Project(_Publishable, Base):
@@ -218,6 +233,7 @@ class Project(_Publishable, Base):
     scope_not_yet: Mapped[list[str]] = _json_list()
     media: Mapped[list[dict[str, Any]]] = _json_list()
     sources: Mapped[list[str]] = _json_list()
+    translations: Mapped[dict[str, Any]] = _translations()
 
 
 class Article(_Publishable, Base):
@@ -236,6 +252,7 @@ class Article(_Publishable, Base):
     category: Mapped[str] = mapped_column(String(80), nullable=False)
     published_on: Mapped[date | None] = mapped_column(Date)
     body: Mapped[str] = mapped_column(Text, nullable=False, server_default="")
+    translations: Mapped[dict[str, Any]] = _translations()
 
 
 class AuditEvent(Base):

@@ -43,10 +43,12 @@ def profile(session: Session) -> Profile | None:
     return session.get(Profile, 1)
 
 
-def skill_groups(session: Session) -> list[tuple[str, list[str]]]:
-    """Visible skills by category, in order. Categories without a visible skill are omitted."""
+def skill_groups(session: Session, lang: str = "en") -> list[tuple[str, list[str]]]:
+    """Visible skills by category, in order, with the category name in ``lang`` (English when it
+    has no translation). Categories without a visible skill are omitted. Skill names are not
+    translated: they are technologies (Python, PostgreSQL...)."""
     rows = session.execute(
-        select(SkillCategory.name, Skill.name)
+        select(SkillCategory.name, SkillCategory.translations, Skill.name)
         .join(Skill, Skill.category_id == SkillCategory.id)
         .where(
             SkillCategory.deleted_at.is_(None),
@@ -56,8 +58,9 @@ def skill_groups(session: Session) -> list[tuple[str, list[str]]]:
         .order_by(SkillCategory.position, SkillCategory.id, Skill.position, Skill.id)
     ).all()
     groups: dict[str, list[str]] = {}
-    for category, skill in rows:
-        groups.setdefault(category, []).append(skill)
+    for category, translations, skill in rows:
+        name = (translations or {}).get(lang, {}).get("name") or category
+        groups.setdefault(name, []).append(skill)
     return list(groups.items())
 
 
