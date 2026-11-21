@@ -14,7 +14,7 @@ import { describe, expect, it } from "vitest";
 import { allTokens, SPACING_UNIT_PX, spacingScale } from "@/design/tokens";
 
 const css = readFileSync(fileURLToPath(new URL("./globals.css", import.meta.url)), "utf8");
-const layout = readFileSync(fileURLToPath(new URL("./layout.tsx", import.meta.url)), "utf8");
+const layout = readFileSync(fileURLToPath(new URL("./[lang]/layout.tsx", import.meta.url)), "utf8");
 
 function token(name: string): string {
   const match = css.match(new RegExp(`--color-${name}:\\s*(#[0-9a-fA-F]{6})\\s*;`));

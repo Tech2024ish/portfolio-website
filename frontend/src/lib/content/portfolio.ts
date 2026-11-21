@@ -3,6 +3,7 @@ import "server-only";
 import { cache } from "react";
 
 import { articles, isPublished, type Article, type Project } from "@/content/profile";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
 import { ApiError, createApiClient, type RequestOptions } from "@/lib/api/client";
 
 import { articleFromApi, bundledContent, contentFromApi, projectFromApi } from "./map";
@@ -35,10 +36,17 @@ const api = createApiClient();
  */
 const cached: RequestOptions = { cache: "force-cache", next: { tags: [CONTENT_TAG], revalidate: 300 } };
 
-/** Everything the public pages render, once per request. Failures surface as the error page. */
-export const getPublicContent = cache(async (): Promise<PublicContent> => {
-  if (contentSource() === "bundled") return bundledContent();
-  return contentFromApi(await api.get<ApiPortfolio>("/api/v1/public/portfolio", cached));
+/** `?lang=` for French and Kinyarwanda; English keeps the plain addresses (and their cache). */
+const inLanguage = (lang: Locale) => (lang === DEFAULT_LOCALE ? "" : `?lang=${lang}`);
+
+/**
+ * Everything the public pages render, in a language, once per request. Failures surface as the
+ * error page.
+ */
+export const getPublicContent = cache(async (lang: Locale = DEFAULT_LOCALE): Promise<PublicContent> => {
+  if (contentSource() === "bundled") return bundledContent(lang);
+  const data = await api.get<ApiPortfolio>(`/api/v1/public/portfolio${inLanguage(lang)}`, cached);
+  return contentFromApi(data, lang);
 });
 
 const notFoundIs404 = async <T>(request: Promise<T>): Promise<T | undefined> => {
@@ -51,23 +59,27 @@ const notFoundIs404 = async <T>(request: Promise<T>): Promise<T | undefined> => 
 };
 
 /** A published project by slug; undefined for drafts and unknown slugs alike. */
-export const getPublicProject = cache(async (slug: string): Promise<Project | undefined> => {
-  if (contentSource() === "bundled") {
-    return (await getPublicContent()).projects.find((project) => project.slug === slug);
-  }
-  const project = await notFoundIs404(
-    api.get<ApiProject>(`/api/v1/public/projects/${encodeURIComponent(slug)}`, cached),
-  );
-  return project ? projectFromApi(project) : undefined;
-});
+export const getPublicProject = cache(
+  async (slug: string, lang: Locale = DEFAULT_LOCALE): Promise<Project | undefined> => {
+    if (contentSource() === "bundled") {
+      return (await getPublicContent(lang)).projects.find((project) => project.slug === slug);
+    }
+    const project = await notFoundIs404(
+      api.get<ApiProject>(`/api/v1/public/projects/${encodeURIComponent(slug)}${inLanguage(lang)}`, cached),
+    );
+    return project ? projectFromApi(project) : undefined;
+  },
+);
 
 /** A published note by slug, with its body; undefined for drafts and unknown slugs alike. */
-export const getPublicArticle = cache(async (slug: string): Promise<Article | undefined> => {
-  if (contentSource() === "bundled") {
-    return articles.find((article) => article.slug === slug && isPublished(article));
-  }
-  const article = await notFoundIs404(
-    api.get<ApiArticle>(`/api/v1/public/articles/${encodeURIComponent(slug)}`, cached),
-  );
-  return (article && articleFromApi(article)) ?? undefined;
-});
+export const getPublicArticle = cache(
+  async (slug: string, lang: Locale = DEFAULT_LOCALE): Promise<Article | undefined> => {
+    if (contentSource() === "bundled") {
+      return articles.find((article) => article.slug === slug && isPublished(article));
+    }
+    const article = await notFoundIs404(
+      api.get<ApiArticle>(`/api/v1/public/articles/${encodeURIComponent(slug)}${inLanguage(lang)}`, cached),
+    );
+    return (article && articleFromApi(article)) ?? undefined;
+  },
+);

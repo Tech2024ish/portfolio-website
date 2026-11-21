@@ -13,7 +13,15 @@ type NavItem = { label: string; href: string; current?: boolean };
  * Disclosure menu for small screens. A client component: it needs state for open/closed,
  * Escape to close, and closing after navigation.
  */
-export function MobileNav({ items, cvHref }: { items: readonly NavItem[]; cvHref: string }) {
+export function MobileNav({
+  items,
+  cvHref,
+  labels = { open: "Open menu", close: "Close menu", cv: "Download CV" },
+}: {
+  items: readonly NavItem[];
+  cvHref: string;
+  labels?: { open: string; close: string; cv: string };
+}) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -37,7 +45,7 @@ export function MobileNav({ items, cvHref }: { items: readonly NavItem[]; cvHref
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={open ? "Close menu" : "Open menu"}
+        aria-label={open ? labels.close : labels.open}
         onClick={() => setOpen((value) => !value)}
         className="inline-flex size-11 items-center justify-center rounded-control text-fg hover:bg-raised"
       >
@@ -66,7 +74,7 @@ export function MobileNav({ items, cvHref }: { items: readonly NavItem[]; cvHref
           </ul>
           <a href={cvHref} download className={`${buttonClasses("primary")} mt-4 w-full`}>
             <DownloadIcon />
-            Download CV
+            {labels.cv}
           </a>
         </nav>
       </div>

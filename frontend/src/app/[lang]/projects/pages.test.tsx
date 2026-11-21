@@ -10,17 +10,20 @@ import ProjectsPage, { generateMetadata as projectsMetadata } from "./page";
 vi.mock("server-only", () => ({}));
 vi.mock("next/navigation", () => ({
   usePathname: () => null,
+  useParams: () => ({ lang: "en" }),
   notFound: vi.fn(() => {
     throw new Error("NEXT_HTTP_ERROR_FALLBACK;404");
   }),
 }));
 
-const params = (slug: string) => ({ params: Promise.resolve({ slug }) });
+const params = (slug: string) => ({ params: Promise.resolve({ lang: "en", slug }) });
+const EN = { params: Promise.resolve({ lang: "en" }) };
+
 const drafts = projects.filter((project) => project.visibility === "draft");
 
 describe("/projects", () => {
   it("lists every published project, each linking to its page", async () => {
-    render(await ProjectsPage());
+    render(await ProjectsPage(EN));
     expect(screen.getByRole("heading", { level: 1, name: "Projects" })).toBeInTheDocument();
     const list = screen.getByRole("region", { name: "All projects" });
     for (const project of publicProjects) {
@@ -30,15 +33,15 @@ describe("/projects", () => {
   });
 
   it("never shows a draft project", async () => {
-    render(await ProjectsPage());
+    render(await ProjectsPage(EN));
     for (const draft of drafts) expect(screen.queryByText(draft.title)).not.toBeInTheDocument();
   });
 
   it("marks Projects as the current page and has its own canonical URL", async () => {
-    render(await ProjectsPage());
+    render(await ProjectsPage(EN));
     const primary = screen.getByRole("navigation", { name: "Primary" });
     expect(within(primary).getByRole("link", { name: "Projects" })).toHaveAttribute("aria-current", "page");
-    expect((await projectsMetadata()).alternates?.canonical).toBe("/projects");
+    expect((await projectsMetadata(EN)).alternates?.canonical).toBe("/projects");
   });
 
   it("shows an empty state when nothing is published", () => {

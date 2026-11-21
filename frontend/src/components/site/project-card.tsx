@@ -6,19 +6,30 @@ import { ExternalIcon, GitHubIcon } from "@/components/ui/icons";
 import { cardClasses } from "@/components/ui/section";
 import { TagList } from "@/components/ui/tag";
 import type { Project } from "@/content/profile";
+import { DEFAULT_LOCALE, localePath, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 
 import { ProjectCover } from "./project-cover";
 
 /** The project's page on this site. */
-export function projectHref(slug: string): string {
-  return `/projects/${slug}`;
+export function projectHref(slug: string, lang: Locale = DEFAULT_LOCALE): string {
+  return localePath(lang, `/projects/${slug}`);
 }
 
 /**
  * Project summary card. Its title links to the project's page; source and live links, when the
  * project has them, open the external sites. `headingLevel` fits the card into the page outline.
  */
-export function ProjectCard({ project, headingLevel = 3 }: { project: Project; headingLevel?: 2 | 3 }) {
+export function ProjectCard({
+  project,
+  headingLevel = 3,
+  lang = DEFAULT_LOCALE,
+}: {
+  project: Project;
+  headingLevel?: 2 | 3;
+  lang?: Locale;
+}) {
+  const t = dictionary(lang).projects;
   const titleId = `project-${project.slug}`;
   const Heading = `h${headingLevel}` as const;
   return (
@@ -26,14 +37,14 @@ export function ProjectCard({ project, headingLevel = 3 }: { project: Project; h
       aria-labelledby={titleId}
       className={`${cardClasses} group flex h-full flex-col overflow-hidden transition-colors hover:border-border-strong`}
     >
-      <ProjectCover project={project} className="border-b border-border" />
+      <ProjectCover project={project} className="border-b border-border" lang={lang} />
 
       <div className="flex flex-1 flex-col gap-4 p-5">
         <div>
           <p className="mb-1 text-xs font-medium text-muted">{project.category}</p>
           <Heading id={titleId} className="text-lg font-medium text-fg">
             <Link
-              href={projectHref(project.slug)}
+              href={projectHref(project.slug, lang)}
               className="inline-flex min-h-6 items-center rounded-control underline decoration-transparent underline-offset-4 transition-colors hover:decoration-accent"
             >
               {project.title}
@@ -41,33 +52,35 @@ export function ProjectCard({ project, headingLevel = 3 }: { project: Project; h
           </Heading>
         </div>
         <p className="text-sm text-muted">{project.summary}</p>
-        <TagList items={project.tech} label={`${project.title} technologies`} />
+        <TagList items={project.tech} label={t.technologiesOf(project.title)} />
 
         {project.repoUrl || project.liveUrl ? (
           <div className="mt-auto flex flex-wrap gap-3 pt-1">
             {project.repoUrl ? (
               <ExternalLink
                 href={project.repoUrl}
-                aria-label={`Source code for ${project.title}`}
+                aria-label={t.sourceFor(project.title)}
+                lang={lang}
                 className={buttonClasses("secondary", "sm")}
               >
                 <GitHubIcon className="size-4" />
-                Code
+                {t.code}
               </ExternalLink>
             ) : null}
             {project.liveUrl ? (
               <ExternalLink
                 href={project.liveUrl}
-                aria-label={`Live site for ${project.title}`}
+                aria-label={t.liveFor(project.title)}
+                lang={lang}
                 className={buttonClasses("primary", "sm")}
               >
                 <ExternalIcon className="size-4" />
-                Live
+                {t.live}
               </ExternalLink>
             ) : null}
           </div>
         ) : (
-          <p className="mt-auto pt-1 text-sm text-muted">No public link available</p>
+          <p className="mt-auto pt-1 text-sm text-muted">{t.noPublicLink}</p>
         )}
       </div>
     </article>

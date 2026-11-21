@@ -3,6 +3,8 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
+import { parsePath } from "@/i18n/config";
+
 declare global {
   interface Navigator {
     globalPrivacyControl?: boolean;
@@ -33,7 +35,8 @@ export function PageViewTracker() {
     void fetch("/api/v1/analytics/pageview", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ path: pathname, referrer }),
+      // Without the language prefix: a page counts once, whichever language it was read in.
+      body: JSON.stringify({ path: parsePath(pathname).path, referrer }),
       keepalive: true,
       credentials: "same-origin",
     }).catch(() => undefined);

@@ -7,6 +7,8 @@ import { TextLink } from "@/components/ui/link";
 import { MediaImage } from "@/components/ui/media-image";
 import { cardClasses, containerClasses } from "@/components/ui/section";
 import { TagList } from "@/components/ui/tag";
+import { DEFAULT_LOCALE, localePath, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 import type { Project, ProjectDetails } from "@/content/profile";
 
 import { PageHeader } from "./page-header";
@@ -34,38 +36,39 @@ function BulletList({ items }: { items: readonly string[] }) {
 }
 
 /** The case study, section by section. Sections without content are not rendered. */
-function CaseStudy({ details }: { details: ProjectDetails }) {
+function CaseStudy({ details, lang }: { details: ProjectDetails; lang: Locale }) {
+  const t = dictionary(lang).projects.caseStudy;
   return (
     <>
       {details.overview?.length ? (
-        <DetailSection id="overview" title="Overview">
+        <DetailSection id="overview" title={t.overview}>
           {details.overview.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
         </DetailSection>
       ) : null}
       {details.problem ? (
-        <DetailSection id="problem" title="Problem">
+        <DetailSection id="problem" title={t.problem}>
           <p>{details.problem}</p>
         </DetailSection>
       ) : null}
       {details.objectives?.length ? (
-        <DetailSection id="objectives" title="Motivation and objectives">
+        <DetailSection id="objectives" title={t.objectives}>
           <BulletList items={details.objectives} />
         </DetailSection>
       ) : null}
       {details.approach ? (
-        <DetailSection id="approach" title="Technical approach">
+        <DetailSection id="approach" title={t.approach}>
           <p>{details.approach}</p>
         </DetailSection>
       ) : null}
       {details.architecture?.length ? (
-        <DetailSection id="architecture" title="Architecture overview">
+        <DetailSection id="architecture" title={t.architecture}>
           <BulletList items={details.architecture} />
         </DetailSection>
       ) : null}
       {details.decisions?.length ? (
-        <DetailSection id="decisions" title="Engineering decisions">
+        <DetailSection id="decisions" title={t.decisions}>
           <dl className="flex flex-col gap-5">
             {details.decisions.map((decision) => (
               <div key={decision.title} className="flex flex-col gap-1">
@@ -77,7 +80,7 @@ function CaseStudy({ details }: { details: ProjectDetails }) {
         </DetailSection>
       ) : null}
       {details.challenges?.length ? (
-        <DetailSection id="challenges" title="Challenges and solutions">
+        <DetailSection id="challenges" title={t.challenges}>
           <ul className="flex flex-col gap-4">
             {details.challenges.map((item) => (
               <li key={item.challenge} className={`${cardClasses} flex flex-col gap-2 p-5`}>
@@ -95,12 +98,12 @@ function CaseStudy({ details }: { details: ProjectDetails }) {
         </DetailSection>
       ) : null}
       {details.outcomes?.length ? (
-        <DetailSection id="outcomes" title="Outcomes">
+        <DetailSection id="outcomes" title={t.outcomes}>
           <BulletList items={details.outcomes} />
         </DetailSection>
       ) : null}
       {details.scope ? (
-        <DetailSection id="scope" title="Current scope">
+        <DetailSection id="scope" title={t.scope}>
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="flex flex-col gap-2">
               <h3 className="font-semibold text-fg">Implemented</h3>
@@ -114,7 +117,7 @@ function CaseStudy({ details }: { details: ProjectDetails }) {
         </DetailSection>
       ) : null}
       {details.media?.length ? (
-        <DetailSection id="media" title="Screenshots">
+        <DetailSection id="media" title={t.media}>
           <div className="grid gap-6">
             {details.media.map((item) => (
               <figure key={item.src} className="flex flex-col gap-2">
@@ -145,11 +148,14 @@ export function ProjectDetail({
   project,
   details,
   related,
+  lang = DEFAULT_LOCALE,
 }: {
   project: Project;
   details?: ProjectDetails;
   related: readonly Project[];
+  lang?: Locale;
 }) {
+  const t = dictionary(lang).projects;
   const titleId = "project-title";
   return (
     <article aria-labelledby={titleId}>
@@ -157,11 +163,11 @@ export function ProjectDetail({
         titleId={titleId}
         title={project.title}
         eyebrow={
-          <nav aria-label="Breadcrumb">
+          <nav aria-label={t.breadcrumb}>
             <ol className="flex flex-wrap items-center gap-2">
               <li>
-                <TextLink href="/projects" className="inline-flex min-h-6 items-center">
-                  Projects
+                <TextLink href={localePath(lang, "/projects")} className="inline-flex min-h-6 items-center">
+                  {t.pageTitle}
                 </TextLink>
               </li>
               <li aria-hidden="true" className="text-muted">
@@ -178,15 +184,15 @@ export function ProjectDetail({
         {project.repoUrl || project.liveUrl ? (
           <div className="flex flex-wrap gap-3">
             {project.repoUrl ? (
-              <ExternalLink href={project.repoUrl} className={buttonClasses("secondary", "sm")}>
+              <ExternalLink lang={lang} href={project.repoUrl} className={buttonClasses("secondary", "sm")}>
                 <GitHubIcon className="size-4" />
-                Source code
+                {t.sourceCode}
               </ExternalLink>
             ) : null}
             {project.liveUrl ? (
-              <ExternalLink href={project.liveUrl} className={buttonClasses("primary", "sm")}>
+              <ExternalLink lang={lang} href={project.liveUrl} className={buttonClasses("primary", "sm")}>
                 <ExternalIcon className="size-4" />
-                Live site
+                {t.liveSite}
               </ExternalLink>
             ) : null}
           </div>
@@ -194,49 +200,51 @@ export function ProjectDetail({
       </PageHeader>
 
       <div className={`${containerClasses} flex flex-col gap-10 py-10 sm:py-12`}>
-        <aside aria-label="Project facts" className="grid gap-4 sm:grid-cols-3">
+        <aside aria-label={t.facts} className="grid gap-4 sm:grid-cols-3">
           <div className={`${cardClasses} flex flex-col gap-2 p-5`}>
-            <h2 className="text-sm font-semibold text-fg">Category</h2>
+            <h2 className="text-sm font-semibold text-fg">{t.category}</h2>
             <p className="font-mono text-sm text-accent">{project.category}</p>
           </div>
           <div className={`${cardClasses} flex flex-col gap-2 p-5`}>
-            <h2 className="text-sm font-semibold text-fg">Technologies</h2>
-            <TagList items={project.tech} label={`${project.title} technologies`} />
+            <h2 className="text-sm font-semibold text-fg">{t.technologies}</h2>
+            <TagList items={project.tech} label={t.technologiesOf(project.title)} />
           </div>
           <div className={`${cardClasses} flex flex-col gap-2 p-5`}>
-            <h2 className="text-sm font-semibold text-fg">Links</h2>
+            <h2 className="text-sm font-semibold text-fg">{t.links}</h2>
             {project.repoUrl || project.liveUrl ? (
               <ul className="flex flex-col gap-1 text-sm">
                 {project.repoUrl ? (
                   <li>
                     <ExternalLink
+                      lang={lang}
                       href={project.repoUrl}
                       className="inline-flex min-h-6 items-center text-accent underline underline-offset-4"
                     >
-                      Source code on GitHub
+                      {t.sourceOnGitHub}
                     </ExternalLink>
                   </li>
                 ) : null}
                 {project.liveUrl ? (
                   <li>
                     <ExternalLink
+                      lang={lang}
                       href={project.liveUrl}
                       className="inline-flex min-h-6 items-center text-accent underline underline-offset-4"
                     >
-                      Live site
+                      {t.liveSite}
                     </ExternalLink>
                   </li>
                 ) : null}
               </ul>
             ) : (
-              <p className="text-sm text-muted">No public link available</p>
+              <p className="text-sm text-muted">{t.noPublicLink}</p>
             )}
           </div>
         </aside>
 
         {details ? (
           <div className="flex max-w-3xl flex-col gap-10">
-            <CaseStudy details={details} />
+            <CaseStudy details={details} lang={lang} />
           </div>
         ) : null}
       </div>
@@ -245,12 +253,12 @@ export function ProjectDetail({
         <nav aria-labelledby="more-projects" className="border-t border-border">
           <div className={`${containerClasses} flex flex-col gap-4 py-12`}>
             <h2 id="more-projects" className="font-display text-xl font-bold tracking-tight text-fg">
-              More projects
+              {t.moreProjects}
             </h2>
             <ul className="flex flex-wrap gap-x-6 gap-y-2">
               {related.map((other) => (
                 <li key={other.slug}>
-                  <TextLink href={projectHref(other.slug)} className="inline-flex min-h-6 items-center">
+                  <TextLink href={projectHref(other.slug, lang)} className="inline-flex min-h-6 items-center">
                     {other.title}
                   </TextLink>
                 </li>

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 
 import { cleanup } from "@testing-library/react";
-import { afterEach } from "vitest";
+import { afterEach, vi } from "vitest";
 
 afterEach(() => cleanup());
 
@@ -22,3 +22,7 @@ if (typeof HTMLDialogElement !== "undefined" && !HTMLDialogElement.prototype.sho
     this.dispatchEvent(new Event("close"));
   };
 }
+
+// `next/root-params` is a placeholder that the Next.js compiler replaces; tests stand in for it.
+// Pages under app/[lang] read the language from it (default English; a test can override it).
+vi.mock("next/root-params", () => ({ lang: async () => "en" }));

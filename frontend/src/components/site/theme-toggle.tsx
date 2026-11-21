@@ -38,7 +38,14 @@ export function applyTheme(theme: Theme) {
   for (const listener of listeners) listener();
 }
 
-export function ThemeToggle({ className }: { className?: string }) {
+export function ThemeToggle({
+  className,
+  labels = { dark: "Switch to dark theme", light: "Switch to light theme" },
+}: {
+  className?: string;
+  /** Accessible names for the two actions, in the page's language. */
+  labels?: { dark: string; light: string };
+}) {
   // The server cannot know the visitor's choice: it renders the light state, and the client
   // reads the real one after hydration (no mismatch, no flash: the page colours come from CSS).
   const theme = useSyncExternalStore(subscribe, current, () => "light" as Theme);
@@ -47,7 +54,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     <button
       type="button"
       onClick={() => applyTheme(next)}
-      aria-label={`Switch to ${next} theme`}
+      aria-label={labels[next]}
       className={cx(
         "inline-flex size-11 items-center justify-center rounded-control text-muted transition-colors hover:bg-raised hover:text-fg",
         className,

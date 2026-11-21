@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 
 import type { Profile } from "@/content/profile";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 import type { SitePage } from "@/lib/navigation";
 
 import { PageViewTracker } from "./page-view-tracker";
@@ -17,6 +19,7 @@ export function SiteShell({
   articleCount,
   hidden = [],
   track = true,
+  lang = DEFAULT_LOCALE,
   children,
 }: {
   page: SitePage;
@@ -27,6 +30,8 @@ export function SiteShell({
   hidden?: readonly string[];
   /** Report the view for analytics (not for the not-found page). */
   track?: boolean;
+  /** The page's language: every link and label in the frame follows it. */
+  lang?: Locale;
   children: ReactNode;
 }) {
   return (
@@ -35,13 +40,13 @@ export function SiteShell({
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-(--z-skip-link) focus:rounded-control focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
       >
-        Skip to content
+        {dictionary(lang).shell.skipToContent}
       </a>
-      <SiteHeader page={page} profile={profile} articleCount={articleCount} hidden={hidden} />
+      <SiteHeader page={page} profile={profile} articleCount={articleCount} hidden={hidden} lang={lang} />
       <main id="main" tabIndex={-1} className="focus:outline-none">
         {children}
       </main>
-      <SiteFooter page={page} profile={profile} articleCount={articleCount} hidden={hidden} />
+      <SiteFooter page={page} profile={profile} articleCount={articleCount} hidden={hidden} lang={lang} />
       {track ? <PageViewTracker /> : null}
     </>
   );

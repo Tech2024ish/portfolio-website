@@ -73,6 +73,34 @@ describe("public content", () => {
     );
   });
 
+  it("is fully translated in French and Kinyarwanda, with English where nothing is translated", () => {
+    const en = bundledContent("en");
+    for (const lang of ["fr", "rw"] as const) {
+      const content = bundledContent(lang);
+      expect(content.profile.headline).not.toBe(en.profile.headline);
+      expect(content.profile.summary).not.toBe(en.profile.summary);
+      expect(content.principles.map((item) => item.title)).not.toEqual(
+        en.principles.map((item) => item.title),
+      );
+      expect(content.experience[0]!.role).not.toBe(en.experience[0]!.role);
+      expect(content.experience[0]!.period).not.toBe(en.experience[0]!.period);
+      expect(content.education[0]!.degree).not.toBe(en.education[0]!.degree);
+      const mosaic = content.projects.find((project) => project.slug === "mosaic")!;
+      expect(mosaic.summary).not.toBe(en.projects.find((project) => project.slug === "mosaic")!.summary);
+      expect(mosaic.details?.decisions?.[0]?.title).not.toBe("Tenant-scoped data access");
+      expect(content.settings.seoTitle).not.toBe(en.settings.seoTitle);
+      // Names, technologies and links are not translated.
+      expect(content.profile.name).toBe(en.profile.name);
+      expect(content.skillGroups.map((group) => group.skills)).toEqual(
+        en.skillGroups.map((group) => group.skills),
+      );
+      expect(mosaic.title).toBe("MOSAIC");
+      expect(mosaic.repoUrl).toBe(en.projects.find((project) => project.slug === "mosaic")!.repoUrl);
+    }
+    expect(bundledContent("fr").experience[0]!.period).toBe("janvier 2026 – aujourd'hui");
+    expect(bundledContent("rw").experience[0]!.period).toBe("Mutarama 2026 – Ubu");
+  });
+
   it("only ever contains published records", () => {
     const content = bundledContent();
     for (const list of [content.projects, content.experience, content.education, content.certifications]) {

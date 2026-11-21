@@ -2,6 +2,8 @@
  * Contact-form contract shared by the form and its tests. Limits mirror the FastAPI schema
  * (`backend/app/schemas/contact.py`); the server stays the authority and re-validates.
  */
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 import { api, ApiError } from "@/lib/api/client";
 
 export const CONTACT_LIMITS = {
@@ -20,32 +22,29 @@ export const CONTACT_FIELDS: readonly ContactField[] = ["name", "email", "subjec
 // Deliberately simple: one "@", no spaces, a dot in the domain. The server does the strict check.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function validateContact(values: ContactValues): FieldErrors {
+export function validateContact(values: ContactValues, lang: Locale = DEFAULT_LOCALE): FieldErrors {
+  const t = dictionary(lang).contact.errors;
   const errors: FieldErrors = {};
   const name = values.name.trim();
   const email = values.email.trim();
   const subject = values.subject.trim();
   const message = values.message.trim();
 
-  if (!name) errors.name = "Enter your name.";
-  else if (name.length < CONTACT_LIMITS.name.min) errors.name = "Name must be at least 2 characters.";
-  else if (name.length > CONTACT_LIMITS.name.max) errors.name = "Name must be at most 100 characters.";
+  if (!name) errors.name = t.nameRequired;
+  else if (name.length < CONTACT_LIMITS.name.min) errors.name = t.nameShort;
+  else if (name.length > CONTACT_LIMITS.name.max) errors.name = t.nameLong;
 
-  if (!email) errors.email = "Enter your email address.";
+  if (!email) errors.email = t.emailRequired;
   else if (email.length > CONTACT_LIMITS.email.max || !EMAIL_PATTERN.test(email))
-    errors.email = "Enter a valid email address, like name@example.com.";
+    errors.email = t.emailInvalid;
 
-  if (!subject) errors.subject = "Enter a subject.";
-  else if (subject.length < CONTACT_LIMITS.subject.min)
-    errors.subject = "Subject must be at least 3 characters.";
-  else if (subject.length > CONTACT_LIMITS.subject.max)
-    errors.subject = "Subject must be at most 150 characters.";
+  if (!subject) errors.subject = t.subjectRequired;
+  else if (subject.length < CONTACT_LIMITS.subject.min) errors.subject = t.subjectShort;
+  else if (subject.length > CONTACT_LIMITS.subject.max) errors.subject = t.subjectLong;
 
-  if (!message) errors.message = "Enter a message.";
-  else if (message.length < CONTACT_LIMITS.message.min)
-    errors.message = "Message must be at least 10 characters.";
-  else if (message.length > CONTACT_LIMITS.message.max)
-    errors.message = "Message must be at most 5,000 characters.";
+  if (!message) errors.message = t.messageRequired;
+  else if (message.length < CONTACT_LIMITS.message.min) errors.message = t.messageShort;
+  else if (message.length > CONTACT_LIMITS.message.max) errors.message = t.messageLong;
 
   return errors;
 }
@@ -62,16 +61,6 @@ export type SubmitResult =
 /** A hung proxy or backend must not leave the visitor on "Sending…" indefinitely. */
 export const SUBMIT_TIMEOUT_MS = 15_000;
 
-const MESSAGES = {
-  rateLimited: "You've sent several messages recently. Please wait a while before trying again.",
-  unavailable: "The message service is temporarily unavailable, so your message was not sent.",
-  network: "We couldn't reach the server, so your message was not sent. Check your connection.",
-  // A timeout cannot prove the message was not stored, so this does not claim either way.
-  timeout: "The server took too long to respond, so your message may not have been sent.",
-  unknown: "Something went wrong and your message was not sent.",
-  validation: "Some fields need attention.",
-};
-
 function isContactField(field: string): field is ContactField {
   return (CONTACT_FIELDS as readonly string[]).includes(field);
 }
@@ -82,7 +71,10 @@ export async function submitContact(
   website: string,
   client: Pick<typeof api, "post"> = api,
   timeoutMs: number = SUBMIT_TIMEOUT_MS,
+  lang: Locale = DEFAULT_LOCALE,
 ): Promise<SubmitResult> {
+  // A timeout cannot prove the message was not stored, so its text does not claim either way.
+  const MESSAGES = dictionary(lang).contact.failures;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {

@@ -5,13 +5,24 @@ import { MediaImage } from "@/components/ui/media-image";
 import { containerClasses } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/tag";
 import type { Profile } from "@/content/profile";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 
 const socialIcons = { GitHub: GitHubIcon, LinkedIn: LinkedInIcon } as const;
 
 const roundLink =
   "inline-flex size-11 items-center justify-center rounded-pill border border-border-strong text-fg transition-colors hover:bg-raised";
 
-export function Hero({ profile, showCv = true }: { profile: Profile; showCv?: boolean }) {
+export function Hero({
+  profile,
+  showCv = true,
+  lang = DEFAULT_LOCALE,
+}: {
+  profile: Profile;
+  showCv?: boolean;
+  lang?: Locale;
+}) {
+  const t = dictionary(lang).hero;
   return (
     <section aria-labelledby="hero-heading" className="relative overflow-hidden">
       {/* Decorative: a soft light behind the portrait, from the surface tokens. */}
@@ -29,7 +40,7 @@ export function Hero({ profile, showCv = true }: { profile: Profile; showCv?: bo
             id="hero-heading"
             className="text-[2.5rem] leading-[1.08] font-normal tracking-tight text-balance text-fg sm:text-6xl"
           >
-            Hello, I&apos;m <span className="block">{profile.name}</span>
+            {t.greeting} <span className="block">{profile.name}</span>
           </h1>
 
           <p className="max-w-xl text-xl text-muted sm:text-2xl">
@@ -42,28 +53,33 @@ export function Hero({ profile, showCv = true }: { profile: Profile; showCv?: bo
             {showCv ? (
               <a href={profile.cvHref} download className={buttonClasses("primary")}>
                 <DownloadIcon className="size-4" />
-                Download CV
+                {t.downloadCv}
               </a>
             ) : null}
             <a href="#projects" className={buttonClasses("secondary")}>
-              View projects
+              {t.viewProjects}
               <ArrowRightIcon className="size-4" />
             </a>
           </div>
 
-          <ul className="flex items-center gap-3" aria-label="Profiles">
+          <ul className="flex items-center gap-3" aria-label={t.profiles}>
             {profile.social.map((link) => {
               const Icon = socialIcons[link.label];
               return (
                 <li key={link.label}>
-                  <ExternalLink href={link.href} aria-label={`${link.label} profile`} className={roundLink}>
+                  <ExternalLink
+                    href={link.href}
+                    aria-label={t.profileLink(link.label)}
+                    className={roundLink}
+                    lang={lang}
+                  >
                     <Icon className="size-5" />
                   </ExternalLink>
                 </li>
               );
             })}
             <li>
-              <a href={`mailto:${profile.email}`} aria-label="Email" className={roundLink}>
+              <a href={`mailto:${profile.email}`} aria-label={t.email} className={roundLink}>
                 <MailIcon className="size-5" />
               </a>
             </li>
@@ -85,7 +101,7 @@ export function Hero({ profile, showCv = true }: { profile: Profile; showCv?: bo
           </div>
           <p className="absolute right-0 bottom-4 flex items-center gap-2 rounded-card border border-border bg-card px-4 py-2.5 text-sm text-fg shadow-raised sm:-right-4">
             <span aria-hidden="true" className="size-2.5 rounded-full bg-success" />
-            Available for hire
+            {t.availableForHire}
           </p>
         </div>
       </div>
