@@ -40,6 +40,7 @@ describe("robots.txt and sitemap.xml", () => {
   it("lists every published page and nothing unpublished", async () => {
     const { default: sitemap } = await import("@/app/sitemap");
     const urls = (await sitemap()).map((entry) => new URL(entry.url).pathname);
+    // One address per page: every language is served there (the visitor's choice).
     expect(urls).toEqual(["/", "/projects", "/projects/mosaic", "/projects/buzhub-platform"]);
     for (const draft of projects.filter((project) => project.visibility === "draft")) {
       expect(urls).not.toContain(`/projects/${draft.slug}`);

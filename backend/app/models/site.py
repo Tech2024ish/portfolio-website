@@ -14,6 +14,7 @@ anything, so visitors are counted per day and never followed across days.
 from __future__ import annotations
 
 from datetime import date, datetime
+from typing import Any
 
 from sqlalchemy import (
     BigInteger,
@@ -27,7 +28,9 @@ from sqlalchemy import (
     SmallInteger,
     String,
     func,
+    text,
 )
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
@@ -49,6 +52,10 @@ class SiteSettings(Base):
     id: Mapped[int] = mapped_column(SmallInteger, primary_key=True, autoincrement=False, default=1)
     seo_title: Mapped[str] = mapped_column(String(70), nullable=False)
     seo_description: Mapped[str] = mapped_column(String(200), nullable=False)
+    # French and Kinyarwanda title and description: {"fr": {...}, "rw": {...}}.
+    translations: Mapped[dict[str, Any]] = mapped_column(
+        JSONB, nullable=False, server_default=text("'{}'::jsonb"), default=dict
+    )
     show_skills: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default="true")
     show_experience: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default="true")
     show_contact_form: Mapped[bool] = mapped_column(Boolean, nullable=False, server_default="true")

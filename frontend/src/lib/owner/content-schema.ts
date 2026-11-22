@@ -73,6 +73,87 @@ export type OwnerItem = Record<string, unknown> & {
 
 export type FormValues = Record<string, string | boolean>;
 
+/* ---- translations ---- */
+
+/** The languages content can be translated into (English is the regular fields). */
+export const TRANSLATION_LANGUAGES = [
+  { code: "fr", name: "French", group: "Français (French)" },
+  { code: "rw", name: "Kinyarwanda", group: "Ikinyarwanda (Kinyarwanda)" },
+] as const;
+
+/**
+ * The fields that can be translated, per content type. Mirrors TRANSLATABLE in
+ * backend/app/schemas/content.py and schemas/site.py, which validate them.
+ */
+const TRANSLATABLE: Record<string, readonly string[]> = {
+  profile: [
+    "title",
+    "location",
+    "availability",
+    "headline",
+    "summary",
+    "about_lead",
+    "about_body",
+    "portrait_alt",
+    "contact_intro",
+    "principles",
+  ],
+  settings: ["seo_title", "seo_description"],
+  projects: [
+    "category",
+    "summary",
+    "overview",
+    "problem",
+    "objectives",
+    "approach",
+    "architecture",
+    "decisions",
+    "challenges",
+    "outcomes",
+    "scope_implemented",
+    "scope_not_yet",
+  ],
+  experiences: ["organization", "role", "location", "highlights"],
+  education: ["institution", "qualification", "location", "status_label", "coursework"],
+  certifications: ["name", "issuer"],
+  "skill-categories": ["name"],
+  articles: ["title", "summary", "category", "body"],
+};
+
+const TRANSLATION_PREFIX = "translations.";
+
+/** "translations.fr.summary" → ["fr", "summary"]; null for a regular field. */
+function translationOf(name: string): [string, string] | null {
+  if (!name.startsWith(TRANSLATION_PREFIX)) return null;
+  const [lang = "", field = ""] = name.slice(TRANSLATION_PREFIX.length).split(".");
+  return [lang, field];
+}
+
+/**
+ * Adds a French and a Kinyarwanda section to the editor: one optional field per translatable
+ * field, of the same kind and limits, named `translations.<lang>.<field>`. Left empty, the field is
+ * shown in English on the site.
+ */
+function withTranslations(spec: CollectionSpec): CollectionSpec {
+  const names = TRANSLATABLE[spec.key] ?? [];
+  const sources = spec.fields.filter((field) => names.includes(field.name));
+  const translated = TRANSLATION_LANGUAGES.flatMap(({ code, name, group }) =>
+    sources.map((field): FieldSpec => ({
+      ...field,
+      name: `${TRANSLATION_PREFIX}${code}.${field.name}`,
+      // Each box is named for its language, so the three "Summary" fields stay distinguishable.
+      label: `${name}: ${field.label}`,
+      required: false,
+      nullable: true,
+      picker: undefined,
+      pickerAlt: undefined,
+      group,
+      help: field.help ?? "Leave empty to show the English text.",
+    })),
+  );
+  return { ...spec, fields: [...spec.fields, ...translated] };
+}
+
 const STATUS_OPTIONS = [
   { value: "draft", label: "Draft (not shown)" },
   { value: "published", label: "Published" },
@@ -80,7 +161,7 @@ const STATUS_OPTIONS = [
 
 const ICON_HELP = "One per line: title | text | icon (architecture, database, api or quality).";
 
-export const PROFILE_SPEC: CollectionSpec = {
+const PROFILE_BASE: CollectionSpec = {
   key: "profile",
   label: "Profile",
   singular: "profile",
@@ -184,7 +265,7 @@ export const PROFILE_SPEC: CollectionSpec = {
   ],
 };
 
-export const SETTINGS_SPEC: CollectionSpec = {
+const SETTINGS_BASE: CollectionSpec = {
   key: "settings",
   label: "Settings",
   singular: "settings",
@@ -236,7 +317,7 @@ export const SETTINGS_SPEC: CollectionSpec = {
   ],
 };
 
-export const COLLECTIONS: CollectionSpec[] = [
+const BASE_COLLECTIONS: CollectionSpec[] = [
   {
     key: "projects",
     label: "Projects",
@@ -461,6 +542,10 @@ export const COLLECTIONS: CollectionSpec[] = [
   },
 ];
 
+export const PROFILE_SPEC: CollectionSpec = withTranslations(PROFILE_BASE);
+export const SETTINGS_SPEC: CollectionSpec = withTranslations(SETTINGS_BASE);
+export const COLLECTIONS: CollectionSpec[] = BASE_COLLECTIONS.map(withTranslations);
+
 export function collectionSpec(key: string): CollectionSpec | undefined {
   return COLLECTIONS.find((spec) => spec.key === key);
 }
@@ -502,7 +587,12 @@ function toText(field: FieldSpec, value: unknown): string | boolean {
 export function toFormValues(spec: CollectionSpec, item: Record<string, unknown> | null): FormValues {
   const values: FormValues = {};
   for (const field of spec.fields) {
-    let value = item?.[field.name];
+    const translation = translationOf(field.name);
+    let value = translation
+      ? (item?.translations as Record<string, Record<string, unknown>> | undefined)?.[translation[0]]?.[
+          translation[1]
+        ]
+      : item?.[field.name];
     if (item === null) {
       if (field.name === "visible") value = true;
       if (field.name === "case_study_status") value = "draft";
@@ -556,7 +646,19 @@ function fromText(field: FieldSpec, value: string | boolean | undefined): unknow
 /** The JSON the API expects for these form values (without `version`). */
 export function fromFormValues(spec: CollectionSpec, values: FormValues): Record<string, unknown> {
   const payload: Record<string, unknown> = {};
-  for (const field of spec.fields) payload[field.name] = fromText(field, values[field.name]);
+  const translations: Record<string, Record<string, unknown>> = {};
+  for (const field of spec.fields) {
+    const translation = translationOf(field.name);
+    const value = fromText(field, values[field.name]);
+    if (!translation) {
+      payload[field.name] = value;
+      continue;
+    }
+    // Only filled-in translations are sent; an empty one means "show the English text".
+    const empty = value === null || value === "" || (Array.isArray(value) && value.length === 0);
+    if (!empty) (translations[translation[0]] ??= {})[translation[1]] = value;
+  }
+  if (spec.fields.some((field) => translationOf(field.name))) payload.translations = translations;
   return payload;
 }
 

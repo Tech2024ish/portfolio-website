@@ -40,8 +40,27 @@ describe("Studio content forms", () => {
     for (const key of ["id", "version", "position", "updated_at", "status"]) delete fields[key];
     expect(payload).toEqual({
       ...fields,
+      translations: {},
       media: [{ src: "/a.png", alt: "A screen", width: 1200, height: 800 }],
     });
+  });
+
+  it("edits French and Kinyarwanda text and sends only what is filled in", () => {
+    const translated = { ...project, translations: { fr: { summary: "Un résumé en français." } } };
+    const values = toFormValues(projects, translated);
+    expect(values["translations.fr.summary"]).toBe("Un résumé en français.");
+    expect(values["translations.rw.summary"]).toBe("");
+    values["translations.rw.category"] = "Urubuga";
+    values["translations.fr.objectives"] = "Premier objectif\n\nSecond objectif";
+    expect(fromFormValues(projects, values).translations).toEqual({
+      fr: { summary: "Un résumé en français.", objectives: ["Premier objectif", "Second objectif"] },
+      rw: { category: "Urubuga" },
+    });
+    // Each translation field names its language, and only translatable fields get one.
+    const french = projects.fields.find((field) => field.name === "translations.fr.summary");
+    expect(french?.label).toBe("French: Summary");
+    expect(french?.required).toBe(false);
+    expect(projects.fields.some((field) => field.name === "translations.fr.slug")).toBe(false);
   });
 
   it("turns empty optional values into null and drops blank lines", () => {

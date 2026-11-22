@@ -21,6 +21,13 @@ def current(session: Session) -> SettingsFields:
     return SettingsFields.model_validate(row, from_attributes=True) if row else DEFAULTS
 
 
+def localized(settings: SettingsFields, lang: str) -> SettingsFields:
+    """The settings for the public site in ``lang``: translated title and description where they
+    exist, English otherwise, without the translations themselves."""
+    values = settings.translations.get(lang, {}) if lang != "en" else {}  # type: ignore[call-overload]
+    return settings.model_copy(update={**values, "translations": {}})
+
+
 def read(session: Session) -> SettingsOut:
     row = session.get(SiteSettings, 1)
     if row is None:

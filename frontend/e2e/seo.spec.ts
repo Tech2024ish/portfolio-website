@@ -45,6 +45,7 @@ test.describe("SEO", () => {
     const paths = [...(await response.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map(
       (match) => new URL(match[1]!).pathname,
     );
+    // One address per page: every language is served there (the visitor's choice).
     expect(paths).toEqual(PUBLIC_PAGES);
   });
 

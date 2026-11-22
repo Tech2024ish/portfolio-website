@@ -1,6 +1,8 @@
 import { ApiIcon, ArchitectureIcon, DatabaseIcon, ShieldIcon } from "@/components/ui/icons";
 import { cardClasses, Section } from "@/components/ui/section";
 import type { Principle, Profile } from "@/content/profile";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 
 const principleIcons: Record<Principle["icon"], typeof ApiIcon> = {
   architecture: ArchitectureIcon,
@@ -9,9 +11,17 @@ const principleIcons: Record<Principle["icon"], typeof ApiIcon> = {
   quality: ShieldIcon,
 };
 
-export function AboutSection({ profile, principles }: { profile: Profile; principles: Principle[] }) {
+export function AboutSection({
+  profile,
+  principles,
+  lang = DEFAULT_LOCALE,
+}: {
+  profile: Profile;
+  principles: Principle[];
+  lang?: Locale;
+}) {
   return (
-    <Section id="about" title="Engineering philosophy" description={profile.aboutLead}>
+    <Section id="about" title={dictionary(lang).sections.about} description={profile.aboutLead}>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
         <div className="flex flex-col gap-4 text-base text-muted">
           {profile.aboutBody.map((paragraph) => (

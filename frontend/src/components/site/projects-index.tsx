@@ -4,21 +4,30 @@ import { buttonClasses } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/feedback";
 import { containerClasses } from "@/components/ui/section";
 import type { Project } from "@/content/profile";
+import { DEFAULT_LOCALE, localePath, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 
 import { ProjectCard } from "./project-card";
 
 /** The projects listing: every published project as a card, or an empty state. */
-export function ProjectsIndex({ projects }: { projects: readonly Project[] }) {
+export function ProjectsIndex({
+  projects,
+  lang = DEFAULT_LOCALE,
+}: {
+  projects: readonly Project[];
+  lang?: Locale;
+}) {
+  const t = dictionary(lang).projects;
   return (
-    <section aria-label="All projects" className={`${containerClasses} py-10 sm:py-12`}>
+    <section aria-label={t.allProjects} className={`${containerClasses} py-10 sm:py-12`}>
       {projects.length === 0 ? (
         <EmptyState
           headingLevel={2}
-          title="No projects published yet"
-          description="Projects appear here once they are reviewed and published."
+          title={t.emptyTitle}
+          description={t.emptyDescription}
           action={
-            <Link href="/" className={buttonClasses("secondary", "sm")}>
-              Back to the home page
+            <Link href={localePath(lang, "/")} className={buttonClasses("secondary", "sm")}>
+              {t.backHome}
             </Link>
           }
         />
@@ -26,7 +35,7 @@ export function ProjectsIndex({ projects }: { projects: readonly Project[] }) {
         <ul className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {projects.map((project) => (
             <li key={project.slug}>
-              <ProjectCard project={project} headingLevel={2} />
+              <ProjectCard project={project} headingLevel={2} lang={lang} />
             </li>
           ))}
         </ul>

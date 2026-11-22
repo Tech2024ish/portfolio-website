@@ -3,6 +3,8 @@ import { DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon, MapPinIcon } from "@/
 import { Section } from "@/components/ui/section";
 import { StatusBadge } from "@/components/ui/tag";
 import type { Profile } from "@/content/profile";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 
 import { ContactForm } from "./contact-form";
 
@@ -18,15 +20,18 @@ export function ContactSection({
   profile,
   showForm = true,
   showCv = true,
+  lang = DEFAULT_LOCALE,
 }: {
   profile: Profile;
   /** Off: the email and links stay; the form is replaced by a note. */
   showForm?: boolean;
   showCv?: boolean;
+  lang?: Locale;
 }) {
+  const t = dictionary(lang).contact;
   const social = Object.fromEntries(profile.social.map((link) => [link.label, link.href]));
   return (
-    <Section id="contact" title="Let's build something reliable" description={profile.contactIntro}>
+    <Section id="contact" title={dictionary(lang).sections.contact} description={profile.contactIntro}>
       {/* Above both columns, so the first card and the form start on the same line. */}
       <div className="mb-5 flex justify-center">
         <StatusBadge>{profile.availability}</StatusBadge>
@@ -34,22 +39,22 @@ export function ContactSection({
       <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2 lg:gap-8">
         <div className="flex flex-col">
           {/* The cards share any extra height, so this column ends level with the form beside it. */}
-          <ul className="flex flex-1 flex-col gap-3" aria-label="Other ways to reach me">
+          <ul className="flex flex-1 flex-col gap-3" aria-label={t.otherWays}>
             <li className="flex flex-1">
               <a href={`mailto:${profile.email}`} className={rowClasses}>
                 <MailIcon />
                 <span className="flex min-w-0 flex-col">
-                  <span className="text-sm font-medium text-fg">Email</span>
+                  <span className="text-sm font-medium text-fg">{t.email}</span>
                   <span className="truncate text-muted">{profile.email}</span>
                 </span>
               </a>
             </li>
             {social.LinkedIn ? (
               <li className="flex flex-1">
-                <ExternalLink href={social.LinkedIn} className={rowClasses}>
+                <ExternalLink href={social.LinkedIn} className={rowClasses} lang={lang}>
                   <LinkedInIcon />
                   <span className="flex min-w-0 flex-col">
-                    <span className="text-sm font-medium text-fg">LinkedIn</span>
+                    <span className="text-sm font-medium text-fg">{t.linkedIn}</span>
                     <span className="truncate text-muted">{profile.name}</span>
                   </span>
                 </ExternalLink>
@@ -57,10 +62,10 @@ export function ContactSection({
             ) : null}
             {social.GitHub ? (
               <li className="flex flex-1">
-                <ExternalLink href={social.GitHub} className={rowClasses}>
+                <ExternalLink href={social.GitHub} className={rowClasses} lang={lang}>
                   <GitHubIcon />
                   <span className="flex min-w-0 flex-col">
-                    <span className="text-sm font-medium text-fg">GitHub</span>
+                    <span className="text-sm font-medium text-fg">{t.gitHub}</span>
                     <span className="truncate text-muted">{social.GitHub.replace("https://", "")}</span>
                   </span>
                 </ExternalLink>
@@ -70,7 +75,7 @@ export function ContactSection({
               <p className={staticRowClasses}>
                 <MapPinIcon />
                 <span className="flex min-w-0 flex-col">
-                  <span className="text-sm font-medium text-fg">Location</span>
+                  <span className="text-sm font-medium text-fg">{t.location}</span>
                   <span className="truncate text-muted">{profile.location}</span>
                 </span>
               </p>
@@ -80,8 +85,8 @@ export function ContactSection({
                 <a href={profile.cvHref} download className={rowClasses}>
                   <DownloadIcon />
                   <span className="flex min-w-0 flex-col">
-                    <span className="text-sm font-medium text-fg">CV</span>
-                    <span className="truncate text-muted">Download as PDF</span>
+                    <span className="text-sm font-medium text-fg">{t.cv}</span>
+                    <span className="truncate text-muted">{t.downloadPdf}</span>
                   </span>
                 </a>
               </li>
@@ -90,10 +95,10 @@ export function ContactSection({
         </div>
 
         {showForm ? (
-          <ContactForm email={profile.email} />
+          <ContactForm email={profile.email} lang={lang} />
         ) : (
           <p className="text-muted">
-            The contact form is closed for now. Please write to{" "}
+            {t.formClosed}{" "}
             <a href={`mailto:${profile.email}`} className="text-fg underline underline-offset-4">
               {profile.email}
             </a>

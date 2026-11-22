@@ -15,16 +15,18 @@ import HomePage from "./page";
 
 vi.mock("server-only", () => ({}));
 
+const EN = { params: Promise.resolve({ lang: "en" }) };
+
 describe("home page", () => {
   it("has exactly one h1 that names the owner", async () => {
-    render(await HomePage());
+    render(await HomePage(EN));
     const headings = screen.getAllByRole("heading", { level: 1 });
     expect(headings).toHaveLength(1);
     expect(headings[0]).toHaveTextContent(profile.name);
   });
 
   it("has banner, main and contentinfo landmarks and a skip link to main", async () => {
-    const { container } = render(await HomePage());
+    const { container } = render(await HomePage(EN));
     expect(screen.getByRole("banner")).toBeInTheDocument();
     expect(screen.getByRole("main")).toHaveAttribute("id", "main");
     expect(screen.getByRole("contentinfo")).toBeInTheDocument();
@@ -33,7 +35,7 @@ describe("home page", () => {
   });
 
   it("points every navigation link at a section that exists", async () => {
-    const { container } = render(await HomePage());
+    const { container } = render(await HomePage(EN));
     const primary = screen.getByRole("navigation", { name: "Primary" });
     for (const item of navigation) {
       expect(within(primary).getByRole("link", { name: item.label })).toHaveAttribute("href", item.href);
@@ -42,14 +44,14 @@ describe("home page", () => {
   });
 
   it("renders every published project", async () => {
-    render(await HomePage());
+    render(await HomePage(EN));
     for (const project of publicProjects) {
       expect(screen.getByRole("article", { name: project.title })).toBeInTheDocument();
     }
   });
 
   it("links from the projects section to the full listing", async () => {
-    render(await HomePage());
+    render(await HomePage(EN));
     const section = screen.getByRole("region", { name: "Selected work" });
     expect(within(section).getByRole("link", { name: /view all projects/i })).toHaveAttribute(
       "href",
@@ -64,7 +66,7 @@ describe("home page", () => {
   });
 
   it("never renders draft records, their text or their links", async () => {
-    const { container } = render(await HomePage());
+    const { container } = render(await HomePage(EN));
     const html = container.innerHTML;
     const drafts = [
       ...projects.filter((p) => !isPublished(p)).flatMap((p) => [p.title, p.summary, p.repoUrl, p.liveUrl]),
@@ -80,14 +82,14 @@ describe("home page", () => {
   });
 
   it("does not show the records the owner has withheld", async () => {
-    render(await HomePage());
+    render(await HomePage(EN));
     for (const name of ["Techinika", "School Management System", "Portfolio Website", "HTML Essentials"]) {
       expect(screen.queryByText(name, { exact: false })).not.toBeInTheDocument();
     }
   });
 
   it("offers the CV as a download and email as a mailto link", async () => {
-    render(await HomePage());
+    render(await HomePage(EN));
     const cvLinks = screen.getAllByRole("link", { name: /download cv/i });
     expect(cvLinks.length).toBeGreaterThanOrEqual(2);
     for (const link of cvLinks) {
@@ -100,20 +102,20 @@ describe("home page", () => {
   });
 
   it("opens every new-tab link without giving it window.opener", async () => {
-    const { container } = render(await HomePage());
+    const { container } = render(await HomePage(EN));
     const newTab = container.querySelectorAll('a[target="_blank"]');
     expect(newTab.length).toBeGreaterThan(0);
     for (const link of newTab) expect(link.getAttribute("rel")).toBe("noopener noreferrer");
   });
 
   it("uses the owner's portrait with descriptive alt text", async () => {
-    render(await HomePage());
+    render(await HomePage(EN));
     const portrait = screen.getByRole("img", { name: `Portrait of ${profile.name}` });
     expect(portrait.getAttribute("src")).toContain("ishimwe-jean-claude.png");
   });
 
   it("offers the contact form inside the contact section, with direct channels kept", async () => {
-    const { container } = render(await HomePage());
+    const { container } = render(await HomePage(EN));
     const forms = container.querySelectorAll("form");
     expect(forms).toHaveLength(1);
     expect(forms[0]?.closest("section#contact")).not.toBeNull();
@@ -128,7 +130,7 @@ describe("home page", () => {
   });
 
   it("embeds Person structured data built from the profile", async () => {
-    const { container } = render(await HomePage());
+    const { container } = render(await HomePage(EN));
     const script = container.querySelector('script[type="application/ld+json"]');
     const graph = (JSON.parse(script?.textContent ?? "{}") as { "@graph": Record<string, unknown>[] })[
       "@graph"

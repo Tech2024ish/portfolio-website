@@ -5,33 +5,44 @@ import { EmptyState } from "@/components/ui/feedback";
 import { TextLink } from "@/components/ui/link";
 import { cardClasses, containerClasses } from "@/components/ui/section";
 import type { Article, ArticleBlock } from "@/content/profile";
+import { DEFAULT_LOCALE, localePath, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 import type { ArticleSummary } from "@/lib/content/types";
 
 import { PageHeader } from "./page-header";
 
-const dateFormat = new Intl.DateTimeFormat("en-GB", { dateStyle: "long", timeZone: "UTC" });
-
-/** An ISO date (YYYY-MM-DD) as a <time> element, e.g. "16 November 2026". */
-export function PublishedDate({ isoDate }: { isoDate: string }) {
-  return <time dateTime={isoDate}>{dateFormat.format(new Date(`${isoDate}T00:00:00Z`))}</time>;
+/** An ISO date (YYYY-MM-DD) as a <time> element in the page's language, e.g. "16 November 2026". */
+export function PublishedDate({ isoDate, lang = DEFAULT_LOCALE }: { isoDate: string; lang?: Locale }) {
+  const format = new Intl.DateTimeFormat(dictionary(lang).notes.dateLocale, {
+    dateStyle: "long",
+    timeZone: "UTC",
+  });
+  return <time dateTime={isoDate}>{format.format(new Date(`${isoDate}T00:00:00Z`))}</time>;
 }
 
-export function noteHref(slug: string): string {
-  return `/notes/${slug}`;
+export function noteHref(slug: string, lang: Locale = DEFAULT_LOCALE): string {
+  return localePath(lang, `/notes/${slug}`);
 }
 
 /** The Engineering Notes listing, newest first, or an empty state. */
-export function NotesIndex({ articles }: { articles: readonly ArticleSummary[] }) {
+export function NotesIndex({
+  articles,
+  lang = DEFAULT_LOCALE,
+}: {
+  articles: readonly ArticleSummary[];
+  lang?: Locale;
+}) {
+  const t = dictionary(lang);
   return (
-    <section aria-label="All notes" className={`${containerClasses} py-10 sm:py-12`}>
+    <section aria-label={t.notes.allNotes} className={`${containerClasses} py-10 sm:py-12`}>
       {articles.length === 0 ? (
         <EmptyState
           headingLevel={2}
-          title="No notes published yet"
-          description="Engineering Notes appear here once they are written and published."
+          title={t.notes.emptyTitle}
+          description={t.notes.emptyDescription}
           action={
-            <Link href="/projects" className={buttonClasses("secondary", "sm")}>
-              See the projects
+            <Link href={localePath(lang, "/projects")} className={buttonClasses("secondary", "sm")}>
+              {t.errors.seeProjects}
             </Link>
           }
         />
@@ -45,11 +56,11 @@ export function NotesIndex({ articles }: { articles: readonly ArticleSummary[] }
               >
                 <p className="flex flex-wrap gap-x-3 font-mono text-xs text-accent">
                   <span>{article.category}</span>
-                  <PublishedDate isoDate={article.publishedOn} />
+                  <PublishedDate isoDate={article.publishedOn} lang={lang} />
                 </p>
                 <h2 id={`note-${article.slug}`} className="font-display text-lg font-semibold text-fg">
                   <TextLink
-                    href={noteHref(article.slug)}
+                    href={noteHref(article.slug, lang)}
                     className="inline-flex min-h-6 items-center text-fg"
                   >
                     {article.title}
@@ -65,7 +76,7 @@ export function NotesIndex({ articles }: { articles: readonly ArticleSummary[] }
   );
 }
 
-function Block({ block }: { block: ArticleBlock }) {
+function Block({ block, lang }: { block: ArticleBlock; lang: Locale }) {
   switch (block.type) {
     case "heading":
       return <h2 className="mt-4 font-display text-2xl font-bold tracking-tight text-fg">{block.text}</h2>;
@@ -81,7 +92,7 @@ function Block({ block }: { block: ArticleBlock }) {
       return (
         <pre
           tabIndex={0}
-          aria-label={`${block.language} code`}
+          aria-label={dictionary(lang).notes.codeLabel(block.language)}
           className="overflow-x-auto rounded-card border border-border bg-surface p-4 font-mono text-sm text-fg"
         >
           <code>{block.code}</code>
@@ -93,7 +104,8 @@ function Block({ block }: { block: ArticleBlock }) {
 }
 
 /** One note, in a reading-width column. Every block is rendered as text, never as HTML. */
-export function ArticleView({ article }: { article: Article }) {
+export function ArticleView({ article, lang = DEFAULT_LOCALE }: { article: Article; lang?: Locale }) {
+  const t = dictionary(lang).notes;
   const titleId = "note-title";
   return (
     <article aria-labelledby={titleId}>
@@ -101,11 +113,11 @@ export function ArticleView({ article }: { article: Article }) {
         titleId={titleId}
         title={article.title}
         eyebrow={
-          <nav aria-label="Breadcrumb">
+          <nav aria-label={dictionary(lang).projects.breadcrumb}>
             <ol className="flex flex-wrap items-center gap-2">
               <li>
-                <TextLink href="/notes" className="inline-flex min-h-6 items-center">
-                  Engineering Notes
+                <TextLink href={localePath(lang, "/notes")} className="inline-flex min-h-6 items-center">
+                  {t.pageTitle}
                 </TextLink>
               </li>
               <li aria-hidden="true" className="text-muted">
@@ -121,13 +133,13 @@ export function ArticleView({ article }: { article: Article }) {
       >
         <p className="flex flex-wrap gap-x-3 font-mono text-sm text-muted">
           <span>{article.category}</span>
-          <PublishedDate isoDate={article.publishedOn} />
+          <PublishedDate isoDate={article.publishedOn} lang={lang} />
         </p>
       </PageHeader>
       <div className={`${containerClasses} py-10 sm:py-12`}>
         <div className="flex max-w-prose flex-col gap-5 text-body text-muted">
           {article.body.map((block, index) => (
-            <Block key={index} block={block} />
+            <Block key={index} block={block} lang={lang} />
           ))}
         </div>
       </div>

@@ -5,8 +5,9 @@ import { absoluteUrl } from "@/lib/site";
 
 /**
  * /sitemap.xml: every public, published page and nothing else. Drafts, the Owner Studio and the
- * empty Notes listing are left out. Built from the same content as the pages, so it refreshes with
- * them (the `content` cache tag).
+ * empty Notes listing are left out. Each address serves every language (the visitor's choice), so
+ * each page is listed once. Built from the same content as the pages, so it refreshes with them
+ * (the `content` cache tag).
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { projects, articles } = await getPublicContent();

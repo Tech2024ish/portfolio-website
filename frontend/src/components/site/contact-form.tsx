@@ -11,6 +11,8 @@ import {
 } from "react";
 
 import { Button } from "@/components/ui/button";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 import { CheckCircleIcon } from "@/components/ui/icons";
 import { Alert } from "@/components/ui/feedback";
 import { Field, Input, Textarea } from "@/components/ui/form";
@@ -44,7 +46,8 @@ function useHydrated() {
  * The public contact form. It posts to FastAPI through the typed client and shows success
  * only when the API confirms the message was stored. Everything else keeps the user's input.
  */
-export function ContactForm({ email }: { email: string }) {
+export function ContactForm({ email, lang = DEFAULT_LOCALE }: { email: string; lang?: Locale }) {
+  const t = dictionary(lang).contact.form;
   const id = useId();
   const hydrated = useHydrated();
   const [values, setValues] = useState<ContactValues>(EMPTY);
@@ -82,7 +85,7 @@ export function ContactForm({ email }: { email: string }) {
     const next = { ...values, [field]: event.target.value };
     setValues(next);
     // After the first submit attempt, re-check the edited field so errors clear as they are fixed.
-    if (attempted) setErrors((current) => ({ ...current, [field]: validateContact(next)[field] }));
+    if (attempted) setErrors((current) => ({ ...current, [field]: validateContact(next, lang)[field] }));
   }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -91,7 +94,7 @@ export function ContactForm({ email }: { email: string }) {
 
     setAttempted(true);
     setFailure(null);
-    const clientErrors = validateContact(values);
+    const clientErrors = validateContact(values, lang);
     setErrors(clientErrors);
     if (Object.keys(clientErrors).length > 0) {
       focusFirstInvalid(clientErrors);
@@ -100,7 +103,7 @@ export function ContactForm({ email }: { email: string }) {
 
     inFlight.current = true;
     setStatus("submitting");
-    const result = await submitContact(values, honeypot.current?.value ?? "");
+    const result = await submitContact(values, honeypot.current?.value ?? "", undefined, undefined, lang);
     inFlight.current = false;
 
     if (result.ok) {
@@ -132,9 +135,9 @@ export function ContactForm({ email }: { email: string }) {
       >
         <h3 className="flex items-center gap-2 text-lg font-medium text-success-fg">
           <CheckCircleIcon className="size-5" />
-          Message sent
+          {t.sentTitle}
         </h3>
-        <p className="text-base text-fg">Thank you. Your message has been received and saved.</p>
+        <p className="text-base text-fg">{t.sentBody}</p>
         <Button
           variant="secondary"
           onClick={() => {
@@ -143,7 +146,7 @@ export function ContactForm({ email }: { email: string }) {
             setStatus("idle");
           }}
         >
-          Send another message
+          {t.sendAnother}
         </Button>
       </div>
     );
@@ -165,9 +168,9 @@ export function ContactForm({ email }: { email: string }) {
     >
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h3 id={`${id}-title`} className="text-lg font-medium text-fg">
-          Send a message
+          {t.title}
         </h3>
-        <p className="text-sm text-muted">All fields are required.</p>
+        <p className="text-sm text-muted">{t.allRequired}</p>
       </div>
 
       {failure ? (
@@ -175,7 +178,7 @@ export function ContactForm({ email }: { email: string }) {
           <p>{failure.message}</p>
           {failure.kind !== "validation" ? (
             <p className="text-muted">
-              Your text is still here. You can try again later, or email me directly at{" "}
+              {t.keepText}{" "}
               <a href={`mailto:${email}`} className="text-accent underline underline-offset-2">
                 {email}
               </a>
@@ -186,7 +189,7 @@ export function ContactForm({ email }: { email: string }) {
       ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Full name" id={fieldId("name")} error={errors.name} required>
+        <Field label={t.name} id={fieldId("name")} error={errors.name} required>
           {(control) => (
             <Input
               {...control}
@@ -199,7 +202,7 @@ export function ContactForm({ email }: { email: string }) {
             />
           )}
         </Field>
-        <Field label="Email address" id={fieldId("email")} error={errors.email} required>
+        <Field label={t.email} id={fieldId("email")} error={errors.email} required>
           {(control) => (
             <Input
               {...control}
@@ -215,7 +218,7 @@ export function ContactForm({ email }: { email: string }) {
           )}
         </Field>
       </div>
-      <Field label="Subject" id={fieldId("subject")} error={errors.subject} required>
+      <Field label={t.subject} id={fieldId("subject")} error={errors.subject} required>
         {(control) => (
           <Input
             {...control}
@@ -230,7 +233,7 @@ export function ContactForm({ email }: { email: string }) {
       {/* On wide screens the message box takes the remaining height, so the form ends level with
           the contact cards beside it (the section's grid stretches both columns to one height). */}
       <Field
-        label="Message"
+        label={t.message}
         id={fieldId("message")}
         error={errors.message}
         aside={`${messageLength} / ${CONTACT_LIMITS.message.max}`}
@@ -253,7 +256,7 @@ export function ContactForm({ email }: { email: string }) {
 
       {/* Honeypot: invisible to people and skipped by keyboard and screen readers. */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-        <label htmlFor={`${id}-website`}>Leave this field empty</label>
+        <label htmlFor={`${id}-website`}>{t.honeypot}</label>
         <input
           ref={honeypot}
           id={`${id}-website`}
@@ -266,10 +269,10 @@ export function ContactForm({ email }: { email: string }) {
 
       {/* Disabled until hydrated, so it can only ever submit through the API client. */}
       <Button type="submit" loading={submitting} disabled={!hydrated} className="w-full">
-        {submitting ? "Sending…" : "Send message"}
+        {submitting ? t.sending : t.send}
       </Button>
       <p className="sr-only" role="status" aria-live="polite">
-        {submitting ? "Sending your message." : ""}
+        {submitting ? t.sendingStatus : ""}
       </p>
     </form>
   );

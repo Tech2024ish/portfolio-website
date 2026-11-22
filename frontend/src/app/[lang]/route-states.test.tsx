@@ -11,8 +11,12 @@ import NotFound from "./not-found";
 import ProjectsLoading from "./projects/loading";
 
 vi.mock("server-only", () => ({}));
+vi.mock("next/root-params", () => ({ lang: async () => "en" }));
+
+const EN = { params: Promise.resolve({ lang: "en" }) };
 vi.mock("next/navigation", () => ({
   usePathname: () => null,
+  useParams: () => ({ lang: "en" }),
   notFound: vi.fn(() => {
     throw new Error("NEXT_HTTP_ERROR_FALLBACK;404");
   }),
@@ -42,24 +46,24 @@ describe("error boundary", () => {
 });
 
 describe("loading state", () => {
-  it("announces that projects are loading", () => {
-    render(<ProjectsLoading />);
+  it("announces that projects are loading", async () => {
+    render(await ProjectsLoading());
     expect(screen.getByRole("status")).toHaveTextContent("Loading projects");
   });
 });
 
 describe("Engineering Notes routes", () => {
   it("shows an empty state, is not indexed and is not linked while nothing is published", async () => {
-    render(await NotesPage());
+    render(await NotesPage(EN));
     expect(screen.getByRole("heading", { level: 2, name: "No notes published yet" })).toBeInTheDocument();
-    expect((await notesMetadata()).robots).toEqual({ index: false, follow: true });
+    expect((await notesMetadata(EN)).robots).toEqual({ index: false, follow: true });
     expect(screen.queryByRole("link", { name: "Notes" })).not.toBeInTheDocument();
   });
 
   it("generates no note page and answers 404 for any slug", async () => {
     expect(await noteParams()).toEqual([]);
     expect(noteDynamicParams).toBe(true);
-    await expect(NotePage({ params: Promise.resolve({ slug: "anything" }) })).rejects.toThrow(
+    await expect(NotePage({ params: Promise.resolve({ lang: "en", slug: "anything" }) })).rejects.toThrow(
       "NEXT_HTTP_ERROR_FALLBACK;404",
     );
   });

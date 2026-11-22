@@ -2,21 +2,26 @@ import { BadgeIcon, BriefcaseIcon, CalendarIcon, GraduationIcon, MapPinIcon } fr
 import { cardClasses, Section } from "@/components/ui/section";
 import { Badge } from "@/components/ui/tag";
 import type { Certification, Education, Experience } from "@/content/profile";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { dictionary } from "@/i18n/dictionaries";
 
 /** Only published records reach these props (see src/lib/content/portfolio.ts). */
 export function ExperienceSection({
   experience: publicExperience,
   education: publicEducation,
   certifications: publicCertifications,
+  lang = DEFAULT_LOCALE,
 }: {
   experience: Experience[];
   education: Education[];
   certifications: Certification[];
+  lang?: Locale;
 }) {
+  const t = dictionary(lang).sections;
   return (
-    <Section id="experience" title="Experience and education" tone="band">
+    <Section id="experience" title={t.experience} tone="band">
       <div className="mx-auto flex max-w-4xl flex-col gap-5">
-        <ol className="flex flex-col gap-5" aria-label="Work history">
+        <ol className="flex flex-col gap-5" aria-label={t.workHistory}>
           {publicExperience.map((job) => (
             <li key={`${job.organization}-${job.role}`}>
               <article className={`${cardClasses} flex flex-col gap-4 p-6`}>
@@ -35,7 +40,7 @@ export function ExperienceSection({
                     </p>
                     {job.current ? (
                       <Badge tone="success" dot>
-                        Current
+                        {t.current}
                       </Badge>
                     ) : null}
                   </div>
@@ -64,7 +69,7 @@ export function ExperienceSection({
               <p className="text-sm text-fg">{entry.degree}</p>
               <Badge tone="neutral">{entry.status}</Badge>
               <p className="text-sm text-muted">
-                <span className="text-fg">Relevant coursework:</span> {entry.coursework.join(", ")}
+                <span className="text-fg">{t.relevantCoursework}</span> {entry.coursework.join(", ")}
               </p>
             </article>
           ))}
@@ -72,7 +77,7 @@ export function ExperienceSection({
           <article className={`${cardClasses} flex flex-col gap-3 p-6`}>
             <h3 className="flex items-center gap-2 text-base font-medium text-fg">
               <BadgeIcon className="size-5" />
-              Certifications and training
+              {t.certifications}
             </h3>
             <ul className="flex flex-col gap-3">
               {publicCertifications.map((cert) => (

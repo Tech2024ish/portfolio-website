@@ -10,6 +10,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const content = await import("../src/content/profile.ts");
+const { localizeSource } = await import("../src/content/translations.ts");
 
 const MONTHS = [
   "January",
@@ -147,7 +148,78 @@ export function exportContent(c) {
 }
 
 const target = fileURLToPath(new URL("../../backend/app/cli/verified-content.json", import.meta.url));
-const json = `${JSON.stringify(exportContent(content), null, 2)}\n`;
+/**
+ * The fields the backend accepts translations for (TRANSLATABLE in backend/app/schemas/content.py).
+ * Each record's `translations` holds, per language, the fields whose text differs from English.
+ */
+const TRANSLATABLE = {
+  experiences: ["organization", "role", "location", "highlights"],
+  education: ["institution", "qualification", "location", "status_label", "coursework"],
+  certifications: ["name", "issuer"],
+  projects: [
+    "category",
+    "summary",
+    "overview",
+    "problem",
+    "objectives",
+    "approach",
+    "architecture",
+    "decisions",
+    "challenges",
+    "outcomes",
+    "scope_implemented",
+    "scope_not_yet",
+  ],
+  articles: ["title", "summary", "category", "body"],
+};
+const PROFILE_TRANSLATABLE = [
+  "title",
+  "location",
+  "availability",
+  "headline",
+  "summary",
+  "about_lead",
+  "about_body",
+  "portrait_alt",
+  "contact_intro",
+  "principles",
+];
+
+function addTranslation(record, lang, english, translated, fields) {
+  const changed = {};
+  for (const field of fields) {
+    if (JSON.stringify(translated[field]) !== JSON.stringify(english[field]))
+      changed[field] = translated[field];
+  }
+  if (Object.keys(changed).length > 0) record.translations = { ...record.translations, [lang]: changed };
+}
+
+/** The English export, with each record's French and Kinyarwanda text in `translations`. */
+export function exportWithTranslations(c) {
+  const english = exportContent(c);
+  const result = structuredClone(english);
+  for (const lang of ["fr", "rw"]) {
+    const localized = localizeSource(c, lang);
+    // Dates are not translated: keep the English period, which the export parses into months.
+    localized.experience = localized.experience.map((job, index) => ({
+      ...job,
+      period: c.experience[index].period,
+    }));
+    const translated = exportContent({ ...c, ...localized });
+    addTranslation(result.profile, lang, english.profile, translated.profile, PROFILE_TRANSLATABLE);
+    result.skill_groups.forEach((group, index) =>
+      addTranslation(group, lang, english.skill_groups[index], translated.skill_groups[index], ["name"]),
+    );
+    for (const [key, fields] of Object.entries(TRANSLATABLE)) {
+      result[key].forEach((record, index) =>
+        addTranslation(record, lang, english[key][index], translated[key][index], fields),
+      );
+    }
+  }
+  return result;
+}
+
+const json = `${JSON.stringify(exportWithTranslations(content), null, 2)}\n`;
 
 if (process.argv.includes("--check")) {
   let current = "";

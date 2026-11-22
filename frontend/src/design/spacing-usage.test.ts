@@ -129,7 +129,11 @@ describe("spacing utilities in the source", () => {
     // Guard against a vacuous pass: the scan must reach the components that use spacing.
     const scanned = files.map((file) => relative(root, file).replaceAll("\\", "/"));
     expect(scanned).toEqual(
-      expect.arrayContaining(["components/ui/section.tsx", "components/site/hero.tsx", "app/page.tsx"]),
+      expect.arrayContaining([
+        "components/ui/section.tsx",
+        "components/site/hero.tsx",
+        "app/[lang]/page.tsx",
+      ]),
     );
     const found = files.flatMap((file) =>
       spacingViolations(readFileSync(file, "utf8")).map((token) => `${relative(root, file)}: ${token}`),

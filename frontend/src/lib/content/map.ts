@@ -15,6 +15,9 @@ import {
   type SocialLink,
 } from "@/content/profile";
 
+import { localizeSource, translations } from "@/content/translations";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+
 import { parseArticleBody } from "./body";
 import { formatPeriod } from "./period";
 import { DEFAULT_SETTINGS, settingsFromApi } from "./settings";
@@ -42,21 +45,25 @@ const summaryOf = (article: Article): ArticleSummary => ({
   visibility: article.visibility,
 });
 
-/** The bundled content (src/content/profile.ts), published records only. */
-export function bundledContent(): PublicContent {
+/** The bundled content (src/content/profile.ts) in a language, published records only. */
+export function bundledContent(lang: Locale = DEFAULT_LOCALE): PublicContent {
+  const source = localizeSource(
+    { profile, principles, skillGroups, projects, experience, education, certifications },
+    lang,
+  );
   return {
-    profile,
-    principles,
-    skillGroups,
-    projects: projects.filter(isPublished).map((project) => ({
+    profile: source.profile,
+    principles: source.principles,
+    skillGroups: source.skillGroups,
+    projects: source.projects.filter(isPublished).map((project) => ({
       ...project,
       details: project.details && isPublished(project.details) ? project.details : undefined,
     })),
-    experience: experience.filter(isPublished),
-    education: education.filter(isPublished),
-    certifications: certifications.filter(isPublished),
+    experience: source.experience.filter(isPublished),
+    education: source.education.filter(isPublished),
+    certifications: source.certifications.filter(isPublished),
     articles: newestFirst(articles.filter(isPublished).map(summaryOf)),
-    settings: DEFAULT_SETTINGS,
+    settings: lang === "en" ? DEFAULT_SETTINGS : { ...DEFAULT_SETTINGS, ...translations[lang].settings },
   };
 }
 
@@ -124,7 +131,7 @@ export function articleFromApi(article: ApiArticle): Article | null {
   return summary ? { ...summary, body: parseArticleBody(article.body) } : null;
 }
 
-export function contentFromApi(data: ApiPortfolio): PublicContent {
+export function contentFromApi(data: ApiPortfolio, lang: Locale = DEFAULT_LOCALE): PublicContent {
   const p = data.profile;
   return {
     profile: {
@@ -146,12 +153,14 @@ export function contentFromApi(data: ApiPortfolio): PublicContent {
       social: p.social.filter((link): link is SocialLink => SOCIAL.has(link.label as SocialLink["label"])),
     },
     principles: p.principles.filter((item): item is Principle => ICONS.has(item.icon as Principle["icon"])),
-    skillGroups: data.skill_groups.filter((group) => group.skills.length > 0),
+    skillGroups: data.skill_groups
+      .filter((group) => group.skills.length > 0)
+      .map((group) => ({ name: group.name, skills: group.skills })),
     projects: data.projects.map(projectFromApi),
     experience: data.experience.map((job) => ({
       organization: job.organization,
       role: job.role,
-      period: formatPeriod(job.start_month, job.end_month, job.is_current),
+      period: formatPeriod(job.start_month, job.end_month, job.is_current, lang),
       current: job.is_current,
       highlights: job.highlights,
       visibility: "published",
