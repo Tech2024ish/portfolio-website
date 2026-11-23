@@ -54,7 +54,8 @@ export default defineConfig({
   use: { baseURL, trace: "retain-on-failure", screenshot: "only-on-failure" },
   projects: [
     // The four viewports the public site is verified at, against the production build.
-    ...viewports.map((project) => ({ ...project, testIgnore: "components/**" })),
+    // The full-stack workflow test has its own config (playwright.fullstack.config.ts).
+    ...viewports.map((project) => ({ ...project, testIgnore: ["components/**", "full-stack/**"] })),
     ...(runComponents
       ? [
           {
