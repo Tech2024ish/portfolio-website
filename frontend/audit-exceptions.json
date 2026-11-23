@@ -1,11 +1,4 @@
 {
   "$comment": "High/critical advisories in development-only dependencies that have no fixed release yet. Read by scripts/audit-dev.mjs (CI). Each entry expires: after that date CI fails again until the entry is renewed with a reason or removed. Production dependencies never get exceptions (npm audit --omit=dev runs separately, any severity fails).",
-  "exceptions": [
-    {
-      "advisory": "GHSA-fc5q-39xc-vjpf",
-      "package": "picomatch",
-      "reason": "ReDoS through repeated extglobs. No fixed release exists (every version up to the latest, 4.0.7, is affected). Used only by development tools (eslint-config-next via micromatch, Vite, Vitest), which match glob patterns from this repository's own configuration, never user input; nothing of it ships in the site.",
-      "expires": "2026-12-31"
-    }
-  ]
+  "exceptions": []
 }
