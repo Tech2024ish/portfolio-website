@@ -110,17 +110,18 @@ npm run dev            # http://localhost:3000, proxies /api/* to API_ORIGIN
 
 ## Scripts
 
-| Script                        | What it does                                                                                                  |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `npm run lint`                | ESLint (Next core-web-vitals + TypeScript), zero warnings allowed                                             |
-| `npm run typecheck`           | `tsc --noEmit` (strict, `noUncheckedIndexedAccess`)                                                           |
-| `npm test`                    | Vitest + Testing Library (components, API client, token registry and contrast)                                |
-| `npm run build`               | Production build                                                                                              |
-| `npm run test:e2e`            | Both suites below, one after the other. Run `npm run build` first and `npx playwright install chromium` once. |
-| `npm run test:e2e:site`       | Playwright against the production build at 1440/1280/768/390 px.                                              |
-| `npm run test:e2e:components` | `e2e/components/` against a dev server on port 3101 (`/styleguide` exists only in development).               |
-| `npm run perf`                | Lab Core Web Vitals and page weight against a running production build (`docs/quality.md`)                    |
-| `npm run format:check`        | Prettier (with Tailwind class sorting)                                                                        |
+| Script                        | What it does                                                                                                      |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `npm run lint`                | ESLint (Next core-web-vitals + TypeScript), zero warnings allowed                                                 |
+| `npm run typecheck`           | `tsc --noEmit` (strict, `noUncheckedIndexedAccess`)                                                               |
+| `npm test`                    | Vitest + Testing Library (components, API client, token registry and contrast)                                    |
+| `npm run build`               | Production build                                                                                                  |
+| `npm run test:e2e`            | Both suites below, one after the other. Run `npm run build` first and `npx playwright install chromium` once.     |
+| `npm run test:e2e:site`       | Playwright against the production build at 1440/1280/768/390 px.                                                  |
+| `npm run test:e2e:components` | `e2e/components/` against a dev server on port 3101 (`/styleguide` exists only in development).                   |
+| `npm run test:e2e:full-stack` | The 16 visitor and owner workflows on the real stack: built site, FastAPI and a throwaway local database (below). |
+| `npm run perf`                | Lab Core Web Vitals and page weight against a running production build (`docs/quality.md`)                        |
+| `npm run format:check`        | Prettier (with Tailwind class sorting)                                                                            |
 
 The two suites run as separate Playwright invocations, so a site-only run needs no dev server. Next.js allows one
 dev server per directory, so if `npm run dev` is already running, reuse it with
@@ -130,5 +131,12 @@ serves its scripts to that origin).
 Known issue, cause not identified: on the development machine, responses from the dev server intermittently take
 tens of seconds while the server process is idle, and the component tests then time out. It has been seen after the
 site suite and in standalone component runs. Re-run `npm run test:e2e:components` when it happens.
+
+The full-stack workflow test (`e2e/full-stack/`, Phase 12.3) stubs nothing: a browser drives the production build,
+which talks to FastAPI, which writes to PostgreSQL. Start the database first (`docker compose up -d db` from the
+repository root); the run then rebuilds `portfolio_e2e` from nothing (migrations, verified content, an owner with a
+random password; `backend/tests/e2e_stack.py` refuses any database that is not local and named `*_e2e`), starts the
+API on port 8200 and builds and serves the site on port 3200. The site build replaces the regular one in `.next`: run
+`npm run build` again before `npm run test:e2e:site`.
 
 Node 24.15+ is recommended: the jsdom test environment declares `^24.15`.
