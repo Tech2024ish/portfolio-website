@@ -123,6 +123,15 @@ test.describe("full-stack workflows", () => {
     const body = page.getByRole("region", { name: "Message" });
     await expect(body).toContainText(message.text);
     await expect(page.getByText(message.email).first()).toBeVisible();
+    // No email provider here: the owner replies from their own mailbox, pre-filled.
+    const gmail = new URL((await page.getByRole("link", { name: /^Reply in Gmail/ }).getAttribute("href"))!);
+    expect(gmail.searchParams.get("to")).toBe(message.email);
+    expect(gmail.searchParams.get("su")).toBe(`Re: ${message.subject}`);
+    expect(gmail.searchParams.get("body")).toContain(`> ${message.text}`);
+    const mailto = await page.getByRole("link", { name: "Reply with your email app" }).getAttribute("href");
+    expect(mailto).toContain(
+      `mailto:${message.email}?subject=${encodeURIComponent(`Re: ${message.subject}`)}&body=`,
+    );
   });
 
   test("8-11. the owner creates a project, previews it, publishes it, and it appears publicly", async () => {

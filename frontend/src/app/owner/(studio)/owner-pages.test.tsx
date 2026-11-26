@@ -370,6 +370,16 @@ describe("/owner/messages", () => {
     expect(screen.getByText("Not sent: email is not configured")).toBeInTheDocument();
     expect(screen.queryByText(/^Sent/)).not.toBeInTheDocument();
     expect(screen.getByText(/replies cannot be sent from here/)).toBeInTheDocument();
+    // Without email on the server, the owner replies from their own mailbox, pre-filled.
+    expect(screen.getByRole("link", { name: /^Reply in Gmail/ })).toHaveAttribute(
+      "href",
+      expect.stringMatching(/^https:\/\/mail\.google\.com\/mail\/\?view=cm&fs=1&to=/),
+    );
+    expect(screen.getByRole("link", { name: /^Reply in Gmail/ })).toHaveAttribute("target", "_blank");
+    expect(screen.getByRole("link", { name: "Reply with your email app" })).toHaveAttribute(
+      "href",
+      expect.stringMatching(/^mailto:.+\?subject=Re%3A%20Backend%20role&body=/),
+    );
     expect(screen.getByRole("button", { name: "Archive" })).toBeInTheDocument();
     await expect(MessagePage({ params: Promise.resolve({ id: "x" }) })).rejects.toThrow("404");
   });
