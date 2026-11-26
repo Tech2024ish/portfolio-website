@@ -24,6 +24,15 @@ fi
 
 cd "$root"
 docker compose up -d db >/dev/null
+# A container that was just started accepts connections a few seconds later.
+for _ in $(seq 1 30); do
+  docker compose exec -T db pg_isready -U portfolio -q && break
+  sleep 2
+done
+if ! docker compose exec -T db pg_isready -U portfolio -q; then
+  echo "The local database did not become ready; is Docker running?" >&2
+  exit 1
+fi
 psql() { docker compose exec -T db psql -U portfolio -v ON_ERROR_STOP=1 "$@"; }
 psql -d postgres -qc "drop database if exists restore_check" -c "create database restore_check"
 trap 'psql -d postgres -qc "drop database if exists restore_check" >/dev/null' EXIT
