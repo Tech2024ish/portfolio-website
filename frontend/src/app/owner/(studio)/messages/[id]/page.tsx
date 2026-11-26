@@ -3,11 +3,14 @@ import { notFound } from "next/navigation";
 
 import { MessageActions, ReplyForm, RetryButton } from "@/components/owner/message-actions";
 import { StudioCard, StudioHeading, StudioUnavailable } from "@/components/owner/studio-ui";
+import { buttonClasses } from "@/components/ui/button";
+import { ExternalLink } from "@/components/ui/external-link";
 import { Alert } from "@/components/ui/feedback";
 import { TextLink } from "@/components/ui/link";
 import { cardClasses } from "@/components/ui/section";
 import { Badge, type BadgeTone } from "@/components/ui/tag";
 import { formatUtc } from "@/lib/owner/actions";
+import { gmailReply, mailtoReply } from "@/lib/owner/reply-links";
 import { OwnerApiUnavailableError, ownerFind, studioSession } from "@/lib/owner/session";
 import { DELIVERY_LABELS, type Delivery, type MessageDetail } from "@/lib/owner/types";
 
@@ -104,13 +107,23 @@ export default async function MessagePage({ params }: Props) {
         {message.email_configured ? (
           <ReplyForm id={message.id} to={message.email} csrfToken={session.csrf_token} />
         ) : (
-          <p className="text-muted">
-            Email is not configured on the server, so replies cannot be sent from here. You can write to{" "}
-            <a href={`mailto:${message.email}`} className="underline underline-offset-4">
-              {message.email}
-            </a>{" "}
-            from your own mailbox.
-          </p>
+          <div className="flex flex-col gap-4">
+            <p className="text-muted">
+              Email is not configured on the server, so replies cannot be sent from here. Reply from your own
+              mailbox instead: the reply opens addressed to {message.email}, titled and quoting the message.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <ExternalLink href={gmailReply(message)} className={buttonClasses("primary")}>
+                Reply in Gmail
+              </ExternalLink>
+              <a href={mailtoReply(message)} className={buttonClasses("secondary")}>
+                Reply with your email app
+              </a>
+            </div>
+            <p className="text-sm text-muted">
+              Replies sent this way do not appear in the email history below.
+            </p>
+          </div>
         )}
       </StudioCard>
 
